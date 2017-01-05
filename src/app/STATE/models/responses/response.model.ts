@@ -4,8 +4,8 @@
 
 export interface Response {
   IsSuccess: boolean;
-  ErrorCode: string;
-  ErrorMessage: string;
+  ErrorCode: string | null;
+  ErrorMessage: string | null;
 }
 
 /**
