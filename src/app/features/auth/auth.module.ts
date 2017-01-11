@@ -5,12 +5,14 @@ import {RouterModule} from "@angular/router";
 import {authRoutes} from "./auth.routes";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TextMaskModule} from "angular2-text-mask";
+import {MaterialModule} from "@angular/material";
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     TextMaskModule,
+    MaterialModule,
     RouterModule.forChild(authRoutes)
   ],
   exports: [SignInComponent],

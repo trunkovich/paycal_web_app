@@ -1,1 +1,84 @@
 /* You can add global styles to this file, and also import other style files */
+$viridian: #1e7e8f;
+$tealish: #27a5bc;
+$tealish-two: #2ab0c9;
+$gunmetal: #4a525a;
+$bluish-grey: #808e9c;
+$light-blue-grey: #d4dfea;
+$pale-grey: #f7f9fb;
+$blush: #f37b73;
+
+
+
+
+
+
+/* Material input */
+$input-underline-color: $light-blue-grey;
+$input-placeholder-color: $bluish-grey;
+$input-floating-placeholder-color: $tealish;
+$input-underline-focused-color: $tealish;
+$input-underline-color-accent: $tealish;
+$input-underline-color-warn: $tealish;
+$input-required-placeholder-color: $blush;
+$input-invalid: $blush;
+.md-input-placeholder {
+  color: $input-placeholder-color;
+
+  &.md-focused {
+    color: $input-floating-placeholder-color;
+
+    &.md-accent {
+      color: $input-underline-color-accent;
+    }
+    &.md-warn {
+      color: $input-underline-color-warn;
+    }
+  }
+}
+
+md-input-container {
+  &.ng-dirty.ng-invalid,
+  &.ng-touched.ng-invalid {
+    .md-input-placeholder {
+      color: $input-invalid;
+    }
+    .md-input-underline {
+      border-color: $input-invalid;
+
+      .md-input-ripple {
+        background-color: $input-invalid;
+
+        &.md-accent {
+          background-color: $input-invalid;
+        }
+        &.md-warn {
+          background-color: $input-invalid;
+        }
+      }
+    }
+  }
+}
+
+input.md-input-element:-webkit-autofill + .md-input-placeholder,
+.md-input-placeholder.md-float.md-focused {
+  .md-placeholder-required {
+    color: $input-required-placeholder-color;
+  }
+}
+
+.md-input-underline {
+  border-color: $input-underline-color;
+
+  .md-input-ripple {
+    background-color: $input-underline-focused-color;
+
+    &.md-accent {
+      background-color: $input-underline-color-accent;
+    }
+    &.md-warn {
+      background-color: $input-underline-color-warn;
+    }
+  }
+}
+/* Material input */

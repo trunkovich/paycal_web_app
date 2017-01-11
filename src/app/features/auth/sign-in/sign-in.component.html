@@ -4,13 +4,14 @@
 
 <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
   <div>
-    <input [textMask]="{mask: mask}" type="tel" formControlName="phone">
+    <md-input-container>
+      <input md-input placeholder="phone" [textMask]="{mask: mask}" type="tel" formControlName="phone">
+    </md-input-container>
   </div>
   <div>
-    <input type="password" formControlName="password">
+    <md-input-container>
+      <input md-input placeholder="password" type="password" formControlName="password">
+    </md-input-container>
   </div>
   <button type="submit" [disabled]="loginForm.invalid">Submit</button>
 </form>
-
-<pre>{{ loginForm.valid }}</pre>
-<pre>{{ loginForm.value | json }}</pre>

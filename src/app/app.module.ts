@@ -5,6 +5,7 @@ import {RouterModule} from "@angular/router";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {HttpInterceptorModule} from "ng-http-interceptor";
+import {MaterialModule} from "@angular/material";
 
 import { AppComponent } from './app.component';
 import {HomeModule} from "./features/home/home.module";
@@ -30,6 +31,7 @@ import {Api} from "./STATE/actions/api.service";
     BrowserModule,
     HttpModule,
     HttpInterceptorModule,
+    MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
     StoreModule.provideStore({ auth: authReducer, profile: profileReducer, debug: debugReducer }),
     EffectsModule.run(AuthEffects),
