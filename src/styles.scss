@@ -4,6 +4,7 @@
 $image-path: 'assets/' !default;
 $retina-suffix: '@2x';
 @import 'mixins.scss';
+@import 'resets.scss';
 
 $viridian: #1e7e8f;
 $tealish: #27a5bc;
@@ -88,6 +89,9 @@ body {
 .text-right {
   text-align: right;
 }
+.text-uppercase {
+  text-transform: uppercase;
+}
 
 .gradient1 {
   background-image: linear-gradient(to bottom, #82c57a, $tealish);
@@ -131,7 +135,7 @@ $input-invalid: $blush;
 }
 
 md-input-container {
-  @extend .title-text;
+  @extend .big-text;
   @extend .full-width;
 
   &.ng-dirty.ng-invalid,
@@ -201,5 +205,3 @@ app-root:empty + .splash-loader {
   z-index: 100;
 }
 /* Splash loader */
-
-

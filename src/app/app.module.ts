@@ -22,6 +22,7 @@ import {ProfileEffects} from "./STATE/effects/profile.effects";
 import {profileReducer} from "./STATE/reducers/profile.reducer";
 import {debugReducer} from "./STATE/reducers/debug.reducer";
 import {Api} from "./STATE/actions/api.service";
+import {PclCommonModule} from "./common/pcl-common.module";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {Api} from "./STATE/actions/api.service";
     BrowserModule,
     HttpModule,
     HttpInterceptorModule,
+    PclCommonModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
     StoreModule.provideStore({ auth: authReducer, profile: profileReducer, debug: debugReducer }),

@@ -20,8 +20,12 @@ export class PaycalHttpInterceptor {
         });
 
       this.httpInterceptor.request().addInterceptor((data, method) => {
+        // TODO: add url checking.
         let options = getHttpOptions(data, method);
-        options.search.append('loginToken', token);
+        // TODO: solve problem with options.search == null;
+        if (options.search && options.search.append) {
+          options.search.append('loginToken', token);
+        }
         return data;
       });
 

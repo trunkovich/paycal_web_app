@@ -13,5 +13,6 @@
       <input md-input placeholder="password" type="password" formControlName="password">
     </md-input-container>
   </div>
-  <button type="submit" [disabled]="loginForm.invalid">Submit</button>
+  <pcl-button title="Submit" [disabled]="loginForm.invalid" (buttonClick)="onClick($event)" [loading]="loading"></pcl-button>
 </form>
+<input type="checkbox" [(ngModel)]="loading">

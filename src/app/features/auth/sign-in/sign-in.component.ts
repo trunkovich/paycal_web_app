@@ -13,6 +13,7 @@ import {SignInAction} from "../../../STATE/actions/auth.actions";
 export class SignInComponent implements OnInit {
   loginForm: FormGroup;
   mask = [/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  loading: boolean = true;
 
   constructor(private _fb: FormBuilder, private store: Store<AppState>) { }
 
@@ -30,6 +31,10 @@ export class SignInComponent implements OnInit {
       password: data.password
     };
     this.store.dispatch(new SignInAction(credentials));
+  }
+
+  onClick($event) {
+    console.log($event);
   }
 
 }

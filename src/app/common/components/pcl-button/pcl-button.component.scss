@@ -1,0 +1,39 @@
+@import '../../../../styles';
+
+button {
+  @extend .reset-styles;
+  @extend .reset-button-styles;
+  @extend .full-width;
+  @extend .white-text;
+  @extend .bold-text;
+  @extend .text-uppercase;
+  @extend .text-center;
+  position: relative;
+  height: 54px;
+  line-height: 54px;
+  border-radius: 100px;
+  background-color: $tealish;
+  user-select:none;
+  &:active {
+    background-color: $viridian;
+  }
+  &:disabled {
+    background-color: $light-blue-grey;
+  }
+  &.loading {
+    background-color: $viridian;
+  }
+  .spinner {
+    @include absolute(top 50% left 50%);
+    @include size(24px);
+    margin-left: -12px;
+    margin-top: -12px;
+    line-height: initial;
+    animation: spin 2s infinite linear;
+  }
+}
+
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
