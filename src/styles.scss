@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
 
+$image-path: 'assets/' !default;
+$retina-suffix: '@2x';
+@import 'mixins.scss';
+
 $viridian: #1e7e8f;
 $tealish: #27a5bc;
 $tealish-two: #2ab0c9;
@@ -9,6 +13,7 @@ $bluish-grey: #808e9c;
 $light-blue-grey: #d4dfea;
 $pale-grey: #f7f9fb;
 $blush: #f37b73;
+$white: #ffffff;
 
 
 body {
@@ -19,17 +24,69 @@ body {
   font-stretch: normal;
   color: $gunmetal;
 }
+
+.bold-text {
+  font-weight: 600;
+}
+.weak-text {
+  color: $bluish-grey;
+}
+.error-text {
+  color: $blush;
+}
 .headline-text {
   font-size: 24px;
 }
-.title-text {
+.headline-weak-text {
+  @extend .headline-text;
+  @extend .weak-text;
+}
+.big-text {
   font-size: 16px;
 }
-.button-text {
-  font-weight: 600;
+.big-weak-text {
+  @extend .big-text;
+  @extend .weak-text;
 }
-.caption-text {
+.big-bold-text {
+  @extend .big-text;
+  @extend .bold-text;
+}
+.big-error-text {
+  @extend .big-text;
+  @extend .error-text;
+}
+.small-text {
   font-size: 12px;
+}
+.small-weak-text {
+  @extend .small-text;
+  @extend .weak-text;
+}
+.small-bold-text {
+  @extend .small-text;
+  @extend .bold-text;
+}
+.small-bold-weak-text {
+  @extend .small-text;
+  @extend .bold-text;
+  @extend .weak-text;
+}
+.small-error-text {
+  @extend .small-text;
+  @extend .error-text;
+}
+.letter-spacing04 {
+  letter-spacing: 0.4px;
+}
+.white-text {
+  color: white;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
 }
 
 .gradient1 {
@@ -42,6 +99,10 @@ body {
 
 .gradient3 {
   background-image: linear-gradient(135deg, #f5515f, #dd3b4c 28%, #9f031b);
+}
+
+.full-width {
+  width: 100%;
 }
 
 
@@ -70,6 +131,9 @@ $input-invalid: $blush;
 }
 
 md-input-container {
+  @extend .title-text;
+  @extend .full-width;
+
   &.ng-dirty.ng-invalid,
   &.ng-touched.ng-invalid {
     .md-input-placeholder {
@@ -114,3 +178,28 @@ input.md-input-element:-webkit-autofill + .md-input-placeholder,
   }
 }
 /* Material input */
+
+
+
+/* Splash loader */
+.splash-loader {
+  @include size(100%);
+  @include fixed(top 0 left 0);
+  opacity: 0;
+  background: white;
+  z-index: -1;
+
+  .splash-logo {
+    @include size(70px, 110px);
+    @include centerer();
+    @include background-image('logo', 'png', 100%);
+    background-repeat: no-repeat;
+  }
+}
+app-root:empty + .splash-loader {
+  opacity: 1;
+  z-index: 100;
+}
+/* Splash loader */
+
+
