@@ -4,9 +4,6 @@ import {PaycalHttpInterceptor} from "./core/services/http-interceptor.service";
 @Component({
   selector: 'app-root',
   template: `
-  <h1>
-    {{title}}
-  </h1>
   <router-outlet></router-outlet>
   `,
   styles: []

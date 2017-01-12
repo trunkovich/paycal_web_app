@@ -26,7 +26,8 @@ export const ActionTypes = {
   READ_TOKEN_FAIL: type('[Auth] Read token failed'),
 
   //OTHERS
-  SAVE_REDIRECT_URL: type('[Auth] Save redirect url')
+  SAVE_REDIRECT_URL: type('[Auth] Save redirect url'),
+  SIGN_IN_CLEAR_ERROR: type('[Auth] Sign in clear error')
 };
 
 
@@ -49,7 +50,7 @@ export class SignInSuccessAction implements Action {
 }
 export class SignInFailAction implements Action {
   type = ActionTypes.SIGN_IN_FAIL;
-  constructor(public payload: any) { }
+  constructor(public payload: string) { }
 }
 
 //READ USER FROM LS
@@ -71,6 +72,9 @@ export class SaveRedirectUrl implements Action {
   type = ActionTypes.SAVE_REDIRECT_URL;
   constructor(public payload: string) {}
 }
+export class SignInClearErrorAction implements Action {
+  type = ActionTypes.SIGN_IN_CLEAR_ERROR;
+}
 
 /**
  * Export a type alias of all actions in this action group
@@ -89,3 +93,4 @@ export type Actions
 
   // OTHERS
   | SaveRedirectUrl
+  | SignInClearErrorAction

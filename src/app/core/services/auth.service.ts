@@ -12,6 +12,7 @@ import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
 import {AppState} from "../../STATE/models/app-state.model";
 import {Api} from "../../STATE/actions/api.service";
+import {TokenObject} from "../../STATE/models/token.model";
 
 @Injectable()
 export class AuthService {
@@ -19,16 +20,16 @@ export class AuthService {
   constructor(private api: Api, private store: Store<AppState>, private router: Router) {}
 
 
-  signIn(credentials: Credentials): Observable<string> {
+  signIn(credentials: Credentials): Observable<TokenObject | string> {
     return this.api.signIn({
       'mobilePhone': credentials.phone,
       'password': credentials.password
     })
       .map((res: EmployeeSignInResponse) => {
         if (res.IsSuccess) {
-          return res.LoginToken;
+          return {token: res.LoginToken, rememberMe: credentials.rememberMe};
         } else {
-          throw Error(`SignIn Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          throw Error(res.ErrorMessage);
         }
       });
   }
@@ -73,11 +74,15 @@ export class AuthService {
     }
   }
 
-  static storeToken(token) {
-    if (!token) {return false;}
+  static storeToken(tokenObj: TokenObject) {
+    if (!tokenObj || !tokenObj.token) {return false;}
 
     try {
-      localStorage.setItem(APP_CONFIG.LS_TOKEN_KEY, token);
+      if(tokenObj.rememberMe) {
+        localStorage.setItem(APP_CONFIG.LS_TOKEN_KEY, tokenObj.token);
+      } else {
+        localStorage.removeItem(APP_CONFIG.LS_TOKEN_KEY);
+      }
     } catch (error) {
       console.error(error);
     }

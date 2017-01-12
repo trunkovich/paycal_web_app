@@ -1,1 +1,43 @@
 @import '../../../../styles';
+
+.container {
+  position: relative;
+
+  .login-wrapper {
+    @include centerer();
+
+    .splash-logo {
+      @include center-block();
+      margin-bottom: 18px;
+    }
+    md-input-container {
+      margin-bottom: 5px;
+    }
+    md-checkbox {
+      display: block;
+      margin-bottom: 16px;
+    }
+    .error-msg {
+      @extend .text-center;
+      @extend .small-error-text;
+      height: 17px;
+      margin-bottom: 16px;
+    }
+    .forgot-password-link {
+      @extend .text-center;
+      margin-top: 24px;
+
+      a {
+        @extend .bold-text;
+        color: $tealish;
+        &:link,
+        &:visited,
+        &:hover,
+        &:active {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+

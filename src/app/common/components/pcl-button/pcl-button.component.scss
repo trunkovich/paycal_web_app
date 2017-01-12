@@ -1,5 +1,10 @@
 @import '../../../../styles';
 
+:host {
+  display: block;
+  height: 54px;
+}
+
 button {
   @extend .reset-styles;
   @extend .reset-button-styles;

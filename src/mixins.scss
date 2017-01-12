@@ -129,3 +129,11 @@ $breakpoints: (
   }
   perspective: $perspective;
 }
+
+@mixin set-margins-vw($px-size: 24){
+  $vw-size: $px-size / ($base-width / 100);
+  margin-right: #{$px-size}px;
+  margin-left: #{$px-size}px;
+  margin-right: #{$vw-size}vw;
+  margin-left: #{$vw-size}vw;
+}

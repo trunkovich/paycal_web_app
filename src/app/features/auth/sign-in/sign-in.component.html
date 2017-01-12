@@ -1,18 +1,39 @@
-<h3>
-  Login
-</h3>
+<section class="container full-height">
 
-<form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
-  <div>
-    <md-input-container>
-      <input md-input placeholder="phone" [textMask]="{mask: mask}" type="tel" formControlName="phone">
-    </md-input-container>
+  <div class="login-wrapper full-width">
+    <div class="splash-logo"></div>
+
+    <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+
+      <md-input-container>
+        <input md-input placeholder="phone" [textMask]="{mask: mask}" type="tel" formControlName="phone">
+      </md-input-container>
+
+      <md-input-container>
+        <input #passwordInput1 type="password" md-input placeholder="password" formControlName="password">
+
+        <button type="button" class="icon-button" (click)="togglePassword(passwordInput1)">
+          <md-icon [svgIcon]="showPassword ? 'eye-outline-off' : 'eye-outline'"></md-icon>
+        </button>
+
+      </md-input-container>
+
+      <md-checkbox formControlName="rememberMe" color="primary" class="weak-text">
+        Remember me
+      </md-checkbox>
+
+      <div class="error-msg">{{errorMsg$ | async}}</div>
+
+      <pcl-button title="Submit" [type]="'submit'" [disabled]="loginForm.invalid" [loading]="signInLoading$ | async"></pcl-button>
+
+      <div class="forgot-password-link">
+        <a [routerLink]="['/forgot-password']">
+          FORGOT MY PASSWORD?
+        </a>
+      </div>
+
+
+    </form>
   </div>
-  <div>
-    <md-input-container>
-      <input md-input placeholder="password" type="password" formControlName="password">
-    </md-input-container>
-  </div>
-  <pcl-button title="Submit" [disabled]="loginForm.invalid" (buttonClick)="onClick($event)" [loading]="loading"></pcl-button>
-</form>
-<input type="checkbox" [(ngModel)]="loading">
+
+</section>

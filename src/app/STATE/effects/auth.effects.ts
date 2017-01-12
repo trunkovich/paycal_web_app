@@ -40,7 +40,7 @@ export class AuthEffects {
     .switchMap((credentials: Credentials) => {
       return this.authService.signIn(credentials)
         .map((token: string) => new authActions.SignInSuccessAction(token))
-        .catch(error => Observable.of(new authActions.SignInFailAction(error)))
+        .catch(error => Observable.of(new authActions.SignInFailAction(error.message)))
     });
 
   @Effect({ dispatch: false })

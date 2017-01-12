@@ -7,6 +7,7 @@ import {TextMaskModule} from "angular2-text-mask";
 import {MaterialModule} from "@angular/material";
 import {CommonModule} from "@angular/common";
 import {PclCommonModule} from "../../common/pcl-common.module";
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import {PclCommonModule} from "../../common/pcl-common.module";
     FormsModule
   ],
   exports: [SignInComponent],
-  declarations: [SignInComponent]
+  declarations: [SignInComponent, ForgotPasswordComponent]
 })
 export class AuthModule { }
