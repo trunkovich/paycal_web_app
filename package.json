@@ -29,6 +29,7 @@
     "lodash": "^4.17.4",
     "ng-http-interceptor": "^2.0.0",
     "normalize.css": "^5.0.0",
+    "proxy-polyfill": "^0.1.6",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.7.2"
