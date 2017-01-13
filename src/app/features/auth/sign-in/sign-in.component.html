@@ -12,7 +12,7 @@
       <md-input-container>
         <input #passwordInput1 type="password" md-input placeholder="password" formControlName="password" name="password">
 
-        <button type="button" class="icon-button" (click)="togglePassword(passwordInput1)">
+        <button type="button" class="icon-button password-switcher" (click)="togglePassword(passwordInput1)">
           <md-icon [svgIcon]="showPassword ? 'eye-outline-off' : 'eye-outline'"></md-icon>
         </button>
 

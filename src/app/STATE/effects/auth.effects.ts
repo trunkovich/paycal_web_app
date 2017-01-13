@@ -64,4 +64,14 @@ export class AuthEffects {
         .map((token) => new authActions.ReadTokenSuccessAction(token))
         .catch(error => Observable.of(new authActions.ReadTokenFailAction(error)))
     });
+
+  @Effect()
+  requestPasswordRecovery$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY)
+    .map(toPayload)
+    .switchMap((phone: string) => {
+      return this.authService.requestPasswordRecovery(phone)
+        .map(() => new authActions.RequestPasswordRecoverySuccessAction())
+        .catch(error => Observable.of(new authActions.RequestPasswordRecoveryFailAction(error.message)))
+    });
 }

@@ -13,6 +13,7 @@ import {Router} from "@angular/router";
 import {AppState} from "../../STATE/models/app-state.model";
 import {Api} from "../../STATE/actions/api.service";
 import {TokenObject} from "../../STATE/models/token.model";
+import {Response} from "../../STATE/models/responses/response.model";
 
 @Injectable()
 export class AuthService {
@@ -28,6 +29,19 @@ export class AuthService {
       .map((res: EmployeeSignInResponse) => {
         if (res.IsSuccess) {
           return {token: res.LoginToken, rememberMe: credentials.rememberMe};
+        } else {
+          throw Error(res.ErrorMessage);
+        }
+      });
+  }
+
+  requestPasswordRecovery(phone): Observable<boolean | string> {
+    return this.api.requestPasswordRecovery({
+      'mobilePhone': phone
+    })
+      .map((res: Response) => {
+        if (res.IsSuccess) {
+          return true;
         } else {
           throw Error(res.ErrorMessage);
         }

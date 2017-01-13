@@ -25,6 +25,11 @@ export const ActionTypes = {
   READ_TOKEN_SUCCESS:   type('[Auth] Read token success'),
   READ_TOKEN_FAIL: type('[Auth] Read token failed'),
 
+  //REQUEST PASSWORD RECOVERY ACTIONS
+  REQUEST_PASSWORD_RECOVERY: type('[Auth] Request password recover'),
+  REQUEST_PASSWORD_RECOVERY_SUCCESS:   type('[Auth] Request password recover success'),
+  REQUEST_PASSWORD_RECOVERY_FAIL: type('[Auth] Request password recover failed'),
+
   //OTHERS
   SAVE_REDIRECT_URL: type('[Auth] Save redirect url'),
   SIGN_IN_CLEAR_ERROR: type('[Auth] Sign in clear error')
@@ -52,6 +57,21 @@ export class SignInFailAction implements Action {
   type = ActionTypes.SIGN_IN_FAIL;
   constructor(public payload: string) { }
 }
+
+//REQUEST PASSWORD RECOVERY ACTIONS
+export class RequestPasswordRecoveryAction implements Action {
+  type = ActionTypes.REQUEST_PASSWORD_RECOVERY;
+  constructor(public payload: string) { }
+}
+export class RequestPasswordRecoverySuccessAction implements Action {
+  type = ActionTypes.REQUEST_PASSWORD_RECOVERY_SUCCESS;
+  constructor() { }
+}
+export class RequestPasswordRecoveryFailAction implements Action {
+  type = ActionTypes.REQUEST_PASSWORD_RECOVERY_FAIL;
+  constructor(public payload: string) { }
+}
+
 
 //READ USER FROM LS
 export class ReadTokenAction implements Action {
@@ -90,6 +110,11 @@ export type Actions
   | ReadTokenAction
   | ReadTokenSuccessAction
   | ReadTokenFailAction
+
+  //REQUEST PASSWORD RECOVERY ACTIONS
+  | RequestPasswordRecoveryAction
+  | RequestPasswordRecoverySuccessAction
+  | RequestPasswordRecoveryFailAction
 
   // OTHERS
   | SaveRedirectUrl

@@ -343,8 +343,6 @@ app-root:empty + .splash-loader {
   @extend .reset-styles;
   @extend .reset-button-styles;
   @include size(18px);
-  @include centerer(false, true);
-  @include absolute(right 10px);
   color: $bluish-grey;
   md-icon {
     @include size(18px);

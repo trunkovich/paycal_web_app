@@ -21,12 +21,7 @@ export class PclButtonComponent {
   @Input() type: string;
   @Output() buttonClick = new EventEmitter();
 
-  constructor(mdIconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
-    mdIconRegistry.addSvgIcon(
-      'reload',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/reload.svg')
-      );
-  }
+  constructor() {}
 
   onClick($event: MouseEvent) {
     if (!this.disabled && !this.loading) {

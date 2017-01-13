@@ -22,9 +22,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   constructor(
     private _fb: FormBuilder,
-    private store: Store<AppState>,
-    private mdIconRegistry: MdIconRegistry,
-    private sanitizer: DomSanitizer) {}
+    private store: Store<AppState>) {}
 
   ngOnInit() {
     this.loginForm = this._fb.group({
@@ -34,14 +32,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     });
     this.errorMsg$ = this.store.select(state => state.auth.errorMsg);
     this.signInLoading$ = this.store.select(state => state.auth.loading);
-    this.mdIconRegistry.addSvgIcon(
-      'eye-outline',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/svg/eye-outline.svg')
-    );
-    this.mdIconRegistry.addSvgIcon(
-      'eye-outline-off',
-      this.sanitizer.bypassSecurityTrustResourceUrl('assets/svg/eye-outline-off.svg')
-    );
   }
 
   ngOnDestroy() {

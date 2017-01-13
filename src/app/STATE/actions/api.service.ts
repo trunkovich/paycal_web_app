@@ -26,6 +26,10 @@ export class Api {
     return this.request('get', 'EmployeeSignIn', data);
   }
 
+  requestPasswordRecovery(data){
+    return this.request('get', 'RequestPasswordReset', data);
+  }
+
   getProfile() {
     return this.request('get', 'GetEmployee');
   }
