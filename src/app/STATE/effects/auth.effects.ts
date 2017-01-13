@@ -79,4 +79,9 @@ export class AuthEffects {
   redirectAfterSuccessrequestPasswordRecovery$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_SUCCESS)
     .do(() => this.authService.redirectAfterPasswordRecoveryRequest());
+
+  @Effect({ dispatch: false })
+  logout$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.LOGOUT)
+    .do(() => this.authService.redirectToLogin());
 }

@@ -52,6 +52,10 @@ export class AuthService {
     this.router.navigate(['/', 'forgot-password-success'])
   }
 
+  redirectToLogin() {
+    this.router.navigate(['/', 'login'])
+  }
+
   redirectAfterLogin() {
     this.store.select((state) => state.auth.redirectUrl)
       .first()

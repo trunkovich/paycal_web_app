@@ -94,6 +94,9 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
         loading: false
       };
     }
+    case authActions.ActionTypes.LOGOUT: {
+      return Object.assign({}, initialAuthState);
+    }
     case authActions.ActionTypes.SIGN_IN_CLEAR_ERROR: {
       return {
         token: state.token,

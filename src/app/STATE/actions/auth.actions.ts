@@ -32,7 +32,8 @@ export const ActionTypes = {
 
   //OTHERS
   SAVE_REDIRECT_URL: type('[Auth] Save redirect url'),
-  SIGN_IN_CLEAR_ERROR: type('[Auth] Sign in clear error')
+  SIGN_IN_CLEAR_ERROR: type('[Auth] Sign in clear error'),
+  LOGOUT: type('[Auth] Logout')
 };
 
 
@@ -95,6 +96,9 @@ export class SaveRedirectUrl implements Action {
 export class SignInClearErrorAction implements Action {
   type = ActionTypes.SIGN_IN_CLEAR_ERROR;
 }
+export class LogoutAction implements Action {
+  type = ActionTypes.LOGOUT;
+}
 
 /**
  * Export a type alias of all actions in this action group
@@ -119,3 +123,4 @@ export type Actions
   // OTHERS
   | SaveRedirectUrl
   | SignInClearErrorAction
+  | LogoutAction
