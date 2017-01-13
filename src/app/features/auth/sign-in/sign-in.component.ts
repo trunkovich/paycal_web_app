@@ -28,9 +28,8 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loginForm = this._fb.group({
-      //TODO: Don't forget to remove hardcoded data
-      phone: ['714-746-1213', [Validators.required, Validators.pattern(/\d{3}-\d{3}-\d{4}/)]],
-      password: ['Paula100', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern(/\d{3}-\d{3}-\d{4}/)]],
+      password: ['', Validators.required],
       rememberMe: [true, Validators.required]
     });
     this.errorMsg$ = this.store.select(state => state.auth.errorMsg);

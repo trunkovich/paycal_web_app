@@ -6,11 +6,11 @@
     <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
 
       <md-input-container>
-        <input md-input placeholder="phone" [textMask]="{mask: mask}" type="tel" formControlName="phone">
+        <input md-input placeholder="phone" [textMask]="{mask: mask}" type="tel" formControlName="phone" name="login">
       </md-input-container>
 
       <md-input-container>
-        <input #passwordInput1 type="password" md-input placeholder="password" formControlName="password">
+        <input #passwordInput1 type="password" md-input placeholder="password" formControlName="password" name="password">
 
         <button type="button" class="icon-button" (click)="togglePassword(passwordInput1)">
           <md-icon [svgIcon]="showPassword ? 'eye-outline-off' : 'eye-outline'"></md-icon>
