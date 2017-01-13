@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  height: 45px;
+  height: $header-height;
   //-webkit-backdrop-filter: blur(10px); //It is not supported yet
   //backdrop-filter: blur(10px); //It is not supported yet
   background-color: #ffffff;
@@ -10,11 +10,11 @@
 
   header {
     position: relative;
-    height: 45px;
+    height: $header-height;
     padding: 0 56px;
 
     .back-button {
-      @include size(56px, 45px);
+      @include size(56px, $header-height);
       @include absolute(top 0 left 0);
       padding: 11px 16px 10px 16px;
 
@@ -27,7 +27,7 @@
     .title {
       @extend .text-center;
       @extend .bold-text;
-      line-height: 45px;
+      line-height: $header-height;
     }
   }
 

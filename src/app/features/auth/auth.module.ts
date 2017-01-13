@@ -8,6 +8,7 @@ import {MaterialModule} from "@angular/material";
 import {CommonModule} from "@angular/common";
 import {PclCommonModule} from "../../common/pcl-common.module";
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     FormsModule
   ],
   exports: [SignInComponent],
-  declarations: [SignInComponent, ForgotPasswordComponent]
+  declarations: [SignInComponent, ForgotPasswordComponent, ForgotPasswordSuccessComponent]
 })
 export class AuthModule { }

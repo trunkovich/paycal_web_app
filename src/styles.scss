@@ -5,6 +5,7 @@
 $image-path: 'assets/' !default;
 $retina-suffix: '@2x';
 $base-width: 375;
+$header-height: 45px;
 @import 'mixins.scss';
 @import 'resets.scss';
 

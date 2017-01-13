@@ -48,6 +48,10 @@ export class AuthService {
       });
   }
 
+  redirectAfterPasswordRecoveryRequest() {
+    this.router.navigate(['/', 'forgot-password-success'])
+  }
+
   redirectAfterLogin() {
     this.store.select((state) => state.auth.redirectUrl)
       .first()

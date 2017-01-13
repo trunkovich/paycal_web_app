@@ -74,4 +74,9 @@ export class AuthEffects {
         .map(() => new authActions.RequestPasswordRecoverySuccessAction())
         .catch(error => Observable.of(new authActions.RequestPasswordRecoveryFailAction(error.message)))
     });
+
+  @Effect({ dispatch: false })
+  redirectAfterSuccessrequestPasswordRecovery$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_SUCCESS)
+    .do(() => this.authService.redirectAfterPasswordRecoveryRequest());
 }
