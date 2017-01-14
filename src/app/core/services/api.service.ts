@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Http, URLSearchParams, Headers} from "@angular/http";
-import {APP_CONFIG} from "../../../environments/environment";
-import {Observable} from "rxjs";
+import {Http, URLSearchParams, Headers} from '@angular/http';
+import {APP_CONFIG} from '../../../environments/environment';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -13,7 +12,7 @@ export class Api {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  request(method, url, data={}) {
+  request(method, url, data = {}) {
     let params: URLSearchParams = new URLSearchParams();
     _.toPairs(data).forEach(function(dataEntry) {
       params.set(dataEntry[0], dataEntry[1]);
@@ -26,7 +25,7 @@ export class Api {
     return this.request('get', 'EmployeeSignIn', data);
   }
 
-  requestPasswordRecovery(data){
+  requestPasswordRecovery(data) {
     return this.request('get', 'RequestPasswordReset', data);
   }
 

@@ -4,11 +4,11 @@
 import * as authActions from '../actions/auth.actions';
 
 export interface AuthState {
-  token: string | null,
-  authenticated: boolean,
-  redirectUrl: string | null,
-  errorMsg: string | null,
-  loading: boolean
+  token: string | null;
+  authenticated: boolean;
+  redirectUrl: string | null;
+  errorMsg: string | null;
+  loading: boolean;
 }
 
 const initialAuthState = {

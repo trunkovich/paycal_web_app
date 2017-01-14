@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpInterceptorService, getHttpOptions} from "ng-http-interceptor";
-import {AppState} from "../../STATE/models/app-state.model";
-import {Store} from "@ngrx/store";
+import {Store} from '@ngrx/store';
+import {HttpInterceptorService, getHttpOptions} from 'ng-http-interceptor';
+
+import {AppState} from '../../STATE/models/app-state.model';
 
 @Injectable()
 export class PaycalHttpInterceptor {

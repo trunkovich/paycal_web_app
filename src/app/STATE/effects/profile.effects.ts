@@ -1,9 +1,6 @@
 /**
  * Created by TrUnK on 06.01.2017.
  */
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
 import { Injectable } from '@angular/core';
 import {Effect, Actions} from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -11,8 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 import * as authActions from '../actions/auth.actions';
 import * as profileActions from '../actions/profile.actions';
-import {AuthService} from "../../core/services/auth.service";
-import {Employee} from "../models/employee.model";
+import {AuthService} from '../../core/services/auth.service';
+import {Employee} from '../models/employee.model';
 
 @Injectable()
 export class ProfileEffects {
@@ -34,7 +31,7 @@ export class ProfileEffects {
     .switchMap(() => {
       return this.authService.getProfile()
         .map((profile: Employee) => new profileActions.GetUserProfileSuccessAction(profile))
-        .catch(error => Observable.of(new profileActions.GetUserProfileFailAction(error)))
+        .catch(error => Observable.of(new profileActions.GetUserProfileFailAction(error)));
     });
 
 }

@@ -1,14 +1,15 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router} from "@angular/router";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../../STATE/models/app-state.model";
-import {SignInClearErrorAction, RequestPasswordRecoveryAction} from "../../../STATE/actions/auth.actions";
-import {AUTH_ROUTES} from "../auth.routes";
+import {Router} from '@angular/router';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
+
+import {AppState} from '../../../STATE/models/app-state.model';
+import {SignInClearErrorAction, RequestPasswordRecoveryAction} from '../../../STATE/actions/auth.actions';
+import {AUTH_ROUTES} from '../auth.routes';
 
 @Component({
-  selector: 'app-forgot-password',
+  selector: 'pcl-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })
@@ -41,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(data) {
-    let phone: string = data.phone.replace(/\D+/g, '')
+    let phone: string = data.phone.replace(/\D+/g, '');
     this.store.dispatch(new SignInClearErrorAction());
     this.store.dispatch(new RequestPasswordRecoveryAction(phone));
   }

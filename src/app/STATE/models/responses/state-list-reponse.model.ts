@@ -2,8 +2,8 @@
  * Created by TrUnK on 05.01.2017.
  */
 
-import {Response} from "./response.model";
-import {State} from "../state.model";
+import {Response} from './response.model';
+import {State} from '../state.model';
 
 export interface StateListResponse extends Response {
   StateList: State[];

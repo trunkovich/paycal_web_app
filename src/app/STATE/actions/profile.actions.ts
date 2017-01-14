@@ -3,7 +3,7 @@
  */
 import { Action } from '@ngrx/store';
 import { type } from '../utils';
-import {Employee} from "../models/employee.model";
+import {Employee} from '../models/employee.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -14,7 +14,7 @@ import {Employee} from "../models/employee.model";
  * action types in the application are unique.
  */
 export const ActionTypes = {
-  //GET USER PROFILE
+  // GET USER PROFILE
   GET_USER_PROFILE: type('[Auth] Get user profile'),
   GET_USER_PROFILE_SUCCESS:   type('[Auth] Get user profile success'),
   GET_USER_PROFILE_FAIL: type('[Auth] Get user profile failed'),
@@ -29,7 +29,7 @@ export const ActionTypes = {
  * See Discriminated Unions: https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
  */
 
-//GET USER PROFILE
+// GET USER PROFILE
 export class GetUserProfileAction implements Action {
   type = ActionTypes.GET_USER_PROFILE;
   constructor() { }
@@ -47,7 +47,7 @@ export class GetUserProfileFailAction implements Action {
  * so that reducers can easily compose action types
  */
 export type Actions
-  //GET USER PROFILE
+  // GET USER PROFILE
   = GetUserProfileAction
   | GetUserProfileSuccessAction
-  | GetUserProfileFailAction
+  | GetUserProfileFailAction;

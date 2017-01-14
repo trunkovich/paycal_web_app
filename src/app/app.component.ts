@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {PaycalHttpInterceptor} from "./core/services/http-interceptor.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {MdIconRegistry} from "@angular/material";
+import {PaycalHttpInterceptor} from './core/services/http-interceptor.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MdIconRegistry} from '@angular/material';
 
 @Component({
-  selector: 'app-root',
+  selector: 'pcl-root',
   template: `
   <router-outlet></router-outlet>
   `,

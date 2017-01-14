@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import {SignInComponent} from "./sign-in/sign-in.component";
-import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
-import {ForgotPasswordSuccessComponent} from "./forgot-password-success/forgot-password-success.component";
-import {PasswordResetComponent} from "./password-reset/password-reset.component";
-import {RegistrationStep2Component} from "./registration-step2/registration-step2.component";
+import {SignInComponent} from './sign-in/sign-in.component';
+import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
+import {ForgotPasswordSuccessComponent} from './forgot-password-success/forgot-password-success.component';
+import {PasswordResetComponent} from './password-reset/password-reset.component';
+import {RegistrationStep2Component} from './registration-step2/registration-step2.component';
 
 export const AUTH_ROUTES = Object.freeze({
   LOGIN: 'login',

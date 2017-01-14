@@ -1,9 +1,6 @@
 /**
  * Created by TrUnK on 06.01.2017.
  */
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
 import { Injectable } from '@angular/core';
 import {Effect, Actions, toPayload} from '@ngrx/effects';
 import { Action } from '@ngrx/store';

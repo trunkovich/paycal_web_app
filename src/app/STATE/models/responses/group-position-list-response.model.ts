@@ -2,8 +2,8 @@
  * Created by TrUnK on 05.01.2017.
  */
 
-import {Response} from "./response.model";
-import {GroupPosition} from "../group-position.model";
+import {Response} from './response.model';
+import {GroupPosition} from '../group-position.model';
 
 export interface GroupPositionListResponse extends Response {
   GroupPositionList: GroupPosition[];

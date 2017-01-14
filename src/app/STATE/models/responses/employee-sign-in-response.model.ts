@@ -2,7 +2,7 @@
  * Created by TrUnK on 05.01.2017.
  */
 
-import {Response} from "./response.model";
+import {Response} from './response.model';
 
 export interface EmployeeSignInResponse extends Response {
   LoginToken: string;

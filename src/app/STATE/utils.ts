@@ -1,3 +1,9 @@
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/startWith';
+
 /**
  * This function coerces a string into a string literal type.
  * Using tagged union types in TypeScript 2.0, this enables

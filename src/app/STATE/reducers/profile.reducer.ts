@@ -2,10 +2,10 @@
  * Created by TrUnK on 06.01.2017.
  */
 import * as profileActions from '../actions/profile.actions';
-import {Employee} from "../models/employee.model";
+import {Employee} from '../models/employee.model';
 
 export interface ProfileState {
-  employee: Employee | null
+  employee: Employee | null;
 }
 
 const initialProfileState = {

@@ -1,20 +1,20 @@
 /**
  * Created by TrUnK on 06.01.2017.
  */
-import {Injectable} from "@angular/core";
-import {EmployeeSignInResponse} from "../../STATE/models/responses/employee-sign-in-response.model";
-import {Credentials} from "../../STATE/models/credentials.model";
-import {Observable} from "rxjs";
-import {APP_CONFIG} from "../../../environments/environment";
-import {Employee} from "../../STATE/models/employee.model";
-import {EmployeeResponse} from "../../STATE/models/responses/employee-response.model";
-import {Store} from "@ngrx/store";
-import {Router} from "@angular/router";
-import {AppState} from "../../STATE/models/app-state.model";
-import {Api} from "../../STATE/actions/api.service";
-import {TokenObject} from "../../STATE/models/token.model";
-import {Response} from "../../STATE/models/responses/response.model";
-import {AUTH_ROUTES} from "../../features/auth/auth.routes";
+import {Injectable} from '@angular/core';
+import {EmployeeSignInResponse} from '../../STATE/models/responses/employee-sign-in-response.model';
+import {Credentials} from '../../STATE/models/credentials.model';
+import {Observable} from 'rxjs';
+import {APP_CONFIG} from '../../../environments/environment';
+import {Employee} from '../../STATE/models/employee.model';
+import {EmployeeResponse} from '../../STATE/models/responses/employee-response.model';
+import {Store} from '@ngrx/store';
+import {Router} from '@angular/router';
+import {AppState} from '../../STATE/models/app-state.model';
+import {TokenObject} from '../../STATE/models/token.model';
+import {Response} from '../../STATE/models/responses/response.model';
+import {AUTH_ROUTES} from '../../features/auth/auth.routes';
+import {Api} from './api.service';
 
 @Injectable()
 export class AuthService {
@@ -50,18 +50,18 @@ export class AuthService {
   }
 
   redirectAfterPasswordRecoveryRequest() {
-    this.router.navigate(['/', AUTH_ROUTES.FORGOT_PASSWORD_SUCCESS])
+    this.router.navigate(['/', AUTH_ROUTES.FORGOT_PASSWORD_SUCCESS]);
   }
 
   redirectToLogin() {
-    this.router.navigate(['/', AUTH_ROUTES.LOGIN])
+    this.router.navigate(['/', AUTH_ROUTES.LOGIN]);
   }
 
   redirectAfterLogin() {
     this.store.select((state) => state.auth.redirectUrl)
       .first()
       .subscribe((url) => {
-        this.router.navigateByUrl(url || APP_CONFIG.DEFAULT_REDIRECT_URL)
+        this.router.navigateByUrl(url || APP_CONFIG.DEFAULT_REDIRECT_URL);
       });
   }
 
@@ -98,10 +98,10 @@ export class AuthService {
   }
 
   static storeToken(tokenObj: TokenObject) {
-    if (!tokenObj || !tokenObj.token) {return false;}
+    if (!tokenObj || !tokenObj.token) { return false; }
 
     try {
-      if(tokenObj.rememberMe) {
+      if (tokenObj.rememberMe) {
         localStorage.setItem(APP_CONFIG.LS_TOKEN_KEY, tokenObj.token);
       } else {
         localStorage.removeItem(APP_CONFIG.LS_TOKEN_KEY);

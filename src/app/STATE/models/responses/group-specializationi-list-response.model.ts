@@ -2,8 +2,8 @@
  * Created by TrUnK on 05.01.2017.
  */
 
-import {Response} from "./response.model";
-import {GroupSpecialization} from "../group-specialization.model";
+import {Response} from './response.model';
+import {GroupSpecialization} from '../group-specialization.model';
 
 export interface GroupSpecializationListResponse extends Response {
   GroupSpecializationList: GroupSpecialization[];

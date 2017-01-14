@@ -3,7 +3,7 @@
  */
 import { Action } from '@ngrx/store';
 import { type } from '../utils';
-import {Credentials} from "../models/credentials.model";
+import {Credentials} from '../models/credentials.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -15,22 +15,22 @@ import {Credentials} from "../models/credentials.model";
  */
 export const ActionTypes = {
 
-  //SIGN IN ACTIONS
+  // SIGN IN ACTIONS
   SIGN_IN: type('[Auth] SignIn'),
   SIGN_IN_SUCCESS:   type('[Auth] SignIn success'),
   SIGN_IN_FAIL: type('[Auth] SignIn failed'),
 
-  //READ USER FROM LS
+  // READ USER FROM LS
   READ_TOKEN: type('[Auth] Read token'),
   READ_TOKEN_SUCCESS:   type('[Auth] Read token success'),
   READ_TOKEN_FAIL: type('[Auth] Read token failed'),
 
-  //REQUEST PASSWORD RECOVERY ACTIONS
+  // REQUEST PASSWORD RECOVERY ACTIONS
   REQUEST_PASSWORD_RECOVERY: type('[Auth] Request password recover'),
   REQUEST_PASSWORD_RECOVERY_SUCCESS:   type('[Auth] Request password recover success'),
   REQUEST_PASSWORD_RECOVERY_FAIL: type('[Auth] Request password recover failed'),
 
-  //OTHERS
+  // OTHERS
   SAVE_REDIRECT_URL: type('[Auth] Save redirect url'),
   SIGN_IN_CLEAR_ERROR: type('[Auth] Sign in clear error'),
   LOGOUT: type('[Auth] Logout')
@@ -45,7 +45,7 @@ export const ActionTypes = {
  * See Discriminated Unions: https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
  */
 
-//SIGN IN ACTIONS
+// SIGN IN ACTIONS
 export class SignInAction implements Action {
   type = ActionTypes.SIGN_IN;
   constructor(public payload: Credentials) { }
@@ -59,7 +59,7 @@ export class SignInFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-//REQUEST PASSWORD RECOVERY ACTIONS
+// REQUEST PASSWORD RECOVERY ACTIONS
 export class RequestPasswordRecoveryAction implements Action {
   type = ActionTypes.REQUEST_PASSWORD_RECOVERY;
   constructor(public payload: string) { }
@@ -74,7 +74,7 @@ export class RequestPasswordRecoveryFailAction implements Action {
 }
 
 
-//READ USER FROM LS
+// READ USER FROM LS
 export class ReadTokenAction implements Action {
   type = ActionTypes.READ_TOKEN;
   constructor() { }
@@ -88,7 +88,7 @@ export class ReadTokenFailAction implements Action {
   constructor(public payload: any) { }
 }
 
-//OTHERS
+// OTHERS
 export class SaveRedirectUrl implements Action {
   type = ActionTypes.SAVE_REDIRECT_URL;
   constructor(public payload: string) {}
@@ -105,22 +105,22 @@ export class LogoutAction implements Action {
  * so that reducers can easily compose action types
  */
 export type Actions
-  //SIGN IN
+  // SIGN IN
   = SignInAction
   | SignInSuccessAction
   | SignInFailAction
 
-  //READ USER FROM LS
+  // READ USER FROM LS
   | ReadTokenAction
   | ReadTokenSuccessAction
   | ReadTokenFailAction
 
-  //REQUEST PASSWORD RECOVERY ACTIONS
+  // REQUEST PASSWORD RECOVERY ACTIONS
   | RequestPasswordRecoveryAction
   | RequestPasswordRecoverySuccessAction
   | RequestPasswordRecoveryFailAction
 
-  // OTHERS
+  //  OTHERS
   | SaveRedirectUrl
   | SignInClearErrorAction
-  | LogoutAction
+  | LogoutAction;

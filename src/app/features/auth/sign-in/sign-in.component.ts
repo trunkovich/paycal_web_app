@@ -1,15 +1,14 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
-import {Credentials} from "../../../STATE/models/credentials.model";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../../STATE/models/app-state.model";
-import {SignInAction, SignInClearErrorAction} from "../../../STATE/actions/auth.actions";
-import {MdIconRegistry} from "@angular/material";
-import {DomSanitizer} from "@angular/platform-browser";
-import {Observable} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+
+import {AppState} from '../../../STATE/models/app-state.model';
+import {SignInAction, SignInClearErrorAction} from '../../../STATE/actions/auth.actions';
+import {Credentials} from '../../../STATE/models/credentials.model';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'pcl-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
@@ -48,7 +47,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SignInAction(credentials));
   }
 
-  togglePassword(el:HTMLElement) {
+  togglePassword(el: HTMLElement) {
     this.showPassword = !this.showPassword;
     el.setAttribute('type', this.getType());
   }

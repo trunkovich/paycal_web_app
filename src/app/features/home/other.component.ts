@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-other',
+  selector: 'pcl-other',
   template: `
     <p>
       other Works!

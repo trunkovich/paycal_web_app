@@ -2,8 +2,8 @@
  * Created by TrUnK on 05.01.2017.
  */
 
-import {Response} from "./response.model";
-import {ReferenceType} from "../reference-type.model";
+import {Response} from './response.model';
+import {ReferenceType} from '../reference-type.model';
 
 export interface ReferenceTypeListResponse extends Response {
   ReferenceTypeList: ReferenceType[];

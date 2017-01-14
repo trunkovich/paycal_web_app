@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Store} from "@ngrx/store";
-import {AppState} from "../../STATE/models/app-state.model";
-import {LogoutAction} from "../../STATE/actions/auth.actions";
+import {Store} from '@ngrx/store';
+import {AppState} from '../../STATE/models/app-state.model';
+import {LogoutAction} from '../../STATE/actions/auth.actions';
 
 @Component({
-  selector: 'app-home',
+  selector: 'pcl-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

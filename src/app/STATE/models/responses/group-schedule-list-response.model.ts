@@ -2,8 +2,8 @@
  * Created by TrUnK on 05.01.2017.
  */
 
-import {Response} from "./response.model";
-import {GroupSchedule} from "../group-schedule.model";
+import {Response} from './response.model';
+import {GroupSchedule} from '../group-schedule.model';
 
 export interface GroupScheduleListResponse extends Response {
   GroupScheduleList: GroupSchedule[];
