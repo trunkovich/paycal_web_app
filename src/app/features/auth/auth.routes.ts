@@ -10,7 +10,7 @@ export const AUTH_ROUTES = Object.freeze({
   FORGOT_PASSWORD: 'forgot-password',
   FORGOT_PASSWORD_SUCCESS: 'forgot-password-success',
   PASSWORD_RESET: 'password-reset',
-  REGISTRATION_STEP_2: 'registration-step2'
+  REGISTRATION_STEP_2: 'registration-step-2'
 });
 
 // Can't use AUTH_ROUTES here, because of error:
@@ -21,5 +21,5 @@ export const authRoutes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'forgot-password-success', component: ForgotPasswordSuccessComponent },
   { path: 'password-reset/:ResetPasswordCode', component: PasswordResetComponent },
-  { path: 'registration-step2/:InvitationCode', component: RegistrationStep2Component }
+  { path: 'registration-step-2/:InvitationCode', component: RegistrationStep2Component }
 ];
