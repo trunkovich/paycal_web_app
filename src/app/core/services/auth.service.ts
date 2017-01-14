@@ -14,6 +14,7 @@ import {AppState} from "../../STATE/models/app-state.model";
 import {Api} from "../../STATE/actions/api.service";
 import {TokenObject} from "../../STATE/models/token.model";
 import {Response} from "../../STATE/models/responses/response.model";
+import {AUTH_ROUTES} from "../../features/auth/auth.routes";
 
 @Injectable()
 export class AuthService {
@@ -49,11 +50,11 @@ export class AuthService {
   }
 
   redirectAfterPasswordRecoveryRequest() {
-    this.router.navigate(['/', 'forgot-password-success'])
+    this.router.navigate(['/', AUTH_ROUTES.FORGOT_PASSWORD_SUCCESS])
   }
 
   redirectToLogin() {
-    this.router.navigate(['/', 'login'])
+    this.router.navigate(['/', AUTH_ROUTES.LOGIN])
   }
 
   redirectAfterLogin() {

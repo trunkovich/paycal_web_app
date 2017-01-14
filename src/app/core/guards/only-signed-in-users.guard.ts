@@ -3,6 +3,7 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../../STATE/models/app-state.model";
 import {Injectable} from "@angular/core";
 import {SaveRedirectUrl} from "../../STATE/actions/auth.actions";
+import {AUTH_ROUTES} from "../../features/auth/auth.routes";
 
 @Injectable()
 export class OnlySignedInUsers implements CanActivate {
@@ -17,7 +18,7 @@ export class OnlySignedInUsers implements CanActivate {
       .do((authenticated) => {
         if (!authenticated) {
           this.store.dispatch(new SaveRedirectUrl(state.url));
-          this.router.navigate(['/', 'login'])
+          this.router.navigate(['/', AUTH_ROUTES.LOGIN])
         }
       });
   }

@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../../STATE/models/app-state.model";
 import {SignInClearErrorAction, RequestPasswordRecoveryAction} from "../../../STATE/actions/auth.actions";
+import {AUTH_ROUTES} from "../auth.routes";
 
 @Component({
   selector: 'app-forgot-password',
@@ -36,7 +37,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   }
 
   onBackBtnClick($event: MouseEvent) {
-    this.router.navigate(['/','login']);
+    this.router.navigate(['/', AUTH_ROUTES.LOGIN]);
   }
 
   onSubmit(data) {

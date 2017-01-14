@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import {AUTH_ROUTES} from "../auth.routes";
 
 @Component({
   selector: 'app-forgot-password-success',
@@ -14,6 +15,6 @@ export class ForgotPasswordSuccessComponent implements OnInit {
   }
 
   onBackBtnClick($event: MouseEvent) {
-    this.router.navigate(['/','login']);
+    this.router.navigate(['/',AUTH_ROUTES.LOGIN]);
   }
 }

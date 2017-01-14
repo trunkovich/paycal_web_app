@@ -9,6 +9,8 @@ import {CommonModule} from "@angular/common";
 import {PclCommonModule} from "../../common/pcl-common.module";
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { RegistrationStep2Component } from './registration-step2/registration-step2.component';
 
 @NgModule({
   imports: [
@@ -23,6 +25,6 @@ import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot
     FormsModule
   ],
   exports: [SignInComponent],
-  declarations: [SignInComponent, ForgotPasswordComponent, ForgotPasswordSuccessComponent]
+  declarations: [SignInComponent, ForgotPasswordComponent, ForgotPasswordSuccessComponent, PasswordResetComponent, RegistrationStep2Component]
 })
 export class AuthModule { }
