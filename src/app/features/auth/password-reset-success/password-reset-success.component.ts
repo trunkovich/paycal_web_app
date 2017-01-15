@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+
+import {AUTH_ROUTES} from '../auth.routes';
 
 @Component({
   selector: 'pcl-password-reset-success',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PasswordResetSuccessComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    setTimeout(() => this.router.navigate(['/', AUTH_ROUTES.LOGIN]), 7000);
   }
 
 }

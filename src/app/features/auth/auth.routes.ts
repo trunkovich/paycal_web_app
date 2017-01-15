@@ -16,7 +16,7 @@ export const AUTH_ROUTES = Object.freeze({
 });
 
 // Can't use AUTH_ROUTES here, because of error:
-// Error encountered resolving symbol values statically
+// `Error encountered resolving symbol values statically`
 // Please keep it in sync by hands.
 export const authRoutes: Routes = [
   { path: 'login', component: SignInComponent },
