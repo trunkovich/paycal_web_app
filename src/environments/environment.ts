@@ -10,7 +10,7 @@ export const environment = {
 export const APP_CONFIG = Object.freeze({
   API_BASE_URL: '//api.brainstorm.live/api/Hub/',
   LS_TOKEN_KEY: 'pc_token',
-  AUTO_REDIRECT_TIMER: 7000,
+  AUTO_REDIRECT_TIMER: 5000,
   DEFAULT_REDIRECT_URL: '/',
 
   // CHANGES WILL NOT AFFECT IN APP. YOU WILL NEED TO MAKE CHANGES IN index.html:6 (base href tag).
