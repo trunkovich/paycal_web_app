@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import * as authActions from '../actions/auth.actions';
 import {AuthService} from '../../core/services/auth.service';
 import {Credentials} from '../models/credentials.model';
+import {ResetPasswordModel} from '../models/reset-password.model';
 
 
 /**
@@ -72,9 +73,25 @@ export class AuthEffects {
     });
 
   @Effect({ dispatch: false })
-  redirectAfterSuccessrequestPasswordRecovery$: Observable<Action> = this.actions$
+  redirectAfterSuccessRequestPasswordRecovery$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_SUCCESS)
     .do(() => this.authService.redirectAfterPasswordRecoveryRequest());
+
+  @Effect()
+  resetPassword$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.RESET_PASSWORD)
+    .map(toPayload)
+    .switchMap((resetPasswordData: ResetPasswordModel) => {
+      return this.authService.resetPassword(resetPasswordData)
+        .map(() => new authActions.ResetPasswordSuccessAction())
+        .catch(error => Observable.of(new authActions.ResetPasswordFailAction(error.message)));
+    });
+
+  @Effect({ dispatch: false })
+  redirectAfterSuccessResetPassword$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.RESET_PASSWORD_SUCCESS)
+    .do(() => this.authService.redirectAfterResetPassword());
+
 
   @Effect({ dispatch: false })
   logout$: Observable<Action> = this.actions$

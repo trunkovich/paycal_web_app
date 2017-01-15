@@ -15,6 +15,7 @@ import {TokenObject} from '../../STATE/models/token.model';
 import {Response} from '../../STATE/models/responses/response.model';
 import {AUTH_ROUTES} from '../../features/auth/auth.routes';
 import {Api} from './api.service';
+import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
 
 @Injectable()
 export class AuthService {
@@ -49,8 +50,22 @@ export class AuthService {
       });
   }
 
+  resetPassword(resetPasswordData: ResetPasswordModel): Observable<boolean | string> {
+    return this.api.resetPassword(resetPasswordData)
+      .map((res: Response) => {
+        if (res.IsSuccess) {
+          return true;
+        } else {
+          throw Error(res.ErrorMessage);
+        }
+      });
+  }
+
   redirectAfterPasswordRecoveryRequest() {
     this.router.navigate(['/', AUTH_ROUTES.FORGOT_PASSWORD_SUCCESS]);
+  }
+  redirectAfterResetPassword() {
+    this.router.navigate(['/', AUTH_ROUTES.PASSWORD_RESET_SUCCESS]);
   }
 
   redirectToLogin() {

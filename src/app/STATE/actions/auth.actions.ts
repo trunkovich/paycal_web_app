@@ -4,6 +4,7 @@
 import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import {Credentials} from '../models/credentials.model';
+import {ResetPasswordModel} from '../models/reset-password.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -29,6 +30,11 @@ export const ActionTypes = {
   REQUEST_PASSWORD_RECOVERY: type('[Auth] Request password recover'),
   REQUEST_PASSWORD_RECOVERY_SUCCESS:   type('[Auth] Request password recover success'),
   REQUEST_PASSWORD_RECOVERY_FAIL: type('[Auth] Request password recover failed'),
+
+  // RESET PASSWORD ACTIONS
+  RESET_PASSWORD: type('[Auth] Reset password'),
+  RESET_PASSWORD_SUCCESS:   type('[Auth] Reset password success'),
+  RESET_PASSWORD_FAIL: type('[Auth] Reset password failed'),
 
   // OTHERS
   SAVE_REDIRECT_URL: type('[Auth] Save redirect url'),
@@ -73,6 +79,19 @@ export class RequestPasswordRecoveryFailAction implements Action {
   constructor(public payload: string) { }
 }
 
+// RESET PASSWORD ACTIONS
+export class ResetPasswordAction implements Action {
+  type = ActionTypes.RESET_PASSWORD;
+  constructor(public payload: ResetPasswordModel) { }
+}
+export class ResetPasswordSuccessAction implements Action {
+  type = ActionTypes.RESET_PASSWORD_SUCCESS;
+  constructor() { }
+}
+export class ResetPasswordFailAction implements Action {
+  type = ActionTypes.RESET_PASSWORD_FAIL;
+  constructor(public payload: string) { }
+}
 
 // READ USER FROM LS
 export class ReadTokenAction implements Action {
@@ -119,6 +138,11 @@ export type Actions
   | RequestPasswordRecoveryAction
   | RequestPasswordRecoverySuccessAction
   | RequestPasswordRecoveryFailAction
+
+  // RESET PASSWORD ACTIONS
+  | ResetPasswordAction
+  | ResetPasswordSuccessAction
+  | ResetPasswordFailAction
 
   //  OTHERS
   | SaveRedirectUrl

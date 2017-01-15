@@ -4,12 +4,14 @@ import {ForgotPasswordComponent} from './forgot-password/forgot-password.compone
 import {ForgotPasswordSuccessComponent} from './forgot-password-success/forgot-password-success.component';
 import {PasswordResetComponent} from './password-reset/password-reset.component';
 import {RegistrationStep2Component} from './registration-step2/registration-step2.component';
+import {PasswordResetSuccessComponent} from './password-reset-success/password-reset-success.component';
 
 export const AUTH_ROUTES = Object.freeze({
   LOGIN: 'login',
   FORGOT_PASSWORD: 'forgot-password',
   FORGOT_PASSWORD_SUCCESS: 'forgot-password-success',
   PASSWORD_RESET: 'password-reset',
+  PASSWORD_RESET_SUCCESS: 'password-reset-success',
   REGISTRATION_STEP_2: 'registration-step-2'
 });
 
@@ -21,5 +23,6 @@ export const authRoutes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'forgot-password-success', component: ForgotPasswordSuccessComponent },
   { path: 'password-reset/:ResetPasswordCode', component: PasswordResetComponent },
+  { path: 'password-reset-success', component: PasswordResetSuccessComponent },
   { path: 'registration-step-2/:InvitationCode', component: RegistrationStep2Component }
 ];

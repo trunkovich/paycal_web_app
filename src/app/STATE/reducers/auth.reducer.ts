@@ -22,6 +22,7 @@ const initialAuthState = {
 export function authReducer(state: AuthState = initialAuthState, action: authActions.Actions): AuthState {
   switch (action.type) {
     case authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY:
+    case authActions.ActionTypes.RESET_PASSWORD:
     case authActions.ActionTypes.SIGN_IN: {
       return {
         token: state.token,
@@ -31,21 +32,23 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
         loading: true
       };
     }
+    case authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_FAIL:
+    case authActions.ActionTypes.RESET_PASSWORD_FAIL:
+    case authActions.ActionTypes.SIGN_IN_FAIL: {
+      return {
+        token: state.token,
+        authenticated: state.authenticated,
+        redirectUrl: state.redirectUrl,
+        errorMsg: action.payload,
+        loading: false
+      };
+    }
     case authActions.ActionTypes.SIGN_IN_SUCCESS: {
       return {
         token: action.payload,
         authenticated: true,
         redirectUrl: state.redirectUrl,
         errorMsg: null,
-        loading: false
-      };
-    }
-    case authActions.ActionTypes.SIGN_IN_FAIL: {
-      return {
-        token: null,
-        authenticated: false,
-        redirectUrl: state.redirectUrl,
-        errorMsg: action.payload,
         loading: false
       };
     }
@@ -73,15 +76,6 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
         authenticated: state.authenticated,
         redirectUrl: state.redirectUrl,
         errorMsg: null,
-        loading: false
-      };
-    }
-    case authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_FAIL: {
-      return {
-        token: state.token,
-        authenticated: state.authenticated,
-        redirectUrl: state.redirectUrl,
-        errorMsg: action.payload,
         loading: false
       };
     }

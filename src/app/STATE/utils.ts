@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/startWith';
+import {FormGroup} from '@angular/forms';
 
 /**
  * This function coerces a string into a string literal type.
@@ -23,4 +24,17 @@ export function type<T>(label: T | ''): T {
   typeCache[<string>label] = true;
 
   return <T>label;
+}
+
+export function matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
+  return (group: FormGroup): {[key: string]: any} => {
+    let password = group.controls[passwordKey];
+    let confirmPassword = group.controls[confirmPasswordKey];
+
+    if (password.value !== confirmPassword.value) {
+      return {
+        mismatchedPasswords: true
+      };
+    }
+  };
 }

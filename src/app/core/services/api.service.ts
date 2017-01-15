@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, URLSearchParams, Headers} from '@angular/http';
 import {APP_CONFIG} from '../../../environments/environment';
 import * as _ from 'lodash';
+import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
 
 @Injectable()
 export class Api {
@@ -27,6 +28,10 @@ export class Api {
 
   requestPasswordRecovery(data) {
     return this.request('get', 'RequestPasswordReset', data);
+  }
+
+  resetPassword(data: ResetPasswordModel) {
+    return this.request('get', 'CompletePasswordReset', data);
   }
 
   getProfile() {
