@@ -16,7 +16,7 @@ import {Response} from '../../STATE/models/responses/response.model';
 import {AUTH_ROUTES} from '../../features/auth/auth.routes';
 import {Api} from './api.service';
 import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
-import {ContinueRegistrationModel} from '../../STATE/models/continue-registration.model';
+import {CompleteRegistrationModel} from '../../STATE/models/complete-registration.model';
 
 @Injectable()
 export class AuthService {
@@ -38,8 +38,8 @@ export class AuthService {
       });
   }
 
-  continueRegistration(continueRegistration: ContinueRegistrationModel): Observable<TokenObject | string> {
-    return this.api.completeRegistration(continueRegistration)
+  continueRegistration(completeRegistrationData: CompleteRegistrationModel): Observable<TokenObject | string> {
+    return this.api.completeRegistration(completeRegistrationData)
       .map((res: EmployeeSignInResponse) => {
         if (res.IsSuccess) {
           return {token: res.LoginToken, rememberMe: true};
@@ -73,6 +73,17 @@ export class AuthService {
       });
   }
 
+  getProfile(): Observable<Employee> {
+    return this.api.getProfile()
+      .map((res: EmployeeResponse) => {
+        if (res.IsSuccess) {
+          return res.Employee;
+        } else {
+          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+        }
+      });
+  }
+
   redirectAfterPasswordRecoveryRequest() {
     this.router.navigate(['/', AUTH_ROUTES.FORGOT_PASSWORD_SUCCESS]);
   }
@@ -81,7 +92,7 @@ export class AuthService {
   }
 
   redirectAfterCompleteRegistration() {
-    this.router.navigate(['/', AUTH_ROUTES.REGISTRATION_STEP_2_SUCCESS]);
+    this.router.navigate(['/', AUTH_ROUTES.COMPLETE_REGISTRATION_SUCCESS]);
   }
 
   redirectToLogin() {
@@ -93,17 +104,6 @@ export class AuthService {
       .first()
       .subscribe((url) => {
         this.router.navigateByUrl(url || APP_CONFIG.DEFAULT_REDIRECT_URL);
-      });
-  }
-
-  getProfile(): Observable<Employee> {
-    return this.api.getProfile()
-      .map((res: EmployeeResponse) => {
-        if (res.IsSuccess) {
-          return res.Employee;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
       });
   }
 

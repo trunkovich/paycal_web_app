@@ -10,7 +10,7 @@ import * as authActions from '../actions/auth.actions';
 import {AuthService} from '../../core/services/auth.service';
 import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
-import {ContinueRegistrationModel} from '../models/continue-registration.model';
+import {CompleteRegistrationModel} from '../models/complete-registration.model';
 
 
 /**
@@ -44,8 +44,8 @@ export class AuthEffects {
   completeRegistration$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.COMPLETE_REGISTRATION)
     .map(toPayload)
-    .switchMap((continueRegistrationModel: ContinueRegistrationModel) => {
-      return this.authService.continueRegistration(continueRegistrationModel)
+    .switchMap((completeRegistrationData: CompleteRegistrationModel) => {
+      return this.authService.continueRegistration(completeRegistrationData)
         .map((token: string) => new authActions.CompleteRegistrationSuccessAction(token))
         .catch(error => Observable.of(new authActions.CompleteRegistrationFailAction(error.message)));
     });

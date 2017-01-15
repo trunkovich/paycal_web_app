@@ -5,14 +5,14 @@ import {Store} from '@ngrx/store';
 
 import {AppState} from '../../../STATE/models/app-state.model';
 import {SignInClearErrorAction, CompleteRegistrationAction} from '../../../STATE/actions/auth.actions';
-import {ContinueRegistrationModel} from '../../../STATE/models/continue-registration.model';
+import {CompleteRegistrationModel} from '../../../STATE/models/complete-registration.model';
 
 @Component({
-  selector: 'pcl-registration-step2',
-  templateUrl: './registration-step2.component.html',
-  styleUrls: ['./registration-step2.component.scss']
+  selector: 'pcl-complete-registration',
+  templateUrl: './complete-registration.component.html',
+  styleUrls: ['./complete-registration.component.scss']
 })
-export class RegistrationStep2Component implements OnInit, OnDestroy {
+export class CompleteRegistrationComponent implements OnInit, OnDestroy {
   errorMsg$: Observable<string>;
   signInLoading$: Observable<boolean>;
   invitationCode: string;
@@ -34,11 +34,11 @@ export class RegistrationStep2Component implements OnInit, OnDestroy {
   }
 
   onSubmit(data) {
-    let continueRegistrationData: ContinueRegistrationModel = {
+    let completeRegistrationData: CompleteRegistrationModel = {
       invitationCode: this.invitationCode,
       newPassword: data.newPassword
     };
     this.store.dispatch(new SignInClearErrorAction());
-    this.store.dispatch(new CompleteRegistrationAction(continueRegistrationData));
+    this.store.dispatch(new CompleteRegistrationAction(completeRegistrationData));
   }
 }

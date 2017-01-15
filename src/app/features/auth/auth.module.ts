@@ -11,10 +11,10 @@ import {PclCommonModule} from '../../common/pcl-common.module';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
-import { RegistrationStep2Component } from './registration-step2/registration-step2.component';
 import { TwoPasswordsFormComponent } from './two-passwords-form/two-passwords-form.component';
 import { PasswordResetSuccessComponent } from './password-reset-success/password-reset-success.component';
-import {RegistrationStep2SuccessComponent} from './registration-step2-success/registration-step2-success.component';
+import {CompleteRegistrationComponent} from './complete-registration/complete-registration.component';
+import {CompleteRegistrationSuccessComponent} from './complete-registration-success/complete-registration-success.component';
 
 @NgModule({
   imports: [
@@ -34,10 +34,10 @@ import {RegistrationStep2SuccessComponent} from './registration-step2-success/re
     ForgotPasswordComponent,
     ForgotPasswordSuccessComponent,
     PasswordResetComponent,
-    RegistrationStep2Component,
     TwoPasswordsFormComponent,
     PasswordResetSuccessComponent,
-    RegistrationStep2SuccessComponent
+    CompleteRegistrationComponent,
+    CompleteRegistrationSuccessComponent
   ]
 })
 export class AuthModule { }

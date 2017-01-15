@@ -4,11 +4,11 @@ import {Router} from '@angular/router';
 import {APP_CONFIG} from '../../../../environments/environment';
 
 @Component({
-  selector: 'pcl-registration-step2-success',
-  templateUrl: './registration-step2-success.component.html',
-  styleUrls: ['./registration-step2-success.component.scss']
+  selector: 'pcl-complete-registration-success',
+  templateUrl: './complete-registration-success.component.html',
+  styleUrls: ['./complete-registration-success.component.scss']
 })
-export class RegistrationStep2SuccessComponent implements OnInit {
+export class CompleteRegistrationSuccessComponent implements OnInit {
 
   constructor(private router: Router) { }
 

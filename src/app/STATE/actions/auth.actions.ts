@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
-import {ContinueRegistrationModel} from '../models/continue-registration.model';
+import {CompleteRegistrationModel} from '../models/complete-registration.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -74,7 +74,7 @@ export class SignInFailAction implements Action {
 // COMPLETE REGISTRATION ACTIONS
 export class CompleteRegistrationAction implements Action {
   type = ActionTypes.COMPLETE_REGISTRATION;
-  constructor(public payload: ContinueRegistrationModel) { }
+  constructor(public payload: CompleteRegistrationModel) { }
 }
 export class CompleteRegistrationSuccessAction implements Action {
   type = ActionTypes.COMPLETE_REGISTRATION_SUCCESS;
