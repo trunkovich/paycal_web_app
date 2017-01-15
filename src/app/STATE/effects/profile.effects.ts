@@ -17,13 +17,17 @@ export class ProfileEffects {
 
   @Effect()
   getProfileAfterSignIn$: Observable<Action> = this.actions$
-    .ofType(authActions.ActionTypes.SIGN_IN_SUCCESS)
+    .ofType(
+      authActions.ActionTypes.SIGN_IN_SUCCESS,
+      authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS,
+      authActions.ActionTypes.READ_TOKEN_SUCCESS
+    )
     .map(() => new profileActions.GetUserProfileAction());
 
-  @Effect()
-  getProfileAfterReadToken: Observable<Action> = this.actions$
-    .ofType(authActions.ActionTypes.READ_TOKEN_SUCCESS)
-    .map(() => new profileActions.GetUserProfileAction());
+  // @Effect()
+  // getProfileAfterReadToken: Observable<Action> = this.actions$
+  //   .ofType(authActions.ActionTypes.READ_TOKEN_SUCCESS)
+  //   .map(() => new profileActions.GetUserProfileAction());
 
   @Effect()
   getProfile$: Observable<Action> = this.actions$

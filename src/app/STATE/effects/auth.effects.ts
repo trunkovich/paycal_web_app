@@ -11,6 +11,7 @@ import {AuthService} from '../../core/services/auth.service';
 import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
 import {CompleteRegistrationModel} from '../models/complete-registration.model';
+import {TokenObject} from '../models/token.model';
 
 
 /**
@@ -37,7 +38,7 @@ export class AuthEffects {
     .map(toPayload)
     .switchMap((credentials: Credentials) => {
       return this.authService.signIn(credentials)
-        .map((token: string) => new authActions.SignInSuccessAction(token))
+        .map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject))
         .catch(error => Observable.of(new authActions.SignInFailAction(error.message)));
     });
   @Effect()
@@ -46,7 +47,7 @@ export class AuthEffects {
     .map(toPayload)
     .switchMap((completeRegistrationData: CompleteRegistrationModel) => {
       return this.authService.continueRegistration(completeRegistrationData)
-        .map((token: string) => new authActions.CompleteRegistrationSuccessAction(token))
+        .map((tokenObject: TokenObject) => new authActions.CompleteRegistrationSuccessAction(tokenObject))
         .catch(error => Observable.of(new authActions.CompleteRegistrationFailAction(error.message)));
     });
 
@@ -111,5 +112,5 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   logout$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.LOGOUT)
-    .do(() => this.authService.redirectToLogin());
+    .do(() => this.authService.logout());
 }

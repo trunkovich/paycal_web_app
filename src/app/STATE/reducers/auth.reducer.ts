@@ -2,6 +2,7 @@
  * Created by TrUnK on 06.01.2017.
  */
 import * as authActions from '../actions/auth.actions';
+import {TokenObject} from '../models/token.model';
 
 export interface AuthState {
   token: string | null;
@@ -47,8 +48,9 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
     }
     case authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS:
     case authActions.ActionTypes.SIGN_IN_SUCCESS: {
+      let tokenObject: TokenObject = action.payload;
       return {
-        token: action.payload,
+        token: tokenObject.token,
         authenticated: true,
         redirectUrl: state.redirectUrl,
         errorMsg: null,

@@ -38,6 +38,11 @@ export class AuthService {
       });
   }
 
+  logout() {
+    AuthService.removeToken();
+    this.redirectToLogin();
+  }
+
   continueRegistration(completeRegistrationData: CompleteRegistrationModel): Observable<TokenObject | string> {
     return this.api.completeRegistration(completeRegistrationData)
       .map((res: EmployeeSignInResponse) => {
@@ -140,6 +145,13 @@ export class AuthService {
     } catch (error) {
       console.error(error);
     }
+  }
 
+  static removeToken() {
+    try {
+      localStorage.removeItem(APP_CONFIG.LS_TOKEN_KEY);
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

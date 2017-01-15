@@ -6,6 +6,7 @@ import { type } from '../utils';
 import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
 import {CompleteRegistrationModel} from '../models/complete-registration.model';
+import {TokenObject} from '../models/token.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -64,7 +65,7 @@ export class SignInAction implements Action {
 }
 export class SignInSuccessAction implements Action {
   type = ActionTypes.SIGN_IN_SUCCESS;
-  constructor(public payload: string) { }
+  constructor(public payload: TokenObject) { }
 }
 export class SignInFailAction implements Action {
   type = ActionTypes.SIGN_IN_FAIL;
@@ -78,7 +79,7 @@ export class CompleteRegistrationAction implements Action {
 }
 export class CompleteRegistrationSuccessAction implements Action {
   type = ActionTypes.COMPLETE_REGISTRATION_SUCCESS;
-  constructor(public payload: string) { }
+  constructor(public payload: TokenObject) { }
 }
 export class CompleteRegistrationFailAction implements Action {
   type = ActionTypes.COMPLETE_REGISTRATION_FAIL;
