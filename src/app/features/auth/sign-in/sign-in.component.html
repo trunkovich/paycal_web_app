@@ -3,28 +3,48 @@
   <div class="login-wrapper full-width">
     <div class="splash-logo"></div>
 
-    <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+    <form novalidate
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit(loginForm.value)">
 
       <md-input-container>
-        <input md-input placeholder="phone" [textMask]="{mask: mask}" type="tel" formControlName="phone" name="login">
+        <input md-input
+               placeholder="phone"
+               [textMask]="{mask: mask}"
+               type="tel"
+               formControlName="phone"
+               name="login">
       </md-input-container>
 
       <md-input-container>
-        <input #passwordInput1 type="password" md-input placeholder="password" formControlName="password" name="password">
+        <input #passwordInput1
+               type="password"
+               md-input
+               placeholder="password"
+               formControlName="password"
+               name="password">
 
-        <button type="button" class="icon-button password-switcher" (click)="togglePassword(passwordInput1)">
+        <button type="button"
+                class="icon-button password-switcher"
+                (click)="togglePassword(passwordInput1)">
           <md-icon [svgIcon]="showPassword ? 'eye-outline-off' : 'eye-outline'"></md-icon>
         </button>
 
       </md-input-container>
 
-      <md-checkbox formControlName="rememberMe" color="primary" class="weak-text">
+      <md-checkbox formControlName="rememberMe"
+                   color="primary"
+                   class="weak-text">
         Remember me
       </md-checkbox>
 
       <div class="error-msg">{{errorMsg$ | async}}</div>
 
-      <pcl-button title="Submit" [type]="'submit'" [disabled]="loginForm.invalid" [loading]="signInLoading$ | async"></pcl-button>
+      <pcl-button title="Submit"
+                  [type]="'submit'"
+                  [disabled]="loginForm.invalid"
+                  [loading]="signInLoading$ | async">
+      </pcl-button>
 
       <div class="forgot-password-link">
         <a [routerLink]="['/forgot-password']">

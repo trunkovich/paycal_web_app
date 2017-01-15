@@ -39,11 +39,11 @@ export class TwoPasswordsFormComponent implements OnInit {
   }
 
   togglePassword(status: boolean) {
-    this.password.nativeElement.setAttribute('type', this.getType(status));
-    this.confirmPassword.nativeElement.setAttribute('type', this.getType(status));
+    this.password.nativeElement.setAttribute('type', TwoPasswordsFormComponent.getType(status));
+    this.confirmPassword.nativeElement.setAttribute('type', TwoPasswordsFormComponent.getType(status));
   }
 
-  private getType(status) {
+  static getType(status) {
     return status ? 'text' : 'password';
   }
 }
