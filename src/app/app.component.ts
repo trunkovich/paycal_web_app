@@ -27,5 +27,10 @@ export class AppComponent {
       'eye-outline-off',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/eye-outline-off.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'browser',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/browser-icon.svg')
+    );
+
   }
 }

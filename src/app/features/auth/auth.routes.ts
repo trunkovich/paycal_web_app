@@ -7,6 +7,7 @@ import {PasswordResetComponent} from './password-reset/password-reset.component'
 import {PasswordResetSuccessComponent} from './password-reset-success/password-reset-success.component';
 import {CompleteRegistrationSuccessComponent} from './complete-registration-success/complete-registration-success.component';
 import {CompleteRegistrationComponent} from './complete-registration/complete-registration.component';
+import {OnlyMobileDevices} from '../../core/guards/only-mobile-devices.guard';
 
 export const AUTH_ROUTES = Object.freeze({
   LOGIN: 'login',
@@ -22,11 +23,11 @@ export const AUTH_ROUTES = Object.freeze({
 // `Error encountered resolving symbol values statically`
 // Please keep it in sync by hands.
 export const authRoutes: Routes = [
-  { path: 'login', component: SignInComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'forgot-password-success', component: ForgotPasswordSuccessComponent },
-  { path: 'password-reset/:ResetPasswordCode', component: PasswordResetComponent },
-  { path: 'password-reset-success', component: PasswordResetSuccessComponent },
-  { path: 'complete-registration/:InvitationCode', component: CompleteRegistrationComponent },
-  { path: 'complete-registration-success', component: CompleteRegistrationSuccessComponent }
+  { path: 'login', component: SignInComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'forgot-password-success', component: ForgotPasswordSuccessComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'password-reset/:ResetPasswordCode', component: PasswordResetComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'password-reset-success', component: PasswordResetSuccessComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'complete-registration/:InvitationCode', component: CompleteRegistrationComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'complete-registration-success', component: CompleteRegistrationSuccessComponent, canActivate: [OnlyMobileDevices] }
 ];

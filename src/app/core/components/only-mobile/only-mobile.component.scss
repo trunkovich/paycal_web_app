@@ -1,0 +1,63 @@
+@import '../../../../styles';
+
+:host {
+  @extend .full-height;
+  display: block;
+
+  .desktop-container {
+    @extend .full-height;
+    max-width: 780px;
+    margin: 0 auto;
+
+    .header {
+      @include clearfix();
+      height: 40px;
+      margin-top: 24px;
+
+      .icon {
+        @extend .float-left;
+        @include size(26px, 35px);
+        @include background-image('paycal-logo', 'png', 100%);
+        background-repeat: no-repeat;
+
+        margin: 2px 18px 3px 12px;
+      }
+      .header-title {
+        @extend .big-bold-text;
+        color: $tealish;
+        letter-spacing: 2px;
+        line-height: 40px;
+      }
+    }
+
+    .body {
+      @extend .full-height;
+      position: relative;
+
+      .error {
+        @include centerer();
+
+        md-icon {
+          @include size(104px, 91px);
+          @include center-block();
+          margin-bottom: 24px;
+        }
+
+        .title {
+          @extend .text-center;
+          @extend .big-bold-text;
+          color: $tealish;
+          line-height: 22px;
+          margin-bottom: 6px;
+        }
+
+        .note {
+          @extend .text-center;
+          @extend .bold-text;
+          line-height: 19px;
+        }
+      }
+    }
+  }
+}
+

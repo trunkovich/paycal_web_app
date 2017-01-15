@@ -23,10 +23,14 @@ import {ErrorHandlingEffects} from './STATE/effects/error-handling.effects';
 import {ProfileEffects} from './STATE/effects/profile.effects';
 import {profileReducer} from './STATE/reducers/profile.reducer';
 import {debugReducer} from './STATE/reducers/debug.reducer';
+import {OnlyMobileDevices} from './core/guards/only-mobile-devices.guard';
+import { OnlyMobileComponent } from './core/components/only-mobile/only-mobile.component';
+import {OnlyDesktopDevices} from './core/guards/only-desktop-devices.guard';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OnlyMobileComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,9 @@ import {debugReducer} from './STATE/reducers/debug.reducer';
     PaycalHttpInterceptor,
 
     // GUARDS
-    OnlySignedInUsers
+    OnlySignedInUsers,
+    OnlyMobileDevices,
+    OnlyDesktopDevices
   ],
   bootstrap: [AppComponent]
 })
