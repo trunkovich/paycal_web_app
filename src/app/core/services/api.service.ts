@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Http, URLSearchParams, Headers} from '@angular/http';
-import {APP_CONFIG} from '../../../environments/environment';
 import * as _ from 'lodash';
+
+import {APP_CONFIG} from '../../../environments/environment';
 import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
-import {ContinueRegistrationModel} from '../../STATE/models/continue-registration.model';
+import {CompleteRegistrationModel} from '../../STATE/models/complete-registration.model';
 
 @Injectable()
 export class Api {
@@ -27,7 +28,7 @@ export class Api {
     return this.request('get', 'EmployeeSignIn', data);
   }
 
-  completeRegistration(data: ContinueRegistrationModel) {
+  completeRegistration(data: CompleteRegistrationModel) {
     return this.request('get', 'CompleteEmployeeRegistration', data);
   }
 
