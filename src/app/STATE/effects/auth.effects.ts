@@ -10,6 +10,7 @@ import * as authActions from '../actions/auth.actions';
 import {AuthService} from '../../core/services/auth.service';
 import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
+import {ContinueRegistrationModel} from '../models/continue-registration.model';
 
 
 /**
@@ -39,6 +40,20 @@ export class AuthEffects {
         .map((token: string) => new authActions.SignInSuccessAction(token))
         .catch(error => Observable.of(new authActions.SignInFailAction(error.message)));
     });
+  @Effect()
+  completeRegistration$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.COMPLETE_REGISTRATION)
+    .map(toPayload)
+    .switchMap((continueRegistrationModel: ContinueRegistrationModel) => {
+      return this.authService.continueRegistration(continueRegistrationModel)
+        .map((token: string) => new authActions.CompleteRegistrationSuccessAction(token))
+        .catch(error => Observable.of(new authActions.CompleteRegistrationFailAction(error.message)));
+    });
+
+  @Effect({ dispatch: false })
+  redirectAfterSuccessCompleteRegistration$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS)
+    .do(() => this.authService.redirectAfterCompleteRegistration());
 
   @Effect({ dispatch: false })
   redirectAfterSuccessSignIn$: Observable<Action> = this.actions$

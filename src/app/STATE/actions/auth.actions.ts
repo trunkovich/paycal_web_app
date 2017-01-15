@@ -5,6 +5,7 @@ import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
+import {ContinueRegistrationModel} from '../models/continue-registration.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -20,6 +21,11 @@ export const ActionTypes = {
   SIGN_IN: type('[Auth] SignIn'),
   SIGN_IN_SUCCESS:   type('[Auth] SignIn success'),
   SIGN_IN_FAIL: type('[Auth] SignIn failed'),
+
+  // COMPLETE REGISTRATION ACTIONS
+  COMPLETE_REGISTRATION: type('[Auth] Complete registration'),
+  COMPLETE_REGISTRATION_SUCCESS:   type('[Auth] Complete registration success'),
+  COMPLETE_REGISTRATION_FAIL: type('[Auth] Complete registration failed'),
 
   // READ USER FROM LS
   READ_TOKEN: type('[Auth] Read token'),
@@ -62,6 +68,20 @@ export class SignInSuccessAction implements Action {
 }
 export class SignInFailAction implements Action {
   type = ActionTypes.SIGN_IN_FAIL;
+  constructor(public payload: string) { }
+}
+
+// COMPLETE REGISTRATION ACTIONS
+export class CompleteRegistrationAction implements Action {
+  type = ActionTypes.COMPLETE_REGISTRATION;
+  constructor(public payload: ContinueRegistrationModel) { }
+}
+export class CompleteRegistrationSuccessAction implements Action {
+  type = ActionTypes.COMPLETE_REGISTRATION_SUCCESS;
+  constructor(public payload: string) { }
+}
+export class CompleteRegistrationFailAction implements Action {
+  type = ActionTypes.COMPLETE_REGISTRATION_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -128,6 +148,11 @@ export type Actions
   = SignInAction
   | SignInSuccessAction
   | SignInFailAction
+
+  // COMPLETE REGISTRATION ACTIONS
+  | CompleteRegistrationAction
+  | CompleteRegistrationSuccessAction
+  | CompleteRegistrationFailAction
 
   // READ USER FROM LS
   | ReadTokenAction

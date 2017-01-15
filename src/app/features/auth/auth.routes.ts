@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+
 import {SignInComponent} from './sign-in/sign-in.component';
 import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
 import {ForgotPasswordSuccessComponent} from './forgot-password-success/forgot-password-success.component';
 import {PasswordResetComponent} from './password-reset/password-reset.component';
 import {RegistrationStep2Component} from './registration-step2/registration-step2.component';
 import {PasswordResetSuccessComponent} from './password-reset-success/password-reset-success.component';
+import {RegistrationStep2SuccessComponent} from './registration-step2-success/registration-step2-success.component';
 
 export const AUTH_ROUTES = Object.freeze({
   LOGIN: 'login',
@@ -12,7 +14,8 @@ export const AUTH_ROUTES = Object.freeze({
   FORGOT_PASSWORD_SUCCESS: 'forgot-password-success',
   PASSWORD_RESET: 'password-reset',
   PASSWORD_RESET_SUCCESS: 'password-reset-success',
-  REGISTRATION_STEP_2: 'registration-step-2'
+  REGISTRATION_STEP_2: 'registration-step-2',
+  REGISTRATION_STEP_2_SUCCESS: 'registration-step-2-success'
 });
 
 // Can't use AUTH_ROUTES here, because of error:
@@ -24,5 +27,6 @@ export const authRoutes: Routes = [
   { path: 'forgot-password-success', component: ForgotPasswordSuccessComponent },
   { path: 'password-reset/:ResetPasswordCode', component: PasswordResetComponent },
   { path: 'password-reset-success', component: PasswordResetSuccessComponent },
-  { path: 'registration-step-2/:InvitationCode', component: RegistrationStep2Component }
+  { path: 'registration-step-2/:InvitationCode', component: RegistrationStep2Component },
+  { path: 'registration-step-2-success', component: RegistrationStep2SuccessComponent }
 ];

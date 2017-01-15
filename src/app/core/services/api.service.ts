@@ -3,6 +3,7 @@ import {Http, URLSearchParams, Headers} from '@angular/http';
 import {APP_CONFIG} from '../../../environments/environment';
 import * as _ from 'lodash';
 import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
+import {ContinueRegistrationModel} from '../../STATE/models/continue-registration.model';
 
 @Injectable()
 export class Api {
@@ -24,6 +25,10 @@ export class Api {
 
   signIn(data) {
     return this.request('get', 'EmployeeSignIn', data);
+  }
+
+  completeRegistration(data: ContinueRegistrationModel) {
+    return this.request('get', 'CompleteEmployeeRegistration', data);
   }
 
   requestPasswordRecovery(data) {

@@ -22,6 +22,7 @@ const initialAuthState = {
 export function authReducer(state: AuthState = initialAuthState, action: authActions.Actions): AuthState {
   switch (action.type) {
     case authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY:
+    case authActions.ActionTypes.COMPLETE_REGISTRATION:
     case authActions.ActionTypes.RESET_PASSWORD:
     case authActions.ActionTypes.SIGN_IN: {
       return {
@@ -33,6 +34,7 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
       };
     }
     case authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_FAIL:
+    case authActions.ActionTypes.COMPLETE_REGISTRATION_FAIL:
     case authActions.ActionTypes.RESET_PASSWORD_FAIL:
     case authActions.ActionTypes.SIGN_IN_FAIL: {
       return {
@@ -43,6 +45,7 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
         loading: false
       };
     }
+    case authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS:
     case authActions.ActionTypes.SIGN_IN_SUCCESS: {
       return {
         token: action.payload,

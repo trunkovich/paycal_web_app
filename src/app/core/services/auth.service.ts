@@ -16,6 +16,7 @@ import {Response} from '../../STATE/models/responses/response.model';
 import {AUTH_ROUTES} from '../../features/auth/auth.routes';
 import {Api} from './api.service';
 import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
+import {ContinueRegistrationModel} from '../../STATE/models/continue-registration.model';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +32,17 @@ export class AuthService {
       .map((res: EmployeeSignInResponse) => {
         if (res.IsSuccess) {
           return {token: res.LoginToken, rememberMe: credentials.rememberMe};
+        } else {
+          throw Error(res.ErrorMessage);
+        }
+      });
+  }
+
+  continueRegistration(continueRegistration: ContinueRegistrationModel): Observable<TokenObject | string> {
+    return this.api.completeRegistration(continueRegistration)
+      .map((res: EmployeeSignInResponse) => {
+        if (res.IsSuccess) {
+          return {token: res.LoginToken, rememberMe: true};
         } else {
           throw Error(res.ErrorMessage);
         }
@@ -66,6 +78,10 @@ export class AuthService {
   }
   redirectAfterResetPassword() {
     this.router.navigate(['/', AUTH_ROUTES.PASSWORD_RESET_SUCCESS]);
+  }
+
+  redirectAfterCompleteRegistration() {
+    this.router.navigate(['/', AUTH_ROUTES.REGISTRATION_STEP_2_SUCCESS]);
   }
 
   redirectToLogin() {
