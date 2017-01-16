@@ -26,6 +26,9 @@ import {debugReducer} from './STATE/reducers/debug.reducer';
 import {OnlyMobileDevices} from './core/guards/only-mobile-devices.guard';
 import { OnlyMobileComponent } from './core/components/only-mobile/only-mobile.component';
 import {OnlyDesktopDevices} from './core/guards/only-desktop-devices.guard';
+import {ReferencesService} from './core/services/references.service';
+import {ReferencesEffects} from './STATE/effects/references.effects';
+import {referencesReducer} from './STATE/reducers/references.reducer';
 
 @NgModule({
   declarations: [
@@ -39,10 +42,11 @@ import {OnlyDesktopDevices} from './core/guards/only-desktop-devices.guard';
     PclCommonModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    StoreModule.provideStore({ auth: authReducer, profile: profileReducer, debug: debugReducer }),
+    StoreModule.provideStore({ auth: authReducer, profile: profileReducer, references: referencesReducer, debug: debugReducer }),
     EffectsModule.run(AuthEffects),
     EffectsModule.run(ErrorHandlingEffects),
     EffectsModule.runAfterBootstrap(ProfileEffects),
+    EffectsModule.runAfterBootstrap(ReferencesEffects),
 
     HomeModule,
     AuthModule
@@ -50,6 +54,7 @@ import {OnlyDesktopDevices} from './core/guards/only-desktop-devices.guard';
   providers: [
     Api,
     AuthService,
+    ReferencesService,
     PaycalHttpInterceptor,
 
     // GUARDS

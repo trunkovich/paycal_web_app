@@ -43,4 +43,8 @@ export class Api {
   getProfile() {
     return this.request('get', 'GetEmployee');
   }
+
+  getReference(type: string, data: {groupId?: number} = {}) {
+    return this.request('get', `Get${type}`, data);
+  }
 }
