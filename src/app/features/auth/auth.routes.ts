@@ -9,6 +9,7 @@ import {CompleteRegistrationSuccessComponent} from './complete-registration-succ
 import {CompleteRegistrationComponent} from './complete-registration/complete-registration.component';
 import {OnlyMobileDevices} from '../../core/guards/only-mobile-devices.guard';
 import {RegistrationComponent} from './registration/registration.component';
+import {RegistrationSuccessComponent} from './registration-success/registration-success.component';
 
 export const AUTH_ROUTES = Object.freeze({
   LOGIN: 'login',
@@ -17,6 +18,7 @@ export const AUTH_ROUTES = Object.freeze({
   PASSWORD_RESET: 'password-reset',
   PASSWORD_RESET_SUCCESS: 'password-reset-success',
   REGISTRATION: 'registration',
+  REGISTRATION_SUCCESS: 'registration-success',
   COMPLETE_REGISTRATION: 'complete-registration',
   COMPLETE_REGISTRATION_SUCCESS: 'complete-registration-success'
 });
@@ -31,6 +33,7 @@ export const authRoutes: Routes = [
   { path: 'password-reset/:ResetPasswordCode', component: PasswordResetComponent, canActivate: [OnlyMobileDevices] },
   { path: 'password-reset-success', component: PasswordResetSuccessComponent, canActivate: [OnlyMobileDevices] },
   { path: 'registration', component: RegistrationComponent },
+  { path: 'registration-success', component: RegistrationSuccessComponent },
   { path: 'complete-registration/:InvitationCode', component: CompleteRegistrationComponent, canActivate: [OnlyMobileDevices] },
   { path: 'complete-registration-success', component: CompleteRegistrationSuccessComponent, canActivate: [OnlyMobileDevices] }
 ];

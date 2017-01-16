@@ -74,6 +74,11 @@ export class AuthEffects {
     .do(() => this.authService.redirectAfterLogin());
 
   @Effect({ dispatch: false })
+  redirectAfterSuccessSaveLead$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.SAVE_LEAD_SUCCESS)
+    .do(() => this.authService.redirectAfterSaveLead());
+
+  @Effect({ dispatch: false })
   storeTokenAfterSuccessSignIn$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.SIGN_IN_SUCCESS)
     .map(toPayload)

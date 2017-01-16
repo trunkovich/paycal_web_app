@@ -16,6 +16,7 @@ import { PasswordResetSuccessComponent } from './password-reset-success/password
 import {CompleteRegistrationComponent} from './complete-registration/complete-registration.component';
 import {CompleteRegistrationSuccessComponent} from './complete-registration-success/complete-registration-success.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { RegistrationComponent } from './registration/registration.component';
     PasswordResetSuccessComponent,
     CompleteRegistrationComponent,
     CompleteRegistrationSuccessComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    RegistrationSuccessComponent
   ]
 })
 export class AuthModule { }

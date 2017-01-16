@@ -109,6 +109,10 @@ export class AuthService {
     this.router.navigate(['/', AUTH_ROUTES.PASSWORD_RESET_SUCCESS]);
   }
 
+  redirectAfterSaveLead() {
+    this.router.navigate(['/', AUTH_ROUTES.REGISTRATION_SUCCESS]);
+  }
+
   redirectAfterCompleteRegistration() {
     this.router.navigate(['/', AUTH_ROUTES.COMPLETE_REGISTRATION_SUCCESS]);
   }

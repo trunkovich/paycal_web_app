@@ -1,0 +1,51 @@
+@import '../../../../styles';
+
+:host {
+  @extend .full-height;
+  display: block;
+
+  .header {
+    @include set-margins-vw();
+    @include fixed(top 0 left 0 right 0);
+    margin-top: 16px;
+
+    .icon {
+      @include size(82px, 24px);
+      @include background-image('hor-logo', 'png', 100%);
+      background-repeat: no-repeat;
+    }
+  }
+
+  .container {
+    @extend .full-height;
+    position: relative;
+
+    .body {
+      @include centerer();
+      @extend .full-width;
+
+      .success-icon {
+        @include size(100px);
+        @include background-image('success', 'png', 100%);
+        @include center-block();
+        background-repeat: no-repeat;
+        margin-bottom: 24px;
+      }
+      p {
+        @extend .big-text;
+        @extend .text-center;
+        line-height: 22px;
+      }
+    }
+  }
+
+  .footer {
+    @include fixed(bottom 0 left 0 right 0);
+    @extend .small-text;
+    @extend .text-center;
+    height: 54px;
+    line-height: 54px;
+    background-color: $tealish-two;
+    color: white;
+  }
+}
