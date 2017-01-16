@@ -15,6 +15,7 @@ import { TwoPasswordsFormComponent } from './two-passwords-form/two-passwords-fo
 import { PasswordResetSuccessComponent } from './password-reset-success/password-reset-success.component';
 import {CompleteRegistrationComponent} from './complete-registration/complete-registration.component';
 import {CompleteRegistrationSuccessComponent} from './complete-registration-success/complete-registration-success.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {CompleteRegistrationSuccessComponent} from './complete-registration-succ
     TwoPasswordsFormComponent,
     PasswordResetSuccessComponent,
     CompleteRegistrationComponent,
-    CompleteRegistrationSuccessComponent
+    CompleteRegistrationSuccessComponent,
+    RegistrationComponent
   ]
 })
 export class AuthModule { }

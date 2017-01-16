@@ -1,0 +1,51 @@
+@import '../../../../styles';
+
+:host {
+  display: block;
+
+  .container {
+    .header {
+      margin: 16px 0 24px 0;
+
+      .icon {
+        @include size(82px, 24px);
+        @include background-image('hor-logo', 'png', 100%);
+        background-repeat: no-repeat;
+      }
+    }
+    .body {
+      .title {
+        @extend .big-bold-text;
+        @extend .text-center;
+        color: $tealish;
+        line-height: 22px;
+        margin-bottom: 16px;
+      }
+      .note {
+        @extend .big-text;
+        @extend .text-center;
+        line-height: 22px;
+        margin-bottom: 56px;
+      }
+
+      md-input-container,
+      md-select {
+        margin-bottom: 20px;
+      }
+
+      pcl-button {
+        margin-top: 20px;
+        margin-bottom: 64px;
+      }
+    }
+  }
+
+  .footer {
+    @extend .small-text;
+    @extend .text-center;
+    height: 54px;
+    line-height: 54px;
+    background-color: $tealish-two;
+    color: white;
+  }
+}

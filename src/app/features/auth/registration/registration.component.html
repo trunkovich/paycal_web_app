@@ -1,0 +1,67 @@
+<div class="container">
+
+  <div class="header">
+    <div class="icon"></div>
+  </div>
+
+  <div class="body">
+
+    <p class="title">Get started</p>
+    <p class="note">Provide your details and we’ll be in touch with you shortly.</p>
+
+    <form novalidate
+          [formGroup]="registrationForm"
+          (ngSubmit)="onSubmit(registrationForm.value)">
+
+      <md-input-container>
+        <input md-input
+               placeholder="Name"
+               type="text"
+               formControlName="name"
+               name="name">
+      </md-input-container>
+
+      <md-input-container>
+        <input md-input
+               placeholder="Phone"
+               [textMask]="{mask: mask}"
+               type="tel"
+               formControlName="phone"
+               name="login">
+      </md-input-container>
+
+      <md-select placeholder="Favorite food" name="food" formControlName="regionId">
+        <md-option *ngFor="let food of ['apple', 'orange']" [value]="food">
+          {{food}}
+        </md-option>
+      </md-select>
+
+      <md-input-container>
+        <input md-input
+               placeholder="Group"
+               type="text"
+               formControlName="groupName"
+               name="groupName">
+      </md-input-container>
+
+      <md-select placeholder="Favorite food" name="food" formControlName="stateId">
+        <md-option *ngFor="let food of ['broccoli', 'potato']" [value]="food">
+          {{food}}
+        </md-option>
+      </md-select>
+
+      <div class="error-msg">{{errorMsg$ | async}}</div>
+
+      <pcl-button title="Submit"
+                  [type]="'submit'"
+                  [disabled]="registrationForm.invalid"
+                  [loading]="signInLoading$ | async">
+      </pcl-button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<div class="footer">All Rights Reserve Paycal 2017</div>

@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
-//@import "~@angular/material/core/theming/prebuilt/purple-green.scss";
+@import "~@angular/material/core/theming/prebuilt/purple-green.scss";
 
 $image-path: 'assets/' !default;
 $retina-suffix: '@2x';
@@ -237,9 +237,134 @@ pcl-root {
     height: 24px !important;
   }
 }
-
-
 /* Material checkbox */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//$primary: $tealish;
+//$accent: $gunmetal;
+//$warn: $blush;
+//$background: $pale-grey;
+//
+//
+//// The color of the checkbox border.
+//$checkbox-border-color: $light-blue-grey;
+//
+//// The color of the checkbox's checkmark / mixedmark.
+//$checkbox-mark-color: $white;
+
+
+
+
+
+//$input-underline-color: $light-blue-grey;
+//$input-placeholder-color: $bluish-grey;
+//$input-floating-placeholder-color: $tealish;
+//$input-underline-focused-color: $tealish;
+//$input-underline-color-accent: $tealish;
+//$input-underline-color-warn: $tealish;
+//$input-required-placeholder-color: $blush;
+//$input-invalid: $blush;
+
+
+
+/* Material select */
+
+$select-underline: $light-blue-grey;
+$select-placeholder: $bluish-grey;
+$foreground: $gunmetal;
+$background: $pale-grey;
+$primary: $tealish;
+$warn: $blush;
+
+md-select {
+  font-size: 16px;
+  height: 40px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.md-select-trigger {
+  color: $select-placeholder;
+  border-bottom: 1px solid $select-underline;
+
+  md-select:focus:not(.md-select-disabled) & {
+    color: $primary;
+    border-bottom: 1px solid $primary;
+  }
+
+  md-select.ng-invalid.ng-touched:not(.md-select-disabled) & {
+    color: $warn;
+    border-bottom: 1px solid $warn;
+  }
+}
+
+.md-select-arrow {
+  color: $select-placeholder;
+
+  md-select:focus:not(.md-select-disabled) & {
+    color: $primary;
+  }
+
+  md-select.ng-invalid.ng-touched:not(.md-select-disabled) & {
+    color: $warn;
+  }
+}
+
+.md-select-content {
+  background: $background;
+}
+
+.md-select-value {
+  color: $foreground;
+
+  .md-select-disabled & {
+    color: $foreground;
+  }
+}
+
+md-option {
+  &:hover:not(.md-option-disabled), &:focus:not(.md-option-disabled) {
+    background: $background;
+  }
+
+  &.md-selected {
+    background: $background;
+    color: $primary;
+  }
+
+  &.md-option-disabled {
+    color: $foreground;
+  }
+
+}
+
+/* Material select */
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Material input */
