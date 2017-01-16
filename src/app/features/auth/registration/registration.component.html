@@ -15,7 +15,7 @@
 
       <md-input-container>
         <input md-input
-               placeholder="Name"
+               placeholder="Full Name"
                type="text"
                formControlName="name"
                name="name">
@@ -30,9 +30,9 @@
                name="login">
       </md-input-container>
 
-      <md-select placeholder="Favorite food" name="food" formControlName="regionId">
-        <md-option *ngFor="let food of ['apple', 'orange']" [value]="food">
-          {{food}}
+      <md-select placeholder="Kaiser Region" name="region" formControlName="regionID">
+        <md-option *ngFor="let region of regions$ | async" [value]="region.RegionID">
+          {{region.Description}}
         </md-option>
       </md-select>
 
@@ -44,9 +44,9 @@
                name="groupName">
       </md-input-container>
 
-      <md-select placeholder="Favorite food" name="food" formControlName="stateId">
-        <md-option *ngFor="let food of ['broccoli', 'potato']" [value]="food">
-          {{food}}
+      <md-select placeholder="State" name="state" formControlName="stateID">
+        <md-option *ngFor="let state of states$ | async" [value]="state.StateID">
+          {{state.Abbreviation + ' - ' + state.Description}}
         </md-option>
       </md-select>
 

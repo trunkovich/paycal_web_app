@@ -4,7 +4,10 @@ import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 
 import {AppState} from '../../../STATE/models/app-state.model';
-import {SignInClearErrorAction} from '../../../STATE/actions/auth.actions';
+import {SignInClearErrorAction, SaveLeadAction} from '../../../STATE/actions/auth.actions';
+import {Region} from '../../../STATE/models/region.model';
+import {State} from '../../../STATE/models/state.model';
+import {Lead} from '../../../STATE/models/lead.model';
 
 @Component({
   selector: 'pcl-registration',
@@ -16,6 +19,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   mask = [/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   errorMsg$: Observable<string>;
   signInLoading$: Observable<boolean>;
+  regions$: Observable<Region[]>;
+  states$: Observable<State[]>;
 
   constructor(
     private _fb: FormBuilder,
@@ -25,25 +30,23 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.registrationForm = this._fb.group({
       name: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/\d{3}-\d{3}-\d{4}/)]],
-      regionId: [null, Validators.required],
+      regionID: [null, Validators.required],
       groupName: ['', Validators.required],
-      stateId: [null, Validators.required]
+      stateID: [null, Validators.required]
     });
     this.errorMsg$ = this.store.select(state => state.auth.errorMsg);
     this.signInLoading$ = this.store.select(state => state.auth.loading);
+    this.regions$ = this.store.select(state => state.references.regions);
+    this.states$ = this.store.select(state => state.references.states);
   }
 
   ngOnDestroy() {
     this.store.dispatch(new SignInClearErrorAction());
   }
 
-  onSubmit(data) {
-    // let credentials: Credentials = {
-    //   phone: data.phone.replace(/\D+/g, ''),
-    //   password: data.password,
-    //   rememberMe: data.rememberMe
-    // };
+  onSubmit(data: Lead) {
+    data.phone = data.phone.replace(/\D+/g, '');
     this.store.dispatch(new SignInClearErrorAction());
-    // this.store.dispatch(new SignInAction(credentials));
+    this.store.dispatch(new SaveLeadAction(data));
   }
 }

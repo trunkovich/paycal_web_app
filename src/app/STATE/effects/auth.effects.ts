@@ -12,6 +12,7 @@ import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
 import {CompleteRegistrationModel} from '../models/complete-registration.model';
 import {TokenObject} from '../models/token.model';
+import {Lead} from '../models/lead.model';
 
 
 /**
@@ -41,6 +42,17 @@ export class AuthEffects {
         .map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject))
         .catch(error => Observable.of(new authActions.SignInFailAction(error.message)));
     });
+
+  @Effect()
+  saveLead$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.SAVE_LEAD)
+    .map(toPayload)
+    .switchMap((data: Lead) => {
+      return this.authService.saveLead(data)
+        .map(() => new authActions.SaveLeadSuccessAction())
+        .catch(error => Observable.of(new authActions.SaveLeadFailAction(error.message)));
+    });
+
   @Effect()
   completeRegistration$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.COMPLETE_REGISTRATION)

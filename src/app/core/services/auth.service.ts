@@ -17,6 +17,7 @@ import {AUTH_ROUTES} from '../../features/auth/auth.routes';
 import {Api} from './api.service';
 import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
 import {CompleteRegistrationModel} from '../../STATE/models/complete-registration.model';
+import {Lead} from '../../STATE/models/lead.model';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,18 @@ export class AuthService {
         }
       });
   }
+
+  saveLead(data: Lead): Observable<boolean | string> {
+    return this.api.saveLead(data)
+      .map((res: Response) => {
+        if (res.IsSuccess) {
+          return true;
+        } else {
+          throw Error(res.ErrorMessage);
+        }
+      });
+  }
+
 
   logout() {
     AuthService.removeToken();

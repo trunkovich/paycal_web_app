@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {APP_CONFIG} from '../../../environments/environment';
 import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
 import {CompleteRegistrationModel} from '../../STATE/models/complete-registration.model';
+import {Lead} from '../../STATE/models/lead.model';
 
 @Injectable()
 export class Api {
@@ -26,6 +27,10 @@ export class Api {
 
   signIn(data) {
     return this.request('get', 'EmployeeSignIn', data);
+  }
+
+  saveLead(data: Lead) {
+    return this.request('get', 'SaveLead', data);
   }
 
   completeRegistration(data: CompleteRegistrationModel) {

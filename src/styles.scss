@@ -252,34 +252,6 @@ pcl-root {
 
 
 
-
-//$primary: $tealish;
-//$accent: $gunmetal;
-//$warn: $blush;
-//$background: $pale-grey;
-//
-//
-//// The color of the checkbox border.
-//$checkbox-border-color: $light-blue-grey;
-//
-//// The color of the checkbox's checkmark / mixedmark.
-//$checkbox-mark-color: $white;
-
-
-
-
-
-//$input-underline-color: $light-blue-grey;
-//$input-placeholder-color: $bluish-grey;
-//$input-floating-placeholder-color: $tealish;
-//$input-underline-focused-color: $tealish;
-//$input-underline-color-accent: $tealish;
-//$input-underline-color-warn: $tealish;
-//$input-required-placeholder-color: $blush;
-//$input-invalid: $blush;
-
-
-
 /* Material select */
 
 $select-underline: $light-blue-grey;
@@ -337,16 +309,16 @@ md-select {
 
 md-option {
   &:hover:not(.md-option-disabled), &:focus:not(.md-option-disabled) {
-    background: $background;
+    background: $light-blue-grey;
   }
 
   &.md-selected {
-    background: $background;
+    background: $light-blue-grey;
     color: $primary;
   }
 
   &.md-option-disabled {
-    color: $foreground;
+    color: $pale-grey;
   }
 
 }

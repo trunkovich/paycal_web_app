@@ -7,6 +7,7 @@ import {Credentials} from '../models/credentials.model';
 import {ResetPasswordModel} from '../models/reset-password.model';
 import {CompleteRegistrationModel} from '../models/complete-registration.model';
 import {TokenObject} from '../models/token.model';
+import {Lead} from '../models/lead.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -22,6 +23,11 @@ export const ActionTypes = {
   SIGN_IN: type('[Auth] SignIn'),
   SIGN_IN_SUCCESS:   type('[Auth] SignIn success'),
   SIGN_IN_FAIL: type('[Auth] SignIn failed'),
+
+  // REGISTRATION ACTIONS
+  SAVE_LEAD: type('[Auth] Save lead'),
+  SAVE_LEAD_SUCCESS:   type('[Auth] Save lead success'),
+  SAVE_LEAD_FAIL: type('[Auth] Save lead failed'),
 
   // COMPLETE REGISTRATION ACTIONS
   COMPLETE_REGISTRATION: type('[Auth] Complete registration'),
@@ -69,6 +75,18 @@ export class SignInSuccessAction implements Action {
 }
 export class SignInFailAction implements Action {
   type = ActionTypes.SIGN_IN_FAIL;
+  constructor(public payload: string) { }
+}
+// REGISTRATION ACTIONS
+export class SaveLeadAction implements Action {
+  type = ActionTypes.SAVE_LEAD;
+  constructor(public payload: Lead) { }
+}
+export class SaveLeadSuccessAction implements Action {
+  type = ActionTypes.SAVE_LEAD_SUCCESS;
+}
+export class SaveLeadFailAction implements Action {
+  type = ActionTypes.SAVE_LEAD_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -149,6 +167,11 @@ export type Actions
   = SignInAction
   | SignInSuccessAction
   | SignInFailAction
+
+  // REGISTRATION ACTIONS
+  | SaveLeadAction
+  | SaveLeadSuccessAction
+  | SaveLeadFailAction
 
   // COMPLETE REGISTRATION ACTIONS
   | CompleteRegistrationAction

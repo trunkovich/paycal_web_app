@@ -48,6 +48,7 @@ export class ReferencesEffects {
     .startWith(new referencesActions.LoadRegionsAction())
     .switchMap(() => {
       return this.referencesService.getRegions()
+        .map((regions: Region[]) => regions.sort((a, b) => a.DisplayOrder - b.DisplayOrder)) // sorting, using DisplayOrder
         .map((regions: Region[]) => new referencesActions.LoadRegionsSuccessAction(regions))
         .catch(error => Observable.of(new referencesActions.LoadRegionsFailAction(error)));
     });
