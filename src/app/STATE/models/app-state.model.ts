@@ -5,5 +5,5 @@ import {ReferencesState} from '../reducers/references.reducer';
 export interface AppState {
   auth: AuthState;
   profile: ProfileState;
-  references: ReferencesState
+  references: ReferencesState;
 }
