@@ -451,3 +451,25 @@ pcl-root:empty + .splash-loader {
 .container {
   @include set-margins-vw();
 }
+
+
+//pcl-root {
+//
+//  router-outlet ~ * {
+//    animation-duration: 1s;
+//    opacity: 0;
+//    animation-name: fadeIn;
+//    animation-fill-mode: forwards;
+//  }
+//
+//}
+//
+//@keyframes fadeIn {
+//  from {
+//    opacity: 0;
+//  }
+//
+//  to {
+//    opacity: 1;
+//  }
+//}

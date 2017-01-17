@@ -1,5 +1,10 @@
 @import '../../../../styles';
 
+:host {
+  @extend .full-height;
+  display: block;
+}
+
 .container {
   position: relative;
   min-height: 420px;
