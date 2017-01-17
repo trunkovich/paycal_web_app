@@ -9,7 +9,11 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "prefixcss": "postcss -s postcss-scss -u autoprefixer --autoprefixer.browsers \"last 2 versions, iOS > 7, > 1% in US\" -r src/**/*.scss"
+    "prefixcss": "postcss -s postcss-scss -u autoprefixer --autoprefixer.browsers \"last 2 versions, iOS > 7, > 1% in US\" -r src/**/*.scss",
+    "clone:index": "cp-cli dist/index.html dist/200.html",
+    "surge": "surge -p dist -d trunkovich-paycal.surge.sh",
+    "build:prod": "ng build -prod",
+    "deploy": "npm run build:prod && npm run clone:index && npm run surge"
   },
   "private": true,
   "dependencies": {
