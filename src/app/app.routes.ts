@@ -3,7 +3,7 @@ import {OnlyMobileComponent} from './core/components/only-mobile/only-mobile.com
 import {OnlyDesktopDevices} from './core/guards/only-desktop-devices.guard';
 
 export const AppRoutes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/home' },
+  { path: '', pathMatch: 'full', redirectTo: '/other' },
   { path: 'only-mobile', component: OnlyMobileComponent, canActivate: [OnlyDesktopDevices] },
-  { path: '**', pathMatch: 'full', redirectTo: '/home' },
+  { path: '**', pathMatch: 'full', redirectTo: '/other' },
 ];

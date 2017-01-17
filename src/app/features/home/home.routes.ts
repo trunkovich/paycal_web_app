@@ -6,5 +6,5 @@ import {OnlyMobileDevices} from '../../core/guards/only-mobile-devices.guard';
 
 export const homeRoutes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [OnlySignedInUsers, OnlyMobileDevices] },
-  { path: 'other', component: OtherComponent, canActivate: [OnlySignedInUsers, OnlyMobileDevices] }
+  { path: 'other', component: OtherComponent, canActivate: [] }
 ];
