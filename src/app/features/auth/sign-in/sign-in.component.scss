@@ -2,6 +2,7 @@
 
 .container {
   position: relative;
+  min-height: 420px;
 
   .login-wrapper {
     @include centerer();

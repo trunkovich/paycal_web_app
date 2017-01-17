@@ -37,6 +37,28 @@
         line-height: 22px;
       }
     }
+
+    &.desktop {
+      max-width: 780px;
+      margin: 0 auto;
+
+      .header {
+        .icon {
+          @extend .float-left;
+          @include size(26px, 35px);
+          @include background-image('paycal-logo', 'png', 100%);
+          background-repeat: no-repeat;
+
+          margin: 2px 18px 3px 12px;
+        }
+        .header-title {
+          @extend .big-bold-text;
+          color: $tealish;
+          letter-spacing: 2px;
+          line-height: 40px;
+        }
+      }
+    }
   }
 
   .footer {

@@ -8,6 +8,7 @@ import {SignInClearErrorAction, SaveLeadAction} from '../../../STATE/actions/aut
 import {Region} from '../../../STATE/models/region.model';
 import {State} from '../../../STATE/models/state.model';
 import {Lead} from '../../../STATE/models/lead.model';
+import {isMobile} from '../../../core/check-mobile';
 
 @Component({
   selector: 'pcl-registration',
@@ -21,6 +22,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   signInLoading$: Observable<boolean>;
   regions$: Observable<Region[]>;
   states$: Observable<State[]>;
+  isMobile: boolean = true;
 
   constructor(
     private _fb: FormBuilder,
@@ -38,6 +40,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.signInLoading$ = this.store.select(state => state.auth.loading);
     this.regions$ = this.store.select(state => state.references.regions);
     this.states$ = this.store.select(state => state.references.states);
+    this.isMobile = isMobile;
   }
 
   ngOnDestroy() {
