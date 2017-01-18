@@ -1,0 +1,31 @@
+<nav>
+  <ul>
+    <li [routerLink]="['/', 'home']"
+        md-ripple
+        mdRippleCentered="true"
+        routerLinkActive="active">
+      <md-icon class="nav-home-icon"
+               svgIcon="nav-home"></md-icon>
+    </li>
+    <li [routerLink]="['/', 'search']"
+        md-ripple
+        mdRippleCentered="true"
+        routerLinkActive="active">
+      <md-icon class="nav-search-icon"
+               svgIcon="nav-search"></md-icon>
+    </li>
+    <li (click)="openContactUsDialog()"
+        md-ripple
+        mdRippleCentered="true">
+      <md-icon class="nav-contact-icon"
+               svgIcon="nav-contact"></md-icon>
+    </li>
+    <li [routerLink]="['/', 'more']"
+        md-ripple
+        mdRippleCentered="true"
+        routerLinkActive="active">
+      <md-icon class="nav-more-icon"
+               svgIcon="nav-more"></md-icon>
+    </li>
+  </ul>
+</nav>

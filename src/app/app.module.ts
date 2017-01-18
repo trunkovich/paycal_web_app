@@ -7,7 +7,6 @@ import {EffectsModule} from '@ngrx/effects';
 import {HttpInterceptorModule} from 'ng-http-interceptor';
 import {MaterialModule} from '@angular/material';
 
-import {HomeModule} from './features/home/home.module';
 import {AuthModule} from './features/auth/auth.module';
 import {PclCommonModule} from './common/pcl-common.module';
 import { AppComponent } from './app.component';
@@ -29,6 +28,7 @@ import {OnlyDesktopDevices} from './core/guards/only-desktop-devices.guard';
 import {ReferencesService} from './core/services/references.service';
 import {ReferencesEffects} from './STATE/effects/references.effects';
 import {referencesReducer} from './STATE/reducers/references.reducer';
+import {InternalModule} from './features/internal/internal.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import {referencesReducer} from './STATE/reducers/references.reducer';
     EffectsModule.runAfterBootstrap(ProfileEffects),
     EffectsModule.runAfterBootstrap(ReferencesEffects),
 
-    HomeModule,
+    InternalModule,
     AuthModule
   ],
   providers: [

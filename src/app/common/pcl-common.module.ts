@@ -4,14 +4,17 @@ import {MaterialModule} from '@angular/material';
 
 import { PclHeaderComponent } from './components/pcl-header/pcl-header.component';
 import {PclButtonComponent} from './components/pcl-button/pcl-button.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     imports: [
       CommonModule,
-      MaterialModule
+      MaterialModule,
+      RouterModule
     ],
-    exports: [PclButtonComponent, PclHeaderComponent],
-    declarations: [PclButtonComponent, PclHeaderComponent],
+    exports: [PclButtonComponent, PclHeaderComponent, NavigationComponent],
+    declarations: [PclButtonComponent, PclHeaderComponent, NavigationComponent],
     providers: [],
 })
 export class PclCommonModule { }

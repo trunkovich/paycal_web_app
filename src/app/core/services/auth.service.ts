@@ -53,8 +53,7 @@ export class AuthService {
 
   logout() {
     AuthService.removeToken();
-    // TODO: return redirect
-    // this.redirectToLogin();
+    this.redirectToLogin();
   }
 
   continueRegistration(completeRegistrationData: CompleteRegistrationModel): Observable<TokenObject | string> {

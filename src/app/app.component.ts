@@ -31,6 +31,22 @@ export class AppComponent {
       'browser',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/browser-icon.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'nav-home',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-home.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'nav-more',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-more.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'nav-contact',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-contact.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'nav-search',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-search.svg')
+    );
 
   }
 }
