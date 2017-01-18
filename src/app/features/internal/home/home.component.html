@@ -1,3 +1,6 @@
-<p>
-  home works!
-</p>
+<div class="container">
+  <pcl-schedule-entry-card *ngFor="let entry of entries"
+                           [lineOne]="entry.LaborCode"
+                           [lineTwo]="entry.ShiftCode"
+                           (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
+</div>

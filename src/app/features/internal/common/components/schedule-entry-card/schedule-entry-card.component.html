@@ -1,0 +1,19 @@
+<div class="card-container">
+
+  <div class="right-block"
+       (click)="onShiftClick($event); $event.stopPropagation();"
+       md-ripple
+       mdRippleCentered="true">
+    <md-icon svgIcon="card-icon"></md-icon>
+  </div>
+
+  <div class="text-block">
+    <p class="title">
+      {{lineOne}}
+    </p>
+    <p class="note">
+      {{lineTwo}}
+    </p>
+  </div>
+
+</div>

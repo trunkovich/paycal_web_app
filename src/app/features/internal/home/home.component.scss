@@ -1,0 +1,16 @@
+@import '../../../../styles';
+
+:host {
+  min-height: 100%;
+  display: block;
+  background: $pale-grey;
+  margin-bottom: 40px;
+
+  .container {
+    padding: 10px;
+
+    pcl-schedule-entry-card {
+      margin-bottom: 8px;
+    }
+  }
+}

@@ -47,6 +47,10 @@ export class AppComponent {
       'nav-search',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-search.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'card-icon',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/card-icon.svg')
+    );
 
   }
 }
