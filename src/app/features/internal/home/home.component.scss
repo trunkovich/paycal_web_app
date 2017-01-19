@@ -4,10 +4,19 @@
   min-height: 100%;
   display: block;
   background: $pale-grey;
-  margin-bottom: 40px;
+  padding-bottom: 48px;
+  margin-top: 45px;
+
+  pcl-header {
+    @include fixed(top 0 left 0 right 0);
+    z-index: 20;
+  }
 
   .container {
-    padding: 10px;
+
+    pcl-calendar {
+      margin-bottom: 20px;
+    }
 
     pcl-schedule-entry-card {
       margin-bottom: 8px;

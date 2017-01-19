@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-entry.model';
+import {CalendarTypes} from '../../../STATE/models/calendar.types';
 
 @Component({
   selector: 'pcl-home',
@@ -204,6 +205,8 @@ export class HomeComponent implements OnInit {
         'EndTime': null
       }
   ];
+  type = CalendarTypes.DAY;
+  initialDate = new Date();
 
   constructor() { }
 
@@ -212,6 +215,10 @@ export class HomeComponent implements OnInit {
 
   onShiftClick(entry: EmployeeScheduleEntry) {
     console.log(entry.LaborCode);
+  }
+
+  onDateChange(date: Date) {
+    console.log(date);
   }
 
 }

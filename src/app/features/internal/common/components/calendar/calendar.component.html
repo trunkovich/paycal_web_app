@@ -1,0 +1,117 @@
+<div class="current-date icon-down"
+     (click)="openCalendar()">{{ formattedDate }}</div>
+
+<div class="calendar" [class.active]="showCalendar">
+  <div class="calendar-title">
+
+    <div class="icon-back-and-prev icon-previous"
+         (click)="onPrevClick()"></div>
+    <div class="icon-back-and-prev icon-next"
+         (click)="onNextClick()"></div>
+
+    <span class="month"
+         (click)="onHeaderMonthClick()"
+         *ngIf="calendar?.isDayView()">{{calendar?.viewDate | amDateFormat:'MMMM'}}</span>&nbsp;&nbsp;
+    <span class="year"
+         (click)="onHeaderYearClick()"
+         *ngIf="calendar?.isDayView() || calendar?.isMonthView()">{{calendar?.viewDate | amDateFormat:'YYYY'}}</span>
+    <span class="years"
+          *ngIf="calendar?.isYearView()">{{calendar?.getYearsViewDate()}}</span>
+
+  </div>
+
+  <div class="calendar-header"
+       *ngIf="calendar?.isDayView()">
+    <div class="week-header-entry">S</div>
+    <div class="week-header-entry">M</div>
+    <div class="week-header-entry">T</div>
+    <div class="week-header-entry">W</div>
+    <div class="week-header-entry">T</div>
+    <div class="week-header-entry">F</div>
+    <div class="week-header-entry">S</div>
+  </div>
+
+  <div class="calendar-content-wrapper">
+    <!---------------------------------------->
+    <!--              DAY VIEW              -->
+    <!---------------------------------------->
+    <div class="calendar-view-type"
+         [ngClass]="{
+            'in-view': calendar?.isDayView(),
+            'below': calendar?.isMonthView() || calendar?.isYearView()
+         }">
+      <div class="calendar-content day"
+           *ngFor="let data of calendar?.data.day; let i = index;"
+           [ngClass]="{
+           previous: calendar?.data.day.length > 0 && i === 0,
+           selected: calendar?.data.day.length > 0 && i === 1 || calendar?.data.day.length === 0,
+           next: calendar?.data.day.length > 0 && i === 2
+         }">
+        <div class="calendar-entry"
+             (click)="onDayClick(entry.value)"
+             *ngFor="let entry of data.calendarEntries">{{entry.title}}</div>
+      </div>
+    </div>
+    <!---------------------------------------->
+    <!--              DAY VIEW              -->
+    <!---------------------------------------->
+
+
+    <!---------------------------------------->
+    <!--              MONTH VIEW            -->
+    <!---------------------------------------->
+    <div class="calendar-view-type"
+         [ngClass]="{
+            'in-view': calendar?.isMonthView(),
+            'below': calendar?.isYearView(),
+            'above': calendar?.isDayView()
+         }">
+      <div class="calendar-content"
+           *ngFor="let data of calendar?.data.month; let i = index;"
+           [ngClass]="{
+           previous: calendar?.data.day.length > 0 && i === 0,
+           selected: calendar?.data.day.length > 0 && i === 1 || calendar?.data.day.length === 0,
+           next: calendar?.data.day.length > 0 && i === 2
+         }">
+        <div class="calendar-entry"
+             (click)="onMonthClick(entry.value)"
+             *ngFor="let entry of data.calendarEntries">{{entry.title}}</div>
+      </div>
+    </div>
+    <!---------------------------------------->
+    <!--              MONTH VIEW            -->
+    <!---------------------------------------->
+
+
+
+    <!---------------------------------------->
+    <!--              YEAR VIEW             -->
+    <!---------------------------------------->
+    <div class="calendar-view-type"
+         [ngClass]="{
+            'in-view': calendar?.isYearView(),
+            'above': calendar?.isMonthView() || calendar?.isDayView()
+         }">
+      <div class="calendar-content"
+           *ngFor="let data of calendar?.data.year; let i = index;"
+           [ngClass]="{
+           previous: calendar?.data.day.length > 0 && i === 0,
+           selected: calendar?.data.day.length > 0 && i === 1 || calendar?.data.day.length === 0,
+           next: calendar?.data.day.length > 0 && i === 2
+         }">
+        <div class="calendar-entry"
+             (click)="onYearClick(entry.value)"
+             *ngFor="let entry of data.calendarEntries">{{entry.title}}</div>
+      </div>
+    </div>
+    <!---------------------------------------->
+    <!--              YEAR VIEW             -->
+    <!---------------------------------------->
+
+  </div>
+
+  <div class="calendar-footer">
+    <button (click)="closeCalendar()">DONE</button>
+  </div>
+
+</div>

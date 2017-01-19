@@ -1,6 +1,13 @@
+<pcl-header title="Some Title"></pcl-header>
 <div class="container">
+
+  <pcl-calendar [type]="type"
+                [initialDate]="initialDate"
+                (onDateChange)="onDateChange($event)"></pcl-calendar>
+
   <pcl-schedule-entry-card *ngFor="let entry of entries"
                            [lineOne]="entry.LaborCode"
                            [lineTwo]="entry.ShiftCode"
                            (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
+
 </div>
