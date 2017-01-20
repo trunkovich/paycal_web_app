@@ -64,7 +64,7 @@ export class Api {
     return this.request('get', `Get${type}`, data);
   }
 
-  getMyMonthSchedulee(data: ScheduleMonthRequest): Observable<EmployeeScheduleEntryListResponse> {
+  getMyMonthSchedule(data: ScheduleMonthRequest): Observable<EmployeeScheduleEntryListResponse> {
     return this.request('get', 'GetEmployeeMonthSchedule', data);
   }
   getGroupScheduleMonths(): Observable<GroupScheduleListResponse> {

@@ -29,6 +29,9 @@ import {ReferencesService} from './core/services/references.service';
 import {ReferencesEffects} from './STATE/effects/references.effects';
 import {referencesReducer} from './STATE/reducers/references.reducer';
 import {InternalModule} from './features/internal/internal.module';
+import {ScheduleService} from './core/services/schedule.service';
+import {ScheduleEffects} from './STATE/effects/schedule.effects';
+import {scheduleReducer} from './STATE/reducers/schedule.reducer';
 
 @NgModule({
   declarations: [
@@ -42,11 +45,18 @@ import {InternalModule} from './features/internal/internal.module';
     PclCommonModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    StoreModule.provideStore({ auth: authReducer, profile: profileReducer, references: referencesReducer, debug: debugReducer }),
+    StoreModule.provideStore({
+      auth: authReducer,
+      profile: profileReducer,
+      references: referencesReducer,
+      schedule: scheduleReducer,
+      debug: debugReducer
+    }),
     EffectsModule.run(AuthEffects),
     EffectsModule.run(ErrorHandlingEffects),
     EffectsModule.runAfterBootstrap(ProfileEffects),
     EffectsModule.runAfterBootstrap(ReferencesEffects),
+    EffectsModule.runAfterBootstrap(ScheduleEffects),
 
     InternalModule,
     AuthModule
@@ -55,6 +65,7 @@ import {InternalModule} from './features/internal/internal.module';
     Api,
     AuthService,
     ReferencesService,
+    ScheduleService,
     PaycalHttpInterceptor,
 
     // GUARDS
