@@ -5,5 +5,5 @@
 export interface CoverageRequest {
   employeeScheduleEntryID: number;
   message: string;
-  recepientIDs: number[];
+  delimitedIDs: number[];
 }

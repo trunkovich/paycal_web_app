@@ -74,13 +74,7 @@ export class Api {
     return this.request('get', 'FindEmployeesToCoverMyShift', data);
   }
   createCoverageRequest(data: CoverageRequest): Observable<Response> {
-    let url = `${APP_CONFIG.API_BASE_URL}CreateCoverageRequest`;
-    url += `?employeeScheduleEntryID=${data.employeeScheduleEntryID}&message=${data.message}`;
-    data.recepientIDs.forEach((id) => {
-      url += `&recepientID=${id}`;
-    });
-    return this.$http.request(url, {method: 'get', headers: this.headers})
-      .map(res => res.json());
+    return this.request('get', 'CreateCoverageRequest', data);
   }
   getOrReferenceLaborCodes(data: ScheduleMonthRequest): Observable<LaborCodeListResponse> {
     return this.request('get', 'GetORReferenceLaborCodes', data);
