@@ -15,7 +15,7 @@
     height: 391px;
     background-color: #ffffff;
     transform: translate3d(0, -100%, 0);
-    transition: transform 200ms;
+    transition: transform 400ms;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
     padding-top: 45px;
 
@@ -117,30 +117,75 @@
             transform: translate3d(100%, 0, 0);
           }
 
-          .calendar-entry {
+          .calendar-entry-wrapper {
             @extend .big-text;
             @extend .float-left;
             @extend .text-center;
             min-height: 44px;
-            line-height: 44px;
+            text-transform: uppercase;
+            line-height: 86px;
             min-width: 44px;
             width: calc(100%/4);
 
-            &.selected {
-              @extend .bold-text;
-              color: white;
-            }
-          }
-
-          &.day {
-
             .calendar-entry {
-              min-height: 44px;
-              min-width: 44px;
+              @include center-block();
+
+              &.disabled {
+                color: $light-blue-grey;
+              }
+
+              &.selected {
+                @extend .bold-text;
+                color: white;
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                background-color: $tealish;
+              }
+            }
+            &.day-entry {
               width: calc(100%/7);
+              line-height: 44px;
+              .calendar-entry {
+                &.selected {
+                  @extend .bold-text;
+                  width: 44px;
+                  height: 44px;
+                  border-radius: 50%;
+                }
+              }
+            }
+            &.month-entry,
+            &.year-entry {
+              .calendar-entry {
+                &.selected {
+                  @extend .bold-text;
+                  width: initial;
+                  height: initial;
+                  line-height: 44px;
+                  display: inline-block;
+                  padding: 0 20px;
+                  border-radius: 22px;
+                }
+              }
             }
           }
         }
+      }
+    }
+
+    .calendar-footer {
+      height: 35px;
+      padding: 8px;
+
+      button {
+        @extend .float-right;
+        @extend .reset-button-styles;
+        @extend .reset-styles;
+        @extend .bold-text;
+        padding: 0 16px;
+        height: 35px;
+        color: $tealish;
       }
     }
   }

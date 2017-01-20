@@ -3,6 +3,7 @@ import {
 import {CalendarTypes} from '../../../../../STATE/models/calendar.types';
 import * as moment from 'moment';
 import {Calendar} from './calendar.class';
+import {GroupSchedule} from '../../../../../STATE/models/group-schedule.model';
 
 @Component({
   selector: 'pcl-calendar',
@@ -12,14 +13,20 @@ import {Calendar} from './calendar.class';
 export class CalendarComponent implements OnChanges {
   @Input() type: CalendarTypes;
   @Input() initialDate: Date;
+  @Input() activeMonths: GroupSchedule[];
   @Output() onDateChange = new EventEmitter<Date>();
 
   showCalendar: boolean = false;
   date: moment.Moment;
   calendar: Calendar | null;
 
-  ngOnChanges() {
+  ngOnChanges(changes) {
     this.init();
+    if (this.showCalendar) {
+      if ('activeMonths' in changes && Array.isArray(changes.activeMonths.currentValue)) {
+        this.calendar.setActiveMonths(changes.activeMonths.currentValue);
+      }
+    }
   }
 
   init() {
@@ -27,7 +34,7 @@ export class CalendarComponent implements OnChanges {
   }
 
   openCalendar() {
-    this.calendar = new Calendar(this.date, this.type, []);
+    this.calendar = new Calendar(this.date, this.type, this.activeMonths);
     this.showCalendar = true;
   }
 
@@ -35,6 +42,7 @@ export class CalendarComponent implements OnChanges {
     this.date = moment(this.calendar.getCurrentDate());
     this.calendar = null;
     this.showCalendar = false;
+    this.onDateChange.emit(this.date.toDate());
   }
 
   onHeaderMonthClick() {

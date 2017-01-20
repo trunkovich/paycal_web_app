@@ -47,9 +47,16 @@
            selected: calendar?.data.day.length > 0 && i === 1 || calendar?.data.day.length === 0,
            next: calendar?.data.day.length > 0 && i === 2
          }">
-        <div class="calendar-entry"
-             (click)="onDayClick(entry.value)"
-             *ngFor="let entry of data.calendarEntries">{{entry.title}}</div>
+
+        <div class="calendar-entry-wrapper day-entry"
+             *ngFor="let entry of data.calendarEntries">
+          <div class="calendar-entry"
+               (click)="onDayClick(entry.value)"
+               [ngClass]="{selected: entry.selected, disabled: entry.disabled}">
+            {{entry.title}}
+          </div>
+        </div>
+
       </div>
     </div>
     <!---------------------------------------->
@@ -73,9 +80,16 @@
            selected: calendar?.data.day.length > 0 && i === 1 || calendar?.data.day.length === 0,
            next: calendar?.data.day.length > 0 && i === 2
          }">
-        <div class="calendar-entry"
-             (click)="onMonthClick(entry.value)"
-             *ngFor="let entry of data.calendarEntries">{{entry.title}}</div>
+
+        <div class="calendar-entry-wrapper month-entry"
+             *ngFor="let entry of data.calendarEntries">
+          <div class="calendar-entry"
+               (click)="onMonthClick(entry.value)"
+               [ngClass]="{selected: entry.selected, disabled: entry.disabled}">
+            {{entry.title}}
+          </div>
+        </div>
+
       </div>
     </div>
     <!---------------------------------------->
@@ -99,9 +113,16 @@
            selected: calendar?.data.day.length > 0 && i === 1 || calendar?.data.day.length === 0,
            next: calendar?.data.day.length > 0 && i === 2
          }">
-        <div class="calendar-entry"
-             (click)="onYearClick(entry.value)"
-             *ngFor="let entry of data.calendarEntries">{{entry.title}}</div>
+
+        <div class="calendar-entry-wrapper year-entry"
+             *ngFor="let entry of data.calendarEntries">
+          <div class="calendar-entry"
+               (click)="onYearClick(entry.value)"
+               [ngClass]="{selected: entry.selected, disabled: entry.disabled}">
+            {{entry.title}}
+          </div>
+        </div>
+
       </div>
     </div>
     <!---------------------------------------->

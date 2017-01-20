@@ -16,9 +16,15 @@ interface ActiveMonth {
   Month: number;
 }
 
+interface ActiveMonthStructure {
+  years: number[];
+  months: string[]; // YYYY.MM
+}
+
 interface CalendarEntry {
   title: string;
   value: moment.Moment;
+  selected: boolean;
   disabled: boolean;
 }
 
@@ -36,7 +42,7 @@ export interface CalendarView {
 export class Calendar {
   private viewType = ViewType.DAY;
   private type: CalendarTypes;
-  private activeMonths: ActiveMonth[];
+  private activeMonths: ActiveMonthStructure;
   private currentDate: moment.Moment;
 
   data: CalendarView;
@@ -46,7 +52,7 @@ export class Calendar {
     this.type = type;
     this.viewDate = moment(date);
     this.currentDate = moment(date);
-    this.activeMonths = activeMonths;
+    this.activeMonths = this.parseActiveMonths(activeMonths);
     this.data = this.generateCalendarView(moment(date));
   }
 
@@ -111,6 +117,7 @@ export class Calendar {
 
   selectDay(day): void {
     this.currentDate = moment(day);
+    this.parseViewsAndSetSelected();
   }
 
   previousView(): void {
@@ -119,6 +126,11 @@ export class Calendar {
 
   nextView(): void {
     this.nextOrPrevious();
+  }
+
+  setActiveMonths(activeMonths: ActiveMonth[]): void {
+    this.activeMonths = this.parseActiveMonths(activeMonths);
+    this.parseViewsAndSetDisabled();
   }
 
   private nextOrPrevious(previous = false): void {
@@ -174,7 +186,8 @@ export class Calendar {
           entries.push({
             title: '' + (incrementalDate.isBefore(startOfMonth) ? '' : incrementalDate.date()),
             value: moment(incrementalDate),
-            disabled: incrementalDate.isBefore(startOfMonth)
+            selected: this.isDaySelected(incrementalDate),
+            disabled: this.isMonthDisabled(incrementalDate)
           });
           incrementalDate.add(1, 'day');
         }
@@ -186,7 +199,8 @@ export class Calendar {
           entries.push({
             title: m.format('MMM'),
             value: moment(m),
-            disabled: false
+            selected: this.isMonthSelected(m),
+            disabled: this.isMonthDisabled(m)
           });
           m.add(1, 'month');
         }
@@ -198,7 +212,8 @@ export class Calendar {
           entries.push({
             title: m.format('YYYY'),
             value: moment(m),
-            disabled: false
+            selected: this.isYearSelected(m),
+            disabled: this.isYearDisabled(m)
           });
           m.add(1, 'year');
         }
@@ -206,5 +221,99 @@ export class Calendar {
       }
     }
     return entries;
+  }
+
+  private isMonthDisabled(date: moment.Moment): boolean {
+    return this.activeMonths.months.indexOf(date.year() + '.' + date.month()) < 0;
+  }
+
+  private isYearDisabled(date: moment.Moment): boolean {
+    return this.activeMonths.years.indexOf(date.year()) < 0;
+  }
+
+  private parseActiveMonths(activeMonths: ActiveMonth[]): ActiveMonthStructure {
+    let structure: ActiveMonthStructure = {
+      years: [],
+      months: []
+    };
+    if (!activeMonths || !activeMonths.length) {
+      return structure;
+    }
+    activeMonths.forEach((month) => {
+      if (structure.years.indexOf(month.Year) < 0) {
+        structure.years.push(month.Year);
+        structure.months.push(month.Year + '.' + (month.Month - 1));
+      } else {
+        structure.months.push(month.Year + '.' + (month.Month - 1));
+      }
+    });
+    return structure;
+  }
+
+  private parseViewsAndSetDisabled(): void {
+    ['day', 'month'].forEach((key) => {
+      this.data[key].map((typeView) => {
+        typeView.calendarEntries.map((entry) => {
+          if (this.isYearDisabled(entry.value)) {
+            entry.disabled = true;
+            return entry;
+          }
+          if (this.isMonthDisabled(entry.value)) {
+            entry.disabled = true;
+            return entry;
+          }
+          entry.disabled = false;
+          return entry;
+        });
+        return typeView;
+      });
+    });
+    this.data.year.map((typeView) => {
+      typeView.calendarEntries.map((entry) => {
+        if (this.isYearDisabled(entry.value)) {
+          entry.disabled = true;
+          return entry;
+        }
+        entry.disabled = false;
+        return entry;
+      });
+      return typeView;
+    });
+  }
+
+  private isDaySelected(date: moment.Moment): boolean {
+    return moment(this.currentDate).isSame(date, 'day');
+  }
+
+  private isMonthSelected(date: moment.Moment): boolean {
+    return moment(this.currentDate).isSame(date, 'month');
+  }
+
+  private isYearSelected(date: moment.Moment): boolean {
+    return moment(this.currentDate).isSame(date, 'year');
+  }
+
+  private parseViewsAndSetSelected(): void {
+    this.data.day.map((typeView) => {
+      typeView.calendarEntries.map((entry) => {
+        entry.selected = this.isDaySelected(entry.value);
+        return entry;
+      });
+      return typeView;
+    });
+    this.data.month.map((typeView) => {
+      typeView.calendarEntries.map((entry) => {
+        entry.selected = this.isMonthSelected(entry.value);
+        return entry;
+      });
+      return typeView;
+    });
+    this.data.year.map((typeView) => {
+      typeView.calendarEntries.map((entry) => {
+        entry.selected = this.isYearSelected(entry.value);
+        return entry;
+      });
+      return typeView;
+    });
   }
 }

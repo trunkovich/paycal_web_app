@@ -3,6 +3,7 @@
 
   <pcl-calendar [type]="type"
                 [initialDate]="initialDate"
+                [activeMonths]="activeMonths$ | async"
                 (onDateChange)="onDateChange($event)"></pcl-calendar>
 
   <pcl-schedule-entry-card *ngFor="let entry of entries"
