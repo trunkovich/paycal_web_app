@@ -5,7 +5,7 @@ import {HttpInterceptorService, getHttpOptions} from 'ng-http-interceptor';
 import {AppState} from '../../STATE/models/app-state.model';
 import {APP_CONFIG} from '../../../environments/environment';
 import {Response as AppResponse} from '../../STATE/models/responses/response.model';
-import {Response} from '@angular/http';
+import {Response, URLSearchParams} from '@angular/http';
 import {LogoutAction} from '../../STATE/actions/auth.actions';
 
 @Injectable()
@@ -29,6 +29,9 @@ export class PaycalHttpInterceptor {
         }
         let options = getHttpOptions(data, method);
 
+        if (!options.search) {
+          options.search = new URLSearchParams();
+        }
         if (options.search && options.search.append) {
           options.search.append('loginToken', token);
         }
@@ -49,7 +52,7 @@ export class PaycalHttpInterceptor {
     }
 
     static isApiUrl(url: string): boolean {
-      return url.indexOf(APP_CONFIG.API_BASE_URL) > -1;
+      return url.startsWith(APP_CONFIG.API_BASE_URL);
     }
 
 }

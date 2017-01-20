@@ -6,6 +6,17 @@ import {APP_CONFIG} from '../../../environments/environment';
 import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
 import {CompleteRegistrationModel} from '../../STATE/models/complete-registration.model';
 import {Lead} from '../../STATE/models/lead.model';
+import {ScheduleMonthRequest} from '../../STATE/models/requests/schedule-month.request.model';
+import {EmployeeScheduleEntryListResponse} from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
+import {Observable} from 'rxjs';
+import {GroupScheduleListResponse} from '../../STATE/models/responses/group-schedule-list-response.model';
+import {EmployeeListResponse} from '../../STATE/models/responses/employee-list-response.model';
+import {CoverageRequest} from '../../STATE/models/requests/coverage-request.request.model';
+import {Response} from '../../STATE/models/responses/response.model';
+import {LaborCodeListResponse} from '../../STATE/models/responses/labor-code-list-response.model';
+import {LaborCodeScheduleMonthRequest} from '../../STATE/models/requests/labor-code-schedule-month.request.model';
+import {LaborCodeScheduleDayRequest} from '../../STATE/models/requests/labor-code-schedule-day.request.model';
+import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
 
 @Injectable()
 export class Api {
@@ -51,5 +62,39 @@ export class Api {
 
   getReference(type: string, data: {groupId?: number} = {}) {
     return this.request('get', `Get${type}`, data);
+  }
+
+  getMyMonthSchedulee(data: ScheduleMonthRequest): Observable<EmployeeScheduleEntryListResponse> {
+    return this.request('get', 'GetEmployeeMonthSchedule', data);
+  }
+  getGroupScheduleMonths(): Observable<GroupScheduleListResponse> {
+    return this.request('get', 'GetLiveGroupScheduleMonths');
+  }
+  getEmployeesToCoverMyShift(data: {employeeScheduleEntryID: number}): Observable<EmployeeListResponse> {
+    return this.request('get', 'FindEmployeesToCoverMyShift', data);
+  }
+  createCoverageRequest(data: CoverageRequest): Observable<Response> {
+    let url = `${APP_CONFIG.API_BASE_URL}CreateCoverageRequest`;
+    url += `?employeeScheduleEntryID=${data.employeeScheduleEntryID}&message=${data.message}`;
+    data.recepientIDs.forEach((id) => {
+      url += `&recepientID=${id}`;
+    });
+    return this.$http.request(url, {method: 'get', headers: this.headers})
+      .map(res => res.json());
+  }
+  getOrReferenceLaborCodes(data: ScheduleMonthRequest): Observable<LaborCodeListResponse> {
+    return this.request('get', 'GetORReferenceLaborCodes', data);
+  }
+  getCallReferenceLaborCodes(data: ScheduleMonthRequest): Observable<LaborCodeListResponse> {
+    return this.request('get', 'GetCallReferenceLaborCodes', data);
+  }
+  getLaborCodeMonthSchedule(data: LaborCodeScheduleMonthRequest): Observable<MasterCalendarEntryListResponse> {
+    return this.request('get', 'GetLaborCodeMonthSchedule', data);
+  }
+  getEmployeesInMyGroup(): Observable<EmployeeListResponse> {
+    return this.request('get', 'GetEmployeesInMyGroup');
+  }
+  getLaborCodeDaySchedule(data: LaborCodeScheduleDayRequest): Observable<MasterCalendarEntryListResponse> {
+    return this.request('get', 'GetLaborCodeDaySchedule', data);
   }
 }
