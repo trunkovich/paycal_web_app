@@ -29,8 +29,9 @@ export class ScheduleEffects {
   getMyMonthSchedule: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE)
     .map(toPayload)
-    .switchMap((data: { month: number; year: number; }) => {
-      return this.scheduleService.getMyMonthSchedule(data)
+    .switch()
+    .switchMap((date: Date) => {
+      return this.scheduleService.getMyMonthSchedule(date)
         .map((entries: EmployeeScheduleEntry[]) => new scheduleActions.LoadMyMonthScheduleSuccessAction(entries))
         .catch(error => Observable.of(new scheduleActions.LoadMyMonthScheduleFailAction(error)));
     });

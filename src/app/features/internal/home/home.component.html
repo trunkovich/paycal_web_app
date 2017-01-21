@@ -1,8 +1,8 @@
 <pcl-header title="Some Title"></pcl-header>
 <div class="container">
 
-  <pcl-calendar [type]="type"
-                [initialDate]="initialDate"
+  <pcl-calendar [type]="homeViewType$ | async"
+                [initialDate]="selectedDate$ | async"
                 [activeMonths]="activeMonths$ | async"
                 (onDateChange)="onDateChange($event)"></pcl-calendar>
 

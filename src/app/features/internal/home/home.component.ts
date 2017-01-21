@@ -5,7 +5,10 @@ import {GroupSchedule} from '../../../STATE/models/group-schedule.model';
 import {Observable} from 'rxjs';
 import {AppState} from '../../../STATE/models/app-state.model';
 import {Store} from '@ngrx/store';
-import {LoadGroupScheduleMonthsAction, LoadMyMonthScheduleAction} from '../../../STATE/actions/schedule.actions';
+import {
+  LoadGroupScheduleMonthsAction, LoadMyMonthScheduleAction,
+  SetMySelectedDateAction
+} from '../../../STATE/actions/schedule.actions';
 
 @Component({
   selector: 'pcl-home',
@@ -13,19 +16,20 @@ import {LoadGroupScheduleMonthsAction, LoadMyMonthScheduleAction} from '../../..
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  type = CalendarTypes.DAY;
-  initialDate = new Date();
   activeMonths$: Observable<GroupSchedule[]>;
   entries$: Observable<EmployeeScheduleEntry[]>;
+  selectedDate$: Observable<Date>;
+  homeViewType$: Observable<CalendarTypes>;
 
-
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.activeMonths$ = this.store.select(state => state.schedule.groupScheduleMonths);
     this.entries$ = this.store.select(state => state.schedule.myMonthSchedule);
+    this.selectedDate$ = this.store.select(state => state.schedule.mySelectedDate);
+    this.homeViewType$ = this.store.select(state => state.schedule.homeViewType);
     this.store.dispatch(new LoadGroupScheduleMonthsAction());
-    this.store.dispatch(new LoadMyMonthScheduleAction({month: this.initialDate.getMonth() + 1, year: this.initialDate.getFullYear()}));
+    this.store.dispatch(new LoadMyMonthScheduleAction(this.selectedDate$));
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {
@@ -33,7 +37,7 @@ export class HomeComponent implements OnInit {
   }
 
   onDateChange(date: Date) {
-    this.store.dispatch(new LoadMyMonthScheduleAction({month: date.getMonth() + 1, year: date.getFullYear()}));
+    this.store.dispatch(new SetMySelectedDateAction(date));
   }
 
 }

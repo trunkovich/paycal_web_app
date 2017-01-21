@@ -23,10 +23,10 @@ export class ScheduleService {
 
   constructor(private api: Api) {}
 
-  getMyMonthSchedule(data: { month: number; year: number; }): Observable<EmployeeScheduleEntry[] | string> {
+  getMyMonthSchedule(date: Date): Observable<EmployeeScheduleEntry[] | string> {
     return this.api.getMyMonthSchedule({
-      scheduleMonth: data.month,
-      scheduleYear: data.year
+      scheduleMonth: date.getMonth() + 1,
+      scheduleYear: date.getFullYear()
     })
       .map((res: EmployeeScheduleEntryListResponse) => {
         if (res.IsSuccess) {
