@@ -32,6 +32,7 @@ import {InternalModule} from './features/internal/internal.module';
 import {ScheduleService} from './core/services/schedule.service';
 import {ScheduleEffects} from './STATE/effects/schedule.effects';
 import {scheduleReducer} from './STATE/reducers/schedule.reducer';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {scheduleReducer} from './STATE/reducers/schedule.reducer';
     EffectsModule.runAfterBootstrap(ProfileEffects),
     EffectsModule.runAfterBootstrap(ReferencesEffects),
     EffectsModule.runAfterBootstrap(ScheduleEffects),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
 
     InternalModule,
     AuthModule
