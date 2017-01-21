@@ -25,7 +25,10 @@ export const ActionTypes = {
 // load my month schedule months actions
   LOAD_MY_MONTH_SCHEDULE: type('[Schedule] Load my month schedule months'),
   LOAD_MY_MONTH_SCHEDULE_SUCCESS: type('[Schedule] Load my month schedule months success'),
-  LOAD_MY_MONTH_SCHEDULE_FAIL: type('[Schedule] Load my month schedule months fail')
+  LOAD_MY_MONTH_SCHEDULE_FAIL: type('[Schedule] Load my month schedule months fail'),
+
+// OTHERS
+  SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date')
 
 };
 
@@ -65,6 +68,12 @@ export class LoadMyMonthScheduleFailAction implements Action {
   constructor(public payload: string) { }
 }
 
+// OTHERS
+export class SetMySelectedDateAction implements Action {
+  type = ActionTypes.SET_MY_SELECTED_DATE;
+  constructor(public payload: Date) { }
+}
+
 
 /**
  * Export a type alias of all actions in this action group
@@ -79,4 +88,7 @@ export type Actions
 // load my month schedule months actions
   | LoadMyMonthScheduleAction
   | LoadMyMonthScheduleSuccessAction
-  | LoadMyMonthScheduleFailAction;
+  | LoadMyMonthScheduleFailAction
+
+// OTHERS
+  | SetMySelectedDateAction;

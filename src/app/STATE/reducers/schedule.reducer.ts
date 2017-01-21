@@ -8,25 +8,36 @@ import {EmployeeScheduleEntry} from '../models/employee-schedule-entry.model';
 export interface ScheduleState {
   groupScheduleMonths: GroupSchedule[];
   myMonthSchedule: EmployeeScheduleEntry[];
+  mySelectedDate: Date;
 }
 
 const initialScheduleState = {
   groupScheduleMonths: [],
-  myMonthSchedule: []
+  myMonthSchedule: [],
+  mySelectedDate: new Date()
 };
 
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {
   switch (action.type) {
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS: {
       return {
-        groupScheduleMonths: action.payload,
-        myMonthSchedule: state.myMonthSchedule
+        groupScheduleMonths: [...action.payload],
+        myMonthSchedule: state.myMonthSchedule,
+        mySelectedDate: state.mySelectedDate
       };
     }
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_SUCCESS: {
       return {
         groupScheduleMonths: state.groupScheduleMonths,
-        myMonthSchedule: action.payload
+        myMonthSchedule: [...action.payload],
+        mySelectedDate: state.mySelectedDate
+      };
+    }
+    case scheduleActions.ActionTypes.SET_MY_SELECTED_DATE: {
+      return {
+        groupScheduleMonths: state.groupScheduleMonths,
+        myMonthSchedule: state.myMonthSchedule,
+        mySelectedDate: new Date(action.payload)
       };
     }
     default: {
@@ -34,3 +45,8 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
     }
   }
 }
+
+export const getScheduleMonths = (state: ScheduleState) => state.groupScheduleMonths;
+export const getMonthSchedule = (state: ScheduleState) => state.myMonthSchedule;
+export const getMySelectedDate = (state: ScheduleState) => state.mySelectedDate;
+
