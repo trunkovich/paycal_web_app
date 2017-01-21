@@ -5,6 +5,7 @@ import * as scheduleActions from '../actions/schedule.actions';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {EmployeeScheduleEntry} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
+import { createSelector } from 'reselect';
 
 export interface ScheduleState {
   groupScheduleMonths: GroupSchedule[];
@@ -55,4 +56,16 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
 export const getScheduleMonths = (state: ScheduleState) => state.groupScheduleMonths;
 export const getMonthSchedule = (state: ScheduleState) => state.myMonthSchedule;
 export const getMySelectedDate = (state: ScheduleState) => state.mySelectedDate;
+export const getHomeViewType = (state: ScheduleState) => state.homeViewType;
 
+export const getDailySchedule = createSelector(
+  getMonthSchedule,
+  getMySelectedDate,
+  (scheduleEntries: EmployeeScheduleEntry[], date: Date) => {
+    console.log('getDailySchedule');
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return scheduleEntries.filter(entry => entry.Year === year && entry.Month === month && entry.Day === day);
+  }
+);

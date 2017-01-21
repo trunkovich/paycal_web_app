@@ -33,6 +33,7 @@ import {ScheduleService} from './core/services/schedule.service';
 import {ScheduleEffects} from './STATE/effects/schedule.effects';
 import {scheduleReducer} from './STATE/reducers/schedule.reducer';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {reducer} from './STATE/reducers/index';
 
 @NgModule({
   declarations: [
@@ -46,13 +47,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
     PclCommonModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    StoreModule.provideStore({
-      auth: authReducer,
-      profile: profileReducer,
-      references: referencesReducer,
-      schedule: scheduleReducer,
-      debug: debugReducer
-    }),
+    StoreModule.provideStore(reducer),
     EffectsModule.run(AuthEffects),
     EffectsModule.run(ErrorHandlingEffects),
     EffectsModule.runAfterBootstrap(ProfileEffects),
