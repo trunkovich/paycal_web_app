@@ -68,7 +68,7 @@
         @extend .text-center;
         @extend .small-bold-weak-text;
         line-height: 17px;
-        min-width: 44px;
+        min-width: 43px;
         width: calc(100%/7);
       }
     }
@@ -121,10 +121,10 @@
             @extend .big-text;
             @extend .float-left;
             @extend .text-center;
-            min-height: 44px;
+            min-height: 43px;
             text-transform: uppercase;
             line-height: 86px;
-            min-width: 44px;
+            min-width: 43px;
             width: calc(100%/4);
 
             .calendar-entry {
@@ -137,20 +137,20 @@
               &.selected {
                 @extend .bold-text;
                 color: white;
-                width: 44px;
-                height: 44px;
+                width: 43px;
+                height: 43px;
                 border-radius: 50%;
                 background-color: $tealish;
               }
             }
             &.day-entry {
               width: calc(100%/7);
-              line-height: 44px;
+              line-height: 43px;
               .calendar-entry {
                 &.selected {
                   @extend .bold-text;
-                  width: 44px;
-                  height: 44px;
+                  width: 43px;
+                  height: 43px;
                   border-radius: 50%;
                 }
               }
@@ -162,7 +162,7 @@
                   @extend .bold-text;
                   width: initial;
                   height: initial;
-                  line-height: 44px;
+                  line-height: 43px;
                   display: inline-block;
                   padding: 0 20px;
                   border-radius: 22px;
