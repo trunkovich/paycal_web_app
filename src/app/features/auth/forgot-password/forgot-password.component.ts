@@ -4,9 +4,9 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 
-import {AppState} from '../../../STATE/models/app-state.model';
 import {SignInClearErrorAction, RequestPasswordRecoveryAction} from '../../../STATE/actions/auth.actions';
 import {AUTH_ROUTES} from '../auth.routes';
+import {AppState, authSelectors} from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-forgot-password',
@@ -29,8 +29,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     this.phoneForm = this._fb.group({
       phone: ['', [Validators.required, Validators.pattern(/\d{3}-\d{3}-\d{4}/)]]
     });
-    this.errorMsg$ = this.store.select(state => state.auth.errorMsg);
-    this.signInLoading$ = this.store.select(state => state.auth.loading);
+    this.errorMsg$ = this.store.select(authSelectors.getAuthError);
+    this.signInLoading$ = this.store.select(authSelectors.getAuthLoadingState);
   }
 
   ngOnDestroy() {

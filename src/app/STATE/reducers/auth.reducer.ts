@@ -113,3 +113,9 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
     }
   }
 }
+
+export const getToken = (state: AuthState) => state.token;
+export const getAuthenticated = (state: AuthState) => state.authenticated;
+export const getRedirectURL = (state: AuthState) => state.redirectUrl;
+export const getErrorMsg = (state: AuthState) => state.errorMsg;
+export const getLoading = (state: AuthState) => state.loading;

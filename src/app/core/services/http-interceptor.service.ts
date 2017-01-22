@@ -2,11 +2,11 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {HttpInterceptorService, getHttpOptions} from 'ng-http-interceptor';
 
-import {AppState} from '../../STATE/models/app-state.model';
 import {APP_CONFIG} from '../../../environments/environment';
 import {Response as AppResponse} from '../../STATE/models/responses/response.model';
 import {Response, URLSearchParams} from '@angular/http';
 import {LogoutAction} from '../../STATE/actions/auth.actions';
+import {AppState, authSelectors} from '../../STATE/reducers/index';
 
 @Injectable()
 export class PaycalHttpInterceptor {
@@ -18,7 +18,7 @@ export class PaycalHttpInterceptor {
 
     initInterceptors() {
       let token = '';
-      this.store.select(state => state.auth.token)
+      this.store.select(authSelectors.getToken)
         .subscribe((actualToken) => {
           token = actualToken;
         });

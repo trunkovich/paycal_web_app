@@ -3,9 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 
-import {AppState} from '../../../STATE/models/app-state.model';
 import {SignInClearErrorAction, CompleteRegistrationAction} from '../../../STATE/actions/auth.actions';
 import {CompleteRegistrationModel} from '../../../STATE/models/complete-registration.model';
+import {authSelectors, AppState} from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-complete-registration',
@@ -22,8 +22,8 @@ export class CompleteRegistrationComponent implements OnInit, OnDestroy {
     private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.errorMsg$ = this.store.select(state => state.auth.errorMsg);
-    this.signInLoading$ = this.store.select(state => state.auth.loading);
+    this.errorMsg$ = this.store.select(authSelectors.getAuthError);
+    this.signInLoading$ = this.store.select(authSelectors.getAuthLoadingState);
     if (this.route.snapshot.params['InvitationCode']) {
       this.invitationCode = this.route.snapshot.params['InvitationCode'];
     }

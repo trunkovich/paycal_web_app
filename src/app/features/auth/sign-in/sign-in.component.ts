@@ -3,9 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
-import {AppState} from '../../../STATE/models/app-state.model';
 import {SignInAction, SignInClearErrorAction} from '../../../STATE/actions/auth.actions';
 import {Credentials} from '../../../STATE/models/credentials.model';
+import {AppState, authSelectors} from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-sign-in',
@@ -29,8 +29,8 @@ export class SignInComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
       rememberMe: [true, Validators.required]
     });
-    this.errorMsg$ = this.store.select(state => state.auth.errorMsg);
-    this.signInLoading$ = this.store.select(state => state.auth.loading);
+    this.errorMsg$ = this.store.select(authSelectors.getAuthError);
+    this.signInLoading$ = this.store.select(authSelectors.getAuthLoadingState);
   }
 
   ngOnDestroy() {

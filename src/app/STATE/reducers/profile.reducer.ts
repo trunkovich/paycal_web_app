@@ -29,3 +29,5 @@ export function profileReducer(state: ProfileState = initialProfileState, action
     }
   }
 }
+
+export const getMyProfile = (state: ProfileState) => state.employee;

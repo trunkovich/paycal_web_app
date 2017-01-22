@@ -114,3 +114,11 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
     }
   }
 }
+
+export const getGroupPositions = (state: ReferencesState) => state.groupPositions;
+export const getGroupSpecializations = (state: ReferencesState) => state.groupSpecializations;
+export const getRegions = (state: ReferencesState) => state.regions;
+export const getStates = (state: ReferencesState) => state.states;
+export const getTimeZones = (state: ReferencesState) => state.timeZones;
+export const getReferencesTypes = (state: ReferencesState) => state.referencesTypes;
+export const getEmployeeStatuses = (state: ReferencesState) => state.employeeStatuses;

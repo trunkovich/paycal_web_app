@@ -2,10 +2,10 @@ import {Component, OnInit, OnDestroy } from '@angular/core';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 
-import {AppState} from '../../../STATE/models/app-state.model';
 import {SignInClearErrorAction, ResetPasswordAction} from '../../../STATE/actions/auth.actions';
 import {ActivatedRoute} from '@angular/router';
 import {ResetPasswordModel} from '../../../STATE/models/reset-password.model';
+import {AppState, authSelectors} from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-password-reset',
@@ -22,8 +22,8 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
     private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.errorMsg$ = this.store.select(state => state.auth.errorMsg);
-    this.signInLoading$ = this.store.select(state => state.auth.loading);
+    this.errorMsg$ = this.store.select(authSelectors.getAuthError);
+    this.signInLoading$ = this.store.select(authSelectors.getAuthLoadingState);
     if (this.route.snapshot.params['ResetPasswordCode']) {
       this.resetPasswordCode = this.route.snapshot.params['ResetPasswordCode'];
     }

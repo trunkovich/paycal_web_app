@@ -3,12 +3,12 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 
-import {AppState} from '../../../STATE/models/app-state.model';
 import {SignInClearErrorAction, SaveLeadAction} from '../../../STATE/actions/auth.actions';
 import {Region} from '../../../STATE/models/region.model';
 import {State} from '../../../STATE/models/state.model';
 import {Lead} from '../../../STATE/models/lead.model';
 import {isMobile} from '../../../core/check-mobile';
+import {AppState, authSelectors, referenceSelectors} from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-registration',
@@ -36,10 +36,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       groupName: ['', Validators.required],
       stateID: [null, Validators.required]
     });
-    this.errorMsg$ = this.store.select(state => state.auth.errorMsg);
-    this.signInLoading$ = this.store.select(state => state.auth.loading);
-    this.regions$ = this.store.select(state => state.references.regions);
-    this.states$ = this.store.select(state => state.references.states);
+    this.errorMsg$ = this.store.select(authSelectors.getAuthError);
+    this.signInLoading$ = this.store.select(authSelectors.getAuthLoadingState);
+    this.regions$ = this.store.select(referenceSelectors.getRegions);
+    this.states$ = this.store.select(referenceSelectors.getStates);
     this.isMobile = isMobile;
   }
 

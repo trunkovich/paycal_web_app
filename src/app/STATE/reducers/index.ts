@@ -61,17 +61,30 @@ export function reducer(state: any, action: any) {
 
 
 
-// export const getAuthState = (state: AppState) => state.auth;
-// export const getProfileState = (state: AppState) => state.profile;
-// export const getReferencesState = (state: AppState) => state.references;
+export const getAuthState = (state: AppState) => state.auth;
+export const getProfileState = (state: AppState) => state.profile;
+export const getReferencesState = (state: AppState) => state.references;
 export const getScheduleState = (state: AppState) => state.schedule;
 
-// export const getToken = createSelector(getAuthState, fromAuth.getToken);
-// export const getAuthStatus = createSelector(getAuthState, fromAuth.getAuthStatus);
-// export const getRedirectUrl = createSelector(getAuthState, fromAuth.getRedirectUrl);
-// export const getAuthErrorMsg = createSelector(getAuthState, fromAuth.getErrorMsg);
-// export const getAuthLoadingState = createSelector(getAuthState, fromAuth.getLoadingState);
-//
+export const authSelectors = {
+  getToken: createSelector(getAuthState, fromAuth.getToken),
+  getAuthStatus: createSelector(getAuthState, fromAuth.getAuthenticated),
+  getRedirectURL: createSelector(getAuthState, fromAuth.getRedirectURL),
+  getAuthError: createSelector(getAuthState, fromAuth.getErrorMsg),
+  getAuthLoadingState: createSelector(getAuthState, fromAuth.getLoading)
+};
+export const profileSelectors = {
+  getMyProfile: createSelector(getProfileState, fromProfile.getMyProfile),
+};
+export const referenceSelectors = {
+  getGroupPositions: createSelector(getReferencesState, fromReferences.getGroupPositions),
+  getGroupSpecializations: createSelector(getReferencesState, fromReferences.getGroupSpecializations),
+  getRegions: createSelector(getReferencesState, fromReferences.getRegions),
+  getStates: createSelector(getReferencesState, fromReferences.getStates),
+  getTimeZones: createSelector(getReferencesState, fromReferences.getTimeZones),
+  getReferencesTypes: createSelector(getReferencesState, fromReferences.getReferencesTypes),
+  getEmployeeStatuses: createSelector(getReferencesState, fromReferences.getEmployeeStatuses)
+};
 
 export const scheduleSelectors = {
   getScheduleMonths: createSelector(getScheduleState, fromSchedule.getScheduleMonths),
@@ -80,45 +93,3 @@ export const scheduleSelectors = {
   getHomeViewType: createSelector(getScheduleState, fromSchedule.getHomeViewType)
 };
 
-
-/**
- * Just like with the books selectors, we also have to compose the search
- * reducer's and collection reducer's selectors.
- */
-// export const getSearchState = (state: State) => state.search;
-//
-// export const getSearchBookIds = createSelector(getSearchState, fromSearch.getIds);
-// export const getSearchQuery = createSelector(getSearchState, fromSearch.getQuery);
-// export const getSearchLoading = createSelector(getSearchState, fromSearch.getLoading);
-
-
-/**
- * Some selector functions create joins across parts of state. This selector
- * composes the search result IDs to return an array of books in the store.
- */
-// export const getSearchResults = createSelector(getBookEntities, getSearchBookIds, (books, searchIds) => {
-//   return searchIds.map(id => books[id]);
-// });
-
-
-
-// export const getCollectionState = (state: State) => state.collection;
-//
-// export const getCollectionLoaded = createSelector(getCollectionState, fromCollection.getLoaded);
-// export const getCollectionLoading = createSelector(getCollectionState, fromCollection.getLoading);
-// export const getCollectionBookIds = createSelector(getCollectionState, fromCollection.getIds);
-//
-// export const getBookCollection = createSelector(getBookEntities, getCollectionBookIds, (entities, ids) => {
-//   return ids.map(id => entities[id]);
-// });
-//
-// export const isSelectedBookInCollection = createSelector(getCollectionBookIds, getSelectedBookId, (ids, selected) => {
-//   return ids.indexOf(selected) > -1;
-// });
-
-/**
- * Layout Reducers
- */
-// export const getLayoutState = (state: State) => state.layout;
-//
-// export const getShowSidenav = createSelector(getLayoutState, fromLayout.getShowSidenav);
