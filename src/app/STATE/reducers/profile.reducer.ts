@@ -16,7 +16,7 @@ export function profileReducer(state: ProfileState = initialProfileState, action
   switch (action.type) {
     case profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS: {
       return {
-        employee: action.payload
+        employee: Object.assign({}, action.payload)
       };
     }
     case profileActions.ActionTypes.GET_USER_PROFILE_FAIL: {

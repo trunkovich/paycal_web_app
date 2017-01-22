@@ -6,11 +6,7 @@ import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-ent
 import {CalendarTypes} from '../../../STATE/models/calendar.types';
 import {GroupSchedule} from '../../../STATE/models/group-schedule.model';
 import {AppState} from '../../../STATE/models/app-state.model';
-import {
-  LoadGroupScheduleMonthsAction,
-  LoadMyMonthScheduleAction,
-  SetMySelectedDateAction
-} from '../../../STATE/actions/schedule.actions';
+import {LoadGroupScheduleMonthsAction, SetMySelectedDateAction} from '../../../STATE/actions/schedule.actions';
 import {scheduleSelectors} from '../../../STATE/reducers/index';
 
 @Component({
@@ -28,11 +24,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
-    this.entries$ = this.store.select(scheduleSelectors.getDailySchedule);
+    this.entries$ = this.store.select(scheduleSelectors.getSelectedDateSchedule);
     this.selectedDate$ = this.store.select(scheduleSelectors.getMySelectedDate);
     this.homeViewType$ = this.store.select(scheduleSelectors.getHomeViewType);
     this.store.dispatch(new LoadGroupScheduleMonthsAction());
-    this.store.dispatch(new LoadMyMonthScheduleAction(this.selectedDate$));
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {

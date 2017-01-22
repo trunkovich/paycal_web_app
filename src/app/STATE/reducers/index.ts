@@ -73,9 +73,11 @@ export const authSelectors = {
   getAuthError: createSelector(getAuthState, fromAuth.getErrorMsg),
   getAuthLoadingState: createSelector(getAuthState, fromAuth.getLoading)
 };
+
 export const profileSelectors = {
   getMyProfile: createSelector(getProfileState, fromProfile.getMyProfile),
 };
+
 export const referenceSelectors = {
   getGroupPositions: createSelector(getReferencesState, fromReferences.getGroupPositions),
   getGroupSpecializations: createSelector(getReferencesState, fromReferences.getGroupSpecializations),
@@ -88,8 +90,8 @@ export const referenceSelectors = {
 
 export const scheduleSelectors = {
   getScheduleMonths: createSelector(getScheduleState, fromSchedule.getScheduleMonths),
-  getDailySchedule: createSelector(getScheduleState, fromSchedule.getDailySchedule),
+  getFullSchedule: createSelector(getScheduleState, fromSchedule.getMySchedule),
+  getSelectedDateSchedule: createSelector(getScheduleState, fromSchedule.getSelectedDateSchedule),
   getMySelectedDate: createSelector(getScheduleState, fromSchedule.getMySelectedDate),
   getHomeViewType: createSelector(getScheduleState, fromSchedule.getHomeViewType)
 };
-

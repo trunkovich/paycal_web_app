@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../utils';
 import {GroupSchedule} from '../models/group-schedule.model';
-import {EmployeeScheduleEntry} from '../models/employee-schedule-entry.model';
+import {EmployeeScheduleEntry, LoadedMonth} from '../models/employee-schedule-entry.model';
 import {Observable} from 'rxjs';
 
 /**
@@ -58,11 +58,11 @@ export class LoadGroupScheduleMonthsFailAction implements Action {
 // load my month schedule months actions
 export class LoadMyMonthScheduleAction implements Action {
   type = ActionTypes.LOAD_MY_MONTH_SCHEDULE;
-  constructor(public payload: Observable<Date>) { }
+  constructor(public payload: Date) { }
 }
 export class LoadMyMonthScheduleSuccessAction implements Action {
   type = ActionTypes.LOAD_MY_MONTH_SCHEDULE_SUCCESS;
-  constructor(public payload: EmployeeScheduleEntry[]) { }
+  constructor(public payload: LoadedMonth) { }
 }
 export class LoadMyMonthScheduleFailAction implements Action {
   type = ActionTypes.LOAD_MY_MONTH_SCHEDULE_FAIL;

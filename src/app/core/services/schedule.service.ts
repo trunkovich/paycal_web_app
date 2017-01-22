@@ -7,7 +7,10 @@ import {Api} from './api.service';
 import {Observable} from 'rxjs';
 
 import {EmployeeScheduleEntryListResponse} from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
-import {EmployeeScheduleEntry} from '../../STATE/models/employee-schedule-entry.model';
+import {
+  EmployeeScheduleEntry, AvailableMonthsStructure,
+  LoadedMonth
+} from '../../STATE/models/employee-schedule-entry.model';
 import {GroupScheduleListResponse} from '../../STATE/models/responses/group-schedule-list-response.model';
 import {GroupSchedule} from '../../STATE/models/group-schedule.model';
 import {EmployeeListResponse} from '../../STATE/models/responses/employee-list-response.model';
@@ -23,10 +26,10 @@ export class ScheduleService {
 
   constructor(private api: Api) {}
 
-  getMyMonthSchedule(date: Date): Observable<EmployeeScheduleEntry[] | string> {
+  getMyMonthSchedule(data: { month: number; year: number; }): Observable<EmployeeScheduleEntry[] | string> {
     return this.api.getMyMonthSchedule({
-      scheduleMonth: date.getMonth() + 1,
-      scheduleYear: date.getFullYear()
+      scheduleMonth: data.month,
+      scheduleYear: data.year
     })
       .map((res: EmployeeScheduleEntryListResponse) => {
         if (res.IsSuccess) {
@@ -34,6 +37,28 @@ export class ScheduleService {
         } else {
           throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
         }
+      });
+  }
+
+  loadMonths(months: AvailableMonthsStructure): Observable<LoadedMonth> {
+    let unloadedMonths = [];
+    Object.keys(months).forEach((key) => {
+      if (!months[key].loaded) {
+        unloadedMonths.push(months[key]);
+      }
+    });
+    return Observable.from(unloadedMonths)
+      .flatMap((unloadedMonth: LoadedMonth) => {
+        return this.getMyMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month})
+          .map((entries: EmployeeScheduleEntry[]) => {
+            unloadedMonth.entries = entries;
+            unloadedMonth.loaded = true;
+            return unloadedMonth;
+          })
+          .catch((error) => {
+            console.error(error);
+            return Observable.of(unloadedMonth);
+          });
       });
   }
 

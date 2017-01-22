@@ -2,6 +2,18 @@
  * Created by TrUnK on 05.01.2017.
  */
 
+export interface LoadedMonth {
+  dateString: string; // format YYYY.M
+  entries: EmployeeScheduleEntry[];
+  loaded: boolean;
+  month: number;
+  year: number;
+}
+
+export interface AvailableMonthsStructure {
+  [propName: string]: LoadedMonth; // propname format YYYY.M
+}
+
 export interface EmployeeScheduleEntry {
   EmployeeScheduleEntryID: number;
   ScheduleID: number;

@@ -34,7 +34,7 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
   switch (action.type) {
     case referencesActions.ActionTypes.LOAD_GROUP_POSITIONS_SUCCESS: {
       return {
-        groupPositions: action.payload,
+        groupPositions: [...action.payload],
         groupSpecializations: state.groupSpecializations,
         regions: state.regions,
         states: state.states,
@@ -46,7 +46,7 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
     case referencesActions.ActionTypes.LOAD_GROUP_SPECIALIZATIONS_SUCCESS: {
       return {
         groupPositions: state.groupPositions,
-        groupSpecializations: action.payload,
+        groupSpecializations: [...action.payload],
         regions: state.regions,
         states: state.states,
         timeZones: state.timeZones,
@@ -58,7 +58,7 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
       return {
         groupPositions: state.groupPositions,
         groupSpecializations: state.groupSpecializations,
-        regions: action.payload,
+        regions: [...action.payload],
         states: state.states,
         timeZones: state.timeZones,
         referencesTypes: state.referencesTypes,
@@ -70,7 +70,7 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
         groupPositions: state.groupPositions,
         groupSpecializations: state.groupSpecializations,
         regions: state.regions,
-        states: action.payload,
+        states: [...action.payload],
         timeZones: state.timeZones,
         referencesTypes: state.referencesTypes,
         employeeStatuses: state.employeeStatuses
@@ -82,7 +82,7 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
         groupSpecializations: state.groupSpecializations,
         regions: state.regions,
         states: state.states,
-        timeZones: action.payload,
+        timeZones: [...action.payload],
         referencesTypes: state.referencesTypes,
         employeeStatuses: state.employeeStatuses
       };
@@ -94,7 +94,7 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
         regions: state.regions,
         states: state.states,
         timeZones: state.timeZones,
-        referencesTypes: action.payload,
+        referencesTypes: [...action.payload],
         employeeStatuses: state.employeeStatuses
       };
     }
@@ -106,7 +106,7 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
         states: state.states,
         timeZones: state.timeZones,
         referencesTypes: state.referencesTypes,
-        employeeStatuses: action.payload
+        employeeStatuses: [...action.payload]
       };
     }
     default: {
