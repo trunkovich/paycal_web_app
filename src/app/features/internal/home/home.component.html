@@ -7,8 +7,8 @@
                 (onDateChange)="onDateChange($event)"></pcl-calendar>
 
   <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
-                           [lineOne]="entry.LaborCode"
-                           [lineTwo]="entry.ShiftCode"
+                           [lineOne]="entry.LaborCode + ' ' + entry.ShiftCode"
+                           [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"
                            (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
 
 </div>
