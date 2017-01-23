@@ -25,6 +25,7 @@ interface CalendarEntry {
   title: string;
   value: moment.Moment;
   selected: boolean;
+  outOfRange: boolean;
   disabled: boolean;
 }
 
@@ -115,8 +116,25 @@ export class Calendar {
     });
   }
 
-  selectDay(day): void {
-    this.currentDate = moment(day);
+  selectDay(day: moment.Moment): void {
+    switch (this.type) {
+      case CalendarTypes.DAY: {
+        this.currentDate = moment(day);
+        break;
+      }
+      case CalendarTypes.WEEK: {
+        this.currentDate = moment(day).startOf('week');
+        break;
+      }
+      case CalendarTypes.TWO_WEEK: {
+        if (day.isSame(moment(day).endOf('month'), 'week')) {
+          this.currentDate = moment(day).startOf('week').subtract(1, 'week');
+        } else {
+          this.currentDate = moment(day).startOf('week');
+        }
+        break;
+      }
+    }
     this.parseViewsAndSetSelected();
   }
 
@@ -177,18 +195,22 @@ export class Calendar {
     let entries: CalendarEntry[] = [];
     switch (viewType) {
       case ViewType.DAY: {
-        let end = moment(date).endOf('month');
+        let end = moment(date).endOf('month').endOf('week');
+        if (end.isSame(moment(date).endOf('month'), 'day')) {
+          end.add(1, 'week');
+        }
         let startOfMonth = moment(date).startOf('month');
 
         let incrementalDate = moment(startOfMonth).startOf('week');
 
         while (!incrementalDate.isAfter(end)) {
           entries.push({
-            title: '' + (incrementalDate.isBefore(startOfMonth) ? '' : incrementalDate.date()),
+            title: '' + incrementalDate.date(),
             value: moment(incrementalDate),
-            selected: this.isDaySelected(incrementalDate),
-            disabled: this.isMonthDisabled(incrementalDate)
-          });
+            selected: this.isDaySelected(incrementalDate) || this.isThisWeekSelected(incrementalDate),
+            outOfRange: !incrementalDate.isSame(startOfMonth, 'month'),
+            disabled: !incrementalDate.isSame(startOfMonth, 'month') || this.isMonthDisabled(incrementalDate)
+        });
           incrementalDate.add(1, 'day');
         }
         break;
@@ -200,6 +222,7 @@ export class Calendar {
             title: m.format('MMM'),
             value: moment(m),
             selected: this.isMonthSelected(m),
+            outOfRange: false,
             disabled: this.isMonthDisabled(m)
           });
           m.add(1, 'month');
@@ -213,6 +236,7 @@ export class Calendar {
             title: m.format('YYYY'),
             value: moment(m),
             selected: this.isYearSelected(m),
+            outOfRange: false,
             disabled: this.isYearDisabled(m)
           });
           m.add(1, 'year');
@@ -262,6 +286,10 @@ export class Calendar {
             entry.disabled = true;
             return entry;
           }
+          if (!entry.value.isSame(typeView.value, 'month')) {
+            entry.disabled = true;
+            return entry;
+          }
           entry.disabled = false;
           return entry;
         });
@@ -285,6 +313,17 @@ export class Calendar {
     return moment(this.currentDate).isSame(date, 'day');
   }
 
+  private isThisWeekSelected(date: moment.Moment): boolean {
+    let result = false;
+    if (this.type === CalendarTypes.WEEK) {
+      result = date.isSame(this.currentDate, 'week');
+    } else if (this.type === CalendarTypes.TWO_WEEK) {
+      result = date.isSame(this.currentDate, 'week') || moment(date).subtract(1, 'week').isSame(this.currentDate, 'week');
+    }
+    return result;
+
+  }
+
   private isMonthSelected(date: moment.Moment): boolean {
     return moment(this.currentDate).isSame(date, 'month');
   }
@@ -296,7 +335,7 @@ export class Calendar {
   private parseViewsAndSetSelected(): void {
     this.data.day.map((typeView) => {
       typeView.calendarEntries.map((entry) => {
-        entry.selected = this.isDaySelected(entry.value);
+        entry.selected = this.isDaySelected(entry.value) || this.isThisWeekSelected(entry.value);
         return entry;
       });
       return typeView;

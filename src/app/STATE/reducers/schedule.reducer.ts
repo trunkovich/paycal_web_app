@@ -18,7 +18,7 @@ const initialScheduleState = {
   groupScheduleMonths: [],
   mySchedule: {},
   mySelectedDate: new Date(),
-  homeViewType: CalendarTypes.DAY
+  homeViewType: CalendarTypes.TWO_WEEK
 };
 
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {

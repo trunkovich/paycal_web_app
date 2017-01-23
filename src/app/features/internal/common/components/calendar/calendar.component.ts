@@ -29,6 +29,18 @@ export class CalendarComponent implements OnChanges {
     }
   }
 
+  isWeekType(): boolean {
+    return this.type === CalendarTypes.WEEK;
+  }
+
+  isTwoWeekType(): boolean {
+    return this.type === CalendarTypes.TWO_WEEK;
+  }
+
+  getTypeClass(): string {
+    return this.type === CalendarTypes.DAY ? 'day-type' : (this.type === CalendarTypes.WEEK ? 'week-type' : 'two-week-type');
+  }
+
   init() {
     this.date = moment(this.initialDate);
   }

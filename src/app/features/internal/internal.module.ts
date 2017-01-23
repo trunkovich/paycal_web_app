@@ -14,7 +14,6 @@ import { MoreComponent } from './more/more.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ScheduleEntryCardComponent } from './common/components/schedule-entry-card/schedule-entry-card.component';
 import { CalendarComponent } from './common/components/calendar/calendar.component';
-import { CalendarDataToArrayPipe } from './common/components/calendar/calendar-data-to-array.pipe';
 
 @NgModule({
   imports: [
@@ -32,8 +31,7 @@ import { CalendarDataToArrayPipe } from './common/components/calendar/calendar-d
     MoreComponent,
     ProfileComponent,
     ScheduleEntryCardComponent,
-    CalendarComponent,
-    CalendarDataToArrayPipe
+    CalendarComponent
   ]
 })
 export class InternalModule { }

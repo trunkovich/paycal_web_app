@@ -31,7 +31,7 @@
     <div class="week-header-entry">S</div>
   </div>
 
-  <div class="calendar-content-wrapper">
+  <div class="calendar-content-wrapper" [ngClass]="getTypeClass()">
     <!---------------------------------------->
     <!--              DAY VIEW              -->
     <!---------------------------------------->
@@ -49,10 +49,20 @@
          }">
 
         <div class="calendar-entry-wrapper day-entry"
-             *ngFor="let entry of data.calendarEntries">
+             *ngFor="let entry of data.calendarEntries; let j = index">
           <div class="calendar-entry"
-               (click)="onDayClick(entry.value)"
-               [ngClass]="{selected: entry.selected, disabled: entry.disabled}">
+               (click)="!entry.disabled && onDayClick(entry.value)"
+               [ngClass]="{
+               selected: entry.selected,
+               'week-first': entry.selected && isWeekType() && !data.calendarEntries[j-1]?.selected,
+               'week-last': entry.selected && isWeekType() && !data.calendarEntries[j+1]?.selected,
+               'two-week-top-left': entry.selected && isTwoWeekType() && !data.calendarEntries[j-1]?.selected,
+               'two-week-top-right': entry.selected && isTwoWeekType() && data.calendarEntries[j+7]?.selected && !data.calendarEntries[j+8]?.selected,
+               'two-week-bottom-left': entry.selected && isTwoWeekType() && data.calendarEntries[j-7]?.selected && !data.calendarEntries[j-8]?.selected,
+               'two-week-bottom-right': entry.selected && isTwoWeekType() && !data.calendarEntries[j+1]?.selected,
+               'out-of-range': entry.outOfRange,
+               disabled: entry.disabled
+               }">
             {{entry.title}}
           </div>
         </div>
