@@ -151,6 +151,85 @@ export class Calendar {
     this.parseViewsAndSetDisabled();
   }
 
+  getClassesForDay(entry: CalendarEntry, index: number, entries: CalendarEntry[]): string {
+    let classes = '';
+    if (entry.selected) {
+      classes += ' selected';
+    }
+    if (entry.disabled) {
+      classes += ' disabled';
+    }
+    if (entry.outOfRange) {
+      classes += ' out-of-range';
+    }
+    if (entry.selected) {
+      if (this.isWeekType()) {
+        if (!entries[index - 1] || !entries[index - 1].selected) {
+          classes += ' week-first';
+        }
+        if (!entries[index + 1] || !entries[index + 1].selected) {
+          classes += ' week-last';
+        }
+      }
+      if (this.isTwoWeekType()) {
+        if ((index < 7 || index > (entries.length - 7)) && this.countSelected(entries) === 7) {
+          // When we show only half of week
+          if (index < 7) {
+            // start of month
+            if (!index) {
+              classes += ' two-week-bottom-left';
+            }
+            if (index === 6) {
+              classes += ' two-week-bottom-right';
+            }
+          } else {
+            // end of month
+            if (index === (entries.length - 1)) {
+              classes += ' two-week-top-right';
+            }
+            if (index === (entries.length - 7)) {
+              classes += ' two-week-top-left';
+            }
+          }
+        } else {
+          if (!entries[index - 1] || !entries[index - 1].selected) {
+            classes += ' two-week-top-left';
+          }
+          if (!entries[index + 1] || !entries[index + 1].selected) {
+            classes += ' two-week-bottom-right';
+          }
+          if (
+            entries[index + 7] &&
+            entries[index + 7].selected &&
+            (!entries[index + 8] || !entries[index + 8].selected)
+          ) {
+            classes += ' two-week-top-right';
+          }
+          if (
+            entries[index - 7] &&
+            entries[index - 7].selected &&
+            (!entries[index - 8] || !entries[index - 8].selected)
+          ) {
+            classes += ' two-week-bottom-left';
+          }
+        }
+      }
+    }
+    return classes;
+  }
+
+  private countSelected(entries: CalendarEntry[]): number {
+    return entries.filter(entry => entry.selected).length;
+  }
+
+  private isWeekType(): boolean {
+    return this.type === CalendarTypes.WEEK;
+  }
+
+  private isTwoWeekType(): boolean {
+    return this.type === CalendarTypes.TWO_WEEK;
+  }
+
   private nextOrPrevious(previous = false): void {
     // different directions
     let value = previous ? -1 : 1;
