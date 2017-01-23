@@ -7,7 +7,8 @@ import {CalendarTypes} from '../../../STATE/models/calendar.types';
 import {GroupSchedule} from '../../../STATE/models/group-schedule.model';
 import {AppState} from '../../../STATE/models/app-state.model';
 import {LoadGroupScheduleMonthsAction, SetMySelectedDateAction} from '../../../STATE/actions/schedule.actions';
-import {scheduleSelectors} from '../../../STATE/reducers/index';
+import {scheduleSelectors, profileSelectors} from '../../../STATE/reducers/index';
+import {Employee} from '../../../STATE/models/employee.model';
 
 @Component({
   selector: 'pcl-home',
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
   homeViewType$: Observable<CalendarTypes>;
   totalWorkCount$: Observable<number>;
   estimateEarning$: Observable<number>;
+  profile$: Observable<Employee>;
 
   constructor(private store: Store<AppState>) {}
 
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit {
     this.homeViewType$ = this.store.select(scheduleSelectors.getHomeViewType);
     this.totalWorkCount$ = this.store.select(scheduleSelectors.getTotalWorkCount);
     this.estimateEarning$ = this.store.select(scheduleSelectors.getEstimateEarnings);
+    this.profile$ = this.store.select(profileSelectors.getMyProfile);
     this.store.dispatch(new LoadGroupScheduleMonthsAction());
   }
 
