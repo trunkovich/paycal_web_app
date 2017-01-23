@@ -25,6 +25,7 @@ import * as fromProfile from './profile.reducer';
 import * as fromReferences from './references.reducer';
 import * as fromSchedule from './schedule.reducer';
 import * as fromDebug from './debug.reducer';
+import {Employee} from '../models/employee.model';
 
 
 /**
@@ -66,32 +67,93 @@ export const getProfileState = (state: AppState) => state.profile;
 export const getReferencesState = (state: AppState) => state.references;
 export const getScheduleState = (state: AppState) => state.schedule;
 
+
+
+/*======================================================*/
+/*====================AUTH SELECTORS====================*/
+/*======================================================*/
+let getToken = createSelector(getAuthState, fromAuth.getToken);
+let getAuthStatus = createSelector(getAuthState, fromAuth.getAuthenticated);
+let getRedirectURL = createSelector(getAuthState, fromAuth.getRedirectURL);
+let getAuthError = createSelector(getAuthState, fromAuth.getErrorMsg);
+let getAuthLoadingState = createSelector(getAuthState, fromAuth.getLoading);
+
+
+
+/*======================================================*/
+/*===================PROFILE SELECTORS==================*/
+/*======================================================*/
+let getMyProfile = createSelector(getProfileState, fromProfile.getMyProfile);
+
+
+
+/*======================================================*/
+/*=================REFERENCES SELECTORS=================*/
+/*======================================================*/
+let getGroupPositions = createSelector(getReferencesState, fromReferences.getGroupPositions);
+let getGroupSpecializations = createSelector(getReferencesState, fromReferences.getGroupSpecializations);
+let getRegions = createSelector(getReferencesState, fromReferences.getRegions);
+let getStates = createSelector(getReferencesState, fromReferences.getStates);
+let getTimeZones = createSelector(getReferencesState, fromReferences.getTimeZones);
+let getReferencesTypes = createSelector(getReferencesState, fromReferences.getReferencesTypes);
+let getEmployeeStatuses = createSelector(getReferencesState, fromReferences.getEmployeeStatuses);
+
+
+
+
+/*======================================================*/
+/*==================SCHEDULE SELECTORS==================*/
+/*======================================================*/
+let getScheduleMonths = createSelector(getScheduleState, fromSchedule.getScheduleMonths);
+let getFullSchedule = createSelector(getScheduleState, fromSchedule.getMySchedule);
+let getSelectedDateSchedule = createSelector(getScheduleState, fromSchedule.getSelectedDateSchedule);
+let getMySelectedDate = createSelector(getScheduleState, fromSchedule.getMySelectedDate);
+let getHomeViewType = createSelector(getScheduleState, fromSchedule.getHomeViewType);
+let getTotalWorkCount = createSelector(getScheduleState, fromSchedule.getTotalWorkCount);
+
+let getEstimateEarnings = createSelector(
+  getTotalWorkCount,
+  getMyProfile,
+  (wCount: number, profile: Employee | null) => {
+    if (!profile || !profile.WorkUnitValue || !wCount) {
+      return 0;
+    } else {
+      return wCount * profile.WorkUnitValue;
+    }
+  }
+);
+
+
+
 export const authSelectors = {
-  getToken: createSelector(getAuthState, fromAuth.getToken),
-  getAuthStatus: createSelector(getAuthState, fromAuth.getAuthenticated),
-  getRedirectURL: createSelector(getAuthState, fromAuth.getRedirectURL),
-  getAuthError: createSelector(getAuthState, fromAuth.getErrorMsg),
-  getAuthLoadingState: createSelector(getAuthState, fromAuth.getLoading)
+  getToken: getToken,
+  getAuthStatus: getAuthStatus,
+  getRedirectURL: getRedirectURL,
+  getAuthError: getAuthError,
+  getAuthLoadingState: getAuthLoadingState
 };
 
 export const profileSelectors = {
-  getMyProfile: createSelector(getProfileState, fromProfile.getMyProfile),
+  getMyProfile: getMyProfile,
 };
 
 export const referenceSelectors = {
-  getGroupPositions: createSelector(getReferencesState, fromReferences.getGroupPositions),
-  getGroupSpecializations: createSelector(getReferencesState, fromReferences.getGroupSpecializations),
-  getRegions: createSelector(getReferencesState, fromReferences.getRegions),
-  getStates: createSelector(getReferencesState, fromReferences.getStates),
-  getTimeZones: createSelector(getReferencesState, fromReferences.getTimeZones),
-  getReferencesTypes: createSelector(getReferencesState, fromReferences.getReferencesTypes),
-  getEmployeeStatuses: createSelector(getReferencesState, fromReferences.getEmployeeStatuses)
+  getGroupPositions: getGroupPositions,
+  getGroupSpecializations: getGroupSpecializations,
+  getRegions: getRegions,
+  getStates: getStates,
+  getTimeZones: getTimeZones,
+  getReferencesTypes: getReferencesTypes,
+  getEmployeeStatuses: getEmployeeStatuses
 };
 
+
 export const scheduleSelectors = {
-  getScheduleMonths: createSelector(getScheduleState, fromSchedule.getScheduleMonths),
-  getFullSchedule: createSelector(getScheduleState, fromSchedule.getMySchedule),
-  getSelectedDateSchedule: createSelector(getScheduleState, fromSchedule.getSelectedDateSchedule),
-  getMySelectedDate: createSelector(getScheduleState, fromSchedule.getMySelectedDate),
-  getHomeViewType: createSelector(getScheduleState, fromSchedule.getHomeViewType)
+  getScheduleMonths: getScheduleMonths,
+  getFullSchedule: getFullSchedule,
+  getSelectedDateSchedule: getSelectedDateSchedule,
+  getMySelectedDate: getMySelectedDate,
+  getHomeViewType: getHomeViewType,
+  getTotalWorkCount: getTotalWorkCount,
+  getEstimateEarnings: getEstimateEarnings
 };

@@ -6,6 +6,15 @@
                 [activeMonths]="activeMonths$ | async"
                 (onDateChange)="onDateChange($event)"></pcl-calendar>
 
+  <div class="countings" *ngIf="isNotDayView(homeViewType$ | async)">
+    <div class="line">
+      Total W count: <span>{{totalWorkCount$ | async}}</span>
+    </div>
+    <div class="line">
+      Estimate earning: <span>{{estimateEarning$ | async | currency:'USD':true:'1.0-0'}}</span>
+    </div>
+  </div>
+
   <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
                            [lineOne]="entry.LaborCode + ' ' + entry.ShiftCode"
                            [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"

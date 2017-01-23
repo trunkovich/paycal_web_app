@@ -1,7 +1,7 @@
 @import '../../../../../../styles';
 
 :host {
-  @include size(100%, 72px);
+  height: 72px;
   display: block;
   overflow: hidden;
   border-radius: 4px;

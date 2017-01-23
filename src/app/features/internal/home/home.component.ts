@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   entries$: Observable<EmployeeScheduleEntry[]>;
   selectedDate$: Observable<Date>;
   homeViewType$: Observable<CalendarTypes>;
+  totalWorkCount$: Observable<number>;
+  estimateEarning$: Observable<number>;
 
   constructor(private store: Store<AppState>) {}
 
@@ -27,6 +29,8 @@ export class HomeComponent implements OnInit {
     this.entries$ = this.store.select(scheduleSelectors.getSelectedDateSchedule);
     this.selectedDate$ = this.store.select(scheduleSelectors.getMySelectedDate);
     this.homeViewType$ = this.store.select(scheduleSelectors.getHomeViewType);
+    this.totalWorkCount$ = this.store.select(scheduleSelectors.getTotalWorkCount);
+    this.estimateEarning$ = this.store.select(scheduleSelectors.getEstimateEarnings);
     this.store.dispatch(new LoadGroupScheduleMonthsAction());
   }
 
@@ -36,6 +40,10 @@ export class HomeComponent implements OnInit {
 
   onDateChange(date: Date) {
     this.store.dispatch(new SetMySelectedDateAction(date));
+  }
+
+  isNotDayView(viewType) {
+    return viewType === CalendarTypes.WEEK || viewType === CalendarTypes.TWO_WEEK;
   }
 
 }

@@ -1,6 +1,8 @@
 /**
  * Created by TrUnK on 16.01.2017.
  */
+import * as moment from 'moment';
+
 import * as scheduleActions from '../actions/schedule.actions';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {EmployeeScheduleEntry, AvailableMonthsStructure} from '../models/employee-schedule-entry.model';
@@ -18,7 +20,7 @@ const initialScheduleState = {
   groupScheduleMonths: [],
   mySchedule: {},
   mySelectedDate: new Date(),
-  homeViewType: CalendarTypes.TWO_WEEK
+  homeViewType: CalendarTypes.DAY
 };
 
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {
@@ -83,10 +85,10 @@ export const getSelectedDateSchedule = createSelector(
   getMySelectedDate,
   getHomeViewType,
   (mySchedule: AvailableMonthsStructure, date: Date, type: CalendarTypes) => {
-    console.log('getDailySchedule');
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
+    let m = moment(date);
+    let day = m.date();
+    let month = m.month() + 1;
+    let year = m.year();
     if (!mySchedule[`${year}.${month}`]) {
       return false;
     }
@@ -98,26 +100,41 @@ export const getSelectedDateSchedule = createSelector(
                 scheduleEntry.Day === day;
         });
       }
-      case CalendarTypes.WEEK: {
-        let firstDay = day;
-        let lastDay = day + 6;
-        return mySchedule[`${year}.${month}`].entries.filter((scheduleEntry: EmployeeScheduleEntry) => {
-          return scheduleEntry.Year === year &&
-                scheduleEntry.Month === month &&
-                scheduleEntry.Day >= firstDay &&
-                scheduleEntry.Day <= lastDay;
-        });
-      }
+      case CalendarTypes.WEEK:
       case CalendarTypes.TWO_WEEK: {
-        let firstDay = day;
-        let lastDay = day + 13;
-        return mySchedule[`${year}.${month}`].entries.filter((scheduleEntry: EmployeeScheduleEntry) => {
-          return scheduleEntry.Year === year &&
-            scheduleEntry.Month === month &&
-            scheduleEntry.Day >= firstDay &&
-            scheduleEntry.Day <= lastDay;
-        });
+        let start = moment(m).startOf('week');
+        let end = moment(m).endOf('week');
+        if (type === CalendarTypes.TWO_WEEK) {
+          end.add(1, 'week');
+        }
+        let entries: EmployeeScheduleEntry[] = [];
+        if (start.isSame(end, 'month')) {
+          return mySchedule[`${year}.${month}`].entries.filter((scheduleEntry: EmployeeScheduleEntry) => {
+            return scheduleEntry.Year === year &&
+              scheduleEntry.Month === month &&
+              scheduleEntry.Day >= start.date() &&
+              scheduleEntry.Day <= end.date();
+          });
+        } else {
+          entries = mySchedule[`${start.year()}.${start.month() + 1}`].entries
+            .concat(mySchedule[`${end.year()}.${end.month() + 1}`].entries)
+            .filter((scheduleEntry: EmployeeScheduleEntry) => {
+              let entryDate = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, date: scheduleEntry.Day});
+              return entryDate.isBetween(start, end);
+            });
+        }
+        return entries;
       }
     }
+  }
+);
+
+export const getTotalWorkCount = createSelector(
+  getSelectedDateSchedule,
+  (scheduleEntries: EmployeeScheduleEntry[]) => {
+    if (!scheduleEntries) {
+      return 0;
+    }
+    return scheduleEntries.reduce((sum: number, entry: EmployeeScheduleEntry) => sum + (entry.WorkUnitPoints || 0), 0);
   }
 );
