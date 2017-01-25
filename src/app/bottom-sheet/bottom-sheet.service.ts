@@ -40,9 +40,12 @@ export class BottomSheetService {
   }
 
   close(result) {
-    this._afterClose.next(result);
-    this._afterClose.complete();
-    this.bSheetCmpt.destroy();
+    this.bSheetCmpt.location.nativeElement.classList.remove('active');
+    setTimeout(() => {
+      this._afterClose.next(result);
+      this._afterClose.complete();
+      this.bSheetCmpt.destroy();
+    }, 200);
   }
 
 }
