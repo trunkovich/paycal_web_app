@@ -16,7 +16,8 @@
   </div>
 
   <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
-                           [lineOne]="entry.LaborCode + ' ' + entry.ShiftCode"
+                           [lineOne]="entry.LaborCode"
+                           [shiftCode]="entry.ShiftCode"
                            [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"
                            (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
 
@@ -26,7 +27,8 @@
       <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
         <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
                                  [hideButton]="true"
-                                 [lineOne]="entry.LaborCode + ' ' + entry.ShiftCode"></pcl-schedule-entry-card>
+                                 [shiftCode]="entry.ShiftCode"
+                                 [lineOne]="entry.LaborCode"></pcl-schedule-entry-card>
       </div>
     </div>
   </div>

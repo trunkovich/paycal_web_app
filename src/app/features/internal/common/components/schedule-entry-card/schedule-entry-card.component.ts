@@ -8,6 +8,7 @@ import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 export class ScheduleEntryCardComponent implements OnInit {
   @Output() shiftClick = new EventEmitter();
   @Input() lineOne: string;
+  @Input() shiftCode: string;
   @Input() lineTwo: string;
   @Input() hideButton: boolean;
 

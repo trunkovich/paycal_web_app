@@ -7,15 +7,30 @@
   border-radius: 4px;
   background-color: #ffffff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 0 0 0 rgba(0, 0, 0, 0.12);
-  border-left: 8px solid $tealish;
 
   .card-container {
     @extend .full-height;
     @include clearfix();
     position: relative;
 
+    .left-block {
+      @extend .float-left;
+      @include size(20px, 100%);
+      background: $tealish;
+      color: white;
+
+      .text {
+        overflow-wrap: break-word;
+        line-height: 20px;
+        padding: 16px 3px;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+
     .text-block {
       padding: 15px;
+      padding-left: 30px;
 
       .title {
         @extend .big-text;
