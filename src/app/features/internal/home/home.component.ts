@@ -10,7 +10,6 @@ import {LoadGroupScheduleMonthsAction, SetMySelectedDateAction} from '../../../S
 import {scheduleSelectors, profileSelectors} from '../../../STATE/reducers/index';
 import {Employee} from '../../../STATE/models/employee.model';
 import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
-import {ViewTypeBottomSheetComponent} from '../common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
 
 @Component({
   selector: 'pcl-home',
@@ -43,8 +42,6 @@ export class HomeComponent implements OnInit {
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {
-    this.bss.open(ViewTypeBottomSheetComponent)
-      .subscribe((result) => console.log(result), () => {}, () => console.log('finished'));
     console.log(entry.LaborCode);
   }
 
