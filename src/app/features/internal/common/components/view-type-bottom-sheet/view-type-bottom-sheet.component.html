@@ -1,0 +1,14 @@
+<div class="header-block">
+  <button (click)="close($event)">DONE</button>
+</div>
+<div class="content-block">
+  <div class="view-types"
+       (click)="select('day')"
+       [class.selected]="isDayView(type$ | async)">Day View</div>
+  <div class="view-types"
+       (click)="select('week')"
+       [class.selected]="isWeekView(type$ | async)">Week View</div>
+  <div class="view-types"
+       (click)="select('two_week')"
+       [class.selected]="isTwoWeekView(type$ | async)">2 Week View</div>
+</div>

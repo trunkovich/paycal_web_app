@@ -75,7 +75,6 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
       }
       let loadedMonthWrapper = {};
       loadedMonthWrapper[`${action.payload.dateString}`] = Object.assign({}, action.payload);
-      console.log('set false');
       return {
         groupScheduleMonths: state.groupScheduleMonths,
         mySchedule: Object.assign({}, state.mySchedule, loadedMonthWrapper),
@@ -90,6 +89,15 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         mySchedule: state.mySchedule,
         mySelectedDate: new Date(action.payload),
         homeViewType: state.homeViewType,
+        scheduleLoading: state.scheduleLoading
+      };
+    }
+    case scheduleActions.ActionTypes.SET_HOME_VIEW_TYPE: {
+      return {
+        groupScheduleMonths: state.groupScheduleMonths,
+        mySchedule: state.mySchedule,
+        mySelectedDate: state.mySelectedDate,
+        homeViewType: action.payload,
         scheduleLoading: state.scheduleLoading
       };
     }

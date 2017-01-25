@@ -7,6 +7,7 @@ import { type } from '../utils';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {EmployeeScheduleEntry, LoadedMonth} from '../models/employee-schedule-entry.model';
 import {Observable} from 'rxjs';
+import {CalendarTypes} from '../models/calendar.types';
 
 /**
  * For each action type in an action group, make a simple
@@ -31,7 +32,8 @@ export const ActionTypes = {
   LOAD_MY_MONTH_SCHEDULE_FINALLY: type('[Schedule] Load my month schedule months finally'),
 
 // OTHERS
-  SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date')
+  SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date'),
+  SET_HOME_VIEW_TYPE: type('[Schedule] Set home view type')
 
 };
 
@@ -82,6 +84,10 @@ export class SetMySelectedDateAction implements Action {
   type = ActionTypes.SET_MY_SELECTED_DATE;
   constructor(public payload: Date) { }
 }
+export class SetHomeViewTypeAction implements Action {
+  type = ActionTypes.SET_HOME_VIEW_TYPE;
+  constructor(public payload: CalendarTypes) { }
+}
 
 
 /**
@@ -102,4 +108,5 @@ export type Actions
   | LoadMyMonthScheduleFinishedAction
 
 // OTHERS
-  | SetMySelectedDateAction;
+  | SetMySelectedDateAction
+  | SetHomeViewTypeAction;

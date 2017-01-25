@@ -1,0 +1,44 @@
+@import '../../../../../../styles';
+
+:host {
+  @include size(100%, 261px);
+  display: block;
+
+  .header-block {
+    @include clearfix();
+    @include size(100%, 42px);
+    border-bottom: solid 1px $light-blue-grey;
+
+    button {
+      @extend .float-right;
+      @extend .reset-styles;
+      @extend .reset-button-styles;
+      @extend .big-bold-text;
+      @extend .text-center;
+      height: 42px;
+      line-height: 42px;
+      padding: 0 24px;
+      color: $tealish;
+    }
+  }
+
+  .content-block {
+    padding-top: 49px;
+
+    .view-types {
+      @include size(100%, 38px);
+      @extend .weak-text;
+      @extend .text-center;
+      border-top: solid 1px transparent;
+      border-bottom: solid 1px transparent;
+      font-size: 24px;
+      line-height: 38px;
+
+      &.selected {
+        color: inherit;
+        border-top-color: $light-blue-grey;
+        border-bottom-color: $light-blue-grey;
+      }
+    }
+  }
+}

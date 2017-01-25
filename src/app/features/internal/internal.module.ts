@@ -16,6 +16,7 @@ import { ScheduleEntryCardComponent } from './common/components/schedule-entry-c
 import { CalendarComponent } from './common/components/calendar/calendar.component';
 import {BottomSheetModule} from '../../bottom-sheet/bottom-sheet.module';
 import { ViewTypeSwitcherComponent } from './common/components/view-type-switcher/view-type-switcher.component';
+import { ViewTypeBottomSheetComponent } from './common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
 
 @NgModule({
   imports: [
@@ -35,8 +36,8 @@ import { ViewTypeSwitcherComponent } from './common/components/view-type-switche
     ProfileComponent,
     ScheduleEntryCardComponent,
     CalendarComponent,
-    ViewTypeSwitcherComponent
-  ],
-  entryComponents: [ViewTypeSwitcherComponent]
+    ViewTypeSwitcherComponent,
+    ViewTypeBottomSheetComponent
+  ]
 })
 export class InternalModule { }
