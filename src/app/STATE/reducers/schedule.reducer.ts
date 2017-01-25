@@ -155,7 +155,7 @@ export const getSelectedDateSchedule = createSelector(
           entries = mySchedule[`${start.year()}.${start.month() + 1}`].entries
             .concat(mySchedule[`${end.year()}.${end.month() + 1}`].entries)
             .filter((scheduleEntry: EmployeeScheduleEntry) => {
-              let entryDate = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, date: scheduleEntry.Day});
+              let entryDate = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, date: scheduleEntry.Day}).add(1, 'minute');
               return entryDate.isBetween(start, end);
             });
         }
