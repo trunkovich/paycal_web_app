@@ -11,6 +11,7 @@ import {ScheduleService} from '../../core/services/schedule.service';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {AvailableMonthsStructure, LoadedMonth} from '../models/employee-schedule-entry.model';
 import {AppState, scheduleSelectors} from '../reducers/index';
+import * as authActions from '../actions/auth.actions';
 
 @Injectable()
 export class ScheduleEffects {
@@ -19,6 +20,15 @@ export class ScheduleEffects {
     private scheduleService: ScheduleService,
     private store: Store<AppState>
   ) {}
+
+  // @Effect({dispatch: false})
+  // getGroupMonthsAfterSignIn$: Observable<Action> = this.actions$
+  //   .ofType(
+  //     authActions.ActionTypes.SIGN_IN_SUCCESS,
+  //     authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS,
+  //     authActions.ActionTypes.READ_TOKEN_SUCCESS
+  //   )
+  //   .do(() => this.store.dispatch(new scheduleActions.LoadGroupScheduleMonthsAction()));
 
   @Effect()
   getGroupScheduleMonths$: Observable<Action> = this.actions$

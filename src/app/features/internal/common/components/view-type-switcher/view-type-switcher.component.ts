@@ -22,8 +22,7 @@ export class ViewTypeSwitcherComponent {
   }
 
   openBottomSheet() {
-    this.bss.open(ViewTypeBottomSheetComponent)
-      .subscribe((result) => console.log(result), () => {}, () => console.log('finished'));
+    this.bss.open(ViewTypeBottomSheetComponent);
   }
 
 }

@@ -17,11 +17,20 @@
 
   <pcl-view-type-switcher [type]="homeViewType$ | async"></pcl-view-type-switcher>
 
-  <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
-                           [lineOne]="entry.LaborCode"
-                           [shiftCode]="entry.ShiftCode"
-                           [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"
-                           (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
+  <div *ngIf="isDayView(homeViewType$ | async)">
+    <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
+                             [lineOne]="entry.LaborCode"
+                             [shiftCode]="entry.ShiftCode"
+                             [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"
+                             (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
+  </div>
+
+  <div *ngIf="isNotDayView(homeViewType$ | async)">
+    <pcl-schedule-day-card *ngFor="let day of groupedEntries$ | async"
+                           class="week-view-entry"
+                           [day]="day"
+                           (click)="onDayClick(day)"></pcl-schedule-day-card>
+  </div>
 
   <!--Some hacks to show default cards, but prevent showing them during initialization and loading-->
   <div *ngIf="loading$"> <!--only if loading$ initialized-->

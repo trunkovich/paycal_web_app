@@ -78,6 +78,10 @@ body {
   @extend .bold-text;
   @extend .weak-text;
 }
+.bold-weak-text {
+  @extend .bold-text;
+  @extend .weak-text;
+}
 .small-error-text {
   @extend .small-text;
   @extend .error-text;

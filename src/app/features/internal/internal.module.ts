@@ -17,6 +17,7 @@ import { CalendarComponent } from './common/components/calendar/calendar.compone
 import {BottomSheetModule} from '../../bottom-sheet/bottom-sheet.module';
 import { ViewTypeSwitcherComponent } from './common/components/view-type-switcher/view-type-switcher.component';
 import { ViewTypeBottomSheetComponent } from './common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
+import {ScheduleDayCardComponent} from './common/components/schedule-day-card/schedule-day-card.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { ViewTypeBottomSheetComponent } from './common/components/view-type-bott
     ScheduleEntryCardComponent,
     CalendarComponent,
     ViewTypeSwitcherComponent,
-    ViewTypeBottomSheetComponent
+    ViewTypeBottomSheetComponent,
+    ScheduleDayCardComponent
   ]
 })
 export class InternalModule { }

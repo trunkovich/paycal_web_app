@@ -1,0 +1,10 @@
+<div class="card-container">
+  <div class="date-block">
+    <div class="day">{{day.date | amDateFormat:'DD'}}</div>
+    <div class="month">{{day.date | amDateFormat:'MMMM'}}</div>
+  </div>
+
+  <div *ngFor="let entry of day.entries"
+       class="schedule-entry">{{ entry.LaborCode }}</div>
+
+</div>

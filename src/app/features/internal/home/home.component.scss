@@ -2,10 +2,11 @@
 
 :host {
   min-height: 100%;
+  box-sizing: border-box;
   display: block;
   background: $pale-grey;
   padding-bottom: 48px;
-  margin-top: 45px;
+  padding-top: 45px;
 
   pcl-header {
     @include fixed(top 0 left 0 right 0);
@@ -34,7 +35,8 @@
       margin-bottom: 16px;
     }
 
-    pcl-schedule-entry-card {
+    pcl-schedule-entry-card,
+    pcl-schedule-day-card {
       margin-bottom: 8px;
     }
   }

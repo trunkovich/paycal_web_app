@@ -5,7 +5,10 @@ import * as moment from 'moment';
 
 import * as scheduleActions from '../actions/schedule.actions';
 import {GroupSchedule} from '../models/group-schedule.model';
-import {EmployeeScheduleEntry, AvailableMonthsStructure} from '../models/employee-schedule-entry.model';
+import {
+  EmployeeScheduleEntry, AvailableMonthsStructure,
+  EmployeeScheduleEntryGroupedByDay
+} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
 import { createSelector } from 'reselect';
 
@@ -117,7 +120,7 @@ export const getSelectedDateSchedule = createSelector(
   getMySchedule,
   getMySelectedDate,
   getHomeViewType,
-  (mySchedule: AvailableMonthsStructure, date: Date, type: CalendarTypes) => {
+  (mySchedule: AvailableMonthsStructure, date: Date, type: CalendarTypes): EmployeeScheduleEntry[] | boolean => {
     let m = moment(date);
     let day = m.date();
     let month = m.month() + 1;
@@ -159,6 +162,30 @@ export const getSelectedDateSchedule = createSelector(
         return entries;
       }
     }
+  }
+);
+
+export const getSelectedDateScheduleGroupedByDay = createSelector(
+  getSelectedDateSchedule,
+  (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntryGroupedByDay[] | boolean => {
+    if (!entries) {
+      return false;
+    }
+    let groupedEntries = {};
+    let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
+    entries.forEach((entry) => {
+      if (!groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`]) {
+        groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`] = [];
+      }
+      groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
+    });
+    Object.keys(groupedEntries).forEach((key) => {
+      groupedEntriesArr.push({
+        date: moment(key, 'YYYY.MM.DD'),
+        entries: groupedEntries[key]
+      });
+    });
+    return groupedEntriesArr;
   }
 );
 

@@ -111,6 +111,7 @@ let getMySelectedDate = createSelector(getScheduleState, fromSchedule.getMySelec
 let getHomeViewType = createSelector(getScheduleState, fromSchedule.getHomeViewType);
 let getTotalWorkCount = createSelector(getScheduleState, fromSchedule.getTotalWorkCount);
 let getScheduleLoadingState = createSelector(getScheduleState, fromSchedule.getScheduleLoadingState);
+let getSelectedDateScheduleGroupedByDay = createSelector(getScheduleState, fromSchedule.getSelectedDateScheduleGroupedByDay);
 
 let getEstimateEarnings = createSelector(
   getTotalWorkCount,
@@ -157,5 +158,6 @@ export const scheduleSelectors = {
   getHomeViewType: getHomeViewType,
   getTotalWorkCount: getTotalWorkCount,
   getEstimateEarnings: getEstimateEarnings,
-  getScheduleLoadingState: getScheduleLoadingState
+  getScheduleLoadingState: getScheduleLoadingState,
+  getSelectedDateScheduleGroupedByDay: getSelectedDateScheduleGroupedByDay
 };

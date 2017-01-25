@@ -1,6 +1,7 @@
 /**
  * Created by TrUnK on 05.01.2017.
  */
+import * as moment from 'moment';
 
 export interface LoadedMonth {
   dateString: string; // format YYYY.M
@@ -12,6 +13,11 @@ export interface LoadedMonth {
 
 export interface AvailableMonthsStructure {
   [propName: string]: LoadedMonth; // propname format YYYY.M
+}
+
+export interface EmployeeScheduleEntryGroupedByDay {
+  date: moment.Moment;
+  entries: EmployeeScheduleEntry[];
 }
 
 export interface EmployeeScheduleEntry {

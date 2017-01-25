@@ -7,6 +7,3 @@ import {Observable} from 'rxjs';
 
 let md = new MobileDetect(window.navigator.userAgent);
 export const isMobile = !!md.phone();
-
-// let obs = Observable.fromEvent(window, 'orientationchange');
-// obs.subscribe(res => console.log(res));
