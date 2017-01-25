@@ -1,6 +1,7 @@
 <div class="card-container">
 
   <div class="right-block"
+       *ngIf="!hideButton"
        (click)="onShiftClick($event); $event.stopPropagation();"
        md-ripple
        mdRippleCentered="true">

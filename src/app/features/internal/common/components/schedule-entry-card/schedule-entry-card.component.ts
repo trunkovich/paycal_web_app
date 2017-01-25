@@ -9,6 +9,7 @@ export class ScheduleEntryCardComponent implements OnInit {
   @Output() shiftClick = new EventEmitter();
   @Input() lineOne: string;
   @Input() lineTwo: string;
+  @Input() hideButton: boolean;
 
   constructor() { }
 

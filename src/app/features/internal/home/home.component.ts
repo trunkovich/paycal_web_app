@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
   totalWorkCount$: Observable<number>;
   estimateEarning$: Observable<number>;
   profile$: Observable<Employee>;
+  loading$: Observable<boolean>;
+  defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
 
   constructor(private store: Store<AppState>) {}
 
@@ -33,6 +35,7 @@ export class HomeComponent implements OnInit {
     this.homeViewType$ = this.store.select(scheduleSelectors.getHomeViewType);
     this.totalWorkCount$ = this.store.select(scheduleSelectors.getTotalWorkCount);
     this.estimateEarning$ = this.store.select(scheduleSelectors.getEstimateEarnings);
+    this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
     this.profile$ = this.store.select(profileSelectors.getMyProfile);
     this.store.dispatch(new LoadGroupScheduleMonthsAction());
   }

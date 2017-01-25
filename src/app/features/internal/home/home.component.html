@@ -20,4 +20,15 @@
                            [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"
                            (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
 
+  <!--Some hacks to show default cards, but prevent showing them during initialization and loading-->
+  <div *ngIf="loading$"> <!--only if loading$ initialized-->
+    <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
+      <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
+        <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
+                                 [hideButton]="true"
+                                 [lineOne]="entry.LaborCode + ' ' + entry.ShiftCode"></pcl-schedule-entry-card>
+      </div>
+    </div>
+  </div>
+
 </div>

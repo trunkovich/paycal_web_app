@@ -25,8 +25,10 @@ export const ActionTypes = {
 
 // load my month schedule months actions
   LOAD_MY_MONTH_SCHEDULE: type('[Schedule] Load my month schedule months'),
+  LOAD_MY_FULL_SCHEDULE: type('[Schedule] Load my full schedule months'),
   LOAD_MY_MONTH_SCHEDULE_SUCCESS: type('[Schedule] Load my month schedule months success'),
   LOAD_MY_MONTH_SCHEDULE_FAIL: type('[Schedule] Load my month schedule months fail'),
+  LOAD_MY_MONTH_SCHEDULE_FINALLY: type('[Schedule] Load my month schedule months finally'),
 
 // OTHERS
   SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date')
@@ -56,6 +58,9 @@ export class LoadGroupScheduleMonthsFailAction implements Action {
 }
 
 // load my month schedule months actions
+export class LoadMyFullScheduleAction implements Action {
+  type = ActionTypes.LOAD_MY_FULL_SCHEDULE;
+}
 export class LoadMyMonthScheduleAction implements Action {
   type = ActionTypes.LOAD_MY_MONTH_SCHEDULE;
   constructor(public payload: Date) { }
@@ -67,6 +72,9 @@ export class LoadMyMonthScheduleSuccessAction implements Action {
 export class LoadMyMonthScheduleFailAction implements Action {
   type = ActionTypes.LOAD_MY_MONTH_SCHEDULE_FAIL;
   constructor(public payload: string) { }
+}
+export class LoadMyMonthScheduleFinishedAction implements Action {
+  type = ActionTypes.LOAD_MY_MONTH_SCHEDULE_FINALLY;
 }
 
 // OTHERS
@@ -87,9 +95,11 @@ export type Actions
   | LoadGroupScheduleMonthsFailAction
 
 // load my month schedule months actions
+  | LoadMyFullScheduleAction
   | LoadMyMonthScheduleAction
   | LoadMyMonthScheduleSuccessAction
   | LoadMyMonthScheduleFailAction
+  | LoadMyMonthScheduleFinishedAction
 
 // OTHERS
   | SetMySelectedDateAction;

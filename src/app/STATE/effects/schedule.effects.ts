@@ -31,13 +31,19 @@ export class ScheduleEffects {
     });
 
   @Effect()
-  getAllAvailableMonthsSchedule$: Observable<Action> = this.actions$
+  initFullScheduleMonthLoading$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
+    .map(() => new scheduleActions.LoadMyFullScheduleAction());
+
+  @Effect()
+  getAllAvailableMonthsSchedule$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.LOAD_MY_FULL_SCHEDULE)
     .withLatestFrom(this.store.select(scheduleSelectors.getFullSchedule))
     .switchMap(([, months]: [any, AvailableMonthsStructure]) => {
       return this.scheduleService.loadMonths(months)
         .map((loadedMonth: LoadedMonth) => new scheduleActions.LoadMyMonthScheduleSuccessAction(loadedMonth))
-        .catch(error => Observable.of(new scheduleActions.LoadMyMonthScheduleFailAction(error)));
+        .catch(error => Observable.of(new scheduleActions.LoadMyMonthScheduleFailAction(error)))
+        .finally(() => this.store.dispatch(new scheduleActions.LoadMyMonthScheduleFinishedAction()));
     });
 
 }
