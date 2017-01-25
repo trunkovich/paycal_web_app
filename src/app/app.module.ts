@@ -29,6 +29,8 @@ import {ProfileEffects} from './STATE/effects/profile.effects';
 import {ReferencesEffects} from './STATE/effects/references.effects';
 import {ScheduleEffects} from './STATE/effects/schedule.effects';
 import {reducer} from './STATE/reducers/index';
+import {ViewTypeSwitcherComponent} from './features/internal/common/components/view-type-switcher/view-type-switcher.component';
+import {BottomSheetContainerComponent} from './bottom-sheet/bottom-sheet-container/bottom-sheet-container.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import {reducer} from './STATE/reducers/index';
     OnlyMobileDevices,
     OnlyDesktopDevices
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ViewTypeSwitcherComponent, BottomSheetContainerComponent]
 })
 export class AppModule { }

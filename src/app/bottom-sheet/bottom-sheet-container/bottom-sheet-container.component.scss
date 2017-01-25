@@ -1,0 +1,47 @@
+:host {
+  .bottom-sheet-backdrop {
+    transform: translate3d(0, 50%, 0);
+    opacity: 0;
+    transition: transform 200ms, opacity 200ms;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.2);
+
+  }
+
+  .bottom-sheet-content {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+    transition: transform 200ms, opacity 200ms;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 100px;
+    z-index: 51;
+    background-color: #ffffff;
+    border-top: solid 2px #d4dfea;
+
+    &.active {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    .bottom-sheet-backdrop {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+    .bottom-sheet-content {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+}
+
+

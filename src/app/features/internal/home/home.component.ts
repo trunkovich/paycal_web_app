@@ -9,6 +9,8 @@ import {AppState} from '../../../STATE/models/app-state.model';
 import {LoadGroupScheduleMonthsAction, SetMySelectedDateAction} from '../../../STATE/actions/schedule.actions';
 import {scheduleSelectors, profileSelectors} from '../../../STATE/reducers/index';
 import {Employee} from '../../../STATE/models/employee.model';
+import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
+import {ViewTypeSwitcherComponent} from '../common/components/view-type-switcher/view-type-switcher.component';
 
 @Component({
   selector: 'pcl-home',
@@ -26,7 +28,7 @@ export class HomeComponent implements OnInit {
   loading$: Observable<boolean>;
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private bss: BottomSheetService) {}
 
   ngOnInit() {
     this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
@@ -41,6 +43,8 @@ export class HomeComponent implements OnInit {
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {
+    this.bss.open(ViewTypeSwitcherComponent)
+      .subscribe((result) => console.log(result), () => {}, () => console.log('finished'));
     console.log(entry.LaborCode);
   }
 

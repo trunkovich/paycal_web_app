@@ -14,6 +14,8 @@ import { MoreComponent } from './more/more.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ScheduleEntryCardComponent } from './common/components/schedule-entry-card/schedule-entry-card.component';
 import { CalendarComponent } from './common/components/calendar/calendar.component';
+import {BottomSheetModule} from '../../bottom-sheet/bottom-sheet.module';
+import { ViewTypeSwitcherComponent } from './common/components/view-type-switcher/view-type-switcher.component';
 
 @NgModule({
   imports: [
@@ -22,6 +24,7 @@ import { CalendarComponent } from './common/components/calendar/calendar.compone
     PclCommonModule,
     MaterialModule,
     MomentModule,
+    BottomSheetModule,
     RouterModule.forChild(internalRoutes),
   ],
   declarations: [
@@ -31,7 +34,9 @@ import { CalendarComponent } from './common/components/calendar/calendar.compone
     MoreComponent,
     ProfileComponent,
     ScheduleEntryCardComponent,
-    CalendarComponent
-  ]
+    CalendarComponent,
+    ViewTypeSwitcherComponent
+  ],
+  entryComponents: [ViewTypeSwitcherComponent]
 })
 export class InternalModule { }
