@@ -94,9 +94,11 @@ export class CalendarComponent implements OnChanges {
       }
       case CalendarTypes.WEEK:
       case CalendarTypes.TWO_WEEK: {
-        let dayDuration = this.type === CalendarTypes.WEEK ? 6 : 13;
-        let startDate = moment(this.date);
-        let endDate = moment(this.date).add(dayDuration, 'day');
+        let startDate = moment(this.date).startOf('week');
+        let endDate = moment(this.date).endOf('day');
+        if (this.type === CalendarTypes.TWO_WEEK) {
+          endDate.add(1, 'week');
+        }
         result += startDate.format('MMMM D');
         if (!startDate.isSame(endDate, 'year')) {
           result += ', ';
