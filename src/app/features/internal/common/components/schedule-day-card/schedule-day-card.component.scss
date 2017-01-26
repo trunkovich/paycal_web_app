@@ -2,6 +2,7 @@
 
 :host {
   @include clearfix();
+  position: relative;
   min-height: 72px;
   display: block;
   border-radius: 4px;
@@ -9,38 +10,47 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 0 0 0 rgba(0, 0, 0, 0.12);
   border-left: 8px solid $tealish;
 
-  .date-block {
-    @extend .float-left;
-    @extend .text-center;
+  .date-block-wrapper {
+    @include absolute(top 0 bottom 0 left 0);
     width: 56px;
-    padding-top: 12px;
 
-    .day {
-      font-size: 22px;
-      line-height: 30px;
-      letter-spacing: 0.4px;
+    .date-block {
+      @include centerer();
+      @extend .text-center;
+
+      .day {
+        font-size: 22px;
+        line-height: 30px;
+        letter-spacing: 0.4px;
+      }
+      .month {
+        @extend .bold-weak-text;
+        font-size: 10px;
+        line-height: 14px;
+      }
     }
-    .month {
+  }
+
+  .schedule-entiries-block {
+    padding-left: 56px;
+    padding-top: 6.66px;
+
+    .schedule-entry {
+      @extend .float-left;
+      @extend .text-center;
       @extend .bold-weak-text;
+      min-width: 26px;
+      height: 26px;
       font-size: 10px;
-      line-height: 14px;
+      color: white;
+      line-height: 26px;
+      margin: 0 6.66px 6.66px 0;
+      letter-spacing: 0.4px;
+      background-color: $tealish;
+      border-radius: 13px;
+      padding: 0 10px;
     }
   }
 
-  .schedule-entry {
-    @extend .float-left;
-    @extend .text-center;
-    @extend .bold-weak-text;
-    min-width: 42px;
-    height: 42px;
-    font-size: 10px;
-    color: white;
-    line-height: 42px;
-    margin: 15px 8px 15px 0;
-    letter-spacing: 0.4px;
-    background-color: $tealish;
-    border-radius: 24px;
-    padding: 0 12px;
-  }
 
 }
