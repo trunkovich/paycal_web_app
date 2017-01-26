@@ -1,6 +1,9 @@
 import './polyfills.ts';
 import 'ts-helpers';
 import 'proxy-polyfill/proxy.min.js';
+import 'intl/index';
+import 'intl/locale-data/jsonp/en.js';
+
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
