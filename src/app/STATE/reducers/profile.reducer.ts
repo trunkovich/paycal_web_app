@@ -16,6 +16,9 @@ const initialProfileState = {
 
 export function profileReducer(state: ProfileState = initialProfileState, action: profileActions.Actions): ProfileState {
   switch (action.type) {
+    case profileActions.ActionTypes.CLEAN_PROFILE: {
+      return Object.assign({}, initialProfileState);
+    }
     case profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS: {
       return {
         employee: Object.assign({}, action.payload),

@@ -18,6 +18,9 @@ export const ActionTypes = {
   GET_USER_PROFILE: type('[Auth] Get user profile'),
   GET_USER_PROFILE_SUCCESS:   type('[Auth] Get user profile success'),
   GET_USER_PROFILE_FAIL: type('[Auth] Get user profile failed'),
+
+  // CLEAN PROFILE
+  CLEAN_PROFILE: type('[Auth] Clean profile'),
 };
 
 
@@ -42,6 +45,11 @@ export class GetUserProfileFailAction implements Action {
   type = ActionTypes.GET_USER_PROFILE_FAIL;
   constructor(public payload: any) { }
 }
+
+// CLEAN PROFILE
+export class CleanProfileAction implements Action {
+  type = ActionTypes.CLEAN_PROFILE;
+}
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -50,4 +58,7 @@ export type Actions
   // GET USER PROFILE
   = GetUserProfileAction
   | GetUserProfileSuccessAction
-  | GetUserProfileFailAction;
+  | GetUserProfileFailAction
+
+  // CLEAN PROFILE
+  | CleanProfileAction;

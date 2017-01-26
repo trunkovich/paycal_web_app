@@ -87,4 +87,8 @@ export class ScheduleEffects {
         .finally(() => this.store.dispatch(new scheduleActions.LoadMyMonthScheduleFinishedAction()));
     });
 
+  @Effect()
+  cleanScheduleAfterLogout$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.LOGOUT)
+    .map(() => new scheduleActions.CleanScheduleAction());
 }

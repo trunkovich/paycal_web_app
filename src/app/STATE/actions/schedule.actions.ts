@@ -33,7 +33,8 @@ export const ActionTypes = {
 
 // OTHERS
   SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date'),
-  SET_HOME_VIEW_TYPE: type('[Schedule] Set home view type')
+  SET_HOME_VIEW_TYPE: type('[Schedule] Set home view type'),
+  CLEAN_SCHEDULE: type('[Schedule] Clean Schedule')
 
 };
 
@@ -88,6 +89,10 @@ export class SetHomeViewTypeAction implements Action {
   type = ActionTypes.SET_HOME_VIEW_TYPE;
   constructor(public payload: CalendarTypes) { }
 }
+export class CleanScheduleAction implements Action {
+  type = ActionTypes.CLEAN_SCHEDULE;
+}
+
 
 
 /**
@@ -109,4 +114,5 @@ export type Actions
 
 // OTHERS
   | SetMySelectedDateAction
-  | SetHomeViewTypeAction;
+  | SetHomeViewTypeAction
+  | CleanScheduleAction;

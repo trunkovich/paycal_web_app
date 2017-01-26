@@ -34,4 +34,9 @@ export class ProfileEffects {
         .catch(error => Observable.of(new profileActions.GetUserProfileFailAction(error)));
     });
 
+  @Effect()
+  cleanProfileAfterLogout$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.LOGOUT)
+    .map(() => new profileActions.CleanProfileAction());
+
 }
