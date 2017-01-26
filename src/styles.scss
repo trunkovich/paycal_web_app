@@ -415,13 +415,14 @@ input.md-input-element:-webkit-autofill + .md-input-placeholder,
 }
 /* Material input */
 
+
+
+/* Splash loader */
 .splash-logo {
   @include size(70px, 110px);
   @include background-image('logo', 'png', 100%);
   background-repeat: no-repeat;
 }
-
-/* Splash loader */
 .splash-loader {
   @include size(100%);
   @include fixed(top 0 left 0);
@@ -431,11 +432,15 @@ input.md-input-element:-webkit-autofill + .md-input-placeholder,
   .splash-logo {
     @include centerer();
   }
+  &.show {
+    opacity: 1;
+    z-index: 100;
+  }
 }
-pcl-root:empty + .splash-loader {
-  opacity: 1;
-  z-index: 100;
-}
+//pcl-root:empty + .splash-loader {
+//  opacity: 1;
+//  z-index: 100;
+//}
 /* Splash loader */
 
 

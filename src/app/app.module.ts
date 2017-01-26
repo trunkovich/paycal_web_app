@@ -31,6 +31,7 @@ import {ScheduleEffects} from './STATE/effects/schedule.effects';
 import {reducer} from './STATE/reducers/index';
 import {BottomSheetContainerComponent} from './bottom-sheet/bottom-sheet-container/bottom-sheet-container.component';
 import {ViewTypeBottomSheetComponent} from './features/internal/common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
+import {StartupEffects} from './STATE/effects/startup.effects';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {ViewTypeBottomSheetComponent} from './features/internal/common/component
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
     StoreModule.provideStore(reducer),
+    EffectsModule.run(StartupEffects),
     EffectsModule.run(AuthEffects),
     EffectsModule.run(ErrorHandlingEffects),
     EffectsModule.run(ProfileEffects),
