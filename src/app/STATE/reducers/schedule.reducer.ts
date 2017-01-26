@@ -30,7 +30,8 @@ const initialScheduleState = {
 
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {
   switch (action.type) {
-    case scheduleActions.ActionTypes.LOAD_MY_FULL_SCHEDULE: {
+    case scheduleActions.ActionTypes.LOAD_MY_FULL_SCHEDULE:
+    case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE: {
       return {
         groupScheduleMonths: state.groupScheduleMonths,
         mySchedule: state.mySchedule,
