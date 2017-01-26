@@ -68,4 +68,14 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new SetHomeViewTypeAction(CalendarTypes.DAY));
   }
 
+  formattedTitle(profile: Employee): string {
+    if (!profile) {
+      return '';
+    }
+    if (profile.EmployeePositionID === 2) {
+      return `Dr. ${profile.FirstName} ${profile.LastName}, MD.`;
+    }
+    return `${profile.FirstName} ${profile.LastName}`;
+  }
+
 }
