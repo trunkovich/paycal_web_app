@@ -47,9 +47,9 @@ import {ViewTypeBottomSheetComponent} from './features/internal/common/component
     StoreModule.provideStore(reducer),
     EffectsModule.run(AuthEffects),
     EffectsModule.run(ErrorHandlingEffects),
-    EffectsModule.runAfterBootstrap(ProfileEffects),
-    EffectsModule.runAfterBootstrap(ReferencesEffects),
-    EffectsModule.runAfterBootstrap(ScheduleEffects),
+    EffectsModule.run(ProfileEffects),
+    EffectsModule.run(ReferencesEffects),
+    EffectsModule.run(ScheduleEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
 
     InternalModule,

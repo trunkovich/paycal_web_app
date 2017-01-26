@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit {
     this.estimateEarning$ = this.store.select(scheduleSelectors.getEstimateEarnings);
     this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
     this.profile$ = this.store.select(profileSelectors.getMyProfile);
-    this.store.dispatch(new LoadGroupScheduleMonthsAction());
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {

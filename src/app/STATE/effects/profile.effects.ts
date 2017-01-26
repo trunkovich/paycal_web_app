@@ -22,12 +22,8 @@ export class ProfileEffects {
       authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS,
       authActions.ActionTypes.READ_TOKEN_SUCCESS
     )
-    .map(() => new profileActions.GetUserProfileAction());
-
-  // @Effect()
-  // getProfileAfterReadToken: Observable<Action> = this.actions$
-  //   .ofType(authActions.ActionTypes.READ_TOKEN_SUCCESS)
-  //   .map(() => new profileActions.GetUserProfileAction());
+    .map(() => new profileActions.GetUserProfileAction())
+    .delay(1);
 
   @Effect()
   getProfile$: Observable<Action> = this.actions$

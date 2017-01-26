@@ -84,7 +84,6 @@ export class AuthEffects {
     .map(toPayload)
     .do((token) => AuthService.storeToken(token));
 
-
   @Effect()
   getUserFromLS$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.READ_TOKEN)
