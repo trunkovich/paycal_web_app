@@ -37,6 +37,7 @@ export const ActionTypes = {
   LOAD_SHIFT_EMPLOYEES_FAIL: type('[Schedule] Find employees to cover shift fail'),
   LOAD_SHIFT_EMPLOYEES_CLEAN: type('[Schedule] Clean Qualified Employees'),
   TOGGLE_SELECTION: type('[Schedule] Toggle employee selection'),
+  REMOVE_UNSELECTED_SHIFT_EMPLOYEES: type('[Schedule] Remove unselected employees'),
 
 // OTHERS
   SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date'),
@@ -107,6 +108,10 @@ export class ToggleSelectionAction implements Action {
   type = ActionTypes.TOGGLE_SELECTION;
   constructor(public payload: QualifiedEmployee) { }
 }
+export class RemoveUnselectedShiftEmployeesAction implements Action {
+  type = ActionTypes.REMOVE_UNSELECTED_SHIFT_EMPLOYEES;
+}
+
 
 // OTHERS
 export class SetMySelectedDateAction implements Action {
@@ -146,6 +151,7 @@ export type Actions
   | LoadShiftEmployeesFailAction
   | CleanShiftEmployeesAction
   | ToggleSelectionAction
+  | RemoveUnselectedShiftEmployeesAction
 
 // OTHERS
   | SetMySelectedDateAction

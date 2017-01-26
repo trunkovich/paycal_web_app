@@ -84,6 +84,16 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         })
       };
     }
+    case scheduleActions.ActionTypes.REMOVE_UNSELECTED_SHIFT_EMPLOYEES: {
+      return {
+        groupScheduleMonths: state.groupScheduleMonths,
+        mySchedule: state.mySchedule,
+        mySelectedDate: state.mySelectedDate,
+        homeViewType: state.homeViewType,
+        scheduleLoading: false,
+        shiftEmployees: state.shiftEmployees.filter((employee) => employee.selected)
+      };
+    }
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_FAIL: {
       return {
         groupScheduleMonths: state.groupScheduleMonths,

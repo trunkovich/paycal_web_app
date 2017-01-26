@@ -19,6 +19,7 @@ import { ViewTypeSwitcherComponent } from './common/components/view-type-switche
 import { ViewTypeBottomSheetComponent } from './common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
 import {ScheduleDayCardComponent} from './common/components/schedule-day-card/schedule-day-card.component';
 import { QualifiedPhysiciansComponent } from './qualified-physicians/qualified-physicians.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { QualifiedPhysiciansComponent } from './qualified-physicians/qualified-p
     ViewTypeSwitcherComponent,
     ViewTypeBottomSheetComponent,
     ScheduleDayCardComponent,
-    QualifiedPhysiciansComponent
+    QualifiedPhysiciansComponent,
+    MessageComponent
   ]
 })
 export class InternalModule { }
