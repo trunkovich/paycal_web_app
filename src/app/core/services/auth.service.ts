@@ -135,9 +135,17 @@ export class AuthService {
     let err: string;
 
     try {
-      token = localStorage.getItem(APP_CONFIG.LS_TOKEN_KEY);
+      token = sessionStorage.getItem(APP_CONFIG.LS_TOKEN_KEY);
     } catch (error) {
       err = 'Get Token Error: ' + error;
+    }
+
+    if (!token) {
+      try {
+        token = localStorage.getItem(APP_CONFIG.LS_TOKEN_KEY);
+      } catch (error) {
+        err = 'Get Token Error: ' + error;
+      }
     }
 
     if (!token) {
@@ -159,6 +167,7 @@ export class AuthService {
         localStorage.setItem(APP_CONFIG.LS_TOKEN_KEY, tokenObj.token);
       } else {
         localStorage.removeItem(APP_CONFIG.LS_TOKEN_KEY);
+        sessionStorage.setItem(APP_CONFIG.LS_TOKEN_KEY, tokenObj.token);
       }
     } catch (error) {
       console.error(error);
@@ -168,6 +177,7 @@ export class AuthService {
   static removeToken() {
     try {
       localStorage.removeItem(APP_CONFIG.LS_TOKEN_KEY);
+      sessionStorage.removeItem(APP_CONFIG.LS_TOKEN_KEY);
     } catch (error) {
       console.error(error);
     }

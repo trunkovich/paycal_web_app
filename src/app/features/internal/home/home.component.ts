@@ -8,12 +8,11 @@ import {
 } from '../../../STATE/models/employee-schedule-entry.model';
 import {CalendarTypes} from '../../../STATE/models/calendar.types';
 import {GroupSchedule} from '../../../STATE/models/group-schedule.model';
-import {AppState} from '../../../STATE/models/app-state.model';
 import {
-  LoadGroupScheduleMonthsAction, SetMySelectedDateAction,
+  SetMySelectedDateAction,
   SetHomeViewTypeAction
 } from '../../../STATE/actions/schedule.actions';
-import {scheduleSelectors, profileSelectors} from '../../../STATE/reducers/index';
+import {scheduleSelectors, profileSelectors, AppState} from '../../../STATE/reducers/index';
 import {Employee} from '../../../STATE/models/employee.model';
 import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
 
