@@ -15,6 +15,8 @@ import {
 import {scheduleSelectors, profileSelectors, AppState} from '../../../STATE/reducers/index';
 import {Employee} from '../../../STATE/models/employee.model';
 import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
+import {Router} from '@angular/router';
+import {INTERNAL_ROUTES} from '../internal.routes';
 
 @Component({
   selector: 'pcl-home',
@@ -33,7 +35,7 @@ export class HomeComponent implements OnInit {
   loading$: Observable<boolean>;
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
 
-  constructor(private store: Store<AppState>, private bss: BottomSheetService) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
@@ -48,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {
-    console.log(entry.LaborCode);
+    this.router.navigate(['/', INTERNAL_ROUTES.QUALIFIED_PHYSICIANS, entry.EmployeeScheduleEntryID]);
   }
 
   onDateChange(date: Date) {
