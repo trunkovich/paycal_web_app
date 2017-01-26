@@ -37,6 +37,7 @@
     "lodash": "^4.17.4",
     "mobile-detect": "^1.3.5",
     "ng-http-interceptor": "^2.0.0",
+    "ngrx-store-freeze": "^0.1.6",
     "normalize.css": "^5.0.0",
     "proxy-polyfill": "^0.1.6",
     "reselect": "^2.5.4",

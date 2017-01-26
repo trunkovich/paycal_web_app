@@ -26,6 +26,9 @@ import * as fromReferences from './references.reducer';
 import * as fromSchedule from './schedule.reducer';
 import * as fromDebug from './debug.reducer';
 import {Employee} from '../models/employee.model';
+import {environment} from '../../../environments/environment';
+import {compose} from '@ngrx/core/compose';
+import {storeFreeze} from 'ngrx-store-freeze';
 
 
 /**
@@ -54,10 +57,15 @@ const reducers = {
   debug: fromDebug.debugReducer
 };
 
-const appReducer: ActionReducer<AppState> = combineReducers(reducers);
+const developmentReducer: ActionReducer<AppState> = compose(storeFreeze, combineReducers)(reducers);
+const productionReducer: ActionReducer<AppState> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
-  return appReducer(state, action);
+  if (environment.production) {
+    return productionReducer(state, action);
+  } else {
+    return developmentReducer(state, action);
+  }
 }
 
 

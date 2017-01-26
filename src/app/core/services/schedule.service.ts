@@ -49,15 +49,16 @@ export class ScheduleService {
     });
     return Observable.from(unloadedMonths)
       .flatMap((unloadedMonth: LoadedMonth) => {
+        let unloaded = Object.assign({}, unloadedMonth);
         return this.getMyMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month})
           .map((entries: EmployeeScheduleEntry[]) => {
-            unloadedMonth.entries = entries;
-            unloadedMonth.loaded = true;
-            return unloadedMonth;
+            unloaded.entries = entries;
+            unloaded.loaded = true;
+            return unloaded;
           })
           .catch((error) => {
             console.error(error);
-            return Observable.of(unloadedMonth);
+            return Observable.of(unloaded);
           });
       });
   }
