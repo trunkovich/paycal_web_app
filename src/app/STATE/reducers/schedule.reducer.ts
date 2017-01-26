@@ -149,6 +149,9 @@ export const getSelectedDateSchedule = createSelector(
         }
         let entries: EmployeeScheduleEntry[] = [];
         if (start.isSame(end, 'month')) {
+          if (!mySchedule[`${year}.${month}`].entries) {
+            return false;
+          }
           return mySchedule[`${year}.${month}`].entries.filter((scheduleEntry: EmployeeScheduleEntry) => {
             return scheduleEntry.Year === year &&
               scheduleEntry.Month === month &&
@@ -156,8 +159,10 @@ export const getSelectedDateSchedule = createSelector(
               scheduleEntry.Day <= end.date();
           });
         } else {
-          entries = mySchedule[`${start.year()}.${start.month() + 1}`].entries
-            .concat(mySchedule[`${end.year()}.${end.month() + 1}`].entries)
+          let arr1 = mySchedule[`${start.year()}.${start.month() + 1}`] ? mySchedule[`${start.year()}.${start.month() + 1}`].entries : [];
+          let arr2 = mySchedule[`${end.year()}.${end.month() + 1}`] ? mySchedule[`${end.year()}.${end.month() + 1}`].entries : [];
+          entries = arr1
+            .concat(arr2)
             .filter((scheduleEntry: EmployeeScheduleEntry) => {
               let entryDate = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, date: scheduleEntry.Day}).add(1, 'minute');
               return entryDate.isBetween(start, end);
