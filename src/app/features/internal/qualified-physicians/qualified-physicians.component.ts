@@ -1,10 +1,14 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 import {QualifiedEmployee} from '../../../STATE/models/employee.model';
 import {AppState, scheduleSelectors} from '../../../STATE/reducers/index';
 import {Store} from '@ngrx/store';
 import {Subscription, Observable} from 'rxjs';
-import {LoadShiftEmployeesAction} from '../../../STATE/actions/schedule.actions';
+import {
+  LoadShiftEmployeesAction, CleanShiftEmployeesAction,
+  ToggleSelectionAction
+} from '../../../STATE/actions/schedule.actions';
 
 @Component({
   selector: 'pcl-qualified-physicians',
@@ -16,7 +20,7 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
   isAnyPhysicianSelected$: Observable<boolean>;
   private sub: Subscription;
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) { }
+  constructor(private route: ActivatedRoute, private store: Store<AppState>, private _location: Location) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
@@ -31,10 +35,15 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.store.dispatch(new CleanShiftEmployeesAction());
+  }
+
+  toggleSelection(physician: QualifiedEmployee) {
+    this.store.dispatch(new ToggleSelectionAction(physician));
   }
 
   back() {
-    console.log('back');
+    this._location.back();
   }
 
   next() {

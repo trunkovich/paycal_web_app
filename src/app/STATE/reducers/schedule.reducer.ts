@@ -68,6 +68,22 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         shiftEmployees: [...action.payload]
       };
     }
+    case scheduleActions.ActionTypes.TOGGLE_SELECTION: {
+      return {
+        groupScheduleMonths: state.groupScheduleMonths,
+        mySchedule: state.mySchedule,
+        mySelectedDate: state.mySelectedDate,
+        homeViewType: state.homeViewType,
+        scheduleLoading: false,
+        shiftEmployees: state.shiftEmployees.map((employee) => {
+          if (employee.employee.EmployeeID === action.payload.employee.EmployeeID) {
+            return Object.assign({}, employee, {selected: !employee.selected});
+          } else {
+            return employee;
+          }
+        })
+      };
+    }
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_FAIL: {
       return {
         groupScheduleMonths: state.groupScheduleMonths,

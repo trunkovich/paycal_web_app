@@ -4,3 +4,10 @@
             [disabledNextBtn]="!(isAnyPhysicianSelected$ | async)"
             (nextBtnClick)="next()"
             (backBtnClick)="back()"></pcl-header>
+
+<div class="physician-block"
+     *ngFor="let physician of physicians$ | async"
+     (click)="toggleSelection(physician)">
+  {{physician.employee.FirstName + ' ' + physician.employee.LastName}}
+  <div class="selected" *ngIf="physician.selected"></div>
+</div>
