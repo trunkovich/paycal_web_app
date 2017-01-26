@@ -20,8 +20,10 @@
       margin-bottom: 5px;
     }
     .password-switcher {
+      @include size(38px);
       @include centerer(false, true);
-      @include absolute(right 10px);
+      @include absolute(right 0);
+      padding: 10px;
     }
     md-checkbox {
       display: block;
