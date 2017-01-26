@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {Store} from '@ngrx/store';
 
-import {AppState} from '../../../STATE/models/app-state.model';
 import {LogoutAction} from '../../../STATE/actions/auth.actions';
+import {AppState} from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-more',
