@@ -24,7 +24,7 @@ const initialScheduleState = {
   groupScheduleMonths: [],
   mySchedule: {},
   mySelectedDate: new Date(),
-  homeViewType: CalendarTypes.TWO_WEEK,
+  homeViewType: CalendarTypes.DAY,
   scheduleLoading: false
 };
 
