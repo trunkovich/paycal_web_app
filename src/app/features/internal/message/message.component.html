@@ -3,8 +3,8 @@
             [showNextBtn]="true"
             nextBtnLabel="SEND"
             [disabledNextBtn]="(selectedEmployees$ | async) && !(selectedEmployees$ | async).length"
-            (nextBtnClick)="next()"
-            (backBtnClick)="send()"></pcl-header>
+            (nextBtnClick)="send()"
+            (backBtnClick)="back()"></pcl-header>
 
 <div class="send-to">
   <div class="label">To:</div>

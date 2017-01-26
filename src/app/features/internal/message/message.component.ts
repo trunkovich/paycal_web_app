@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AppState, scheduleSelectors, profileSelectors} from '../../../STATE/reducers/index';
 import {Store} from '@ngrx/store';
+import {Location} from '@angular/common';
 import {
   CleanShiftEmployeesAction, RemoveUnselectedShiftEmployeesAction,
   ToggleSelectionAction
@@ -23,7 +24,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   private scheduleEntry$: Observable<EmployeeScheduleEntry>;
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) { }
+  constructor(private store: Store<AppState>, private _location: Location, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
@@ -50,11 +51,15 @@ export class MessageComponent implements OnInit, OnDestroy {
     console.log('send');
   }
 
+  back() {
+    this._location.back();
+  }
+
   formattedMessage(profile: Employee, scheduleEntry: EmployeeScheduleEntry): string {
     if (!profile || !scheduleEntry) {
       return '';
     }
-    let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month, day: scheduleEntry.Day})
+    let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month, day: scheduleEntry.Day});
     return `Good Morning, 
 
 I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}.` +
