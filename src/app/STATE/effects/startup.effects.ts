@@ -17,6 +17,7 @@ export class StartupEffects {
   removeSplash$: Observable<Action> = this.actions$
     .ofType(
       profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS,
+      profileActions.ActionTypes.GET_USER_PROFILE_FAIL,
       authActions.ActionTypes.READ_TOKEN_FAIL,
     )
     .do(() => document.getElementById('splash').classList.remove('show'))

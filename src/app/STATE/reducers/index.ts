@@ -92,6 +92,7 @@ let getAuthLoadingState = createSelector(getAuthState, fromAuth.getLoading);
 /*===================PROFILE SELECTORS==================*/
 /*======================================================*/
 let getMyProfile = createSelector(getProfileState, fromProfile.getMyProfile);
+let getMyProfileErrorMsg = createSelector(getProfileState, fromProfile.getMyProfileErrorMsg);
 
 
 
@@ -145,6 +146,7 @@ export const authSelectors = {
 
 export const profileSelectors = {
   getMyProfile: getMyProfile,
+  getMyProfileErrorMsg: getMyProfileErrorMsg
 };
 
 export const referenceSelectors = {

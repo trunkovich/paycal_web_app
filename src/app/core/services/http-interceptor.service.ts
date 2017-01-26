@@ -52,7 +52,10 @@ export class PaycalHttpInterceptor {
     }
 
     static isApiUrl(url: string): boolean {
-      return url.startsWith(APP_CONFIG.API_BASE_URL);
+      if (url.split('//').length <= 1) {
+        return false;
+      }
+      return url.split('//')[1].startsWith(APP_CONFIG.API_BASE_URL.split('//')[1]);
     }
 
 }

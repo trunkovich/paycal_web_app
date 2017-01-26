@@ -1,6 +1,11 @@
 <nav>
   <ul>
+    <li *ngIf="isHomeDisabled$ | async">
+      <md-icon class="nav-home-icon disabled"
+               svgIcon="nav-home"></md-icon>
+    </li>
     <li [routerLink]="['/', 'home']"
+        *ngIf="!(isHomeDisabled$ | async)"
         md-ripple
         mdRippleCentered="true"
         routerLinkActive="active">

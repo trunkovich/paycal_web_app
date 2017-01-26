@@ -15,6 +15,7 @@ export interface Employee {
   EmployeeStatusID: number;
   EmployeePositionID: number;
   EmployeeSpecializationID: number;
+  ScheduledPersonID: number | null;
 }
 
 /**

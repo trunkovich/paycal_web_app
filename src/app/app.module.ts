@@ -32,6 +32,7 @@ import {reducer} from './STATE/reducers/index';
 import {BottomSheetContainerComponent} from './bottom-sheet/bottom-sheet-container/bottom-sheet-container.component';
 import {ViewTypeBottomSheetComponent} from './features/internal/common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
 import {StartupEffects} from './STATE/effects/startup.effects';
+import {OnlyScheduledPersons} from './core/guards/only-scheduled-persons.guard';
 
 @NgModule({
   declarations: [
@@ -46,12 +47,12 @@ import {StartupEffects} from './STATE/effects/startup.effects';
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
     StoreModule.provideStore(reducer),
-    EffectsModule.run(StartupEffects),
-    EffectsModule.run(AuthEffects),
-    EffectsModule.run(ErrorHandlingEffects),
-    EffectsModule.run(ProfileEffects),
-    EffectsModule.run(ReferencesEffects),
-    EffectsModule.run(ScheduleEffects),
+    EffectsModule.runAfterBootstrap(StartupEffects),
+    EffectsModule.runAfterBootstrap(AuthEffects),
+    EffectsModule.runAfterBootstrap(ErrorHandlingEffects),
+    EffectsModule.runAfterBootstrap(ProfileEffects),
+    EffectsModule.runAfterBootstrap(ReferencesEffects),
+    EffectsModule.runAfterBootstrap(ScheduleEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
 
     InternalModule,
@@ -67,7 +68,8 @@ import {StartupEffects} from './STATE/effects/startup.effects';
     // GUARDS
     OnlySignedInUsers,
     OnlyMobileDevices,
-    OnlyDesktopDevices
+    OnlyDesktopDevices,
+    OnlyScheduledPersons
   ],
   bootstrap: [AppComponent],
   entryComponents: [ViewTypeBottomSheetComponent, BottomSheetContainerComponent]
