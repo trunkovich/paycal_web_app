@@ -121,6 +121,9 @@ let getHomeViewType = createSelector(getScheduleState, fromSchedule.getHomeViewT
 let getTotalWorkCount = createSelector(getScheduleState, fromSchedule.getTotalWorkCount);
 let getScheduleLoadingState = createSelector(getScheduleState, fromSchedule.getScheduleLoadingState);
 let getSelectedDateScheduleGroupedByDay = createSelector(getScheduleState, fromSchedule.getSelectedDateScheduleGroupedByDay);
+let getShiftEmployees = createSelector(getScheduleState, fromSchedule.getShiftEmployees);
+let isAnyPhysicianSelected = createSelector(getScheduleState, fromSchedule.isAnyPhysicianSelected);
+
 
 let getEstimateEarnings = createSelector(
   getTotalWorkCount,
@@ -169,5 +172,7 @@ export const scheduleSelectors = {
   getTotalWorkCount: getTotalWorkCount,
   getEstimateEarnings: getEstimateEarnings,
   getScheduleLoadingState: getScheduleLoadingState,
-  getSelectedDateScheduleGroupedByDay: getSelectedDateScheduleGroupedByDay
+  getSelectedDateScheduleGroupedByDay: getSelectedDateScheduleGroupedByDay,
+  getShiftEmployees: getShiftEmployees,
+  isAnyPhysicianSelected: isAnyPhysicianSelected
 };

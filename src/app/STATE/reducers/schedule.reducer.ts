@@ -11,6 +11,7 @@ import {
 } from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
 import { createSelector } from 'reselect';
+import {QualifiedEmployee} from '../models/employee.model';
 
 export interface ScheduleState {
   groupScheduleMonths: GroupSchedule[];
@@ -18,6 +19,7 @@ export interface ScheduleState {
   mySelectedDate: Date;
   homeViewType: CalendarTypes;
   scheduleLoading: boolean;
+  shiftEmployees: QualifiedEmployee[];
 }
 
 const initialScheduleState = {
@@ -25,7 +27,8 @@ const initialScheduleState = {
   mySchedule: {},
   mySelectedDate: new Date(),
   homeViewType: CalendarTypes.DAY,
-  scheduleLoading: false
+  scheduleLoading: false,
+  shiftEmployees: []
 };
 
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {
@@ -33,14 +36,46 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
     case scheduleActions.ActionTypes.CLEAN_SCHEDULE: {
       return Object.assign({}, initialScheduleState);
     }
+    case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_CLEAN: {
+      return {
+        groupScheduleMonths: state.groupScheduleMonths,
+        mySchedule: state.mySchedule,
+        mySelectedDate: state.mySelectedDate,
+        homeViewType: state.homeViewType,
+        scheduleLoading: state.scheduleLoading,
+        shiftEmployees: []
+      };
+    }
     case scheduleActions.ActionTypes.LOAD_MY_FULL_SCHEDULE:
+    case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES:
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE: {
       return {
         groupScheduleMonths: state.groupScheduleMonths,
         mySchedule: state.mySchedule,
         mySelectedDate: state.mySelectedDate,
         homeViewType: state.homeViewType,
-        scheduleLoading: true
+        scheduleLoading: true,
+        shiftEmployees: state.shiftEmployees
+      };
+    }
+    case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_SUCCESS: {
+      return {
+        groupScheduleMonths: state.groupScheduleMonths,
+        mySchedule: state.mySchedule,
+        mySelectedDate: state.mySelectedDate,
+        homeViewType: state.homeViewType,
+        scheduleLoading: false,
+        shiftEmployees: [...action.payload]
+      };
+    }
+    case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_FAIL: {
+      return {
+        groupScheduleMonths: state.groupScheduleMonths,
+        mySchedule: state.mySchedule,
+        mySelectedDate: state.mySelectedDate,
+        homeViewType: state.homeViewType,
+        scheduleLoading: false,
+        shiftEmployees: []
       };
     }
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_FINALLY: {
@@ -49,7 +84,8 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         mySchedule: state.mySchedule,
         mySelectedDate: state.mySelectedDate,
         homeViewType: state.homeViewType,
-        scheduleLoading: false
+        scheduleLoading: false,
+        shiftEmployees: state.shiftEmployees
       };
     }
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS: {
@@ -72,7 +108,8 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         mySchedule: newMonths ? Object.assign({}, newSchedule) : state.mySchedule,
         mySelectedDate: state.mySelectedDate,
         homeViewType: state.homeViewType,
-        scheduleLoading: true
+        scheduleLoading: true,
+        shiftEmployees: state.shiftEmployees
       };
     }
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_SUCCESS: {
@@ -87,7 +124,8 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         mySchedule: Object.assign({}, state.mySchedule, loadedMonthWrapper),
         mySelectedDate: state.mySelectedDate,
         homeViewType: state.homeViewType,
-        scheduleLoading: state.scheduleLoading
+        scheduleLoading: state.scheduleLoading,
+        shiftEmployees: state.shiftEmployees
       };
     }
     case scheduleActions.ActionTypes.SET_MY_SELECTED_DATE: {
@@ -96,7 +134,8 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         mySchedule: state.mySchedule,
         mySelectedDate: new Date(action.payload),
         homeViewType: state.homeViewType,
-        scheduleLoading: state.scheduleLoading
+        scheduleLoading: state.scheduleLoading,
+        shiftEmployees: state.shiftEmployees
       };
     }
     case scheduleActions.ActionTypes.SET_HOME_VIEW_TYPE: {
@@ -105,7 +144,8 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
         mySchedule: state.mySchedule,
         mySelectedDate: state.mySelectedDate,
         homeViewType: action.payload,
-        scheduleLoading: state.scheduleLoading
+        scheduleLoading: state.scheduleLoading,
+        shiftEmployees: state.shiftEmployees
       };
     }
     default: {
@@ -119,6 +159,7 @@ export const getMySchedule = (state: ScheduleState) => state.mySchedule;
 export const getMySelectedDate = (state: ScheduleState) => state.mySelectedDate;
 export const getHomeViewType = (state: ScheduleState) => state.homeViewType;
 export const getScheduleLoadingState = (state: ScheduleState) => state.scheduleLoading;
+export const getShiftEmployees = (state: ScheduleState) => state.shiftEmployees;
 
 export const getSelectedDateSchedule = createSelector(
   getMySchedule,
@@ -205,5 +246,12 @@ export const getTotalWorkCount = createSelector(
       return 0;
     }
     return scheduleEntries.reduce((sum: number, entry: EmployeeScheduleEntry) => sum + (entry.WorkUnitPoints || 0), 0);
+  }
+);
+
+export const isAnyPhysicianSelected = createSelector(
+  getShiftEmployees,
+  (shiftEmployees: QualifiedEmployee[]) => {
+    return shiftEmployees.some((shiftEmployee) => shiftEmployee.selected);
   }
 );

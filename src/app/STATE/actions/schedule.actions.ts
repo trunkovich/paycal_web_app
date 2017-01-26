@@ -5,9 +5,9 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../utils';
 import {GroupSchedule} from '../models/group-schedule.model';
-import {EmployeeScheduleEntry, LoadedMonth} from '../models/employee-schedule-entry.model';
-import {Observable} from 'rxjs';
+import {LoadedMonth} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
+import {QualifiedEmployee} from '../models/employee.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -30,6 +30,12 @@ export const ActionTypes = {
   LOAD_MY_MONTH_SCHEDULE_SUCCESS: type('[Schedule] Load my month schedule months success'),
   LOAD_MY_MONTH_SCHEDULE_FAIL: type('[Schedule] Load my month schedule months fail'),
   LOAD_MY_MONTH_SCHEDULE_FINALLY: type('[Schedule] Load my month schedule months finally'),
+
+// Find Employees to cover shift actions
+  LOAD_SHIFT_EMPLOYEES: type('[Schedule] Find employees to cover shift'),
+  LOAD_SHIFT_EMPLOYEES_SUCCESS: type('[Schedule] Find employees to cover shift success'),
+  LOAD_SHIFT_EMPLOYEES_FAIL: type('[Schedule] Find employees to cover shift fail'),
+  LOAD_SHIFT_EMPLOYEES_CLEAN: type('[Schedule] Clean Qualified Employees'),
 
 // OTHERS
   SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date'),
@@ -80,6 +86,23 @@ export class LoadMyMonthScheduleFinishedAction implements Action {
   type = ActionTypes.LOAD_MY_MONTH_SCHEDULE_FINALLY;
 }
 
+// Find Employees to cover shift actions
+export class LoadShiftEmployeesAction implements Action {
+  type = ActionTypes.LOAD_SHIFT_EMPLOYEES;
+  constructor(public payload: number) { }
+}
+export class LoadShiftEmployeesSuccessAction implements Action {
+  type = ActionTypes.LOAD_SHIFT_EMPLOYEES_SUCCESS;
+  constructor(public payload: QualifiedEmployee[]) { }
+}
+export class LoadShiftEmployeesFailAction implements Action {
+  type = ActionTypes.LOAD_SHIFT_EMPLOYEES_FAIL;
+  constructor(public payload: string) { }
+}
+export class CleanShiftEmployeesAction implements Action {
+  type = ActionTypes.LOAD_SHIFT_EMPLOYEES_CLEAN;
+}
+
 // OTHERS
 export class SetMySelectedDateAction implements Action {
   type = ActionTypes.SET_MY_SELECTED_DATE;
@@ -111,6 +134,12 @@ export type Actions
   | LoadMyMonthScheduleSuccessAction
   | LoadMyMonthScheduleFailAction
   | LoadMyMonthScheduleFinishedAction
+
+// Find Employees to cover shift actions
+  | LoadShiftEmployeesAction
+  | LoadShiftEmployeesSuccessAction
+  | LoadShiftEmployeesFailAction
+  | CleanShiftEmployeesAction
 
 // OTHERS
   | SetMySelectedDateAction

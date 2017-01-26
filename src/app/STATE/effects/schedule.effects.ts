@@ -12,6 +12,7 @@ import {GroupSchedule} from '../models/group-schedule.model';
 import {AvailableMonthsStructure, LoadedMonth, EmployeeScheduleEntry} from '../models/employee-schedule-entry.model';
 import {AppState, scheduleSelectors} from '../reducers/index';
 import * as authActions from '../actions/auth.actions';
+import {Employee, QualifiedEmployee} from '../models/employee.model';
 
 @Injectable()
 export class ScheduleEffects {
@@ -85,6 +86,21 @@ export class ScheduleEffects {
         .map((loadedMonth: LoadedMonth) => new scheduleActions.LoadMyMonthScheduleSuccessAction(loadedMonth))
         .catch(error => Observable.of(new scheduleActions.LoadMyMonthScheduleFailAction(error)))
         .finally(() => this.store.dispatch(new scheduleActions.LoadMyMonthScheduleFinishedAction()));
+    });
+
+  @Effect()
+  findEmployeesToCoverMyShift$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES)
+    .map(toPayload)
+    .switchMap((employeeScheduleEntryID: number) => {
+      return this.scheduleService.findEmployeesToCoverMyShift(employeeScheduleEntryID)
+        .map((employees: Employee[]) => {
+          return employees.map((employee) => {
+            return {selected: false, employee};
+          });
+        })
+        .map((qualifiedEmployees: QualifiedEmployee[]) => new scheduleActions.LoadShiftEmployeesSuccessAction(qualifiedEmployees))
+        .catch(error => Observable.of(new scheduleActions.LoadShiftEmployeesFailAction(error)));
     });
 
   @Effect()

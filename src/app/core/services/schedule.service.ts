@@ -63,6 +63,17 @@ export class ScheduleService {
       });
   }
 
+  findEmployeesToCoverMyShift(employeeScheduleEntryID): Observable<Employee[] | string> {
+    return this.api.getEmployeesToCoverMyShift({employeeScheduleEntryID})
+      .map((res: EmployeeListResponse) => {
+        if (res.IsSuccess) {
+          return res.EmployeeList;
+        } else {
+          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+        }
+      });
+  }
+
   getGroupScheduleMonths(): Observable<GroupSchedule[] | string> {
     return this.api.getGroupScheduleMonths()
       .map((res: GroupScheduleListResponse) => {

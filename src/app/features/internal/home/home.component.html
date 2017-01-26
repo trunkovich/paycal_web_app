@@ -1,4 +1,4 @@
-<pcl-header title="{{formattedTitle(profile$ | async)}}"></pcl-header>
+<pcl-header [title]="formattedTitle(profile$ | async)"></pcl-header>
 <div class="container">
 
   <pcl-calendar [type]="homeViewType$ | async"

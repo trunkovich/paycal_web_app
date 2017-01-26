@@ -24,6 +24,21 @@
         background-repeat: no-repeat;
       }
     }
+    .next-button {
+      @include absolute(top 0 right 0);
+      @extend .reset-button-styles;
+      @extend .reset-styles;
+      @extend .big-bold-text;
+      @extend .text-center;
+      height: $header-height;
+      color: $tealish;
+      line-height: 23px;
+      padding: 11px 17px;
+
+      &[disabled] {
+        color: $bluish-grey;
+      }
+    }
     .title {
       @extend .text-center;
       @extend .bold-text;

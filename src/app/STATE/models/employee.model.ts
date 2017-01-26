@@ -1,6 +1,10 @@
 /**
  * Created by TrUnK on 05.01.2017.
  */
+export interface QualifiedEmployee {
+  selected: boolean;
+  employee: Employee;
+}
 
 export interface Employee {
   EmployeeID: number;
