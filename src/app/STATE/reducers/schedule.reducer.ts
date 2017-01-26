@@ -241,6 +241,15 @@ export const getSelectedDateSchedule = createSelector(
   }
 );
 
+export const getScheduleEntryById = id => {
+  return createSelector(
+    getSelectedDateSchedule,
+    (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntry => {
+      return entries.filter(entry => entry.EmployeeScheduleEntryID === id)[0];
+    }
+  );
+};
+
 export const getSelectedDateScheduleGroupedByDay = createSelector(
   getSelectedDateSchedule,
   (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntryGroupedByDay[] | boolean => {

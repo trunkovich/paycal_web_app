@@ -21,6 +21,7 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
   isAnyPhysicianSelected$: Observable<boolean>;
   private cleanQualifiedPhysicians = true;
   private sub: Subscription;
+  private employeeScheduleEntryID: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +33,7 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
       if (params['employeeScheduleEntryID']) {
+        this.employeeScheduleEntryID = params['employeeScheduleEntryID'];
         this.store.dispatch(new LoadShiftEmployeesAction(+params['employeeScheduleEntryID']));
       }
     });
@@ -57,7 +59,7 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
 
   next() {
     this.cleanQualifiedPhysicians = false;
-    this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE]);
+    this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE, this.employeeScheduleEntryID]);
   }
 
 }

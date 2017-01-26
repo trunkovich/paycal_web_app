@@ -20,7 +20,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
           class="next-button" 
           [disabled]="disabledNextBtn"
           (click)="onNextBtnClick($event)">
-    NEXT
+    {{ nextBtnLabel || 'NEXT'}}
   </button>
 </header>
   `,
@@ -29,6 +29,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 export class PclHeaderComponent implements OnInit {
   @Input() showBackBtn: boolean;
   @Input() showNextBtn: boolean;
+  @Input() nextBtnLabel: string;
   @Input() disabledNextBtn: boolean;
   @Input() title: boolean;
   @Output() backBtnClick = new EventEmitter();

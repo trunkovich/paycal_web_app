@@ -1,0 +1,63 @@
+@import '../../../../styles';
+
+:host {
+  min-height: 100%;
+  box-sizing: border-box;
+  display: block;
+  padding-bottom: 48px;
+  padding-top: 45px;
+
+  pcl-header {
+    @include fixed(top 0 left 0 right 0);
+    z-index: 20;
+  }
+
+  .send-to {
+    position: relative;
+    border-bottom: solid 0.5px $light-blue-grey;
+    min-height: 48px;
+    padding-left: 60px;
+
+    .label {
+      @include absolute(left 0 top 0 bottom 0);
+      @extend .big-weak-text;
+      line-height: 22px;
+      width: 46px;
+      text-align: right;
+      padding-top: 13px;
+    }
+
+    .employees {
+      @include clearfix();
+
+      .employee {
+        @extend .float-left;
+        @extend .big-text;
+        position: relative;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 100px;
+        background-color: $light-blue-grey;
+        padding: 0 33px 0 16px;
+        margin: 6px 4px;
+
+        .close-button {
+          @include absolute(right 2px top 50%);
+          @include size(32px);
+          padding: 8px;
+          margin-top: -16px;
+          md-icon {
+            @include size(16px);
+          }
+        }
+      }
+    }
+  }
+
+  .message {
+    @extend .big-text;
+    line-height: 1.5;
+    padding: 24px;
+    white-space: pre-wrap;
+  }
+}

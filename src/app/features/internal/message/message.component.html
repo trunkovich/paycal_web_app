@@ -1,1 +1,23 @@
-<pre>{{selectedEmployees$ | async | json}}</pre>
+<pcl-header title="Message"
+            [showBackBtn]="true"
+            [showNextBtn]="true"
+            nextBtnLabel="SEND"
+            [disabledNextBtn]="(selectedEmployees$ | async) && !(selectedEmployees$ | async).length"
+            (nextBtnClick)="next()"
+            (backBtnClick)="send()"></pcl-header>
+
+<div class="send-to">
+  <div class="label">To:</div>
+  <div class="employees">
+    <div class="employee"
+         *ngFor="let physician of selectedEmployees$ | async">
+      {{physician.employee.FirstName + ' ' + physician.employee.LastName}}
+      <button class="icon-button close-button"
+              (click)="remove(physician)">
+        <md-icon [svgIcon]="'window-close'"></md-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="message">{{formattedMessage(profile$ | async, scheduleEntry$ | async)}}</div>

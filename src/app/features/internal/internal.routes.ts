@@ -25,7 +25,7 @@ export const internalRoutes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: '/home' },
     { path: 'home', component: HomeComponent, canActivate: [OnlyScheduledPersons] },
     { path: 'qualified-physicians/:employeeScheduleEntryID', component: QualifiedPhysiciansComponent },
-    { path: 'message', component: MessageComponent },
+    { path: 'message/:employeeScheduleEntryID', component: MessageComponent },
     { path: 'search', component: SearchComponent, canActivate: [] },
     { path: 'more', component: MoreComponent, canActivate: [] },
     { path: 'profile', component: ProfileComponent, canActivate: [] },

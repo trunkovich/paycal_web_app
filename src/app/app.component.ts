@@ -51,6 +51,10 @@ export class AppComponent {
       'card-icon',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/card-icon.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'window-close',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/window-close.svg')
+    );
 
   }
 }
