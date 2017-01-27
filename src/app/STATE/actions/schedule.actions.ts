@@ -8,6 +8,7 @@ import {GroupSchedule} from '../models/group-schedule.model';
 import {LoadedMonth} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
 import {QualifiedEmployee} from '../models/employee.model';
+import {CoverageRequest} from '../models/requests/coverage-request.request.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -38,6 +39,11 @@ export const ActionTypes = {
   LOAD_SHIFT_EMPLOYEES_CLEAN: type('[Schedule] Clean Qualified Employees'),
   TOGGLE_SELECTION: type('[Schedule] Toggle employee selection'),
   REMOVE_UNSELECTED_SHIFT_EMPLOYEES: type('[Schedule] Remove unselected employees'),
+
+// Create coverage request
+  CREATE_COVERAGE_REQUEST: type('[Schedule] Create coverage request'),
+  CREATE_COVERAGE_REQUEST_SUCCESS: type('[Schedule] Create coverage request success'),
+  CREATE_COVERAGE_REQUEST_FAIL: type('[Schedule] Create coverage request fail'),
 
 // OTHERS
   SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date'),
@@ -112,6 +118,18 @@ export class RemoveUnselectedShiftEmployeesAction implements Action {
   type = ActionTypes.REMOVE_UNSELECTED_SHIFT_EMPLOYEES;
 }
 
+// Create coverage request
+export class CreateCoverageRequestAction implements Action {
+  type = ActionTypes.CREATE_COVERAGE_REQUEST;
+  constructor(public payload: CoverageRequest) { }
+}
+export class CreateCoverageRequestSuccessAction implements Action {
+  type = ActionTypes.CREATE_COVERAGE_REQUEST_SUCCESS;
+}
+export class CreateCoverageRequestFailAction implements Action {
+  type = ActionTypes.CREATE_COVERAGE_REQUEST_FAIL;
+  constructor(public payload: string) { }
+}
 
 // OTHERS
 export class SetMySelectedDateAction implements Action {
@@ -152,6 +170,11 @@ export type Actions
   | CleanShiftEmployeesAction
   | ToggleSelectionAction
   | RemoveUnselectedShiftEmployeesAction
+// Create coverage request
+
+  | CreateCoverageRequestAction
+  | CreateCoverageRequestSuccessAction
+  | CreateCoverageRequestFailAction
 
 // OTHERS
   | SetMySelectedDateAction

@@ -20,11 +20,13 @@ import {Response} from '../../STATE/models/responses/response.model';
 import {LaborCodeListResponse} from '../../STATE/models/responses/labor-code-list-response.model';
 import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
 import {MasterCalendarEntry} from '../../STATE/models/master-calendar-entry.model';
+import {Router} from '@angular/router';
+import {INTERNAL_ROUTES} from '../../features/internal/internal.routes';
 
 @Injectable()
 export class ScheduleService {
 
-  constructor(private api: Api) {}
+  constructor(private api: Api, private router: Router) {}
 
   getMyMonthSchedule(data: { month: number; year: number; }): Observable<EmployeeScheduleEntry[] | string> {
     return this.api.getMyMonthSchedule({
@@ -79,17 +81,6 @@ export class ScheduleService {
       .map((res: GroupScheduleListResponse) => {
         if (res.IsSuccess) {
           return res.GroupScheduleList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
-  }
-
-  getEmployeesToCoverMyShift(data: {employeeScheduleEntryID: number}): Observable<Employee[] | string> {
-    return this.api.getEmployeesToCoverMyShift(data)
-      .map((res: EmployeeListResponse) => {
-        if (res.IsSuccess) {
-          return res.EmployeeList;
         } else {
           throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
         }
@@ -180,5 +171,9 @@ export class ScheduleService {
           throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
         }
       });
+  }
+
+  redidrectAfterCreatingRequest() {
+    this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE_SUCCESS]);
   }
 }

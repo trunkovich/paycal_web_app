@@ -4,7 +4,7 @@ import {Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {
   CleanShiftEmployeesAction, RemoveUnselectedShiftEmployeesAction,
-  ToggleSelectionAction
+  ToggleSelectionAction, CreateCoverageRequestAction
 } from '../../../STATE/actions/schedule.actions';
 import {QualifiedEmployee, Employee} from '../../../STATE/models/employee.model';
 import {Observable, Subscription} from 'rxjs';
@@ -49,7 +49,19 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   send() {
-    console.log('send');
+    this.profile$
+      .withLatestFrom(this.scheduleEntry$, this.selectedEmployees$)
+      .take(1)
+      .subscribe(([profile, scheduleEntry, selectedEmployees]) => {
+        if (profile && scheduleEntry && selectedEmployees && selectedEmployees.length) {
+          this.store.dispatch(new CreateCoverageRequestAction({
+            employeeScheduleEntryID: scheduleEntry.EmployeeScheduleEntryID,
+            // TODO: REMOVE THIS SLICE
+            message: this.formattedMessage(profile, scheduleEntry).slice(0, 99),
+            delimitedIDs: selectedEmployees.map(employee => employee.employee.EmployeeID)
+          }));
+        }
+      });
   }
 
   back() {

@@ -53,6 +53,21 @@ export class ScheduleEffects {
     });
 
   @Effect()
+  createCoverageRequest$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.CREATE_COVERAGE_REQUEST)
+    .map(toPayload)
+    .switchMap((request) => {
+      return this.scheduleService.createCoverageRequest(request)
+        .map(() => new scheduleActions.CreateCoverageRequestSuccessAction())
+        .catch(error => Observable.of(new scheduleActions.CreateCoverageRequestFailAction(error)));
+    });
+
+  @Effect({dispatch: false})
+  redirectAfterCreatingCoverageRequest$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.CREATE_COVERAGE_REQUEST_SUCCESS)
+    .do(() => this.scheduleService.redidrectAfterCreatingRequest());
+
+  @Effect()
   initFullScheduleMonthLoading$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
     .map(() => new scheduleActions.LoadMyFullScheduleAction());
