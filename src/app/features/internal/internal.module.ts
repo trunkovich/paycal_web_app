@@ -21,6 +21,7 @@ import {ScheduleDayCardComponent} from './common/components/schedule-day-card/sc
 import { QualifiedPhysiciansComponent } from './qualified-physicians/qualified-physicians.component';
 import { MessageComponent } from './message/message.component';
 import { MessageSuccessComponent } from './message-success/message-success.component';
+import { MessageLoadingComponent } from './message-loading/message-loading.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { MessageSuccessComponent } from './message-success/message-success.compo
     ScheduleDayCardComponent,
     QualifiedPhysiciansComponent,
     MessageComponent,
-    MessageSuccessComponent
+    MessageSuccessComponent,
+    MessageLoadingComponent
   ]
 })
 export class InternalModule { }

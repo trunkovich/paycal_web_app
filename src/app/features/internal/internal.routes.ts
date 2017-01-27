@@ -11,6 +11,7 @@ import {OnlyScheduledPersons} from '../../core/guards/only-scheduled-persons.gua
 import {QualifiedPhysiciansComponent} from './qualified-physicians/qualified-physicians.component';
 import {MessageComponent} from './message/message.component';
 import {MessageSuccessComponent} from './message-success/message-success.component';
+import {MessageLoadingComponent} from './message-loading/message-loading.component';
 
 export const INTERNAL_ROUTES = Object.freeze({
   HOME: 'home',
@@ -19,7 +20,8 @@ export const INTERNAL_ROUTES = Object.freeze({
   PROFILE: 'profile',
   QUALIFIED_PHYSICIANS: 'qualified-physicians',
   MESSAGE: 'message',
-  MESSAGE_SUCCESS: 'message-success'
+  MESSAGE_SUCCESS: 'message-success',
+  MESSAGE_LOADING: 'message-loading'
 });
 
 export const internalRoutes: Routes = [
@@ -29,6 +31,7 @@ export const internalRoutes: Routes = [
     { path: 'qualified-physicians/:employeeScheduleEntryID', component: QualifiedPhysiciansComponent },
     { path: 'message/:employeeScheduleEntryID', component: MessageComponent },
     { path: 'message-success', component: MessageSuccessComponent },
+    { path: 'message-loading', component: MessageLoadingComponent },
     { path: 'search', component: SearchComponent, canActivate: [] },
     { path: 'more', component: MoreComponent, canActivate: [] },
     { path: 'profile', component: ProfileComponent, canActivate: [] },
