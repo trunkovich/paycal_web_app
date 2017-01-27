@@ -63,6 +63,11 @@ export class ScheduleEffects {
     });
 
   @Effect({dispatch: false})
+  redirectBeforeCreatingCoverageRequest$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.CREATE_COVERAGE_REQUEST)
+    .do(() => this.scheduleService.redidrectBeforeCreatingRequest());
+
+  @Effect({dispatch: false})
   redirectAfterCreatingCoverageRequest$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.CREATE_COVERAGE_REQUEST_SUCCESS)
     .do(() => this.scheduleService.redidrectAfterCreatingRequest());

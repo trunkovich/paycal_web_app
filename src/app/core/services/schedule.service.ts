@@ -173,6 +173,10 @@ export class ScheduleService {
       });
   }
 
+  redidrectBeforeCreatingRequest() {
+    this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE_LOADING]);
+  }
+
   redidrectAfterCreatingRequest() {
     this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE_SUCCESS]);
   }
