@@ -2,6 +2,7 @@
  * Created by TrUnK on 16.01.2017.
  */
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 import * as scheduleActions from '../actions/schedule.actions';
 import {GroupSchedule} from '../models/group-schedule.model';
@@ -186,6 +187,13 @@ export const getMySelectedDate = (state: ScheduleState) => state.mySelectedDate;
 export const getHomeViewType = (state: ScheduleState) => state.homeViewType;
 export const getScheduleLoadingState = (state: ScheduleState) => state.scheduleLoading;
 export const getShiftEmployees = (state: ScheduleState) => state.shiftEmployees;
+
+export const getSortedShiftEmployees = createSelector(
+  getShiftEmployees,
+  (employees: QualifiedEmployee[]) => {
+    return _.sortBy(employees, 'employee.LastName');
+  }
+);
 
 export const getSelectedDateSchedule = createSelector(
   getMySchedule,

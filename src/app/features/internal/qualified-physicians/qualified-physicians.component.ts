@@ -38,7 +38,7 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.physicians$ = this.store.select(scheduleSelectors.getShiftEmployees);
+    this.physicians$ = this.store.select(scheduleSelectors.getSortedShiftEmployees);
     this.isAnyPhysicianSelected$ = this.store.select(scheduleSelectors.isAnyPhysicianSelected);
   }
 
