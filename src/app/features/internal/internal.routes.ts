@@ -10,6 +10,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {OnlyScheduledPersons} from '../../core/guards/only-scheduled-persons.guard';
 import {QualifiedPhysiciansComponent} from './qualified-physicians/qualified-physicians.component';
 import {MessageComponent} from './message/message.component';
+import {MessageSuccessComponent} from './message-success/message-success.component';
 
 export const INTERNAL_ROUTES = Object.freeze({
   HOME: 'home',
@@ -17,7 +18,8 @@ export const INTERNAL_ROUTES = Object.freeze({
   MORE: 'more',
   PROFILE: 'profile',
   QUALIFIED_PHYSICIANS: 'qualified-physicians',
-  MESSAGE: 'message'
+  MESSAGE: 'message',
+  MESSAGE_SUCCESS: 'message-success'
 });
 
 export const internalRoutes: Routes = [
@@ -26,6 +28,7 @@ export const internalRoutes: Routes = [
     { path: 'home', component: HomeComponent, canActivate: [OnlyScheduledPersons] },
     { path: 'qualified-physicians/:employeeScheduleEntryID', component: QualifiedPhysiciansComponent },
     { path: 'message/:employeeScheduleEntryID', component: MessageComponent },
+    { path: 'message-success', component: MessageSuccessComponent },
     { path: 'search', component: SearchComponent, canActivate: [] },
     { path: 'more', component: MoreComponent, canActivate: [] },
     { path: 'profile', component: ProfileComponent, canActivate: [] },

@@ -20,6 +20,7 @@ import { ViewTypeBottomSheetComponent } from './common/components/view-type-bott
 import {ScheduleDayCardComponent} from './common/components/schedule-day-card/schedule-day-card.component';
 import { QualifiedPhysiciansComponent } from './qualified-physicians/qualified-physicians.component';
 import { MessageComponent } from './message/message.component';
+import { MessageSuccessComponent } from './message-success/message-success.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { MessageComponent } from './message/message.component';
     ViewTypeBottomSheetComponent,
     ScheduleDayCardComponent,
     QualifiedPhysiciansComponent,
-    MessageComponent
+    MessageComponent,
+    MessageSuccessComponent
   ]
 })
 export class InternalModule { }
