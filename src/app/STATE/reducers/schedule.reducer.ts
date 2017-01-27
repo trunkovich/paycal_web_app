@@ -245,6 +245,9 @@ export const getScheduleEntryById = id => {
   return createSelector(
     getSelectedDateSchedule,
     (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntry => {
+      if (!entries) {
+        return null;
+      }
       return entries.filter(entry => entry.EmployeeScheduleEntryID === id)[0];
     }
   );

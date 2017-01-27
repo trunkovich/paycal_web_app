@@ -11,6 +11,7 @@ import {Observable, Subscription} from 'rxjs';
 import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-entry.model';
 import {ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
+import {PhonePipe} from '../../../common/pipes/phone.pipe';
 
 
 @Component({
@@ -59,13 +60,14 @@ export class MessageComponent implements OnInit, OnDestroy {
     if (!profile || !scheduleEntry) {
       return '';
     }
+    let phonePipe = new PhonePipe();
     let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month, day: scheduleEntry.Day});
     return `Good Morning, 
 
-I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}.` +
+I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. ` +
 `If you are interested please contact me with the information below.
  
-${profile.MobilePhone}
+${phonePipe.transform(profile.MobilePhone)}
 ${profile.Email}`;
   }
 
