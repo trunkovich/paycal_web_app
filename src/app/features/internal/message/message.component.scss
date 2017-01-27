@@ -40,6 +40,7 @@
         background-color: $light-blue-grey;
         padding: 0 33px 0 16px;
         margin: 6px 4px;
+        white-space: nowrap;
 
         .close-button {
           @include absolute(right 2px top 50%);
