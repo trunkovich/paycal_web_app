@@ -125,6 +125,7 @@ let getShiftEmployees = createSelector(getScheduleState, fromSchedule.getShiftEm
 let getSortedShiftEmployees = createSelector(getScheduleState, fromSchedule.getSortedShiftEmployees);
 let isAnyPhysicianSelected = createSelector(getScheduleState, fromSchedule.isAnyPhysicianSelected);
 let getScheduleEntryById = (id) => createSelector(getScheduleState, fromSchedule.getScheduleEntryById(id));
+let getSortedSelectedDateSchedule = createSelector(getScheduleState, fromSchedule.getSortedSelectedDateSchedule);
 
 
 let getEstimateEarnings = createSelector(
@@ -178,5 +179,6 @@ export const scheduleSelectors = {
   getShiftEmployees: getShiftEmployees,
   getSortedShiftEmployees: getSortedShiftEmployees,
   isAnyPhysicianSelected: isAnyPhysicianSelected,
-  getScheduleEntryById: getScheduleEntryById
+  getScheduleEntryById: getScheduleEntryById,
+  getSortedSelectedDateSchedule: getSortedSelectedDateSchedule
 };

@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
-    this.entries$ = this.store.select(scheduleSelectors.getSelectedDateSchedule);
+    this.entries$ = this.store.select(scheduleSelectors.getSortedSelectedDateSchedule);
     this.groupedEntries$ = this.store.select(scheduleSelectors.getSelectedDateScheduleGroupedByDay);
     this.selectedDate$ = this.store.select(scheduleSelectors.getMySelectedDate);
     this.homeViewType$ = this.store.select(scheduleSelectors.getHomeViewType);

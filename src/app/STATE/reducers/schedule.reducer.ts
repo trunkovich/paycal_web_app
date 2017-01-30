@@ -263,6 +263,20 @@ export const getSelectedDateSchedule = createSelector(
   }
 );
 
+const SORT_ORDER = {
+  'AM': 1,
+  'PM': 2,
+  'EV': 3,
+  'OV': 4,
+  '24': 5,
+};
+export const getSortedSelectedDateSchedule = createSelector(
+  getSelectedDateSchedule,
+  (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntry[] => {
+    return _.sortBy(entries, entry => SORT_ORDER[entry.ShiftCode] || 10);
+  }
+);
+
 export const getScheduleEntryById = id => {
   return createSelector(
     getMyAllScheduleEntries,
