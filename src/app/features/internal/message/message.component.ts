@@ -55,7 +55,6 @@ export class MessageComponent implements OnInit, OnDestroy {
         if (profile && scheduleEntry && selectedEmployees && selectedEmployees.length) {
           this.store.dispatch(new CreateCoverageRequestAction({
             employeeScheduleEntryID: scheduleEntry.EmployeeScheduleEntryID,
-            // TODO: REMOVE THIS SLICE
             message: getSMSMessage(profile, scheduleEntry),
             delimitedIDs: selectedEmployees.map(employee => employee.employee.EmployeeID)
           }));
