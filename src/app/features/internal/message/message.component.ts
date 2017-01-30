@@ -10,8 +10,7 @@ import {QualifiedEmployee, Employee} from '../../../STATE/models/employee.model'
 import {Observable, Subscription} from 'rxjs';
 import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-entry.model';
 import {ActivatedRoute} from '@angular/router';
-import * as moment from 'moment';
-import {PhonePipe} from '../../../common/pipes/phone.pipe';
+import {getSMSMessage} from '../../../../environments/environment';
 
 
 @Component({
@@ -57,7 +56,7 @@ export class MessageComponent implements OnInit, OnDestroy {
           this.store.dispatch(new CreateCoverageRequestAction({
             employeeScheduleEntryID: scheduleEntry.EmployeeScheduleEntryID,
             // TODO: REMOVE THIS SLICE
-            message: this.formattedMessage(profile, scheduleEntry).slice(0, 99),
+            message: getSMSMessage(profile, scheduleEntry),
             delimitedIDs: selectedEmployees.map(employee => employee.employee.EmployeeID)
           }));
         }
@@ -68,19 +67,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     this._location.back();
   }
 
-  formattedMessage(profile: Employee, scheduleEntry: EmployeeScheduleEntry): string {
-    if (!profile || !scheduleEntry) {
-      return '';
-    }
-    let phonePipe = new PhonePipe();
-    let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, day: scheduleEntry.Day});
-    return `Good Morning, 
-
-I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. ` +
-`If you are interested please contact me with the information below.
- 
-${phonePipe.transform(profile.MobilePhone)}
-${profile.Email}`;
+  formattedMessage(profile, scheduleEntry) {
+    return getSMSMessage(profile, scheduleEntry);
   }
-
 }

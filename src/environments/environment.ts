@@ -3,6 +3,12 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
+import {Employee} from '../app/STATE/models/employee.model';
+import {EmployeeScheduleEntry} from '../app/STATE/models/employee-schedule-entry.model';
+import {PhonePipe} from '../app/common/pipes/phone.pipe';
+import * as moment from 'moment';
+
+
 export const environment = {
   production: false
 };
@@ -26,3 +32,22 @@ export const APP_CONFIG = Object.freeze({
   // example: app.paycal.com/password-reset/32fsdf9239f2-3fn2389f23-fj23848
   RESET_PASSWORD_URL: 'password-reset'
 });
+
+/* --------------------------------------------------- */
+/* ----------Here you could set sms template---------- */
+/* --------------------------------------------------- */
+export const getSMSMessage = (profile: Employee, scheduleEntry: EmployeeScheduleEntry): string => {
+  if (!profile || !scheduleEntry) {
+    return '';
+  }
+  let phonePipe = new PhonePipe();
+  let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, day: scheduleEntry.Day});
+  return `Good Morning,
+
+I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. ` +
+`If you are interested please contact me with the information below.
+
+${phonePipe.transform(profile.MobilePhone)}
+${profile.Email}`;
+};
+
