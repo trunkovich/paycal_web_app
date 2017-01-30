@@ -21,6 +21,7 @@
     <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
                              [lineOne]="entry.LaborCode"
                              [shiftCode]="entry.ShiftCode"
+                             [hideButton]="isEntryInPast(entry)"
                              [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"
                              (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
   </div>

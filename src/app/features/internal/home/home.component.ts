@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
+import * as moment from 'moment';
 
 import {
   EmployeeScheduleEntry,
@@ -14,7 +15,6 @@ import {
 } from '../../../STATE/actions/schedule.actions';
 import {scheduleSelectors, profileSelectors, AppState} from '../../../STATE/reducers/index';
 import {Employee} from '../../../STATE/models/employee.model';
-import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
 import {Router} from '@angular/router';
 import {INTERNAL_ROUTES} from '../internal.routes';
 
@@ -78,6 +78,13 @@ export class HomeComponent implements OnInit {
       return `Dr. ${profile.FirstName} ${profile.LastName}, MD.`;
     }
     return `${profile.FirstName} ${profile.LastName}`;
+  }
+
+  isEntryInPast(entry: EmployeeScheduleEntry): boolean {
+    let m = moment({year: entry.Year, month: entry.Month - 1, day: entry.Day});
+    let endOfToday = moment().endOf('day');
+    console.log(m.isBefore(endOfToday));
+    return m.isBefore(endOfToday);
   }
 
 }

@@ -73,7 +73,7 @@ export class MessageComponent implements OnInit, OnDestroy {
       return '';
     }
     let phonePipe = new PhonePipe();
-    let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month, day: scheduleEntry.Day});
+    let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, day: scheduleEntry.Day});
     return `Good Morning, 
 
 I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. ` +

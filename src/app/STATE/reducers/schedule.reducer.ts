@@ -188,6 +188,20 @@ export const getHomeViewType = (state: ScheduleState) => state.homeViewType;
 export const getScheduleLoadingState = (state: ScheduleState) => state.scheduleLoading;
 export const getShiftEmployees = (state: ScheduleState) => state.shiftEmployees;
 
+export const getMyAllScheduleEntries = createSelector(
+  getMySchedule,
+  (mySchedule: AvailableMonthsStructure): EmployeeScheduleEntry[] | boolean => {
+    let entries: EmployeeScheduleEntry[] = [];
+    for (let key in mySchedule) {
+      if (!mySchedule.hasOwnProperty(key)) {
+        continue;
+      }
+      entries = entries.concat(mySchedule[key].entries);
+    }
+    return entries;
+  }
+);
+
 export const getSortedShiftEmployees = createSelector(
   getShiftEmployees,
   (employees: QualifiedEmployee[]) => {
@@ -251,7 +265,7 @@ export const getSelectedDateSchedule = createSelector(
 
 export const getScheduleEntryById = id => {
   return createSelector(
-    getSelectedDateSchedule,
+    getMyAllScheduleEntries,
     (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntry => {
       if (!entries) {
         return null;
