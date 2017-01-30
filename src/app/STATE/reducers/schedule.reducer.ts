@@ -213,7 +213,12 @@ export const getGroupedSortedShiftEmployees = createSelector(
   getSortedShiftEmployees,
   (employees: QualifiedEmployee[]): QualifiedEmployeeGroup[] => {
     let groups: QualifiedEmployeeGroup[] = [];
-    let grouped = _.groupBy(employees, employee => employee.employee.LastName.slice(0, 1));
+    let grouped = _.groupBy(employees, employee => {
+      if (!employee.employee.LastName) {
+        return 'OTHERS';
+      }
+      return employee.employee.LastName.slice(0, 1).toUpperCase();
+    });
     for (let key in grouped) {
       if (!grouped.hasOwnProperty(key)) {
         continue;

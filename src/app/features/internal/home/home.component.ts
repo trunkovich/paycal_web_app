@@ -83,7 +83,6 @@ export class HomeComponent implements OnInit {
   isEntryInPast(entry: EmployeeScheduleEntry): boolean {
     let m = moment({year: entry.Year, month: entry.Month - 1, day: entry.Day});
     let endOfToday = moment().endOf('day');
-    console.log(m.isBefore(endOfToday));
     return m.isBefore(endOfToday);
   }
 
