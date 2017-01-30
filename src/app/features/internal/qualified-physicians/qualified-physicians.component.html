@@ -5,9 +5,14 @@
             (nextBtnClick)="next()"
             (backBtnClick)="back()"></pcl-header>
 
-<div class="physician-block"
-     *ngFor="let physician of physicians$ | async"
-     (click)="toggleSelection(physician)">
-  {{physician.employee.FirstName + ' ' + physician.employee.LastName}}
-  <div class="selected" *ngIf="physician.selected"></div>
+<div class="physician-group-block"
+     *ngFor="let physicianGroup of physicianGroups$ | async">
+  <div class="physician-group-header">{{physicianGroup.letter}}</div>
+  <div class="physician-block"
+       *ngFor="let physician of physicianGroup.physicians"
+       (click)="toggleSelection(physician)">
+    {{physician.employee.LastName + ' ' + physician.employee.FirstName}}
+    <div class="selected" *ngIf="physician.selected"></div>
+  </div>
 </div>
+

@@ -12,7 +12,7 @@ import {
 } from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
 import { createSelector } from 'reselect';
-import {QualifiedEmployee} from '../models/employee.model';
+import {QualifiedEmployee, QualifiedEmployeeGroup} from '../models/employee.model';
 
 export interface ScheduleState {
   groupScheduleMonths: GroupSchedule[];
@@ -204,8 +204,23 @@ export const getMyAllScheduleEntries = createSelector(
 
 export const getSortedShiftEmployees = createSelector(
   getShiftEmployees,
-  (employees: QualifiedEmployee[]) => {
+  (employees: QualifiedEmployee[]): QualifiedEmployee[] => {
     return _.sortBy(employees, 'employee.LastName');
+  }
+);
+
+export const getGroupedSortedShiftEmployees = createSelector(
+  getSortedShiftEmployees,
+  (employees: QualifiedEmployee[]): QualifiedEmployeeGroup[] => {
+    let groups: QualifiedEmployeeGroup[] = [];
+    let grouped = _.groupBy(employees, employee => employee.employee.LastName.slice(0, 1));
+    for (let key in grouped) {
+      if (!grouped.hasOwnProperty(key)) {
+        continue;
+      }
+      groups.push({letter: key, physicians: grouped[key]});
+    }
+    return groups;
   }
 );
 

@@ -1,6 +1,11 @@
 /**
  * Created by TrUnK on 05.01.2017.
  */
+export interface QualifiedEmployeeGroup {
+  letter: string;
+  physicians: QualifiedEmployee[];
+}
+
 export interface QualifiedEmployee {
   selected: boolean;
   employee: Employee;
