@@ -3,15 +3,12 @@
  */
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { createSelector } from 'reselect';
 
 import * as scheduleActions from '../actions/schedule.actions';
 import {GroupSchedule} from '../models/group-schedule.model';
-import {
-  EmployeeScheduleEntry, AvailableMonthsStructure,
-  EmployeeScheduleEntryGroupedByDay
-} from '../models/employee-schedule-entry.model';
+import {EmployeeScheduleEntry, AvailableMonthsStructure, EmployeeScheduleEntryGroupedByDay} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
-import { createSelector } from 'reselect';
 import {QualifiedEmployee, QualifiedEmployeeGroup} from '../models/employee.model';
 
 export interface ScheduleState {
@@ -35,152 +32,152 @@ const initialScheduleState = {
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {
   switch (action.type) {
     case scheduleActions.ActionTypes.CLEAN_SCHEDULE: {
-      return Object.assign({}, initialScheduleState);
+      return _.cloneDeep(initialScheduleState);
     }
-    case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_CLEAN: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: state.scheduleLoading,
-        shiftEmployees: []
-      };
+    case scheduleActions.ActionTypes.CLEAN_SHIFT_EMPLOYEES: {
+      return cleanShiftEmployeesHandler(state);
     }
     case scheduleActions.ActionTypes.LOAD_MY_FULL_SCHEDULE:
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES:
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: true,
-        shiftEmployees: state.shiftEmployees
-      };
+      return setLoadingHandler(state);
     }
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_SUCCESS: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: false,
-        shiftEmployees: [...action.payload]
-      };
+      return loadShiftEmployeesListHandler(setNotLoadingHandler(state), action);
     }
     case scheduleActions.ActionTypes.TOGGLE_SELECTION: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: false,
-        shiftEmployees: state.shiftEmployees.map((employee) => {
-          if (employee.employee.EmployeeID === action.payload.employee.EmployeeID) {
-            return Object.assign({}, employee, {selected: !employee.selected});
-          } else {
-            return employee;
-          }
-        })
-      };
+      return toggleSelectionHandler(setNotLoadingHandler(state), action);
     }
     case scheduleActions.ActionTypes.REMOVE_UNSELECTED_SHIFT_EMPLOYEES: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: false,
-        shiftEmployees: state.shiftEmployees.filter((employee) => employee.selected)
-      };
+      return removeUnselectedEmployeesHandler(state);
     }
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_FAIL: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: false,
-        shiftEmployees: []
-      };
+      return loadShiftEmployeesListFailHandler(setNotLoadingHandler(state));
     }
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_FINALLY: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: false,
-        shiftEmployees: state.shiftEmployees
-      };
+      return setNotLoadingHandler(state);
     }
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS: {
-      let newMonths = false;
-      let newSchedule = Object.assign({}, state.mySchedule);
-      action.payload.forEach((scheduleMonth) => {
-        if (!newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`]) {
-          newMonths = true;
-          newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`] = {
-            dateString: `${scheduleMonth.Year}.${scheduleMonth.Month}`,
-            loaded: false,
-            entries: [],
-            month: scheduleMonth.Month,
-            year: scheduleMonth.Year
-          };
-        }
-      });
-      return {
-        groupScheduleMonths: [...action.payload],
-        mySchedule: newMonths ? Object.assign({}, newSchedule) : state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: true,
-        shiftEmployees: state.shiftEmployees
-      };
+      return loadGroupScheduleMonthsHandler(setLoadingHandler(state), action);
     }
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_SUCCESS: {
-      if (!action.payload.loaded) {
-        // error while loading
-        return state;
-      }
-      let loadedMonthWrapper = {};
-      loadedMonthWrapper[`${action.payload.dateString}`] = Object.assign({}, action.payload);
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: Object.assign({}, state.mySchedule, loadedMonthWrapper),
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: state.homeViewType,
-        scheduleLoading: state.scheduleLoading,
-        shiftEmployees: state.shiftEmployees
-      };
+      return loadMyMonthScheduleHandler(state, action);
     }
     case scheduleActions.ActionTypes.SET_MY_SELECTED_DATE: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: new Date(action.payload),
-        homeViewType: state.homeViewType,
-        scheduleLoading: state.scheduleLoading,
-        shiftEmployees: state.shiftEmployees
-      };
+      return setMySelectedDateHandler(state, action);
     }
     case scheduleActions.ActionTypes.SET_HOME_VIEW_TYPE: {
-      return {
-        groupScheduleMonths: state.groupScheduleMonths,
-        mySchedule: state.mySchedule,
-        mySelectedDate: state.mySelectedDate,
-        homeViewType: action.payload,
-        scheduleLoading: state.scheduleLoading,
-        shiftEmployees: state.shiftEmployees
-      };
+      return setHomeViewTypeHandler(state, action);
     }
     default: {
       return state;
     }
   }
 }
+/* ------------------------------------------------------------------ */
+/* -------------------------REDUCER HANDLERS------------------------- */
+/* ------------------------------------------------------------------ */
+function setLoadingHandler(state: ScheduleState) {
+  return _.assign({}, state, {
+    scheduleLoading: true
+  });
+}
 
+function setNotLoadingHandler(state: ScheduleState) {
+  return _.assign({}, state, {
+    scheduleLoading: false
+  });
+}
+
+function cleanShiftEmployeesHandler(state: ScheduleState) {
+  let newState = _.cloneDeep(state);
+  newState.shiftEmployees = [];
+  return newState;
+}
+
+function loadShiftEmployeesListHandler(state: ScheduleState, action: scheduleActions.LoadShiftEmployeesSuccessAction) {
+  let newState = _.cloneDeep(state);
+  newState.shiftEmployees = _.cloneDeep(action.payload);
+  return newState;
+}
+
+function toggleSelectionHandler(state: ScheduleState, action: scheduleActions.ToggleSelectionAction) {
+  let newState = _.assign({}, state, {
+    shiftEmployees: _.clone(state.shiftEmployees)
+  });
+  const employeeIndex = _.findIndex(newState.shiftEmployees, (emp) => emp.employee.EmployeeID === action.payload.employee.EmployeeID);
+  const employee = _.clone(newState.shiftEmployees[employeeIndex]);
+  employee.selected = !employee.selected;
+  newState.shiftEmployees[employeeIndex] = employee;
+  return newState;
+}
+
+function removeUnselectedEmployeesHandler(state: ScheduleState) {
+  let newState = _.cloneDeep(state);
+  newState.shiftEmployees = _.filter(newState.shiftEmployees, 'selected');
+  return newState;
+}
+
+function loadShiftEmployeesListFailHandler(state: ScheduleState) {
+  let newState = _.cloneDeep(state);
+  newState.scheduleLoading = false;
+  newState.shiftEmployees = [];
+  return newState;
+}
+
+function loadGroupScheduleMonthsHandler(state: ScheduleState, action: scheduleActions.LoadGroupScheduleMonthsSuccessAction) {
+  let newMonths = false;
+  let newSchedule = _.cloneDeep(state.mySchedule);
+  _.each(action.payload, (scheduleMonth) => {
+    if (!newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`]) {
+      newMonths = true;
+      newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`] = {
+        dateString: `${scheduleMonth.Year}.${scheduleMonth.Month}`,
+        loaded: false,
+        entries: [],
+        month: scheduleMonth.Month,
+        year: scheduleMonth.Year
+      };
+    }
+  });
+
+  let newState = _.cloneDeep(state);
+  newState.groupScheduleMonths = _.cloneDeep(action.payload);
+  if (newMonths) {
+    newState.mySchedule = _.assign({}, newSchedule);
+  }
+  return newState;
+}
+
+function loadMyMonthScheduleHandler(state: ScheduleState, action: scheduleActions.LoadMyMonthScheduleSuccessAction) {
+  if (!action.payload.loaded) {
+    // error while loading
+    return state;
+  }
+  let newState = _.cloneDeep(state);
+  let loadedMonthWrapper = {};
+  loadedMonthWrapper[`${action.payload.dateString}`] = Object.assign({}, action.payload);
+  newState.mySchedule = _.assign({}, newState.mySchedule, loadedMonthWrapper);
+  return newState;
+}
+
+function setMySelectedDateHandler(state: ScheduleState, action: scheduleActions.SetMySelectedDateAction) {
+  let newState = _.cloneDeep(state);
+  newState.mySelectedDate = new Date(action.payload);
+  return newState;
+}
+
+function setHomeViewTypeHandler(state: ScheduleState, action: scheduleActions.SetHomeViewTypeAction) {
+  let newState = _.cloneDeep(state);
+  newState.homeViewType = action.payload;
+  return newState;
+}
+
+
+
+/* ------------------------------------------------------------------- */
+/* -----------------------------SELECTORS----------------------------- */
+/* ------------------------------------------------------------------- */
 export const getScheduleMonths = (state: ScheduleState) => state.groupScheduleMonths;
 export const getMySchedule = (state: ScheduleState) => state.mySchedule;
 export const getMySelectedDate = (state: ScheduleState) => state.mySelectedDate;
