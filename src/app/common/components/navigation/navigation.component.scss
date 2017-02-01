@@ -32,38 +32,18 @@
 
         md-icon {
           @include centerer();
-          &.nav-more-icon {
-            fill: white;
-            #stroke-lines {
-              stroke: $bluish-grey;
-            }
-            &.active {
-              fill: $tealish;
-              #stroke-lines {
-                stroke: $tealish;
-              }
-            }
-          }
+          &.nav-profile-icon,
           &.nav-home-icon,
           &.nav-contact-icon,
           &.nav-search-icon {
             fill: $bluish-grey;
-
-            &.active {
-              fill: $tealish;
-            }
           }
 
         }
 
         &.active {
           md-icon {
-            &.nav-more-icon {
-              fill: $tealish;
-              #stroke-lines {
-                stroke: $tealish;
-              }
-            }
+            &.nav-profile-icon,
             &.nav-home-icon,
             &.nav-contact-icon,
             &.nav-search-icon {
