@@ -5,9 +5,6 @@ import * as authActions from '../actions/auth.actions';
 import * as _ from 'lodash';
 
 import {TokenObject} from '../models/token.model';
-import {RequestPasswordRecoveryFailAction} from '../actions/auth.actions';
-import {ResetPasswordFailAction} from '../actions/auth.actions';
-import {SaveLeadFailAction} from '../actions/auth.actions';
 
 export interface AuthState {
   token: string | null;
@@ -80,9 +77,9 @@ function setLoadingHanlder (state: AuthState, loadingState: boolean): AuthState 
 
 function setErrorMsg (state: AuthState, action: authActions.SignInFailAction |
                                                 authActions.CompleteRegistrationFailAction |
-                                                RequestPasswordRecoveryFailAction |
-                                                ResetPasswordFailAction |
-                                                SaveLeadFailAction): AuthState {
+                                                authActions.RequestPasswordRecoveryFailAction |
+                                                authActions.ResetPasswordFailAction |
+                                                authActions.SaveLeadFailAction): AuthState {
   let newState = _.cloneDeep(state);
   newState.loading = false;
   newState.errorMsg = action.payload;
