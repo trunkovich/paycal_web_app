@@ -1,9 +1,9 @@
 /**
  * Created by TrUnK on 06.01.2017.
  */
-import * as authActions from '../actions/auth.actions';
 import * as _ from 'lodash';
 
+import * as authActions from '../actions/auth.actions';
 import {TokenObject} from '../models/token.model';
 
 export interface AuthState {
