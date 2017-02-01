@@ -15,7 +15,7 @@ import { LoaderComponent } from './components/loader/loader.component';
       MaterialModule,
       RouterModule
     ],
-    exports: [PclButtonComponent, PclHeaderComponent, NavigationComponent, LoaderComponent],
+    exports: [PclButtonComponent, PclHeaderComponent, NavigationComponent, LoaderComponent, PhonePipe],
     declarations: [PclButtonComponent, PclHeaderComponent, NavigationComponent, PhonePipe, LoaderComponent],
     providers: [],
 })

@@ -6,7 +6,32 @@
             (nextBtnClick)="onNextBtnClick()"></pcl-header>
 
 <div class="avatar-section">
-  <div class="avatar"></div>
-  <div class="name">Michael Trefilov</div>
-  <div class="group">OB/GYN</div>
+  <div class="avatar"
+       [style.backgroundImage]="getPhotoUrl(profile)"></div>
+  <div class="name">{{getName(profile)}}</div>
+  <div class="group"></div>
 </div>
+
+<div class="info-line">
+  <div class="label">Department</div>
+  <div class="value"></div>
+</div>
+
+<div class="info-line">
+  <div class="label">Work Unit Value</div>
+  <div class="value">{{(profile?.WorkUnitValue || 0) | currency:'USD':true:'1.0-0'}}</div>
+</div>
+
+<div class="header-line">contacts</div>
+
+<div class="info-line">
+  <div class="label">Email</div>
+  <div class="value">{{profile?.Email}}</div>
+</div>
+
+<div class="info-line">
+  <div class="label">Mobile</div>
+  <div class="value">{{profile?.MobilePhone | phone}}</div>
+</div>
+
+<div class="header-line">other settings</div>
