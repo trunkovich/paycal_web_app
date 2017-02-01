@@ -1,0 +1,23 @@
+@import '../../../../styles';
+
+:host {
+
+  .nav-lines {
+
+    li {
+      @extend .big-text;
+      position: relative;
+      line-height: 24px;
+      padding: 20px 64px;
+      box-shadow: inset 0 -1px 0 0 $light-blue-grey, inset 0 1px 0 0 $light-blue-grey;
+
+      .worker-icon {
+        @include size(64px);
+        @include absolute(top 0 left 0);
+        @include background-image('profile', 'png', 24px);
+        background-repeat: no-repeat;
+        background-position: 50%;
+      }
+    }
+  }
+}
