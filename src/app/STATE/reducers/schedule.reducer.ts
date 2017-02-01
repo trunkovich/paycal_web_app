@@ -173,8 +173,6 @@ function setHomeViewTypeHandler(state: ScheduleState, action: scheduleActions.Se
   return newState;
 }
 
-
-
 /* ------------------------------------------------------------------- */
 /* -----------------------------SELECTORS----------------------------- */
 /* ------------------------------------------------------------------- */
@@ -189,12 +187,9 @@ export const getMyAllScheduleEntries = createSelector(
   getMySchedule,
   (mySchedule: AvailableMonthsStructure): EmployeeScheduleEntry[] | boolean => {
     let entries: EmployeeScheduleEntry[] = [];
-    for (let key in mySchedule) {
-      if (!mySchedule.hasOwnProperty(key)) {
-        continue;
-      }
-      entries = entries.concat(mySchedule[key].entries);
-    }
+    _.each(mySchedule, (value) => {
+      entries = _.concat(entries, value.entries);
+    });
     return entries;
   }
 );
@@ -216,12 +211,9 @@ export const getGroupedSortedShiftEmployees = createSelector(
       }
       return employee.employee.LastName.slice(0, 1).toUpperCase();
     });
-    for (let key in grouped) {
-      if (!grouped.hasOwnProperty(key)) {
-        continue;
-      }
-      groups.push({letter: key, physicians: grouped[key]});
-    }
+    _.each(grouped, (group, key) => {
+      groups.push({letter: key, physicians: group});
+    });
     return groups;
   }
 );
@@ -240,7 +232,7 @@ export const getSelectedDateSchedule = createSelector(
     }
     switch (type) {
       case CalendarTypes.DAY: {
-        return mySchedule[`${year}.${month}`].entries.filter((scheduleEntry: EmployeeScheduleEntry) => {
+        return _.filter(mySchedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry) => {
           return scheduleEntry.Year === year &&
                 scheduleEntry.Month === month &&
                 scheduleEntry.Day === day;
@@ -258,7 +250,7 @@ export const getSelectedDateSchedule = createSelector(
           if (!mySchedule[`${year}.${month}`].entries) {
             return false;
           }
-          return mySchedule[`${year}.${month}`].entries.filter((scheduleEntry: EmployeeScheduleEntry) => {
+          return _.filter(mySchedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry) => {
             return scheduleEntry.Year === year &&
               scheduleEntry.Month === month &&
               scheduleEntry.Day >= start.date() &&
@@ -267,12 +259,12 @@ export const getSelectedDateSchedule = createSelector(
         } else {
           let arr1 = mySchedule[`${start.year()}.${start.month() + 1}`] ? mySchedule[`${start.year()}.${start.month() + 1}`].entries : [];
           let arr2 = mySchedule[`${end.year()}.${end.month() + 1}`] ? mySchedule[`${end.year()}.${end.month() + 1}`].entries : [];
-          entries = arr1
-            .concat(arr2)
+          entries = _(arr1).concat(arr2)
             .filter((scheduleEntry: EmployeeScheduleEntry) => {
               let entryDate = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, date: scheduleEntry.Day}).add(1, 'minute');
               return entryDate.isBetween(start, end);
-            });
+            })
+            .value();
         }
         return entries;
       }
@@ -301,7 +293,7 @@ export const getScheduleEntryById = id => {
       if (!entries) {
         return null;
       }
-      return entries.filter(entry => entry.EmployeeScheduleEntryID === id)[0];
+      return _.filter(entries, entry => entry.EmployeeScheduleEntryID === id)[0];
     }
   );
 };
@@ -312,18 +304,18 @@ export const getSelectedDateScheduleGroupedByDay = createSelector(
     if (!entries) {
       return false;
     }
-    let groupedEntries = {};
+    let groupedEntries: {[key: string]: EmployeeScheduleEntry[]} = {};
     let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
-    entries.forEach((entry) => {
+    _.each(entries, (entry) => {
       if (!groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`]) {
         groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`] = [];
       }
       groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
     });
-    Object.keys(groupedEntries).forEach((key) => {
+    _.each(groupedEntries, (value, key) => {
       groupedEntriesArr.push({
         date: moment(key, 'YYYY.MM.DD'),
-        entries: groupedEntries[key]
+        entries: value
       });
     });
     return groupedEntriesArr;
@@ -336,13 +328,13 @@ export const getTotalWorkCount = createSelector(
     if (!scheduleEntries) {
       return 0;
     }
-    return scheduleEntries.reduce((sum: number, entry: EmployeeScheduleEntry) => sum + (entry.WorkUnitPoints || 0), 0);
+    return _.reduce(scheduleEntries, (sum: number, entry: EmployeeScheduleEntry) => sum + (entry.WorkUnitPoints || 0), 0);
   }
 );
 
 export const isAnyPhysicianSelected = createSelector(
   getShiftEmployees,
   (shiftEmployees: QualifiedEmployee[]) => {
-    return shiftEmployees.some((shiftEmployee) => shiftEmployee.selected);
+    return _.some(shiftEmployees, (shiftEmployee) => shiftEmployee.selected);
   }
 );
