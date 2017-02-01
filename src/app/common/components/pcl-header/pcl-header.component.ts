@@ -10,7 +10,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
           type="button" 
           class="icon-button back-button" 
           (click)="onBackBtnClick($event)">
-    <div class="back-icon"></div>
+    <md-icon [svgIcon]="'back'"></md-icon>
   </button>
   <div class="title">{{title}}</div>
   <button *ngIf="showNextBtn" 

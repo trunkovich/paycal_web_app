@@ -55,6 +55,10 @@ export class AppComponent {
       'window-close',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/window-close.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'back',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/back.svg')
+    );
 
   }
 }

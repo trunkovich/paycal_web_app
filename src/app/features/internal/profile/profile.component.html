@@ -1,3 +1,12 @@
-<p>
-  profile works!
-</p>
+<pcl-header [showNextBtn]="true"
+            [showBackBtn]="true"
+            [nextBtnLabel]="'EDIT'"
+            [title]="'My Profile'"
+            (backBtnClick)="onBackBtnClick()"
+            (nextBtnClick)="onNextBtnClick()"></pcl-header>
+
+<div class="avatar-section">
+  <div class="avatar"></div>
+  <div class="name">Michael Trefilov</div>
+  <div class="group">OB/GYN</div>
+</div>
