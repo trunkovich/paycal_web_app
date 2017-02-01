@@ -1,8 +1,11 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Employee} from '../../../STATE/models/employee.model';
-import {Observable, Subscription} from 'rxjs';
-import {AppState, profileSelectors} from '../../../STATE/reducers/index';
+import {Location} from '@angular/common';
+import {Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
+
+import {Employee} from '../../../STATE/models/employee.model';
+import {AppState, profileSelectors} from '../../../STATE/reducers/index';
+import {LogoutAction} from '../../../STATE/actions/auth.actions';
 
 @Component({
   selector: 'pcl-profile',
@@ -13,7 +16,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
   sub: Subscription;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private _location: Location, private store: Store<AppState>) { }
 
   ngOnInit() {
     this.sub = this.store.select(profileSelectors.getMyProfile)
@@ -22,6 +25,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  onBackBtnClick() {
+    this._location.back();
+  }
+
+  onNextBtnClick() {
+    console.log('next');
+  }
+
+  onLogoutClick() {
+    // Set timeout for ripple animation
+    setTimeout(() => this.store.dispatch(new LogoutAction()), 200);
+  }
+
+  onChangePasswordClick() {
+    console.log('change password');
   }
 
   getPhotoUrl(profile: Employee): string {
