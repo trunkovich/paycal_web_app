@@ -16,8 +16,9 @@ export interface ScheduleState {
   mySchedule: AvailableMonthsStructure;
   mySelectedDate: Date;
   homeViewType: CalendarTypes;
-  scheduleLoading: boolean;
   shiftEmployees: QualifiedEmployee[];
+  scheduleLoading: boolean;
+  physiciansLoading: boolean;
 }
 
 const initialScheduleState = {
@@ -25,8 +26,9 @@ const initialScheduleState = {
   mySchedule: {},
   mySelectedDate: new Date(),
   homeViewType: CalendarTypes.DAY,
+  shiftEmployees: [],
   scheduleLoading: false,
-  shiftEmployees: []
+  physiciansLoading: false
 };
 
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {
@@ -40,7 +42,10 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
     case scheduleActions.ActionTypes.LOAD_MY_FULL_SCHEDULE:
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES:
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE: {
-      return setLoadingHandler(state);
+      return setScheduleLoadingHandler(state);
+    }
+    case scheduleActions.ActionTypes.SET_EMPLOYEES_LOADING: {
+      return setPhysiciansLoadingHandler(state);
     }
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_SUCCESS: {
       return loadShiftEmployeesListHandler(setNotLoadingHandler(state), action);
@@ -58,7 +63,7 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
       return setNotLoadingHandler(state);
     }
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS: {
-      return loadGroupScheduleMonthsHandler(setLoadingHandler(state), action);
+      return loadGroupScheduleMonthsHandler(setScheduleLoadingHandler(state), action);
     }
     case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_SUCCESS: {
       return loadMyMonthScheduleHandler(state, action);
@@ -77,31 +82,38 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
 /* ------------------------------------------------------------------ */
 /* -------------------------REDUCER HANDLERS------------------------- */
 /* ------------------------------------------------------------------ */
-function setLoadingHandler(state: ScheduleState) {
+function setScheduleLoadingHandler(state: ScheduleState): ScheduleState {
   return _.assign({}, state, {
     scheduleLoading: true
   });
 }
 
-function setNotLoadingHandler(state: ScheduleState) {
+function setPhysiciansLoadingHandler(state: ScheduleState): ScheduleState {
   return _.assign({}, state, {
-    scheduleLoading: false
+    physiciansLoading: true
   });
 }
 
-function cleanShiftEmployeesHandler(state: ScheduleState) {
+function setNotLoadingHandler(state: ScheduleState): ScheduleState {
+  return _.assign({}, state, {
+    scheduleLoading: false,
+    physiciansLoading: false
+  });
+}
+
+function cleanShiftEmployeesHandler(state: ScheduleState): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.shiftEmployees = [];
   return newState;
 }
 
-function loadShiftEmployeesListHandler(state: ScheduleState, action: scheduleActions.LoadShiftEmployeesSuccessAction) {
+function loadShiftEmployeesListHandler(state: ScheduleState, action: scheduleActions.LoadShiftEmployeesSuccessAction): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.shiftEmployees = _.cloneDeep(action.payload);
   return newState;
 }
 
-function toggleSelectionHandler(state: ScheduleState, action: scheduleActions.ToggleSelectionAction) {
+function toggleSelectionHandler(state: ScheduleState, action: scheduleActions.ToggleSelectionAction): ScheduleState {
   let newState = _.assign({}, state, {
     shiftEmployees: _.clone(state.shiftEmployees)
   });
@@ -112,20 +124,20 @@ function toggleSelectionHandler(state: ScheduleState, action: scheduleActions.To
   return newState;
 }
 
-function removeUnselectedEmployeesHandler(state: ScheduleState) {
+function removeUnselectedEmployeesHandler(state: ScheduleState): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.shiftEmployees = _.filter(newState.shiftEmployees, 'selected');
   return newState;
 }
 
-function loadShiftEmployeesListFailHandler(state: ScheduleState) {
+function loadShiftEmployeesListFailHandler(state: ScheduleState): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.scheduleLoading = false;
   newState.shiftEmployees = [];
   return newState;
 }
 
-function loadGroupScheduleMonthsHandler(state: ScheduleState, action: scheduleActions.LoadGroupScheduleMonthsSuccessAction) {
+function loadGroupScheduleMonthsHandler(state: ScheduleState, action: scheduleActions.LoadGroupScheduleMonthsSuccessAction): ScheduleState {
   let newMonths = false;
   let newSchedule = _.cloneDeep(state.mySchedule);
   _.each(action.payload, (scheduleMonth) => {
@@ -149,7 +161,7 @@ function loadGroupScheduleMonthsHandler(state: ScheduleState, action: scheduleAc
   return newState;
 }
 
-function loadMyMonthScheduleHandler(state: ScheduleState, action: scheduleActions.LoadMyMonthScheduleSuccessAction) {
+function loadMyMonthScheduleHandler(state: ScheduleState, action: scheduleActions.LoadMyMonthScheduleSuccessAction): ScheduleState {
   if (!action.payload.loaded) {
     // error while loading
     return state;
@@ -161,13 +173,13 @@ function loadMyMonthScheduleHandler(state: ScheduleState, action: scheduleAction
   return newState;
 }
 
-function setMySelectedDateHandler(state: ScheduleState, action: scheduleActions.SetMySelectedDateAction) {
+function setMySelectedDateHandler(state: ScheduleState, action: scheduleActions.SetMySelectedDateAction): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.mySelectedDate = new Date(action.payload);
   return newState;
 }
 
-function setHomeViewTypeHandler(state: ScheduleState, action: scheduleActions.SetHomeViewTypeAction) {
+function setHomeViewTypeHandler(state: ScheduleState, action: scheduleActions.SetHomeViewTypeAction): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.homeViewType = action.payload;
   return newState;
@@ -181,6 +193,7 @@ export const getMySchedule = (state: ScheduleState) => state.mySchedule;
 export const getMySelectedDate = (state: ScheduleState) => state.mySelectedDate;
 export const getHomeViewType = (state: ScheduleState) => state.homeViewType;
 export const getScheduleLoadingState = (state: ScheduleState) => state.scheduleLoading;
+export const getPhysiciansLoadingStatus = (state: ScheduleState) => state.physiciansLoading;
 export const getShiftEmployees = (state: ScheduleState) => state.shiftEmployees;
 
 export const getMyAllScheduleEntries = createSelector(

@@ -7,3 +7,5 @@
 
 <pcl-qualifiend-physicians-list (employeeSelected)="toggleSelection($event)"
                                 [physicianGroups]="physicianGroups$ | async"></pcl-qualifiend-physicians-list>
+
+<pcl-loader [show]="isPhysiciansLoading$ | async"></pcl-loader>

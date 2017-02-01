@@ -7,7 +7,7 @@ import {Store} from '@ngrx/store';
 import {Subscription, Observable} from 'rxjs';
 import {
   LoadShiftEmployeesAction, CleanShiftEmployeesAction,
-  ToggleSelectionAction
+  ToggleSelectionAction, SetEmployeeLoading
 } from '../../../STATE/actions/schedule.actions';
 import {INTERNAL_ROUTES} from '../internal.routes';
 
@@ -19,6 +19,7 @@ import {INTERNAL_ROUTES} from '../internal.routes';
 export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
   physicianGroups$: Observable<QualifiedEmployeeGroup[]>;
   isAnyPhysicianSelected$: Observable<boolean>;
+  isPhysiciansLoading$: Observable<boolean>;
   private cleanQualifiedPhysicians = true;
   private sub: Subscription;
   private employeeScheduleEntryID: number;
@@ -28,7 +29,7 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private _location: Location,
     private router: Router
-  ) { }
+  ) {  }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
@@ -38,7 +39,9 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.store.dispatch(new SetEmployeeLoading());
     this.physicianGroups$ = this.store.select(scheduleSelectors.getGroupedSortedShiftEmployees);
+    this.isPhysiciansLoading$ = this.store.select(scheduleSelectors.getPhysiciansLoadingStatus);
     this.isAnyPhysicianSelected$ = this.store.select(scheduleSelectors.isAnyPhysicianSelected);
   }
 

@@ -39,6 +39,7 @@ export const ActionTypes = {
   CLEAN_SHIFT_EMPLOYEES: type('[Schedule] Clean Qualified Employees'),
   TOGGLE_SELECTION: type('[Schedule] Toggle employee selection'),
   REMOVE_UNSELECTED_SHIFT_EMPLOYEES: type('[Schedule] Remove unselected employees'),
+  SET_EMPLOYEES_LOADING: type('[Schedule] Set loading status for employees'),
 
 // Create coverage request
   CREATE_COVERAGE_REQUEST: type('[Schedule] Create coverage request'),
@@ -117,6 +118,9 @@ export class ToggleSelectionAction implements Action {
 export class RemoveUnselectedShiftEmployeesAction implements Action {
   type = ActionTypes.REMOVE_UNSELECTED_SHIFT_EMPLOYEES;
 }
+export class SetEmployeeLoading implements Action {
+  type = ActionTypes.SET_EMPLOYEES_LOADING;
+}
 
 // Create coverage request
 export class CreateCoverageRequestAction implements Action {
@@ -170,8 +174,9 @@ export type Actions
   | CleanShiftEmployeesAction
   | ToggleSelectionAction
   | RemoveUnselectedShiftEmployeesAction
-// Create coverage request
+  | SetEmployeeLoading
 
+// Create coverage request
   | CreateCoverageRequestAction
   | CreateCoverageRequestSuccessAction
   | CreateCoverageRequestFailAction

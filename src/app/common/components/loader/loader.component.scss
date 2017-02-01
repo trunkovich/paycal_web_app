@@ -1,0 +1,51 @@
+@import '../../../../styles';
+
+:host(.show) {
+  opacity: 1;
+}
+
+:host {
+  @include fixed(top 0 bottom 0 left 0 right 0);
+  display: block;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 200ms;
+  background-color: #fff;
+
+  .container {
+    @extend .full-height;
+    position: relative;
+
+    section {
+      @include centerer();
+      width: 100%;
+
+      .spinner {
+        @include size(100px);
+        @include center-block();
+        -webkit-animation: spin 2s infinite linear;
+        animation: spin 2s infinite linear;
+
+        md-icon /deep/ {
+          width: 70px;
+          height: 70px;
+          margin: 15px;
+
+          path {
+            fill: $tealish;
+          }
+        }
+      }
+    }
+  }
+}
+
+@-webkit-keyframes spin {
+  from {-webkit-transform:rotate(0deg);transform:rotate(0deg);}
+  to {-webkit-transform:rotate(360deg);transform:rotate(360deg);}
+}
+
+@keyframes spin {
+  from {-webkit-transform:rotate(0deg);transform:rotate(0deg);}
+  to {-webkit-transform:rotate(360deg);transform:rotate(360deg);}
+}

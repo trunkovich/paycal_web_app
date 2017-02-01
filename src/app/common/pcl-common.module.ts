@@ -7,6 +7,7 @@ import {PclButtonComponent} from './components/pcl-button/pcl-button.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {RouterModule} from '@angular/router';
 import { PhonePipe } from './pipes/phone.pipe';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
     imports: [
@@ -14,8 +15,8 @@ import { PhonePipe } from './pipes/phone.pipe';
       MaterialModule,
       RouterModule
     ],
-    exports: [PclButtonComponent, PclHeaderComponent, NavigationComponent],
-    declarations: [PclButtonComponent, PclHeaderComponent, NavigationComponent, PhonePipe],
+    exports: [PclButtonComponent, PclHeaderComponent, NavigationComponent, LoaderComponent],
+    declarations: [PclButtonComponent, PclHeaderComponent, NavigationComponent, PhonePipe, LoaderComponent],
     providers: [],
 })
 export class PclCommonModule { }
