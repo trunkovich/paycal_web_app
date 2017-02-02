@@ -43,6 +43,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onChangePasswordClick() {
+    // Set timeout for ripple animation
     setTimeout(() => this.router.navigate(['/', AUTH_ROUTES.CHANGE_PASSWORD]), 200);
   }
 
