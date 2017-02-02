@@ -1,21 +1,19 @@
 <pcl-header [showNextBtn]="true"
-            [showBackBtn]="true"
             [nextBtnLabel]="'EDIT'"
             [title]="'My Profile'"
-            (backBtnClick)="onBackBtnClick()"
             (nextBtnClick)="onNextBtnClick()"></pcl-header>
 
 <div class="avatar-section">
   <div class="avatar"
        [style.backgroundImage]="getPhotoUrl(profile)"></div>
-  <div class="name">{{getName(profile)}}</div>
-  <div class="group"></div>
+  <div class="name">{{getEmployeeName(profile)}}</div>
+  <!--<div class="group"></div>-->
 </div>
 
-<div class="info-line">
-  <div class="label">Department</div>
-  <div class="value"></div>
-</div>
+<!--<div class="info-line">-->
+  <!--<div class="label">Department</div>-->
+  <!--<div class="value"></div>-->
+<!--</div>-->
 
 <div class="info-line">
   <div class="label">Work Unit Value</div>

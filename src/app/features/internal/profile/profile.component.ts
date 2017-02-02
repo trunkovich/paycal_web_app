@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
   sub: Subscription;
 
-  constructor(private _location: Location, private store: Store<AppState>, private router: Router) { }
+  constructor(private store: Store<AppState>, private router: Router) { }
 
   ngOnInit() {
     this.sub = this.store.select(profileSelectors.getMyProfile)
@@ -27,10 +27,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-
-  onBackBtnClick() {
-    this._location.back();
   }
 
   onNextBtnClick() {
@@ -55,7 +51,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  getName(profile: Employee): string {
+  getEmployeeName(profile: Employee): string {
     if (!profile) {
       return '';
     } else {
