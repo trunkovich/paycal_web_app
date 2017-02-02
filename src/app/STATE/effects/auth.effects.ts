@@ -109,6 +109,11 @@ export class AuthEffects {
     .ofType(authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_SUCCESS)
     .do(() => this.authService.redirectAfterPasswordRecoveryRequest());
 
+  @Effect({ dispatch: false })
+  redirectAfterSuccessChangePassword$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.CHANGE_PASSWORD_SUCCESS)
+    .do(() => this.authService.redirectAfterChangePassword());
+
   @Effect()
   resetPassword$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.RESET_PASSWORD)
@@ -117,6 +122,16 @@ export class AuthEffects {
       return this.authService.resetPassword(resetPasswordData)
         .map(() => new authActions.ResetPasswordSuccessAction())
         .catch(error => Observable.of(new authActions.ResetPasswordFailAction(error.message)));
+    });
+
+  @Effect()
+  changePassword$: Observable<Action> = this.actions$
+    .ofType(authActions.ActionTypes.CHANGE_PASSWORD)
+    .map(toPayload)
+    .switchMap((password: string) => {
+      return this.authService.changePassword(password)
+        .map(() => new authActions.ChangePasswordSuccessAction())
+        .catch(error => Observable.of(new authActions.ChangePasswordFailAction(error.message)));
     });
 
   @Effect({ dispatch: false })

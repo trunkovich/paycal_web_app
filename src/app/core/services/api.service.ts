@@ -56,6 +56,10 @@ export class Api {
     return this.request('get', 'CompletePasswordReset', data);
   }
 
+  changePassword(data: {newPassword: string}) {
+    return this.request('get', 'UpdateEmployeePassword', data);
+  }
+
   getProfile() {
     return this.request('get', 'GetEmployee');
   }

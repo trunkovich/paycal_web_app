@@ -49,6 +49,11 @@ export const ActionTypes = {
   RESET_PASSWORD_SUCCESS:   type('[Auth] Reset password success'),
   RESET_PASSWORD_FAIL: type('[Auth] Reset password failed'),
 
+  // CHANGE PASSWORD ACTIONS
+  CHANGE_PASSWORD: type('[Auth] Change password'),
+  CHANGE_PASSWORD_SUCCESS:   type('[Auth] Change password success'),
+  CHANGE_PASSWORD_FAIL: type('[Auth] Change password failed'),
+
   // OTHERS
   SAVE_REDIRECT_URL: type('[Auth] Save redirect url'),
   SIGN_IN_CLEAR_ERROR: type('[Auth] Sign in clear error'),
@@ -132,6 +137,20 @@ export class ResetPasswordFailAction implements Action {
   constructor(public payload: string) { }
 }
 
+// CHANGE PASSWORD ACTIONS
+export class ChangePasswordAction implements Action {
+  type = ActionTypes.CHANGE_PASSWORD;
+  constructor(public payload: string) { }
+}
+export class ChangePasswordSuccessAction implements Action {
+  type = ActionTypes.CHANGE_PASSWORD_SUCCESS;
+  constructor() { }
+}
+export class ChangePasswordFailAction implements Action {
+  type = ActionTypes.CHANGE_PASSWORD_FAIL;
+  constructor(public payload: string) { }
+}
+
 // READ USER FROM LS
 export class ReadTokenAction implements Action {
   type = ActionTypes.READ_TOKEN;
@@ -192,6 +211,11 @@ export type Actions
   | ResetPasswordAction
   | ResetPasswordSuccessAction
   | ResetPasswordFailAction
+
+  // CHANGE PASSWORD ACTIONS
+  | ChangePasswordAction
+  | ChangePasswordSuccessAction
+  | ChangePasswordFailAction
 
   //  OTHERS
   | SaveRedirectUrl

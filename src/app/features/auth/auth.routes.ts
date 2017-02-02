@@ -10,6 +10,9 @@ import {CompleteRegistrationComponent} from './complete-registration/complete-re
 import {OnlyMobileDevices} from '../../core/guards/only-mobile-devices.guard';
 import {RegistrationComponent} from './registration/registration.component';
 import {RegistrationSuccessComponent} from './registration-success/registration-success.component';
+import {ChangePasswordComponent} from './change-password/change-password.component';
+import {ChangePasswordSuccessComponent} from './change-password-success/change-password-success.component';
+import {OnlySignedInUsers} from '../../core/guards/only-signed-in-users.guard';
 
 export const AUTH_ROUTES = Object.freeze({
   LOGIN: 'login',
@@ -20,7 +23,9 @@ export const AUTH_ROUTES = Object.freeze({
   REGISTRATION: 'registration',
   REGISTRATION_SUCCESS: 'registration-success',
   COMPLETE_REGISTRATION: 'complete-registration',
-  COMPLETE_REGISTRATION_SUCCESS: 'complete-registration-success'
+  COMPLETE_REGISTRATION_SUCCESS: 'complete-registration-success',
+  CHANGE_PASSWORD: 'change-password',
+  CHANGE_PASSWORD_SUCCESS: 'change-password-success'
 });
 
 // Can't use AUTH_ROUTES here, because of error:
@@ -35,5 +40,7 @@ export const authRoutes: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'registration-success', component: RegistrationSuccessComponent },
   { path: 'complete-registration/:InvitationCode', component: CompleteRegistrationComponent, canActivate: [OnlyMobileDevices] },
-  { path: 'complete-registration-success', component: CompleteRegistrationSuccessComponent, canActivate: [OnlyMobileDevices] }
+  { path: 'complete-registration-success', component: CompleteRegistrationSuccessComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'change-password', component: ChangePasswordComponent, canActivate: [OnlyMobileDevices, OnlySignedInUsers] },
+  { path: 'change-password-success', component: ChangePasswordSuccessComponent, canActivate: [OnlyMobileDevices, OnlySignedInUsers] },
 ];

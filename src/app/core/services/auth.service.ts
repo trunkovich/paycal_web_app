@@ -92,6 +92,17 @@ export class AuthService {
       });
   }
 
+  changePassword(password: string): Observable<boolean | string> {
+    return this.api.changePassword({newPassword: password})
+      .map((res: Response) => {
+        if (res.IsSuccess) {
+          return true;
+        } else {
+          throw Error(res.ErrorMessage);
+        }
+      });
+  }
+
   getProfile(): Observable<Employee> {
     return this.api.getProfile()
       .map((res: EmployeeResponse) => {
@@ -116,6 +127,10 @@ export class AuthService {
 
   redirectAfterCompleteRegistration() {
     this.router.navigate(['/', AUTH_ROUTES.COMPLETE_REGISTRATION_SUCCESS]);
+  }
+
+  redirectAfterChangePassword() {
+    this.router.navigate(['/', AUTH_ROUTES.CHANGE_PASSWORD_SUCCESS]);
   }
 
   redirectToLogin() {

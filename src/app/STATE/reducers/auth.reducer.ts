@@ -27,12 +27,15 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
     case authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY:
     case authActions.ActionTypes.COMPLETE_REGISTRATION:
     case authActions.ActionTypes.RESET_PASSWORD:
+    case authActions.ActionTypes.CHANGE_PASSWORD:
     case authActions.ActionTypes.SAVE_LEAD:
     case authActions.ActionTypes.SIGN_IN: {
       return setLoadingHanlder(state, true);
     }
     case authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY_SUCCESS:
     case authActions.ActionTypes.SIGN_IN_CLEAR_ERROR:
+    case authActions.ActionTypes.CHANGE_PASSWORD_SUCCESS:
+    case authActions.ActionTypes.RESET_PASSWORD_SUCCESS:
     case authActions.ActionTypes.SAVE_LEAD_SUCCESS: {
       return setLoadingHanlder(state, false);
     }
@@ -40,6 +43,7 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
     case authActions.ActionTypes.COMPLETE_REGISTRATION_FAIL:
     case authActions.ActionTypes.RESET_PASSWORD_FAIL:
     case authActions.ActionTypes.SAVE_LEAD_FAIL:
+    case authActions.ActionTypes.CHANGE_PASSWORD_FAIL:
     case authActions.ActionTypes.SIGN_IN_FAIL: {
       return setErrorMsg(state, action);
     }
@@ -79,6 +83,7 @@ function setErrorMsg (state: AuthState, action: authActions.SignInFailAction |
                                                 authActions.CompleteRegistrationFailAction |
                                                 authActions.RequestPasswordRecoveryFailAction |
                                                 authActions.ResetPasswordFailAction |
+                                                authActions.ChangePasswordFailAction |
                                                 authActions.SaveLeadFailAction): AuthState {
   let newState = _.cloneDeep(state);
   newState.loading = false;
