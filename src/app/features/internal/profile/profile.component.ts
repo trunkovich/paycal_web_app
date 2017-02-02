@@ -6,6 +6,8 @@ import {Store} from '@ngrx/store';
 import {Employee} from '../../../STATE/models/employee.model';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {LogoutAction} from '../../../STATE/actions/auth.actions';
+import {Router} from '@angular/router';
+import {AUTH_ROUTES} from '../../auth/auth.routes';
 
 @Component({
   selector: 'pcl-profile',
@@ -16,7 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
   sub: Subscription;
 
-  constructor(private _location: Location, private store: Store<AppState>) { }
+  constructor(private _location: Location, private store: Store<AppState>, private router: Router) { }
 
   ngOnInit() {
     this.sub = this.store.select(profileSelectors.getMyProfile)
@@ -41,7 +43,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onChangePasswordClick() {
-    console.log('change password');
+    setTimeout(() => this.router.navigate(['/', AUTH_ROUTES.CHANGE_PASSWORD]), 200);
   }
 
   getPhotoUrl(profile: Employee): string {
