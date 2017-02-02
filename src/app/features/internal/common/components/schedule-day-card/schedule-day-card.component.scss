@@ -12,7 +12,7 @@
 
   .date-block-wrapper {
     @include absolute(top 0 bottom 0 left 0);
-    width: 56px;
+    width: 64px;
 
     .date-block {
       @include centerer();
@@ -28,11 +28,16 @@
         font-size: 10px;
         line-height: 14px;
       }
+      .day-of-week {
+        @extend .bold-weak-text;
+        font-size: 10px;
+        line-height: 14px;
+      }
     }
   }
 
   .schedule-entiries-block {
-    padding-left: 56px;
+    padding-left: 64px;
     padding-top: 6.66px;
 
     .schedule-entry {

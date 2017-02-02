@@ -89,7 +89,7 @@ export class CalendarComponent implements OnChanges {
     let result = '';
     switch (this.type) {
       case CalendarTypes.DAY: {
-        result += moment(this.date).format('ddd, MMMM D, YYYY');
+        result += moment(this.date).format('dddd, MMMM D, YYYY');
         break;
       }
       case CalendarTypes.WEEK:
