@@ -67,6 +67,14 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ProfileClearErrorAction());
   }
 
+  onFileUpload(event: EventTarget) {
+    let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
+    let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
+    let files: FileList = target.files;
+    let file: File = files[0];
+    console.log(file);
+  }
+
   onSubmit(formData) {
     let data: EditEmployeeRequestData = {
       mobilePhone: formData.MobilePhone.replace(/\D+/g, ''),

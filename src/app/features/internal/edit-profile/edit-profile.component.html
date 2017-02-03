@@ -11,10 +11,13 @@
               (backBtnClick)="onBackBtnClick()"></pcl-header>
 
   <div class="avatar-section">
-    <div class="avatar"
-         [style.backgroundImage]="getPhotoUrl(profile)"></div>
-    <p>TAP TO UPLOAD/CHANGE</p>
-    <p>PROFILE PICTURE</p>
+    <div class="avatar-wrapper">
+      <div class="avatar"
+           [style.backgroundImage]="getPhotoUrl(profile)"></div>
+      <p>TAP TO UPLOAD/CHANGE</p>
+      <p>PROFILE PICTURE</p>
+      <input type="file" (change)="onFileUpload($event)">
+    </div>
   </div>
 
   <section *ngIf="profile" class="container">
