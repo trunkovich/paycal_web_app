@@ -16,7 +16,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
   <button *ngIf="showNextBtn" 
           md-ripple
           mdRippleCentered="true"
-          type="button" 
+          [type]="nextBtnType || 'button'" 
           class="next-button" 
           [disabled]="disabledNextBtn"
           (click)="onNextBtnClick($event)">
@@ -31,6 +31,7 @@ export class PclHeaderComponent implements OnInit {
   @Input() showNextBtn: boolean;
   @Input() nextBtnLabel: string;
   @Input() disabledNextBtn: boolean;
+  @Input() nextBtnType: string;
   @Input() title: boolean;
   @Output() backBtnClick = new EventEmitter();
   @Output() nextBtnClick = new EventEmitter();

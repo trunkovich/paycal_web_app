@@ -1,3 +1,69 @@
-<p>
-  edit-profile works!
-</p>
+<form novalidate
+      [formGroup]="editProfileForm"
+      (ngSubmit)="onSubmit(editProfileForm.value)">
+
+  <pcl-header [showNextBtn]="true"
+              [showBackBtn]="true"
+              [nextBtnLabel]="'SAVE'"
+              [nextBtnType]="'submit'"
+              [disabledNextBtn]="editProfileForm.invalid"
+              [title]="'Edit Profile'"
+              (backBtnClick)="onBackBtnClick()"></pcl-header>
+
+  <div class="avatar-section">
+    <div class="avatar"
+         [style.backgroundImage]="getPhotoUrl(profile)"></div>
+    <p>TAP TO UPLOAD/CHANGE</p>
+    <p>PROFILE PICTURE</p>
+  </div>
+
+  <section *ngIf="profile" class="container">
+
+      <div class="error-msg">{{errorMsg$ | async}}</div>
+
+      <md-input-container>
+        <input md-input
+               placeholder="First Name"
+               type="text"
+               formControlName="FirstName"
+               name="firstName">
+      </md-input-container>
+
+      <md-input-container>
+        <input md-input
+               placeholder="Last Name"
+               type="text"
+               formControlName="LastName"
+               name="lastName">
+      </md-input-container>
+
+      <md-input-container>
+        <input md-input
+               placeholder="Work Unit Value"
+               [textMask]="{mask: currencyMask}"
+               type="tel"
+               formControlName="WorkUnitValue"
+               name="workUnitValue">
+      </md-input-container>
+
+      <md-input-container>
+        <input md-input
+               placeholder="Email"
+               [textMask]="{mask: emailMask}"
+               type="text"
+               formControlName="Email"
+               name="email">
+      </md-input-container>
+
+      <md-input-container>
+        <input md-input
+               placeholder="Mobile"
+               [textMask]="{mask: phoneMask}"
+               type="tel"
+               formControlName="MobilePhone"
+               name="phone">
+      </md-input-container>
+
+  </section>
+
+</form>

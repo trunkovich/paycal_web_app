@@ -396,6 +396,10 @@ md-input-container {
   }
 }
 
+input.md-input-element[disabled] {
+  color: #d3deea;
+}
+
 input.md-input-element:-webkit-autofill + .md-input-placeholder,
 .md-input-placeholder.md-float.md-focused {
   .md-placeholder-required {

@@ -11,6 +11,12 @@ export interface QualifiedEmployee {
   employee: Employee;
 }
 
+export interface EditEmployeeRequestData {
+  Email: string;
+  MobilePhone: string;
+  WorkUnitValue: number;
+}
+
 export interface Employee {
   EmployeeID: number;
   GroupID: number;

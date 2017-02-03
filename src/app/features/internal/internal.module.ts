@@ -24,6 +24,8 @@ import { MessageSuccessComponent } from './message-success/message-success.compo
 import { MessageLoadingComponent } from './message-loading/message-loading.component';
 import { QualifiendPhysiciansListComponent } from './qualified-physicians/qualifiend-physicians-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {TextMaskModule} from 'angular2-text-mask';
 
 @NgModule({
   imports: [
@@ -34,6 +36,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     MomentModule,
     BottomSheetModule,
     RouterModule.forChild(internalRoutes),
+    ReactiveFormsModule,
+    TextMaskModule
   ],
   declarations: [
     InternalComponent,

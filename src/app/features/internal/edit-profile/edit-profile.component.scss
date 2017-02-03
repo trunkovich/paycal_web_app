@@ -1,0 +1,36 @@
+@import '../../../../styles';
+
+:host {
+  display: block;
+  position: relative;
+  min-height: calc(100% - 55px);
+  padding-bottom: 55px;
+
+  pcl-header /deep/ {
+    @include absolute(top 0 left 0 right 0);
+  }
+
+  .avatar-section {
+    height: 170px;
+    padding-top: 45px;
+
+    .avatar {
+      @include size(84px);
+      @include center-block();
+      border-radius: 50%;
+      background-color: #D8D8D8;
+      background-size: 100%;
+      margin-top: 20px;
+    }
+    p {
+      @extend .small-bold-weak-text;
+      @extend .text-center;
+      text-transform: uppercase;
+      line-height: 17px;
+      margin-top: 16px;
+      &:last-of-type {
+        margin-top: 0;
+      }
+    }
+  }
+}
