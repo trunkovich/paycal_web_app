@@ -73,12 +73,20 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     let files: FileList = target.files;
     let file: File = files[0];
     console.log(file);
+
+    let reader = new FileReader();
+
+    reader.onload = function (e: any) {
+      console.log('FILE LOADED: ', e.target.result);
+    };
+
+    reader.readAsDataURL(file);
   }
 
   onSubmit(formData) {
     let data: EditEmployeeRequestData = {
       mobilePhone: formData.MobilePhone.replace(/\D+/g, ''),
-      workUnitValue: +formData.WorkUnitValue.replace(/\D+/g, '') || -1,
+      workUnitValue: +('' + formData.WorkUnitValue).replace(/\D+/g, '') || -1,
       email: formData.Email
     };
     if (data.mobilePhone === this.profile.MobilePhone) {

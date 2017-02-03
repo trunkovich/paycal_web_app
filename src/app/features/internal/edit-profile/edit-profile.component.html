@@ -22,50 +22,50 @@
 
   <section *ngIf="profile" class="container">
 
-      <div class="error-msg">{{errorMsg$ | async}}</div>
+    <pcl-multiline-error-msg [errorMsg]="errorMsg$ | async"></pcl-multiline-error-msg>
 
-      <md-input-container>
-        <input md-input
-               placeholder="FIRST NAME"
-               type="text"
-               formControlName="FirstName"
-               name="firstName">
-      </md-input-container>
+    <md-input-container>
+      <input md-input
+             placeholder="FIRST NAME"
+             type="text"
+             formControlName="FirstName"
+             name="firstName">
+    </md-input-container>
 
-      <md-input-container>
-        <input md-input
-               placeholder="LAST NAME"
-               type="text"
-               formControlName="LastName"
-               name="lastName">
-      </md-input-container>
+    <md-input-container>
+      <input md-input
+             placeholder="LAST NAME"
+             type="text"
+             formControlName="LastName"
+             name="lastName">
+    </md-input-container>
 
-      <md-input-container>
-        <input md-input
-               placeholder="WORK UNIT VALUE"
-               [textMask]="{mask: currencyMask}"
-               type="tel"
-               formControlName="WorkUnitValue"
-               name="workUnitValue">
-      </md-input-container>
+    <md-input-container>
+      <input md-input
+             placeholder="WORK UNIT VALUE"
+             [textMask]="{mask: currencyMask}"
+             type="tel"
+             formControlName="WorkUnitValue"
+             name="workUnitValue">
+    </md-input-container>
 
-      <md-input-container>
-        <input md-input
-               placeholder="EMAIL"
-               [textMask]="{mask: emailMask}"
-               type="text"
-               formControlName="Email"
-               name="email">
-      </md-input-container>
+    <md-input-container>
+      <input md-input
+             placeholder="EMAIL"
+             [textMask]="{mask: emailMask}"
+             type="text"
+             formControlName="Email"
+             name="email">
+    </md-input-container>
 
-      <md-input-container>
-        <input md-input
-               placeholder="MOBILE"
-               [textMask]="{mask: phoneMask}"
-               type="tel"
-               formControlName="MobilePhone"
-               name="phone">
-      </md-input-container>
+    <md-input-container>
+      <input md-input
+             placeholder="MOBILE"
+             [textMask]="{mask: phoneMask}"
+             type="tel"
+             formControlName="MobilePhone"
+             name="phone">
+    </md-input-container>
 
   </section>
 

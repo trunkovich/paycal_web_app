@@ -8,6 +8,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import {RouterModule} from '@angular/router';
 import { PhonePipe } from './pipes/phone.pipe';
 import { LoaderComponent } from './components/loader/loader.component';
+import { MultilineErrorMsgComponent } from './components/multiline-error-msg/multiline-error-msg.component';
 
 @NgModule({
     imports: [
@@ -15,8 +16,8 @@ import { LoaderComponent } from './components/loader/loader.component';
       MaterialModule,
       RouterModule
     ],
-    exports: [PclButtonComponent, PclHeaderComponent, NavigationComponent, LoaderComponent, PhonePipe],
-    declarations: [PclButtonComponent, PclHeaderComponent, NavigationComponent, PhonePipe, LoaderComponent],
+    exports: [PclButtonComponent, PclHeaderComponent, NavigationComponent, LoaderComponent, PhonePipe, MultilineErrorMsgComponent],
+    declarations: [PclButtonComponent, PclHeaderComponent, NavigationComponent, PhonePipe, LoaderComponent, MultilineErrorMsgComponent],
     providers: [],
 })
 export class PclCommonModule { }

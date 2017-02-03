@@ -50,10 +50,7 @@
     margin-top: 8px;
   }
 
-  .error-msg {
-    @extend .text-center;
-    @extend .small-error-text;
-    height: 17px;
+  pcl-multiline-error-msg {
     margin-bottom: 16px;
   }
 }

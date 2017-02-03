@@ -1,0 +1,7 @@
+@import '../../../../styles';
+
+.error-text {
+  @extend .text-center;
+  @extend .small-error-text;
+  height: 17px;
+}
