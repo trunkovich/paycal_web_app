@@ -8,6 +8,7 @@ import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {LogoutAction} from '../../../STATE/actions/auth.actions';
 import {Router} from '@angular/router';
 import {AUTH_ROUTES} from '../../auth/auth.routes';
+import {INTERNAL_ROUTES} from '../internal.routes';
 
 @Component({
   selector: 'pcl-profile',
@@ -30,7 +31,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onNextBtnClick() {
-    console.log('next');
+    // Set timeout for ripple animation
+    setTimeout(() => this.router.navigate(['/', INTERNAL_ROUTES.EDIT_PROFILE]), 200);
   }
 
   onLogoutClick() {

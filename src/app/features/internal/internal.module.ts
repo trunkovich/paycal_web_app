@@ -23,6 +23,7 @@ import { MessageComponent } from './message/message.component';
 import { MessageSuccessComponent } from './message-success/message-success.component';
 import { MessageLoadingComponent } from './message-loading/message-loading.component';
 import { QualifiendPhysiciansListComponent } from './qualified-physicians/qualifiend-physicians-list.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { QualifiendPhysiciansListComponent } from './qualified-physicians/qualif
     MessageComponent,
     MessageSuccessComponent,
     MessageLoadingComponent,
-    QualifiendPhysiciansListComponent
+    QualifiendPhysiciansListComponent,
+    EditProfileComponent
   ]
 })
 export class InternalModule { }
