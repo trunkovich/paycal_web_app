@@ -14,6 +14,8 @@ export class TwoPasswordsFormComponent implements OnInit {
   showPassword= new FormControl(false);
   @Input() error: Observable<string>;
   @Input() loading: Observable<boolean>;
+  @Input() passwordPlaceholder: string;
+  @Input() password2Placeholder: string;
   @Output() onFormSubmit = new EventEmitter();
   @ViewChild('password') password: ElementRef;
   @ViewChild('confirmPassword') confirmPassword: ElementRef;
