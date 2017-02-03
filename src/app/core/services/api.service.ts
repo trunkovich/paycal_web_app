@@ -17,6 +17,7 @@ import {LaborCodeListResponse} from '../../STATE/models/responses/labor-code-lis
 import {LaborCodeScheduleMonthRequest} from '../../STATE/models/requests/labor-code-schedule-month.request.model';
 import {LaborCodeScheduleDayRequest} from '../../STATE/models/requests/labor-code-schedule-day.request.model';
 import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
+import {EditEmployeeRequestData} from '../../STATE/models/employee.model';
 
 @Injectable()
 export class Api {
@@ -62,6 +63,10 @@ export class Api {
 
   getProfile() {
     return this.request('get', 'GetEmployee');
+  }
+
+  updateProfile(data: EditEmployeeRequestData): Observable<Response> {
+    return this.request('get', 'UpdateEmployee', data);
   }
 
   getReference(type: string, data: {groupId?: number} = {}) {

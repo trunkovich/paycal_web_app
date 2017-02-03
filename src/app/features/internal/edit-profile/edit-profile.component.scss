@@ -36,9 +36,12 @@
 
   md-input-container {
     margin-top: 8px;
+  }
 
-    &:first-of-type {
-      margin-top: 28px;
-    }
+  .error-msg {
+    @extend .text-center;
+    @extend .small-error-text;
+    height: 17px;
+    margin-bottom: 16px;
   }
 }

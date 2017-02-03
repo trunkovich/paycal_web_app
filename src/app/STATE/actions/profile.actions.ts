@@ -3,7 +3,7 @@
  */
 import { Action } from '@ngrx/store';
 import { type } from '../utils';
-import {Employee} from '../models/employee.model';
+import {Employee, EditEmployeeRequestData} from '../models/employee.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -15,12 +15,18 @@ import {Employee} from '../models/employee.model';
  */
 export const ActionTypes = {
   // GET USER PROFILE
-  GET_USER_PROFILE: type('[Auth] Get user profile'),
-  GET_USER_PROFILE_SUCCESS:   type('[Auth] Get user profile success'),
-  GET_USER_PROFILE_FAIL: type('[Auth] Get user profile failed'),
+  GET_USER_PROFILE: type('[Profile] Get user profile'),
+  GET_USER_PROFILE_SUCCESS:   type('[Profile] Get user profile success'),
+  GET_USER_PROFILE_FAIL: type('[Profile] Get user profile failed'),
+
+  // GET USER PROFILE
+  UPDATE_PROFILE: type('[Profile] Update profile'),
+  UPDATE_PROFILE_SUCCESS:   type('[Profile] Update profile success'),
+  UPDATE_PROFILE_FAIL: type('[Profile] Update profile failed'),
 
   // CLEAN PROFILE
-  CLEAN_PROFILE: type('[Auth] Clean profile'),
+  CLEAN_PROFILE: type('[Profile] Clean profile'),
+  CLEAR_PROFILE_ERROR: type('[Profile] Clear profile error')
 };
 
 
@@ -46,10 +52,28 @@ export class GetUserProfileFailAction implements Action {
   constructor(public payload: any) { }
 }
 
+// GET USER PROFILE
+export class UpdateProfileAction implements Action {
+  type = ActionTypes.UPDATE_PROFILE;
+  constructor(public payload: EditEmployeeRequestData) { }
+}
+export class UpdateProfileSuccessAction implements Action {
+  type = ActionTypes.UPDATE_PROFILE_SUCCESS;
+  constructor(public payload: EditEmployeeRequestData) { }
+}
+export class UpdateProfileFailAction implements Action {
+  type = ActionTypes.UPDATE_PROFILE_FAIL;
+  constructor(public payload: any) { }
+}
+
 // CLEAN PROFILE
 export class CleanProfileAction implements Action {
   type = ActionTypes.CLEAN_PROFILE;
 }
+export class ProfileClearErrorAction implements Action {
+  type = ActionTypes.CLEAR_PROFILE_ERROR;
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -60,5 +84,11 @@ export type Actions
   | GetUserProfileSuccessAction
   | GetUserProfileFailAction
 
+  // GET USER PROFILE
+  | UpdateProfileAction
+  | UpdateProfileSuccessAction
+  | UpdateProfileFailAction
+
   // CLEAN PROFILE
-  | CleanProfileAction;
+  | CleanProfileAction
+  | ProfileClearErrorAction;

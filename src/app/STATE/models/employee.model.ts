@@ -12,9 +12,9 @@ export interface QualifiedEmployee {
 }
 
 export interface EditEmployeeRequestData {
-  Email: string;
-  MobilePhone: string;
-  WorkUnitValue: number;
+  email?: string;
+  mobilePhone?: string;
+  workUnitValue?: number;
 }
 
 export interface Employee {

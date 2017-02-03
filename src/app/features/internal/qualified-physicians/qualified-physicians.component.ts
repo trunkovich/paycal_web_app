@@ -46,7 +46,9 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
     if (this.cleanQualifiedPhysicians) {
       this.store.dispatch(new CleanShiftEmployeesAction());
     }

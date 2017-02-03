@@ -9,6 +9,7 @@ import emailMask from 'text-mask-addons/dist/emailMask'
 import {Employee, EditEmployeeRequestData} from '../../../STATE/models/employee.model';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {PhonePipe} from '../../../common/pipes/phone.pipe';
+import {ProfileClearErrorAction, UpdateProfileAction} from '../../../STATE/actions/profile.actions';
 
 /* tslint:disable */
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -52,25 +53,34 @@ export class EditProfileComponent implements OnInit, OnDestroy {
           this.editProfileForm.get('WorkUnitValue').setValue(employee.WorkUnitValue || '');
           this.editProfileForm.get('Email').setValue(employee.Email || '');
           this.editProfileForm.get('MobilePhone').setValue((new PhonePipe).transform(employee.MobilePhone) || '');
+          setTimeout(() => this.sub.unsubscribe(), 0);
         }
       });
-    // this.errorMsg$ = this.store.select(profileSelectors.getError);
-    // this.loading$ = this.store.select(profileSelectors.getLoadingState);
+    this.errorMsg$ = this.store.select(profileSelectors.getMyProfileErrorMsg);
+    this.loading$ = this.store.select(profileSelectors.getLoadingState);
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
-    // this.store.dispatch(new ProfileClearErrorAction());
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    this.store.dispatch(new ProfileClearErrorAction());
   }
 
   onSubmit(formData) {
     let data: EditEmployeeRequestData = {
-      MobilePhone: formData.MobilePhone.replace(/\D+/g, ''),
-      WorkUnitValue: +formData.WorkUnitValue.replace(/\D+/g, ''),
-      Email: formData.Email
+      mobilePhone: formData.MobilePhone.replace(/\D+/g, ''),
+      workUnitValue: +formData.WorkUnitValue.replace(/\D+/g, '') || -1,
+      email: formData.Email
     };
-    // this.store.dispatch(new ProfileClearErrorAction());
-    // this.store.dispatch(new UpdateEmployee(data));
+    if (data.mobilePhone === this.profile.MobilePhone) {
+      delete data.mobilePhone;
+    }
+    if (data.email === this.profile.Email) {
+      delete data.email;
+    }
+    this.store.dispatch(new ProfileClearErrorAction());
+    this.store.dispatch(new UpdateProfileAction(data));
   }
 
   onBackBtnClick() {

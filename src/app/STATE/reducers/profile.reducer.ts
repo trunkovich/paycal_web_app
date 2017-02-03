@@ -9,11 +9,13 @@ import {Employee} from '../models/employee.model';
 export interface ProfileState {
   employee: Employee | null;
   errorMsg: string | null;
+  loading: boolean;
 }
 
 const initialProfileState = {
   employee: null,
-  errorMsg: null
+  errorMsg: null,
+  loading: null
 };
 
 export function profileReducer(state: ProfileState = initialProfileState, action: profileActions.Actions): ProfileState {
@@ -21,10 +23,20 @@ export function profileReducer(state: ProfileState = initialProfileState, action
     case profileActions.ActionTypes.CLEAN_PROFILE: {
       return _.cloneDeep(initialProfileState);
     }
+    case profileActions.ActionTypes.CLEAR_PROFILE_ERROR: {
+      return clearProfileErrorHandler(state);
+    }
     case profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS: {
       return saveRedirectUrlHandler(state, action);
     }
-    case profileActions.ActionTypes.GET_USER_PROFILE_FAIL: {
+    case profileActions.ActionTypes.UPDATE_PROFILE: {
+      return setLoadingHanlder(state, true);
+    }
+    case profileActions.ActionTypes.UPDATE_PROFILE_SUCCESS: {
+      return updateProfileHandler(state, action);
+    }
+    case profileActions.ActionTypes.GET_USER_PROFILE_FAIL:
+    case profileActions.ActionTypes.UPDATE_PROFILE_FAIL: {
       return setErrorMsgHandler(state, action);
     }
     default: {
@@ -35,14 +47,37 @@ export function profileReducer(state: ProfileState = initialProfileState, action
 /* ------------------------------------------------------------------ */
 /* -------------------------REDUCER HANDLERS------------------------- */
 /* ------------------------------------------------------------------ */
-function saveRedirectUrlHandler(state: ProfileState, action: profileActions.GetUserProfileSuccessAction) {
+function saveRedirectUrlHandler(state: ProfileState, action: profileActions.GetUserProfileSuccessAction): ProfileState {
   let newState = _.cloneDeep(state);
   newState.employee = _.cloneDeep(action.payload);
   newState.errorMsg = null;
   return newState;
 }
 
-function setErrorMsgHandler(state: ProfileState, action: profileActions.GetUserProfileFailAction) {
+function clearProfileErrorHandler(state: ProfileState): ProfileState {
+  let newState = _.cloneDeep(state);
+  newState.errorMsg = null;
+  return newState;
+}
+
+function setLoadingHanlder (state: ProfileState, loadingState: boolean): ProfileState {
+  let newState = _.cloneDeep(state);
+  newState.loading = loadingState;
+  return newState;
+}
+
+function updateProfileHandler(state: ProfileState, action: profileActions.UpdateProfileSuccessAction): ProfileState {
+  let newState = _.cloneDeep(state);
+  let employee = _.clone(state.employee);
+  employee.Email = action.payload.email ? action.payload.email : employee.Email;
+  employee.MobilePhone = action.payload.mobilePhone ? action.payload.mobilePhone : employee.MobilePhone;
+  employee.WorkUnitValue = action.payload.workUnitValue !== -1 ?  action.payload.workUnitValue : employee.WorkUnitValue;
+  newState.employee = employee;
+  return newState;
+}
+
+function setErrorMsgHandler(state: ProfileState, action: profileActions.GetUserProfileFailAction |
+                                                          profileActions.UpdateProfileFailAction): ProfileState {
   let newState = _.cloneDeep(state);
   newState.errorMsg = action.payload;
   return newState;
@@ -53,3 +88,4 @@ function setErrorMsgHandler(state: ProfileState, action: profileActions.GetUserP
 /* ------------------------------------------------------------------- */
 export const getMyProfile = (state: ProfileState) => state.employee;
 export const getMyProfileErrorMsg = (state: ProfileState) => state.errorMsg;
+export const getLoadingState = (state: ProfileState) => state.loading;
