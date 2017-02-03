@@ -63,6 +63,10 @@ export class AppComponent {
       'profile',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/profile.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'no-image',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/no_photo.svg')
+    );
 
   }
 }

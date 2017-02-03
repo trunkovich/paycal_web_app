@@ -33,6 +33,17 @@
         background-color: #D8D8D8;
         background-size: 100%;
       }
+
+      .avatar-default {
+        @include size(84px);
+        @include center-block();
+
+        md-icon {
+          @include size(84px);
+          fill: $bluish-grey;
+        }
+      }
+
       p {
         @extend .small-bold-weak-text;
         @extend .text-center;

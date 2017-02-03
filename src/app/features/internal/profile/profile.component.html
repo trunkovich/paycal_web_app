@@ -5,7 +5,12 @@
 
 <div class="avatar-section">
   <div class="avatar"
+       *ngIf="profile?.PhotoUrl"
        [style.backgroundImage]="getPhotoUrl(profile)"></div>
+  <div class="avatar-default"
+       *ngIf="!profile?.PhotoUrl">
+    <md-icon [svgIcon]="'no-image'"></md-icon>
+  </div>
   <div class="name">{{getEmployeeName(profile)}}</div>
   <!--<div class="group"></div>-->
 </div>

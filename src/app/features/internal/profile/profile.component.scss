@@ -35,6 +35,16 @@
       background-size: 100%;
       margin-top: 20px;
     }
+    .avatar-default {
+      @include size(84px);
+      @include center-block();
+      margin-top: 20px;
+
+      md-icon {
+        @include size(84px);
+        fill: white;
+      }
+    }
     .name {
       @extend .big-bold-text;
       @extend .text-center;

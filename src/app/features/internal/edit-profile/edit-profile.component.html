@@ -13,7 +13,12 @@
   <div class="avatar-section">
     <div class="avatar-wrapper">
       <div class="avatar"
+           *ngIf="profile?.PhotoUrl"
            [style.backgroundImage]="getPhotoUrl(profile)"></div>
+      <div class="avatar-default"
+           *ngIf="!profile?.PhotoUrl">
+        <md-icon [svgIcon]="'no-image'"></md-icon>
+      </div>
       <p>TAP TO UPLOAD/CHANGE</p>
       <p>PROFILE PICTURE</p>
       <input type="file" (change)="onFileUpload($event)">
