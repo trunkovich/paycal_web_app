@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {Store} from '@ngrx/store';
 import {Subscription, Observable} from 'rxjs';
+import {ImageDataModel} from '../../../STATE/models/image-data.model';
+import {Crop} from './crop.class';
 
 @Component({
   selector: 'pcl-crop-avatar',
@@ -12,19 +14,16 @@ import {Subscription, Observable} from 'rxjs';
   styleUrls: ['./crop-avatar.component.scss']
 })
 export class CropAvatarComponent implements OnInit, OnDestroy {
-  dataUri: string;
+  crop: Crop;
   private sub: Subscription;
 
-  constructor(private avatarService: AvatarService, private router: Router, private store: Store<AppState>) {
-
-  }
+  constructor(private avatarService: AvatarService, private router: Router, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.sub = this.store.select(profileSelectors.getUploadedImageData)
-      .subscribe((dataUri) => {
-        console.log(dataUri);
-        if (dataUri) {
-          this.dataUri = dataUri;
+      .subscribe((data: ImageDataModel) => {
+        if (data) {
+          this.crop = new Crop(data)
           setTimeout(() => this.sub.unsubscribe(), 0);
         } else {
           this.router.navigate(['/', INTERNAL_ROUTES.EDIT_PROFILE]);
@@ -38,14 +37,6 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
     }
   }
 
-  getImageStyles(): any {
-    if (this.dataUri) {
-      return {
-        'background-image': 'url(' + this.dataUri + ')'
-      };
-    } else {
-      return {};
-    }
-  }
+
 
 }

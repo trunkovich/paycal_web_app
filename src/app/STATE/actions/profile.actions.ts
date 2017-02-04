@@ -4,6 +4,7 @@
 import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import {Employee, EditEmployeeRequestData} from '../models/employee.model';
+import {ImageDataModel} from '../models/image-data.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -76,7 +77,7 @@ export class ProfileClearErrorAction implements Action {
 }
 export class StoreImageData implements Action {
   type = ActionTypes.STORE_IMAGE_DATA;
-  constructor(public payload: string) { }
+  constructor(public payload: ImageDataModel) { }
 }
 
 

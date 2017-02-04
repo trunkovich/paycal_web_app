@@ -5,19 +5,20 @@ import * as _ from 'lodash';
 
 import * as profileActions from '../actions/profile.actions';
 import {Employee} from '../models/employee.model';
+import {ImageDataModel} from '../models/image-data.model';
 
 export interface ProfileState {
   employee: Employee | null;
   errorMsg: string;
   loading: boolean;
-  imageDataUri: string;
+  imageDataUri: ImageDataModel | null;
 }
 
 const initialProfileState = {
   employee: null,
   errorMsg: '',
   loading: false,
-  imageDataUri: ''
+  imageDataUri: null
 };
 
 export function profileReducer(state: ProfileState = initialProfileState, action: profileActions.Actions): ProfileState {
@@ -61,7 +62,7 @@ function saveRedirectUrlHandler(state: ProfileState, action: profileActions.GetU
 
 function storeImageDataHandler(state: ProfileState, action: profileActions.StoreImageData): ProfileState {
   let newState = _.cloneDeep(state);
-  newState.imageDataUri = action.payload;
+  newState.imageDataUri = _.clone(action.payload);
   return newState;
 }
 

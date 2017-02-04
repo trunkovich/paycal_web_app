@@ -78,8 +78,14 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       return false;
     }
     this.avatarService.readFile(file)
-      .then((dataUri: string) => {
-        this.store.dispatch(new StoreImageData(dataUri));
+      .then((data: any) => {
+        this.store.dispatch(new StoreImageData({
+          name: file.name,
+          type: file.type,
+          dataUri: data.dataUri,
+          width: data.width,
+          height: data.height
+        }));
       });
   }
 

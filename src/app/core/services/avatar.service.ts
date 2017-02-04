@@ -21,15 +21,22 @@ export class AvatarService {
     return _.includes(this.ALLOWED_TYPES, file.type);
   }
 
-  readFile(file: File): Promise<string> {
+  readFile(file: File): Promise<any> {
+    let data: any = {};
     return new Promise((resolve, reject) => {
       let reader = new FileReader();
       reader.onload = function (e: any) {
-        resolve(e.target.result);
+        data.dataUri = e.target.result;
+        let img = new Image();
+        img.onload = function(){
+          data.width = img.width;
+          data.height = img.height;
+          resolve(data);
+        };
+        img.onerror = reject;
+        img.src = data.dataUri;
       };
-      reader.onerror = function () {
-        reject();
-      };
+      reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   }
