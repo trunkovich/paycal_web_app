@@ -1,6 +1,6 @@
 @import '../../../../styles';
 
-:host {
+:host /deep/ {
   display: block;
   position: relative;
   min-height: calc(100% - 55px);
@@ -63,5 +63,12 @@
 
   pcl-multiline-error-msg {
     margin-bottom: 16px;
+  }
+
+  .md-input-placeholder.md-float {
+    display: block;
+    padding-bottom: 5px;
+    transform: translateY(-100%) scale(.75);
+    width: 133.33333%;
   }
 }

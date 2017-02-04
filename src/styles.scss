@@ -397,7 +397,7 @@ md-input-container {
 }
 
 input.md-input-element[disabled] {
-  color: #d3deea;
+  color: $bluish-grey;
 }
 
 input.md-input-element:-webkit-autofill + .md-input-placeholder,
