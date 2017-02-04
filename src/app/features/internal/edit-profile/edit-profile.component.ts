@@ -12,6 +12,7 @@ import {PhonePipe} from '../../../common/pipes/phone.pipe';
 import {ProfileClearErrorAction, UpdateProfileAction} from '../../../STATE/actions/profile.actions';
 import {AvatarService} from '../../../core/services/avatar.service';
 import {INTERNAL_ROUTES} from '../internal.routes';
+import {Router} from '@angular/router';
 
 /* tslint:disable */
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -35,7 +36,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   constructor(private _fb: FormBuilder,
               private store: Store<AppState>,
               private _location: Location,
-              private avatarService: AvatarService
+              private avatarService: AvatarService,
+              private router: Router
   ) {
     this.editProfileForm = this._fb.group({
       FirstName: [{value: '', disabled: true}, Validators.required],
@@ -80,11 +82,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     }
     this.avatarService.readFile(file)
       .then(() => {
-        console.log('LOADED');
-        // this.router.navigate(['/', INTERNAL_ROUTES.CROP-AVATAR]);
-      })
-      .catch(() => {
-        console.log('ERROR');
+        this.router.navigate(['/', INTERNAL_ROUTES.CROP_AVATAR]);
       });
   }
 
