@@ -10,6 +10,8 @@ import {Employee, EditEmployeeRequestData} from '../../../STATE/models/employee.
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {PhonePipe} from '../../../common/pipes/phone.pipe';
 import {ProfileClearErrorAction, UpdateProfileAction} from '../../../STATE/actions/profile.actions';
+import {AvatarService} from '../../../core/services/avatar.service';
+import {INTERNAL_ROUTES} from '../internal.routes';
 
 /* tslint:disable */
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -32,7 +34,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   constructor(private _fb: FormBuilder,
               private store: Store<AppState>,
-              private _location: Location
+              private _location: Location,
+              private avatarService: AvatarService
   ) {
     this.editProfileForm = this._fb.group({
       FirstName: [{value: '', disabled: true}, Validators.required],
@@ -68,19 +71,21 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   onFileUpload(event: EventTarget) {
-    let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
-    let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
-    let files: FileList = target.files;
-    let file: File = files[0];
-    console.log(file);
-
-    let reader = new FileReader();
-
-    reader.onload = function (e: any) {
-      console.log('FILE LOADED: ', e.target.result);
-    };
-
-    reader.readAsDataURL(file);
+    let file: File = this.avatarService.extractFile(event);
+    if (!file) {
+      return false;
+    }
+    if (!this.avatarService.isImage(file)) {
+      return false;
+    }
+    this.avatarService.readFile(file)
+      .then(() => {
+        console.log('LOADED');
+        // this.router.navigate(['/', INTERNAL_ROUTES.CROP-AVATAR]);
+      })
+      .catch(() => {
+        console.log('ERROR');
+      });
   }
 
   onSubmit(formData) {

@@ -33,6 +33,7 @@ import {BottomSheetContainerComponent} from './bottom-sheet/bottom-sheet-contain
 import {ViewTypeBottomSheetComponent} from './features/internal/common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
 import {StartupEffects} from './STATE/effects/startup.effects';
 import {OnlyScheduledPersons} from './core/guards/only-scheduled-persons.guard';
+import {AvatarService} from './core/services/avatar.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import {OnlyScheduledPersons} from './core/guards/only-scheduled-persons.guard';
     ReferencesService,
     ScheduleService,
     PaycalHttpInterceptor,
+    AvatarService,
 
     // GUARDS
     OnlySignedInUsers,
