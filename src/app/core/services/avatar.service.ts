@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class AvatarService {
-  private dataUri: string;
   private ALLOWED_TYPES = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png'];
 
   constructor() { }
@@ -22,12 +21,11 @@ export class AvatarService {
     return _.includes(this.ALLOWED_TYPES, file.type);
   }
 
-  readFile(file: File): Promise<boolean> {
+  readFile(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       let reader = new FileReader();
       reader.onload = function (e: any) {
-        this.dataUri = e.target.result;
-        resolve(true);
+        resolve(e.target.result);
       };
       reader.onerror = function () {
         reject();

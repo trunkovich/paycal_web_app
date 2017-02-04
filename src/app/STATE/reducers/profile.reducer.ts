@@ -8,14 +8,16 @@ import {Employee} from '../models/employee.model';
 
 export interface ProfileState {
   employee: Employee | null;
-  errorMsg: string | null;
+  errorMsg: string;
   loading: boolean;
+  imageDataUri: string;
 }
 
 const initialProfileState = {
   employee: null,
-  errorMsg: null,
-  loading: null
+  errorMsg: '',
+  loading: false,
+  imageDataUri: ''
 };
 
 export function profileReducer(state: ProfileState = initialProfileState, action: profileActions.Actions): ProfileState {
@@ -25,6 +27,9 @@ export function profileReducer(state: ProfileState = initialProfileState, action
     }
     case profileActions.ActionTypes.CLEAR_PROFILE_ERROR: {
       return clearProfileErrorHandler(state);
+    }
+    case profileActions.ActionTypes.STORE_IMAGE_DATA: {
+      return storeImageDataHandler(state, action);
     }
     case profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS: {
       return saveRedirectUrlHandler(state, action);
@@ -51,6 +56,12 @@ function saveRedirectUrlHandler(state: ProfileState, action: profileActions.GetU
   let newState = _.cloneDeep(state);
   newState.employee = _.cloneDeep(action.payload);
   newState.errorMsg = null;
+  return newState;
+}
+
+function storeImageDataHandler(state: ProfileState, action: profileActions.StoreImageData): ProfileState {
+  let newState = _.cloneDeep(state);
+  newState.imageDataUri = action.payload;
   return newState;
 }
 
@@ -89,3 +100,4 @@ function setErrorMsgHandler(state: ProfileState, action: profileActions.GetUserP
 export const getMyProfile = (state: ProfileState) => state.employee;
 export const getMyProfileErrorMsg = (state: ProfileState) => state.errorMsg;
 export const getLoadingState = (state: ProfileState) => state.loading;
+export const getUploadedImageData = (state: ProfileState) => state.imageDataUri;

@@ -49,6 +49,11 @@ export class ProfileEffects {
     .ofType(profileActions.ActionTypes.UPDATE_PROFILE_SUCCESS)
     .do(() => this.authService.redirectToProfile());
 
+  @Effect({ dispatch: false })
+  redirectAfterAvatarUpload$: Observable<Action> = this.actions$
+    .ofType(profileActions.ActionTypes.STORE_IMAGE_DATA)
+    .do(() => this.authService.redirectToCropAvatar());
+
   @Effect()
   cleanProfileAfterLogout$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.LOGOUT)

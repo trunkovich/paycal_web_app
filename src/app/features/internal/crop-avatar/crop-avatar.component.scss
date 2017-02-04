@@ -1,0 +1,12 @@
+@import '../../../../styles';
+
+:host {
+  @extend .full-height;
+  display: block;
+
+  div {
+    @extend .full-height;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+}

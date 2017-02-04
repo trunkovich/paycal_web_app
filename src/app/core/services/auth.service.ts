@@ -161,6 +161,10 @@ export class AuthService {
     this.router.navigate(['/', INTERNAL_ROUTES.PROFILE]);
   }
 
+  redirectToCropAvatar() {
+    this.router.navigate(['/', INTERNAL_ROUTES.CROP_AVATAR]);
+  }
+
   redirectAfterLogin() {
     this.store.select(authSelectors.getRedirectURL)
       .first()

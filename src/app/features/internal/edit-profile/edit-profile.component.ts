@@ -9,10 +9,8 @@ import emailMask from 'text-mask-addons/dist/emailMask'
 import {Employee, EditEmployeeRequestData} from '../../../STATE/models/employee.model';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {PhonePipe} from '../../../common/pipes/phone.pipe';
-import {ProfileClearErrorAction, UpdateProfileAction} from '../../../STATE/actions/profile.actions';
+import {ProfileClearErrorAction, UpdateProfileAction, StoreImageData} from '../../../STATE/actions/profile.actions';
 import {AvatarService} from '../../../core/services/avatar.service';
-import {INTERNAL_ROUTES} from '../internal.routes';
-import {Router} from '@angular/router';
 
 /* tslint:disable */
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -36,8 +34,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   constructor(private _fb: FormBuilder,
               private store: Store<AppState>,
               private _location: Location,
-              private avatarService: AvatarService,
-              private router: Router
+              private avatarService: AvatarService
   ) {
     this.editProfileForm = this._fb.group({
       FirstName: [{value: '', disabled: true}, Validators.required],
@@ -81,8 +78,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       return false;
     }
     this.avatarService.readFile(file)
-      .then(() => {
-        this.router.navigate(['/', INTERNAL_ROUTES.CROP_AVATAR]);
+      .then((dataUri: string) => {
+        this.store.dispatch(new StoreImageData(dataUri));
       });
   }
 

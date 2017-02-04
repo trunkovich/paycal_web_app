@@ -26,7 +26,8 @@ export const ActionTypes = {
 
   // CLEAN PROFILE
   CLEAN_PROFILE: type('[Profile] Clean profile'),
-  CLEAR_PROFILE_ERROR: type('[Profile] Clear profile error')
+  CLEAR_PROFILE_ERROR: type('[Profile] Clear profile error'),
+  STORE_IMAGE_DATA: type('[Profile] Store image data')
 };
 
 
@@ -73,6 +74,11 @@ export class CleanProfileAction implements Action {
 export class ProfileClearErrorAction implements Action {
   type = ActionTypes.CLEAR_PROFILE_ERROR;
 }
+export class StoreImageData implements Action {
+  type = ActionTypes.STORE_IMAGE_DATA;
+  constructor(public payload: string) { }
+}
+
 
 /**
  * Export a type alias of all actions in this action group
@@ -91,4 +97,5 @@ export type Actions
 
   // CLEAN PROFILE
   | CleanProfileAction
+  | StoreImageData
   | ProfileClearErrorAction;
