@@ -1,3 +1,10 @@
-<div [ngStyle]="crop.getImageStyles()">
+<pcl-header [showNextBtn]="true"
+            [showBackBtn]="true"
+            [nextBtnLabel]="'SAVE'"
+            [title]="'Crop Photo'"
+            (backBtnClick)="onBackBtnClick()"
+            (nextBtnClick)="save()"></pcl-header>
 
+<div class="crop-container" id="crop-container">
+  <div class="photo" [ngStyle]="crop?.getImageStyles()"></div>
 </div>

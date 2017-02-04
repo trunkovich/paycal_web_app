@@ -4,9 +4,15 @@
   @extend .full-height;
   display: block;
 
-  div {
+  .crop-container {
+    position: relative;
     @extend .full-height;
-    background-size: 100%;
-    background-repeat: no-repeat;
+    height: calc(100% - #{$header-height});
+
+    .photo {
+      position: absolute;
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
   }
 }
