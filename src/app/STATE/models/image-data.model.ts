@@ -3,9 +3,9 @@
  */
 
 export interface ImageDataModel {
-  name: string;
   dataUri: string;
-  type: string;
   width: number;
   height: number;
+  name?: string;
+  type?: string;
 }

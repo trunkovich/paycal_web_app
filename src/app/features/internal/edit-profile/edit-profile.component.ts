@@ -11,6 +11,7 @@ import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {PhonePipe} from '../../../common/pipes/phone.pipe';
 import {ProfileClearErrorAction, UpdateProfileAction, StoreImageData} from '../../../STATE/actions/profile.actions';
 import {AvatarService} from '../../../core/services/avatar.service';
+import {ImageDataModel} from '../../../STATE/models/image-data.model';
 
 /* tslint:disable */
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -77,8 +78,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     if (!this.avatarService.isImage(file)) {
       return false;
     }
-    this.avatarService.readFile(file)
-      .then((data: any) => {
+    this.avatarService.getDataFromFile(file)
+      .subscribe((data: ImageDataModel) => {
         this.store.dispatch(new StoreImageData({
           name: file.name,
           type: file.type,

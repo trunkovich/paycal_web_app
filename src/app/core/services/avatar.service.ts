@@ -3,6 +3,8 @@
  */
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
+import {ImageDataModel} from '../../STATE/models/image-data.model';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class AvatarService {
@@ -21,23 +23,41 @@ export class AvatarService {
     return _.includes(this.ALLOWED_TYPES, file.type);
   }
 
-  readFile(file: File): Promise<any> {
-    let data: any = {};
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.onload = function (e: any) {
-        data.dataUri = e.target.result;
-        let img = new Image();
-        img.onload = function(){
-          data.width = img.width;
-          data.height = img.height;
-          resolve(data);
-        };
-        img.onerror = reject;
-        img.src = data.dataUri;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
+  readImage(dataUri: string): Observable<HTMLImageElement> {
+    let subj = new Subject<HTMLImageElement>();
+    let img = new Image();
+    img.onload = () => {
+      subj.next(img);
+      subj.complete();
+    };
+    img.onerror = (error) => {
+      subj.error(error);
+      subj.complete();
+    };
+    img.src = dataUri;
+    return subj.asObservable();
+  }
+
+  readFile(file: File): Observable<string> {
+    let subj = new Subject<string>();
+    let reader = new FileReader();
+    reader.onload = (e: any) => {
+      subj.next(e.target.result);
+      subj.complete();
+    };
+    reader.onerror = (error) => {
+      subj.error(error);
+      subj.complete();
+    };
+    reader.readAsDataURL(file);
+    return subj.asObservable();
+  }
+
+  getDataFromFile(file: File): Observable<ImageDataModel> {
+    return this.readFile(file)
+      .switchMap((dataUri) => {
+        return this.readImage(dataUri)
+          .map(img => ({dataUri: dataUri, width: img.width, height: img.height}));
+      });
   }
 }
