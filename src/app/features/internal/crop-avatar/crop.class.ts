@@ -35,6 +35,14 @@ export class Crop {
     }
   }
 
+  getImageSrc(): string {
+    if (this.data) {
+      return this.data.dataUri;
+    } else {
+      return '';
+    }
+  }
+
   getImageStyles(): any {
     if (this.data) {
       return {
@@ -42,7 +50,6 @@ export class Crop {
         'height': this.photoAreaHeight + 'px',
         'top': this.topLeft.y + 'px',
         'left': this.topLeft.x + 'px',
-        'background-image': 'url(' + this.data.dataUri + ')'
       };
     } else {
       return {};
