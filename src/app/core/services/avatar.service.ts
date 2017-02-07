@@ -19,7 +19,7 @@ export class AvatarService {
     return files[0];
   }
 
-  isImage(file: File) {
+  isImage(file: File): boolean {
     return _.includes(this.ALLOWED_TYPES, file.type);
   }
 

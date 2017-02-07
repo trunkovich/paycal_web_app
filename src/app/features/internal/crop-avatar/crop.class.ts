@@ -2,37 +2,46 @@
  * Created by TrUnK on 04.02.2017.
  */
 import {ImageDataModel} from '../../../STATE/models/image-data.model';
-
-interface Coords {
-  x: number;
-  y: number;
-}
+import * as Cropper from 'cropperjs';
 
 export class Crop {
   data: ImageDataModel;
-  viewWidth: number;
-  viewHeight: number;
-  photoAreaWidth: number;
-  photoAreaHeight: number;
-  imageAspectRatio: number;
-  viewAspectRatio: number;
-  topLeft: Coords;
+  cropper: Cropper;
 
-  constructor(imageData: ImageDataModel, viewWidth: number, viewHeight: number) {
+  constructor(imageData: ImageDataModel, image: HTMLImageElement) {
     this.data = imageData;
-    this.viewWidth = viewWidth;
-    this.viewHeight = viewHeight;
-    this.viewAspectRatio = this.viewWidth / this.viewHeight;
-    this.imageAspectRatio = this.data.width / this.data.height;
-    if (this.imageAspectRatio > this.viewAspectRatio) {
-      this.photoAreaWidth = this.viewWidth;
-      this.photoAreaHeight = this.data.height / (this.data.width / this.viewWidth);
-      this.topLeft = {x: 0, y: (this.viewHeight - this.photoAreaHeight) / 2};
-    } else {
-      this.photoAreaHeight = this.viewHeight;
-      this.photoAreaWidth = this.data.width / (this.data.height / this.viewHeight);
-      this.topLeft = {y: 0, x: (this.viewWidth - this.photoAreaWidth) / 2};
-    }
+    setTimeout(() => this.enableCropper(image), 0);
+  }
+
+  destroy(): void {
+    this.cropper.destroy();
+    this.cropper = null;
+    this.data = null;
+  }
+
+  enableCropper(image: HTMLImageElement): void {
+    this.cropper = new Cropper(image, {
+      aspectRatio: 1,
+      viewMode: 2,
+      dragMode: 'move',
+      guides: false,
+      center: false
+    });
+  }
+
+  // rotate() {
+  //   this.cropper.rotate(90);
+  // }
+
+  getBlob(): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+      this.cropper.getCroppedCanvas({
+        width: 180,
+        height: 180
+      }).toBlob(result => {
+        resolve(result);
+      }, this.data.type, 1);
+    });
   }
 
   getImageSrc(): string {
@@ -40,19 +49,6 @@ export class Crop {
       return this.data.dataUri;
     } else {
       return '';
-    }
-  }
-
-  getImageStyles(): any {
-    if (this.data) {
-      return {
-        'width': this.photoAreaWidth + 'px',
-        'height': this.photoAreaHeight + 'px',
-        'top': this.topLeft.y + 'px',
-        'left': this.topLeft.x + 'px',
-      };
-    } else {
-      return {};
     }
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ElementRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 import {AvatarService} from '../../../core/services/avatar.service';
 import {INTERNAL_ROUTES} from '../internal.routes';
 import {Router} from '@angular/router';
@@ -16,8 +16,11 @@ import {Location} from '@angular/common';
 })
 export class CropAvatarComponent implements OnInit, OnDestroy {
   crop: Crop;
+  result: string;
   private container: HTMLElement;
   private sub: Subscription;
+
+  @ViewChild('image') image: ElementRef;
 
   constructor(
     private location: Location,
@@ -31,7 +34,7 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
       .subscribe((data: ImageDataModel) => {
         if (data) {
           this.container = <HTMLElement>this.elRef.nativeElement.getElementsByClassName('crop-container')[0];
-          this.crop = new Crop(data, this.container.offsetWidth, this.container.offsetHeight);
+          this.crop = new Crop(data, this.image.nativeElement);
           setTimeout(() => this.sub.unsubscribe(), 0);
         } else {
           this.router.navigate(['/', INTERNAL_ROUTES.EDIT_PROFILE]);
@@ -43,6 +46,9 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+    if (this.crop) {
+      this.crop.destroy();
+    }
   }
 
   onBackBtnClick() {
@@ -50,7 +56,10 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    console.log('save clicked');
+    this.crop.getBlob()
+      .then(blob => {
+        console.log(blob);
+      });
   }
 
 }

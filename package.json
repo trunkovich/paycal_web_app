@@ -34,6 +34,7 @@
     "@types/moment": "^2.13.0",
     "angular2-moment": "^1.1.0",
     "angular2-text-mask": "^2.1.0",
+    "blueimp-canvas-to-blob": "^3.6.0",
     "core-js": "^2.4.1",
     "cropperjs": "^1.0.0-beta.1",
     "intl": "^1.2.5",

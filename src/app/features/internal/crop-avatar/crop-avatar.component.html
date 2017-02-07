@@ -6,5 +6,5 @@
             (nextBtnClick)="save()"></pcl-header>
 
 <div class="crop-container" id="crop-container">
-  <img [src]="crop?.getImageSrc()" [ngStyle]="crop?.getImageStyles()" class="photo" alt="">
+  <img #image [src]="crop?.getImageSrc()" class="photo" alt="">
 </div>

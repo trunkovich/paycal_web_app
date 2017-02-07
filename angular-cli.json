@@ -18,6 +18,7 @@
       "prefix": "pcl",
       "mobile": false,
       "styles": [
+        "../node_modules/cropperjs/dist/cropper.css",
         "../node_modules/normalize.css/normalize.css",
         "styles.scss"
       ],

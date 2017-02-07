@@ -1,5 +1,11 @@
 @import '../../../../styles';
 
+:host /deep/ {
+  .cropper-view-box {
+    border-radius: 50%;
+  }
+}
+
 :host {
   @extend .full-height;
   display: block;
@@ -8,9 +14,11 @@
     position: relative;
     @extend .full-height;
     height: calc(100% - #{$header-height});
+    overflow: hidden;
 
     .photo {
-      position: absolute;
+      width: 100%;
+      //height: 100%;
     }
   }
 }
