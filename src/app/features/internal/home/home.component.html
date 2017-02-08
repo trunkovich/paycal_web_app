@@ -6,7 +6,7 @@
                 [activeMonths]="activeMonths$ | async"
                 (onDateChange)="onDateChange($event)"></pcl-calendar>
 
-  <div class="countings" *ngIf="isNotDayView(homeViewType$ | async)">
+  <div class="countings" *ngIf="summaryEnabled && isNotDayView(homeViewType$ | async)">
     <div class="line">
       Total W count: <span>{{totalWorkCount$ | async}}</span>
     </div>

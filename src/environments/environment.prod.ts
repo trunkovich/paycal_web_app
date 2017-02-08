@@ -11,6 +11,7 @@ export const APP_CONFIG = Object.freeze({
   API_BASE_URL: '//api.brainstorm.live/api/Hub/',
   LS_TOKEN_KEY: 'pc_token',
   IMAGE_SHACK_API_KEY: '8BFIKQUV83c9eadf875606030278dbaa42f4cded',
+  SHOW_SUMMARY: false,
   AUTO_REDIRECT_TIMER: 5000,
   DEFAULT_REDIRECT_URL: '/',
 

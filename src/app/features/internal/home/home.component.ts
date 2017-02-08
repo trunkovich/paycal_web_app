@@ -17,6 +17,7 @@ import {scheduleSelectors, profileSelectors, AppState} from '../../../STATE/redu
 import {Employee} from '../../../STATE/models/employee.model';
 import {Router} from '@angular/router';
 import {INTERNAL_ROUTES} from '../internal.routes';
+import {APP_CONFIG} from '../../../../environments/environment';
 
 @Component({
   selector: 'pcl-home',
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
   profile$: Observable<Employee>;
   loading$: Observable<boolean>;
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
+  summaryEnabled = APP_CONFIG.SHOW_SUMMARY;
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
