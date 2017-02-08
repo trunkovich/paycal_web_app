@@ -18,6 +18,7 @@ import {LaborCodeScheduleMonthRequest} from '../../STATE/models/requests/labor-c
 import {LaborCodeScheduleDayRequest} from '../../STATE/models/requests/labor-code-schedule-day.request.model';
 import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
 import {EditEmployeeRequestData} from '../../STATE/models/employee.model';
+import {ImageShackUploadImageResponse} from '../../STATE/models/responses/image-shack-upload-image-response.model';
 
 @Injectable()
 export class Api {
@@ -69,6 +70,10 @@ export class Api {
     return this.request('get', 'UpdateEmployee', data);
   }
 
+  updateProfileImage(data: {pictureUrl: string}): Observable<Response> {
+    return this.request('get', 'SetEmployeePicture', data);
+  }
+
   getReference(type: string, data: {groupId?: number} = {}) {
     return this.request('get', `Get${type}`, data);
   }
@@ -99,5 +104,39 @@ export class Api {
   }
   getLaborCodeDaySchedule(data: LaborCodeScheduleDayRequest): Observable<MasterCalendarEntryListResponse> {
     return this.request('get', 'GetLaborCodeDaySchedule', data);
+  }
+
+  uploadImage(image: File): Observable<ImageShackUploadImageResponse> {
+    return Observable.fromPromise(this.upload('//api.imageshack.com/v2/images', image));
+  }
+
+  private upload (url: string, files: File[] | File ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let formData: FormData = new FormData(),
+        xhr: XMLHttpRequest = new XMLHttpRequest();
+
+      if (Array.isArray(files)) {
+        for (let i = 0; i < files.length; i++) {
+          formData.append('files[]', files[i], files[i].name);
+        }
+      } else {
+        formData.append('file', files, files.name);
+      }
+
+      formData.append('api_key', APP_CONFIG.IMAGE_SHACK_API_KEY);
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+
+      xhr.open('POST', url, true);
+      xhr.send(formData);
+    });
   }
 }

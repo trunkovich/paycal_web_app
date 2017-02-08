@@ -3,6 +3,7 @@
  */
 import {ImageDataModel} from '../../../STATE/models/image-data.model';
 import * as Cropper from 'cropperjs';
+import {blobToFile} from '../../../STATE/utils';
 
 export class Crop {
   data: ImageDataModel;
@@ -33,13 +34,13 @@ export class Crop {
   //   this.cropper.rotate(90);
   // }
 
-  getBlob(): Promise<Blob> {
+  getFile(): Promise<File> {
     return new Promise((resolve, reject) => {
       this.cropper.getCroppedCanvas({
         width: 180,
         height: 180
       }).toBlob(result => {
-        resolve(result);
+        resolve(blobToFile(result, this.data.name));
       }, this.data.type, 1);
     });
   }

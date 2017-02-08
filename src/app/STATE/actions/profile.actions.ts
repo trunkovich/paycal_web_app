@@ -25,10 +25,21 @@ export const ActionTypes = {
   UPDATE_PROFILE_SUCCESS:   type('[Profile] Update profile success'),
   UPDATE_PROFILE_FAIL: type('[Profile] Update profile failed'),
 
+  // UPLOAD IMAGE
+  UPLOAD_IMAGE: type('[Profile] Upload image'),
+  UPLOAD_IMAGE_SUCCESS: type('[Profile] Upload image success'),
+  UPLOAD_IMAGE_FAIL: type('[Profile] Upload image fail'),
+
+  // UPLOAD IMAGE
+  SAVE_PROFILE_IMAGE: type('[Profile] Save profile image'),
+  SAVE_PROFILE_IMAGE_SUCCESS: type('[Profile] Save profile image success'),
+  SAVE_PROFILE_IMAGE_FAIL: type('[Profile] Save profile image fail'),
+
   // CLEAN PROFILE
   CLEAN_PROFILE: type('[Profile] Clean profile'),
   CLEAR_PROFILE_ERROR: type('[Profile] Clear profile error'),
-  STORE_IMAGE_DATA: type('[Profile] Store image data')
+  STORE_IMAGE_DATA: type('[Profile] Store image data'),
+  CLEAR_IMAGE_DATA: type('[Profile] Clear image data')
 };
 
 
@@ -68,6 +79,33 @@ export class UpdateProfileFailAction implements Action {
   constructor(public payload: any) { }
 }
 
+// UPLOAD IMAGE
+export class UploadImageAction implements Action {
+  type = ActionTypes.UPLOAD_IMAGE;
+  constructor(public payload: File) { }
+}
+export class UploadImageSuccessAction implements Action {
+  type = ActionTypes.UPLOAD_IMAGE_SUCCESS;
+  constructor(public payload: string) { }
+}
+export class UploadImageFailAction implements Action {
+  type = ActionTypes.UPLOAD_IMAGE_FAIL;
+  constructor(public payload: any) { }
+}
+
+// UPLOAD IMAGE
+export class SaveProfileImageAction implements Action {
+  type = ActionTypes.SAVE_PROFILE_IMAGE;
+  constructor(public payload: string) { }
+}
+export class SaveProfileImageSuccessAction implements Action {
+  type = ActionTypes.SAVE_PROFILE_IMAGE_SUCCESS;
+}
+export class SaveProfileImageFailAction implements Action {
+  type = ActionTypes.SAVE_PROFILE_IMAGE_FAIL;
+  constructor(public payload: any) { }
+}
+
 // CLEAN PROFILE
 export class CleanProfileAction implements Action {
   type = ActionTypes.CLEAN_PROFILE;
@@ -78,6 +116,9 @@ export class ProfileClearErrorAction implements Action {
 export class StoreImageData implements Action {
   type = ActionTypes.STORE_IMAGE_DATA;
   constructor(public payload: ImageDataModel) { }
+}
+export class ClearImageDataAction implements Action {
+  type = ActionTypes.CLEAR_IMAGE_DATA;
 }
 
 
@@ -96,7 +137,18 @@ export type Actions
   | UpdateProfileSuccessAction
   | UpdateProfileFailAction
 
+  // UPLOAD IMAGE
+  | UploadImageAction
+  | UploadImageSuccessAction
+  | UploadImageFailAction
+
+  // UPLOAD IMAGE
+  | SaveProfileImageAction
+  | SaveProfileImageSuccessAction
+  | SaveProfileImageFailAction
+
   // CLEAN PROFILE
   | CleanProfileAction
   | StoreImageData
+  | ClearImageDataAction
   | ProfileClearErrorAction;

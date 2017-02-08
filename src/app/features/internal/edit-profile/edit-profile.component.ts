@@ -1,10 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription, Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {Location} from '@angular/common';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
-import emailMask from 'text-mask-addons/dist/emailMask'
+import emailMask from 'text-mask-addons/dist/emailMask';
+import {Router} from '@angular/router';
 
 import {Employee, EditEmployeeRequestData} from '../../../STATE/models/employee.model';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
@@ -12,6 +12,7 @@ import {PhonePipe} from '../../../common/pipes/phone.pipe';
 import {ProfileClearErrorAction, UpdateProfileAction, StoreImageData} from '../../../STATE/actions/profile.actions';
 import {AvatarService} from '../../../core/services/avatar.service';
 import {ImageDataModel} from '../../../STATE/models/image-data.model';
+import {INTERNAL_ROUTES} from '../internal.routes';
 
 /* tslint:disable */
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -34,7 +35,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   constructor(private _fb: FormBuilder,
               private store: Store<AppState>,
-              private _location: Location,
+              private router: Router,
               private avatarService: AvatarService
   ) {
     this.editProfileForm = this._fb.group({
@@ -107,14 +108,14 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   onBackBtnClick() {
-    this._location.back();
+    this.router.navigate(['/', INTERNAL_ROUTES.PROFILE]);
   }
 
   getPhotoUrl(profile: Employee): string {
     if (!profile || !profile.PhotoUrl) {
       return '';
     } else {
-      return `url(${profile.PhotoUrl})`;
+      return `url(//${profile.PhotoUrl})`;
     }
   }
 

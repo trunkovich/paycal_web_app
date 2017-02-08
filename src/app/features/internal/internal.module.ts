@@ -27,6 +27,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TextMaskModule} from 'angular2-text-mask';
 import { CropAvatarComponent } from './crop-avatar/crop-avatar.component';
+import {CropLoadingComponent} from './crop-loading/crop-loading.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { CropAvatarComponent } from './crop-avatar/crop-avatar.component';
     MessageLoadingComponent,
     QualifiendPhysiciansListComponent,
     EditProfileComponent,
-    CropAvatarComponent
+    CropAvatarComponent,
+    CropLoadingComponent
   ]
 })
 export class InternalModule { }

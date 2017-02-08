@@ -1,13 +1,12 @@
 import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
-import {AvatarService} from '../../../core/services/avatar.service';
 import {INTERNAL_ROUTES} from '../internal.routes';
 import {Router} from '@angular/router';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {Store} from '@ngrx/store';
-import {Subscription, Observable} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {ImageDataModel} from '../../../STATE/models/image-data.model';
 import {Crop} from './crop.class';
-import {Location} from '@angular/common';
+import {UploadImageAction} from '../../../STATE/actions/profile.actions';
 
 @Component({
   selector: 'pcl-crop-avatar',
@@ -23,7 +22,6 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
   @ViewChild('image') image: ElementRef;
 
   constructor(
-    private location: Location,
     private elRef: ElementRef,
     private router: Router,
     private store: Store<AppState>
@@ -48,17 +46,18 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
     }
     if (this.crop) {
       this.crop.destroy();
+      this.crop = null;
     }
   }
 
   onBackBtnClick() {
-    this.location.back();
+    this.router.navigate(['/', INTERNAL_ROUTES.EDIT_PROFILE]);
   }
 
   save() {
-    this.crop.getBlob()
-      .then(blob => {
-        console.log(blob);
+    this.crop.getFile()
+      .then((image: File) => {
+        this.store.dispatch(new UploadImageAction(image));
       });
   }
 

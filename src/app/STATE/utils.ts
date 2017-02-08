@@ -38,3 +38,10 @@ export function matchingPasswords(passwordKey: string, confirmPasswordKey: strin
     }
   };
 }
+
+export const blobToFile = (theBlob: Blob, fileName: string): File => {
+  let b: any = theBlob;
+  b.lastModifiedDate = new Date();
+  b.name = fileName;
+  return <File>theBlob;
+}

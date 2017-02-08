@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (!profile || !profile.PhotoUrl) {
       return '';
     } else {
-      return `url(${profile.PhotoUrl})`;
+      return `url(//${profile.PhotoUrl})`;
     }
   }
 

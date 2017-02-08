@@ -20,7 +20,8 @@ export class ProfileEffects {
     .ofType(
       authActions.ActionTypes.SIGN_IN_SUCCESS,
       authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS,
-      authActions.ActionTypes.READ_TOKEN_SUCCESS
+      authActions.ActionTypes.READ_TOKEN_SUCCESS,
+      profileActions.ActionTypes.SAVE_PROFILE_IMAGE_SUCCESS
     )
     .map(() => new profileActions.GetUserProfileAction())
     .delay(1);
@@ -44,15 +45,58 @@ export class ProfileEffects {
         .catch(error => Observable.of(new profileActions.UpdateProfileFailAction(error.message)));
     });
 
+  @Effect()
+  uploadImage$: Observable<Action> = this.actions$
+    .ofType(profileActions.ActionTypes.UPLOAD_IMAGE)
+    .map(toPayload)
+    .switchMap((image: File) => {
+      return this.authService.uploadImage(image)
+        .map((url: string) => new profileActions.UploadImageSuccessAction(url))
+        .catch(error => Observable.of(new profileActions.UploadImageFailAction(error.message)));
+    });
+
+  @Effect()
+  saveProfileImage$: Observable<Action> = this.actions$
+    .ofType(profileActions.ActionTypes.SAVE_PROFILE_IMAGE)
+    .map(toPayload)
+    .switchMap((url: string) => {
+      return this.authService.updateProfileImage(url)
+        .map(() => new profileActions.SaveProfileImageSuccessAction())
+        .catch(error => Observable.of(new profileActions.SaveProfileImageFailAction(error.message)));
+    });
+
+  @Effect()
+  afterImageUpload$: Observable<Action> = this.actions$
+    .ofType(profileActions.ActionTypes.UPLOAD_IMAGE_SUCCESS)
+    .map(toPayload)
+    .map((url: string) => new profileActions.SaveProfileImageAction(url));
+
   @Effect({ dispatch: false })
-  redirectAfterSuccessUpdateProfile$: Observable<Action> = this.actions$
-    .ofType(profileActions.ActionTypes.UPDATE_PROFILE_SUCCESS)
+  redirectToProfile$: Observable<Action> = this.actions$
+    .ofType(
+      profileActions.ActionTypes.UPDATE_PROFILE_SUCCESS,
+      profileActions.ActionTypes.SAVE_PROFILE_IMAGE_SUCCESS
+    )
     .do(() => this.authService.redirectToProfile());
+
+  @Effect()
+  clearUploadedImageData$: Observable<Action> = this.actions$
+    .ofType(profileActions.ActionTypes.SAVE_PROFILE_IMAGE_SUCCESS)
+    .map(() => new profileActions.ClearImageDataAction());
 
   @Effect({ dispatch: false })
   redirectAfterAvatarUpload$: Observable<Action> = this.actions$
-    .ofType(profileActions.ActionTypes.STORE_IMAGE_DATA)
+    .ofType(
+      profileActions.ActionTypes.STORE_IMAGE_DATA,
+      profileActions.ActionTypes.UPLOAD_IMAGE_FAIL,
+      profileActions.ActionTypes.SAVE_PROFILE_IMAGE_FAIL
+    )
     .do(() => this.authService.redirectToCropAvatar());
+
+  @Effect({ dispatch: false })
+  redirectToCropLoading$: Observable<Action> = this.actions$
+    .ofType(profileActions.ActionTypes.UPLOAD_IMAGE)
+    .do(() => this.authService.redirectToCropLoading());
 
   @Effect()
   cleanProfileAfterLogout$: Observable<Action> = this.actions$

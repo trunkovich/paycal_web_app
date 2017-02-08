@@ -14,6 +14,7 @@ import {MessageSuccessComponent} from './message-success/message-success.compone
 import {MessageLoadingComponent} from './message-loading/message-loading.component';
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {CropAvatarComponent} from './crop-avatar/crop-avatar.component';
+import {CropLoadingComponent} from './crop-loading/crop-loading.component';
 
 export const INTERNAL_ROUTES = Object.freeze({
   HOME: 'home',
@@ -22,6 +23,7 @@ export const INTERNAL_ROUTES = Object.freeze({
   PROFILE: 'profile',
   EDIT_PROFILE: 'edit-profile',
   CROP_AVATAR: 'crop-avatar',
+  CROP_LOADING: 'crop-loading',
   QUALIFIED_PHYSICIANS: 'qualified-physicians',
   MESSAGE: 'message',
   MESSAGE_SUCCESS: 'message-success',
@@ -41,5 +43,6 @@ export const internalRoutes: Routes = [
     { path: 'profile', component: ProfileComponent },
     { path: 'edit-profile', component: EditProfileComponent },
     { path: 'crop-avatar', component: CropAvatarComponent },
+    { path: 'crop-loading', component: CropLoadingComponent },
   ] }
 ];

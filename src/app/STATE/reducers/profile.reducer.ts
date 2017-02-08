@@ -32,6 +32,9 @@ export function profileReducer(state: ProfileState = initialProfileState, action
     case profileActions.ActionTypes.STORE_IMAGE_DATA: {
       return storeImageDataHandler(state, action);
     }
+    case profileActions.ActionTypes.CLEAR_IMAGE_DATA: {
+      return clearImageDataHandler(state);
+    }
     case profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS: {
       return saveRedirectUrlHandler(state, action);
     }
@@ -63,6 +66,12 @@ function saveRedirectUrlHandler(state: ProfileState, action: profileActions.GetU
 function storeImageDataHandler(state: ProfileState, action: profileActions.StoreImageData): ProfileState {
   let newState = _.cloneDeep(state);
   newState.imageDataUri = _.clone(action.payload);
+  return newState;
+}
+
+function clearImageDataHandler(state: ProfileState): ProfileState {
+  let newState = _.cloneDeep(state);
+  newState.imageDataUri = null;
   return newState;
 }
 

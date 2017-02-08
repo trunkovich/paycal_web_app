@@ -21,6 +21,7 @@ import {CompleteRegistrationModel} from '../../STATE/models/complete-registratio
 import {Lead} from '../../STATE/models/lead.model';
 import {authSelectors, AppState} from '../../STATE/reducers/index';
 import {INTERNAL_ROUTES} from '../../features/internal/internal.routes';
+import {ImageShackUploadImageResponse} from '../../STATE/models/responses/image-shack-upload-image-response.model';
 
 @Injectable()
 export class AuthService {
@@ -134,6 +135,28 @@ export class AuthService {
       });
   }
 
+  updateProfileImage(url: string): Observable<boolean | string> {
+    return this.api.updateProfileImage({pictureUrl: url})
+      .map((res: Response) => {
+        if (res.IsSuccess) {
+          return true;
+        } else {
+          throw Error(res.ErrorMessage);
+        }
+      });
+  }
+
+  uploadImage(image: File): Observable<string> {
+    return this.api.uploadImage(image)
+      .map((res: ImageShackUploadImageResponse) => {
+        if (res.success) {
+          return res.result.images[0].direct_link;
+        } else {
+          throw Error(res.error.error_message);
+        }
+      });
+  }
+
   redirectAfterPasswordRecoveryRequest() {
     this.router.navigate(['/', AUTH_ROUTES.FORGOT_PASSWORD_SUCCESS]);
   }
@@ -163,6 +186,10 @@ export class AuthService {
 
   redirectToCropAvatar() {
     this.router.navigate(['/', INTERNAL_ROUTES.CROP_AVATAR]);
+  }
+
+  redirectToCropLoading() {
+    this.router.navigate(['/', INTERNAL_ROUTES.CROP_LOADING]);
   }
 
   redirectAfterLogin() {
