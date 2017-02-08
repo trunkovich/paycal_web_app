@@ -37,8 +37,8 @@ export class Crop {
   getFile(): Promise<File> {
     return new Promise((resolve, reject) => {
       this.cropper.getCroppedCanvas({
-        width: 180,
-        height: 180
+        width: 270,
+        height: 270
       }).toBlob(result => {
         resolve(blobToFile(result, this.data.name));
       }, this.data.type, 1);
