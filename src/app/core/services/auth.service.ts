@@ -21,7 +21,7 @@ import {CompleteRegistrationModel} from '../../STATE/models/complete-registratio
 import {Lead} from '../../STATE/models/lead.model';
 import {authSelectors, AppState} from '../../STATE/reducers/index';
 import {INTERNAL_ROUTES} from '../../features/internal/internal.routes';
-import {ImageShackUploadImageResponse} from '../../STATE/models/responses/image-shack-upload-image-response.model';
+import {CloudinaryResponse} from '../../STATE/models/responses/cloudinary-response.model';
 
 @Injectable()
 export class AuthService {
@@ -148,11 +148,11 @@ export class AuthService {
 
   uploadImage(image: File): Observable<string> {
     return this.api.uploadImage(image)
-      .map((res: ImageShackUploadImageResponse) => {
-        if (res.success) {
-          return res.result.images[0].direct_link;
+      .map((res: CloudinaryResponse) => {
+        if (!res.error) {
+          return res.url;
         } else {
-          throw Error(res.error.error_message);
+          throw Error(res.error.message);
         }
       });
   }

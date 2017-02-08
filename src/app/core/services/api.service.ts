@@ -18,7 +18,7 @@ import {LaborCodeScheduleMonthRequest} from '../../STATE/models/requests/labor-c
 import {LaborCodeScheduleDayRequest} from '../../STATE/models/requests/labor-code-schedule-day.request.model';
 import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
 import {EditEmployeeRequestData} from '../../STATE/models/employee.model';
-import {ImageShackUploadImageResponse} from '../../STATE/models/responses/image-shack-upload-image-response.model';
+import {CloudinaryResponse} from '../../STATE/models/responses/cloudinary-response.model';
 
 @Injectable()
 export class Api {
@@ -106,24 +106,17 @@ export class Api {
     return this.request('get', 'GetLaborCodeDaySchedule', data);
   }
 
-  uploadImage(image: File): Observable<ImageShackUploadImageResponse> {
-    return Observable.fromPromise(this.upload('//api.imageshack.com/v2/images', image));
+  uploadImage(image: File): Observable<CloudinaryResponse> {
+    return Observable.fromPromise(this.upload(APP_CONFIG.CLOUDINARY_URL, image));
   }
 
-  private upload (url: string, files: File[] | File ): Promise<any> {
+  private upload (url: string, file: File ): Promise<any> {
     return new Promise((resolve, reject) => {
       let formData: FormData = new FormData(),
-        xhr: XMLHttpRequest = new XMLHttpRequest();
+          xhr: XMLHttpRequest = new XMLHttpRequest();
 
-      if (Array.isArray(files)) {
-        for (let i = 0; i < files.length; i++) {
-          formData.append('files[]', files[i], files[i].name);
-        }
-      } else {
-        formData.append('file', files, files.name);
-      }
-
-      formData.append('api_key', APP_CONFIG.IMAGE_SHACK_API_KEY);
+      formData.append('file', file, file.name);
+      formData.append('upload_preset', APP_CONFIG.CLOUDINARY_UNSIGNED_PRESET);
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {

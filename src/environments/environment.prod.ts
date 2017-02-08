@@ -10,7 +10,8 @@ export const environment = {
 export const APP_CONFIG = Object.freeze({
   API_BASE_URL: '//api.brainstorm.live/api/Hub/',
   LS_TOKEN_KEY: 'pc_token',
-  IMAGE_SHACK_API_KEY: '8BFIKQUV83c9eadf875606030278dbaa42f4cded',
+  CLOUDINARY_URL: 'https://api.cloudinary.com/v1_1/trunkovich/image/upload',
+  CLOUDINARY_UNSIGNED_PRESET: 'hq6ckn9d',
   SHOW_SUMMARY: false,
   AUTO_REDIRECT_TIMER: 5000,
   DEFAULT_REDIRECT_URL: '/',
