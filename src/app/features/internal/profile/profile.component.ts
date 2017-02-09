@@ -19,13 +19,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
   sub: Subscription;
 
-  constructor(private store: Store<AppState>, private router: Router, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     this.sub = this.store.select(profileSelectors.getMyProfile)
       .subscribe(employee => {
         this.profile = employee;
-        this.changeDetectorRef.detectChanges();
       });
   }
 
