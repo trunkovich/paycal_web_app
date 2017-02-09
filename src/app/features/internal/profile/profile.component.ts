@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {Location} from '@angular/common';
 import {Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
@@ -19,11 +19,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
   sub: Subscription;
 
-  constructor(private store: Store<AppState>, private router: Router) { }
+  constructor(private store: Store<AppState>, private router: Router, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.sub = this.store.select(profileSelectors.getMyProfile)
-      .subscribe(employee => this.profile = employee);
+      .subscribe(employee => {
+        this.profile = employee;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   ngOnDestroy() {
