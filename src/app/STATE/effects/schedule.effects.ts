@@ -45,11 +45,55 @@ export class ScheduleEffects {
   @Effect()
   getGroupScheduleMonths$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS)
-    .map(toPayload)
     .switchMap(() => {
       return this.scheduleService.getGroupScheduleMonths()
         .map((months: GroupSchedule[]) => new scheduleActions.LoadGroupScheduleMonthsSuccessAction(months))
         .catch(error => Observable.of(new scheduleActions.LoadGroupScheduleMonthsFailAction(error)));
+    });
+
+  @Effect()
+  loadSearchReference$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.LOAD_SEARCH_REFERENCE)
+    .withLatestFrom(this.store.select(scheduleSelectors.getSearchType))
+    .map(([action, type]) => {
+      switch (type) {
+        case 'physicians': {
+          return new scheduleActions.LoadEmployeesInGroupAction();
+        }
+        case 'call-reference': {
+          return new scheduleActions.LoadCallReferenceAction();
+        }
+        case 'or-reference': {
+          return new scheduleActions.LoadOrReferenceAction();
+        }
+      }
+    });
+
+  @Effect()
+  loadCallReference$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.LOAD_CALL_REFERENCE)
+    .switchMap(() => {
+      return this.scheduleService.loadCallReference(new Date())
+        .map((codes: string[]) => new scheduleActions.LoadCallReferenceSuccessAction(codes))
+        .catch(error => Observable.of(new scheduleActions.LoadCallReferenceFailAction(error)));
+    });
+
+  @Effect()
+  loadOrReference$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.LOAD_OR_REFERENCE)
+    .switchMap(() => {
+      return this.scheduleService.loadOrReference(new Date())
+        .map((codes: string[]) => new scheduleActions.LoadOrReferenceSuccessAction(codes))
+        .catch(error => Observable.of(new scheduleActions.LoadOrReferenceFailAction(error)));
+    });
+
+  @Effect()
+  loadEmployeesInMyGroup$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP)
+    .switchMap(() => {
+      return this.scheduleService.loadEmployeesInMyGroup()
+        .map((employees: Employee[]) => new scheduleActions.LoadEmployeesInGroupSuccessAction(employees))
+        .catch(error => Observable.of(new scheduleActions.LoadEmployeesInGroupFailAction(error)));
     });
 
   @Effect()

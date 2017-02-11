@@ -7,13 +7,13 @@ import { Component } from '@angular/core';
 
 <div class="button-container">
   <div class="button-wrapper">
-    <div class="button">Call Reference</div>
+    <div class="button" [routerLink]="['/', 'search', 'call-reference']">Call Reference</div>
   </div>
   <div class="button-wrapper">
-    <div class="button">OR Reference</div>
+    <div class="button" [routerLink]="['/', 'search', 'or-reference']">OR Reference</div>
   </div>
   <div class="button-wrapper">
-    <div class="button">Physicians</div>
+    <div class="button" [routerLink]="['/', 'search', 'physicians']">Physicians</div>
   </div>
 </div>
 `,

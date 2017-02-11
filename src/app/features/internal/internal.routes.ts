@@ -5,7 +5,6 @@ import {OnlyMobileDevices} from '../../core/guards/only-mobile-devices.guard';
 import {InternalComponent} from './internal.component';
 import {HomeComponent} from './home/home.component';
 import {MoreComponent} from './more/more.component';
-import {SearchComponent} from './search/search.component';
 import {ProfileComponent} from './profile/profile.component';
 import {OnlyScheduledPersons} from '../../core/guards/only-scheduled-persons.guard';
 import {QualifiedPhysiciansComponent} from './qualified-physicians/qualified-physicians.component';

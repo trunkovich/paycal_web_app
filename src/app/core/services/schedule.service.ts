@@ -87,6 +87,45 @@ export class ScheduleService {
       });
   }
 
+  loadCallReference(date: Date): Observable<string[] | string> {
+    return this.api.getCallReferenceLaborCodes({
+      scheduleYear: date.getFullYear(),
+      scheduleMonth: date.getMonth() + 1
+    })
+      .map((res: LaborCodeListResponse) => {
+        if (res.IsSuccess) {
+          return res.LaborCodeList;
+        } else {
+          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+        }
+      });
+  }
+
+  loadOrReference(date: Date): Observable<string[] | string> {
+    return this.api.getOrReferenceLaborCodes({
+      scheduleYear: date.getFullYear(),
+      scheduleMonth: date.getMonth() + 1
+    })
+      .map((res: LaborCodeListResponse) => {
+        if (res.IsSuccess) {
+          return res.LaborCodeList;
+        } else {
+          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+        }
+      });
+  }
+
+  loadEmployeesInMyGroup(): Observable<Employee[] | string> {
+    return this.api.getEmployeesInMyGroup()
+      .map((res: EmployeeListResponse) => {
+        if (res.IsSuccess) {
+          return res.EmployeeList;
+        } else {
+          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+        }
+      });
+  }
+
   createCoverageRequest(data: CoverageRequest): Observable<boolean | string> {
     return this.api.createCoverageRequest(data)
       .map((res: Response) => {

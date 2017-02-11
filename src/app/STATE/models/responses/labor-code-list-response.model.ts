@@ -3,9 +3,10 @@
  */
 
 import {Response} from './response.model';
+import {LaborCodeList} from '../labor-code-list.model';
 
 export interface LaborCodeListResponse extends Response {
-  LaborCodeList: string[];
+  LaborCodeList: LaborCodeList;
 }
 
 /**

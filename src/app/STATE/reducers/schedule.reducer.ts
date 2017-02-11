@@ -9,7 +9,11 @@ import * as scheduleActions from '../actions/schedule.actions';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {EmployeeScheduleEntry, AvailableMonthsStructure, EmployeeScheduleEntryGroupedByDay} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
-import {QualifiedEmployee, QualifiedEmployeeGroup} from '../models/employee.model';
+import {QualifiedEmployee, QualifiedEmployeeGroup, Employee} from '../models/employee.model';
+import {SearchResults} from '../models/search-results.model';
+
+export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-reference'];
+
 
 export interface ScheduleState {
   groupScheduleMonths: GroupSchedule[];
@@ -17,8 +21,13 @@ export interface ScheduleState {
   mySelectedDate: Date;
   homeViewType: CalendarTypes;
   shiftEmployees: QualifiedEmployee[];
+  searchType: string | null;
   scheduleLoading: boolean;
   physiciansLoading: boolean;
+  callReferenceLaborCodes: string[];
+  orReferenceLaborCodes: string[];
+  employeesInGroup: Employee[];
+  search: string;
 }
 
 const initialScheduleState = {
@@ -27,9 +36,15 @@ const initialScheduleState = {
   mySelectedDate: new Date(),
   homeViewType: CalendarTypes.DAY,
   shiftEmployees: [],
+  searchType: null,
   scheduleLoading: false,
-  physiciansLoading: false
+  physiciansLoading: false,
+  callReferenceLaborCodes: null,
+  orReferenceLaborCodes: null,
+  employeesInGroup: null,
+  search: ''
 };
+
 
 export function scheduleReducer(state: ScheduleState = initialScheduleState, action: scheduleActions.Actions): ScheduleState {
   switch (action.type) {
@@ -39,9 +54,24 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
     case scheduleActions.ActionTypes.CLEAN_SHIFT_EMPLOYEES: {
       return cleanShiftEmployeesHandler(state);
     }
+    case scheduleActions.ActionTypes.LOAD_CALL_REFERENCE_SUCCESS: {
+      return loadCallReferenceHandler(setNotLoadingHandler(state), action);
+    }
+    case scheduleActions.ActionTypes.LOAD_OR_REFERENCE_SUCCESS: {
+      return loadOrReferenceHandler(setNotLoadingHandler(state), action);
+    }
+    case scheduleActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP_SUCCESS: {
+      return loadEmployeesInGroupHandler(setNotLoadingHandler(state), action);
+    }
+    case scheduleActions.ActionTypes.SET_SEARCH_TYPE: {
+      return setSearchTypeHandler(state, action);
+    }
+    case scheduleActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP:
+    case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE:
     case scheduleActions.ActionTypes.LOAD_MY_FULL_SCHEDULE:
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES:
-    case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE: {
+    case scheduleActions.ActionTypes.LOAD_CALL_REFERENCE:
+    case scheduleActions.ActionTypes.LOAD_OR_REFERENCE: {
       return setScheduleLoadingHandler(state);
     }
     case scheduleActions.ActionTypes.SET_EMPLOYEES_LOADING: {
@@ -59,7 +89,10 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
     case scheduleActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_FAIL: {
       return loadShiftEmployeesListFailHandler(setNotLoadingHandler(state));
     }
-    case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_FINALLY: {
+    case scheduleActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_FINALLY:
+    case scheduleActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP_FAIL:
+    case scheduleActions.ActionTypes.LOAD_CALL_REFERENCE_FAIL:
+    case scheduleActions.ActionTypes.LOAD_OR_REFERENCE_FAIL: {
       return setNotLoadingHandler(state);
     }
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS: {
@@ -86,6 +119,30 @@ function setScheduleLoadingHandler(state: ScheduleState): ScheduleState {
   return _.assign({}, state, {
     scheduleLoading: true
   });
+}
+
+function setSearchTypeHandler(state: ScheduleState, action: scheduleActions.SetSearchType): ScheduleState {
+  let newState = _.cloneDeep(state);
+  newState.searchType = action.payload;
+  return newState;
+}
+
+function loadCallReferenceHandler(state: ScheduleState, action: scheduleActions.LoadCallReferenceSuccessAction): ScheduleState {
+  let newState = _.cloneDeep(state);
+  newState.callReferenceLaborCodes = _.clone(action.payload);
+  return newState;
+}
+
+function loadOrReferenceHandler(state: ScheduleState, action: scheduleActions.LoadOrReferenceSuccessAction): ScheduleState {
+  let newState = _.cloneDeep(state);
+  newState.orReferenceLaborCodes = _.clone(action.payload);
+  return newState;
+}
+
+function loadEmployeesInGroupHandler(state: ScheduleState, action: scheduleActions.LoadEmployeesInGroupSuccessAction): ScheduleState {
+  let newState = _.cloneDeep(state);
+  newState.employeesInGroup = _.clone(action.payload);
+  return newState;
 }
 
 function setPhysiciansLoadingHandler(state: ScheduleState): ScheduleState {
@@ -195,6 +252,85 @@ export const getHomeViewType = (state: ScheduleState) => state.homeViewType;
 export const getScheduleLoadingState = (state: ScheduleState) => state.scheduleLoading;
 export const getPhysiciansLoadingStatus = (state: ScheduleState) => state.physiciansLoading;
 export const getShiftEmployees = (state: ScheduleState) => state.shiftEmployees;
+export const getSearchType = (state: ScheduleState) => state.searchType;
+export const getSearchString = (state: ScheduleState) => state.search;
+export const getCallReferenceList = (state: ScheduleState) => state.callReferenceLaborCodes;
+export const getOrReferenceList = (state: ScheduleState) => state.orReferenceLaborCodes;
+export const getEmployeesInGroupList = (state: ScheduleState) => state.employeesInGroup;
+
+export const getFilteredCallReferenceList = createSelector(
+  getCallReferenceList,
+  getSearchString,
+  (callReferenceList: string[], search: string) => _.filter(callReferenceList, _.partial(_.includes, _, search))
+);
+
+export const getFilteredOrReferenceList = createSelector(
+  getOrReferenceList,
+  getSearchString,
+  (orReferenceList: string[], search: string) => _.filter(orReferenceList, _.partial(_.includes, _, search))
+);
+
+export const getSortedEmployeeInGroup = createSelector(
+  getEmployeesInGroupList,
+  (employees: Employee[]): Employee[] => {
+    return _.sortBy(employees, 'LastName');
+  }
+);
+
+export const getFilteredEmployeesInGroupList = createSelector(
+  getSortedEmployeeInGroup,
+  getSearchString,
+  (employeesList: Employee[], search: string) => {
+    let search1, search2;
+    if (search.split(' ').length > 1) {
+      search1 = search.split(' ')[0];
+      search2 = search.split(' ')[1];
+      return _.filter(employeesList, (employee) => {
+        return _.includes(employee.FirstName, search1) && _.includes(employee.LastName, search2) ||
+          _.includes(employee.FirstName, search2) && _.includes(employee.LastName, search1);
+      });
+    }
+    return _.filter(employeesList, (employee) => _.includes(employee.FirstName, search) || _.includes(employee.LastName, search));
+  }
+);
+
+export const getGroupedSortedEmployeesInGroup = createSelector(
+  getFilteredEmployeesInGroupList,
+  (employees: Employee[]): SearchResults[] => {
+    let groups: SearchResults[] = [];
+    let grouped = _.groupBy(employees, employee => {
+      if (!employee.LastName) {
+        return 'OTHERS';
+      }
+      return employee.LastName.slice(0, 1).toUpperCase();
+    });
+    _.each(grouped, (group, key) => {
+      groups.push({letter: key, entries: group});
+    });
+    return groups;
+  }
+);
+
+export const getSearchResults = createSelector(
+  getSearchType,
+  getFilteredCallReferenceList,
+  getFilteredOrReferenceList,
+  getGroupedSortedEmployeesInGroup,
+  (type: string, callReferenceList: string[], orReferenceList: string[], employeesList: SearchResults[]): SearchResults[] => {
+    switch (type) {
+      case 'physicians': {
+        return employeesList;
+      }
+      case 'call-reference': {
+        return [{letter: null, entries: callReferenceList}];
+      }
+      case 'or-reference': {
+        return [{letter: null, entries: orReferenceList}];
+      }
+    }
+    return [];
+  }
+);
 
 export const getMyAllScheduleEntries = createSelector(
   getMySchedule,

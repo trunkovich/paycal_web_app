@@ -7,7 +7,7 @@ import { type } from '../utils';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {LoadedMonth} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
-import {QualifiedEmployee} from '../models/employee.model';
+import {QualifiedEmployee, Employee} from '../models/employee.model';
 import {CoverageRequest} from '../models/requests/coverage-request.request.model';
 
 /**
@@ -46,10 +46,27 @@ export const ActionTypes = {
   CREATE_COVERAGE_REQUEST_SUCCESS: type('[Schedule] Create coverage request success'),
   CREATE_COVERAGE_REQUEST_FAIL: type('[Schedule] Create coverage request fail'),
 
+// load call reference labors
+  LOAD_CALL_REFERENCE: type('[Schedule] Load call reference labor'),
+  LOAD_CALL_REFERENCE_SUCCESS: type('[Schedule] Load call reference labor success'),
+  LOAD_CALL_REFERENCE_FAIL: type('[Schedule] Load call reference labor fail'),
+
+// load OR reference labors
+  LOAD_OR_REFERENCE: type('[Schedule] Load OR reference labor'),
+  LOAD_OR_REFERENCE_SUCCESS: type('[Schedule] Load OR reference labor success'),
+  LOAD_OR_REFERENCE_FAIL: type('[Schedule] Load OR reference labor fail'),
+
+// load employees in group
+  LOAD_EMPLOYEES_IN_GROUP: type('[Schedule] Load employees in  group'),
+  LOAD_EMPLOYEES_IN_GROUP_SUCCESS: type('[Schedule] Load employees in  group success'),
+  LOAD_EMPLOYEES_IN_GROUP_FAIL: type('[Schedule] Load employees in  group labor fail'),
+
 // OTHERS
   SET_MY_SELECTED_DATE: type('[Schedule] Set my selected date'),
   SET_HOME_VIEW_TYPE: type('[Schedule] Set home view type'),
-  CLEAN_SCHEDULE: type('[Schedule] Clean Schedule')
+  CLEAN_SCHEDULE: type('[Schedule] Clean Schedule'),
+  SET_SEARCH_TYPE: type('[Schedule] Set search type'),
+  LOAD_SEARCH_REFERENCE: type('[Schedule] Load search reference')
 
 };
 
@@ -132,6 +149,45 @@ export class CreateCoverageRequestSuccessAction implements Action {
 }
 export class CreateCoverageRequestFailAction implements Action {
   type = ActionTypes.CREATE_COVERAGE_REQUEST_FAIL;
+  constructor(public payload: string ) { }
+}
+
+// load call reference labors
+export class LoadCallReferenceAction implements Action {
+  type = ActionTypes.LOAD_CALL_REFERENCE;
+}
+export class LoadCallReferenceSuccessAction implements Action {
+  type = ActionTypes.LOAD_CALL_REFERENCE_SUCCESS;
+  constructor(public payload: string[]) { }
+}
+export class LoadCallReferenceFailAction implements Action {
+  type = ActionTypes.LOAD_CALL_REFERENCE_FAIL;
+  constructor(public payload: string) { }
+}
+
+// load OR reference labors
+export class LoadOrReferenceAction implements Action {
+  type = ActionTypes.LOAD_OR_REFERENCE;
+}
+export class LoadOrReferenceSuccessAction implements Action {
+  type = ActionTypes.LOAD_OR_REFERENCE_SUCCESS;
+  constructor(public payload: string[]) { }
+}
+export class LoadOrReferenceFailAction implements Action {
+  type = ActionTypes.LOAD_OR_REFERENCE_FAIL;
+  constructor(public payload: string) { }
+}
+
+// load employees in group
+export class LoadEmployeesInGroupAction implements Action {
+  type = ActionTypes.LOAD_EMPLOYEES_IN_GROUP;
+}
+export class LoadEmployeesInGroupSuccessAction implements Action {
+  type = ActionTypes.LOAD_EMPLOYEES_IN_GROUP_SUCCESS;
+  constructor(public payload: Employee[]) { }
+}
+export class LoadEmployeesInGroupFailAction implements Action {
+  type = ActionTypes.LOAD_EMPLOYEES_IN_GROUP_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -146,6 +202,13 @@ export class SetHomeViewTypeAction implements Action {
 }
 export class CleanScheduleAction implements Action {
   type = ActionTypes.CLEAN_SCHEDULE;
+}
+export class SetSearchType implements Action {
+  type = ActionTypes.SET_SEARCH_TYPE;
+  constructor(public payload: string | null) {}
+}
+export class LoadSearchReferenceAction implements Action {
+  type = ActionTypes.LOAD_SEARCH_REFERENCE;
 }
 
 
@@ -181,7 +244,23 @@ export type Actions
   | CreateCoverageRequestSuccessAction
   | CreateCoverageRequestFailAction
 
+// load call reference labors
+  | LoadCallReferenceAction
+  | LoadCallReferenceSuccessAction
+  | LoadCallReferenceFailAction
+
+// load OR reference labors
+  | LoadOrReferenceAction
+  | LoadOrReferenceSuccessAction
+  | LoadOrReferenceFailAction
+
+// load employees in group
+  | LoadEmployeesInGroupAction
+  | LoadEmployeesInGroupSuccessAction
+  | LoadEmployeesInGroupFailAction
+
 // OTHERS
   | SetMySelectedDateAction
   | SetHomeViewTypeAction
+  | SetSearchType
   | CleanScheduleAction;

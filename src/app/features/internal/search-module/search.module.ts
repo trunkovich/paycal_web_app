@@ -10,6 +10,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {searchRoutes} from './search.routes';
 import {SearchComponent} from './search.component';
 import {InternalModule} from '../internal.module';
+import { SearchListComponent } from './search-list/search-list.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,7 @@ import {InternalModule} from '../internal.module';
       InternalModule
     ],
     exports: [],
-    declarations: [SearchComponent],
+    declarations: [SearchComponent, SearchListComponent],
     providers: [],
 })
 export class SearchModule { }
