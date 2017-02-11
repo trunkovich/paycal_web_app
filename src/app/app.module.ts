@@ -34,6 +34,7 @@ import {ViewTypeBottomSheetComponent} from './features/internal/common/component
 import {StartupEffects} from './STATE/effects/startup.effects';
 import {OnlyScheduledPersons} from './core/guards/only-scheduled-persons.guard';
 import {AvatarService} from './core/services/avatar.service';
+import {SearchModule} from './features/internal/search-module/search.module';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {AvatarService} from './core/services/avatar.service';
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
 
     InternalModule,
-    AuthModule
+    AuthModule,
+    SearchModule
   ],
   providers: [
     Api,

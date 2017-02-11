@@ -18,7 +18,6 @@ import {CropLoadingComponent} from './crop-loading/crop-loading.component';
 
 export const INTERNAL_ROUTES = Object.freeze({
   HOME: 'home',
-  SEARCH: 'search',
   MORE: 'more',
   PROFILE: 'profile',
   EDIT_PROFILE: 'edit-profile',
@@ -38,7 +37,6 @@ export const internalRoutes: Routes = [
     { path: 'message/:employeeScheduleEntryID', component: MessageComponent },
     { path: 'message-success', component: MessageSuccessComponent },
     { path: 'message-loading', component: MessageLoadingComponent },
-    { path: 'search', component: SearchComponent },
     { path: 'more', component: MoreComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'edit-profile', component: EditProfileComponent },
