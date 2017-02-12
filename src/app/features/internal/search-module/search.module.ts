@@ -11,6 +11,7 @@ import {searchRoutes} from './search.routes';
 import {SearchComponent} from './search.component';
 import {InternalModule} from '../internal.module';
 import { SearchListComponent } from './search-list/search-list.component';
+import { SearchResultsListComponent } from './search-results-list/search-results-list.component';
 
 @NgModule({
     imports: [
@@ -24,7 +25,7 @@ import { SearchListComponent } from './search-list/search-list.component';
       InternalModule
     ],
     exports: [],
-    declarations: [SearchComponent, SearchListComponent],
+    declarations: [SearchComponent, SearchListComponent, SearchResultsListComponent],
     providers: [],
 })
 export class SearchModule { }

@@ -9,6 +9,7 @@ import {Store} from '@ngrx/store';
 import {AppState, scheduleSelectors} from '../../../../STATE/reducers/index';
 import {SetSearchType, LoadSearchReferenceAction} from '../../../../STATE/actions/schedule.actions';
 import {SearchResults} from '../../../../STATE/models/search-results.model';
+import {Employee} from '../../../../STATE/models/employee.model';
 
 @Component({
   selector: 'pcl-search-list',
@@ -44,6 +45,10 @@ export class SearchListComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  onEntryClick(entry: string | Employee) {
+    console.log(entry);
   }
 
 }
