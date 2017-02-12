@@ -6,11 +6,11 @@ import {Employee} from '../../../../STATE/models/employee.model';
 @Component({
   selector: 'pcl-search-results-group',
   template: `
-<pre>
-{{group | json}}
-</pre>
-  `,
-  styles: []
+<pcl-search-results-entry *ngFor="let entry of group.entries" 
+                          [entry]="entry" 
+                          (click)="entryClick.emit(entry)">
+</pcl-search-results-entry>
+`
 })
 export class SearchResultsGroupComponent {
   @Input() group: SearchResults;

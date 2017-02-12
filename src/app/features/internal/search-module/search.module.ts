@@ -11,8 +11,9 @@ import {searchRoutes} from './search.routes';
 import {SearchComponent} from './search.component';
 import {InternalModule} from '../internal.module';
 import { SearchListComponent } from './search-list/search-list.component';
-import { SearchResultsListComponent } from './search-results-list/search-results-list.component';
-import { SearchResultsGroupComponent } from './search-results-group/search-results-group.component';
+import { SearchResultsListComponent } from './search-list/search-results-list.component';
+import { SearchResultsGroupComponent } from './search-list/search-results-group.component';
+import { SearchResultsEntryComponent } from './search-list/search-results-entry.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,13 @@ import { SearchResultsGroupComponent } from './search-results-group/search-resul
       InternalModule
     ],
     exports: [],
-    declarations: [SearchComponent, SearchListComponent, SearchResultsListComponent, SearchResultsGroupComponent],
+    declarations: [
+      SearchComponent,
+      SearchListComponent,
+      SearchResultsListComponent,
+      SearchResultsGroupComponent,
+      SearchResultsEntryComponent
+    ],
     providers: [],
 })
 export class SearchModule { }

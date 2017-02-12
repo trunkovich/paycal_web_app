@@ -10,8 +10,7 @@ import {Employee} from '../../../../STATE/models/employee.model';
                           [group]="group" 
                           (entryClick)="entryClick.emit($event)">
 </pcl-search-results-group>
-`,
-  styles: []
+`
 })
 export class SearchResultsListComponent {
   @Input() list: SearchResults[];
