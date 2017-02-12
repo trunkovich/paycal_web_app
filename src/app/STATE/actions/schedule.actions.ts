@@ -66,6 +66,7 @@ export const ActionTypes = {
   SET_HOME_VIEW_TYPE: type('[Schedule] Set home view type'),
   CLEAN_SCHEDULE: type('[Schedule] Clean Schedule'),
   SET_SEARCH_TYPE: type('[Schedule] Set search type'),
+  SET_SEARCH_TEXT: type('[Schedule] Set search text'),
   LOAD_SEARCH_REFERENCE: type('[Schedule] Load search reference')
 
 };
@@ -210,6 +211,10 @@ export class SetSearchType implements Action {
 export class LoadSearchReferenceAction implements Action {
   type = ActionTypes.LOAD_SEARCH_REFERENCE;
 }
+export class SetSearchTextAction implements Action {
+  type = ActionTypes.SET_SEARCH_TEXT;
+  constructor(public payload: string) {}
+}
 
 
 
@@ -263,4 +268,5 @@ export type Actions
   | SetMySelectedDateAction
   | SetHomeViewTypeAction
   | SetSearchType
+  | SetSearchTextAction
   | CleanScheduleAction;

@@ -107,6 +107,9 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
     case scheduleActions.ActionTypes.SET_HOME_VIEW_TYPE: {
       return setHomeViewTypeHandler(state, action);
     }
+    case scheduleActions.ActionTypes.SET_SEARCH_TEXT: {
+      return setSearchTextHandler(state, action);
+    }
     default: {
       return state;
     }
@@ -142,6 +145,12 @@ function loadOrReferenceHandler(state: ScheduleState, action: scheduleActions.Lo
 function loadEmployeesInGroupHandler(state: ScheduleState, action: scheduleActions.LoadEmployeesInGroupSuccessAction): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.employeesInGroup = _.clone(action.payload);
+  return newState;
+}
+
+function setSearchTextHandler(state: ScheduleState, action: scheduleActions.SetSearchTextAction): ScheduleState {
+  let newState = _.cloneDeep(state);
+  newState.search = _.clone(action.payload);
   return newState;
 }
 

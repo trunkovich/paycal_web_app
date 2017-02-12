@@ -24,12 +24,14 @@ export class SearchInputComponent implements OnChanges {
     this.searchForm = _fb.group({
       searchControl: this.searchControl
     });
-    this.searchControl.valueChanges.subscribe((value) => this.searchTextChange.emit(value));
+    this.searchControl.valueChanges.subscribe((value) => {
+      this.searchTextChange.emit(value);
+    });
   }
 
   ngOnChanges(changes) {
-    if (changes && changes.searchText.currentValue) {
-      this.searchControl.setValue(changes.searchText);
+    if (changes && changes.searchText.currentValue && this.searchControl.value !== changes.searchText.currentValue ) {
+      this.searchControl.setValue(changes.searchText.currentValue);
     }
   }
 

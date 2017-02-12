@@ -7,7 +7,7 @@ import {SEARCH_ROUTES} from '../search.routes';
 import {ALLOWED_SEARCH_TYPES} from '../../../../STATE/reducers/schedule.reducer';
 import {Store} from '@ngrx/store';
 import {AppState, scheduleSelectors} from '../../../../STATE/reducers/index';
-import {SetSearchType, LoadSearchReferenceAction} from '../../../../STATE/actions/schedule.actions';
+import {SetSearchType, LoadSearchReferenceAction, SetSearchTextAction} from '../../../../STATE/actions/schedule.actions';
 import {SearchResults} from '../../../../STATE/models/search-results.model';
 import {Employee} from '../../../../STATE/models/employee.model';
 
@@ -57,7 +57,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   }
 
   onSearchTextChange(search: string) {
-    console.log(search);
+    this.store.dispatch(new SetSearchTextAction(search));
   }
 
   onEntryClick(entry: string | Employee) {
