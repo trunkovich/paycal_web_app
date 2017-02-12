@@ -126,7 +126,10 @@ function setScheduleLoadingHandler(state: ScheduleState): ScheduleState {
 
 function setSearchTypeHandler(state: ScheduleState, action: scheduleActions.SetSearchType): ScheduleState {
   let newState = _.cloneDeep(state);
-  newState.searchType = action.payload;
+  if (action.payload !== newState.searchType) {
+    newState.searchType = action.payload;
+    newState.search = '';
+  }
   return newState;
 }
 

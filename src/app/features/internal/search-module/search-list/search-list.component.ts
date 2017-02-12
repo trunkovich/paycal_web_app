@@ -30,7 +30,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.store.dispatch(new SetSearchType(null));
+    // this.store.dispatch(new SetSearchType(null));
     this.list$ = this.store.select(scheduleSelectors.getSearchResults);
     this.searchText = this.store.select(scheduleSelectors.getSearchText);
     this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
