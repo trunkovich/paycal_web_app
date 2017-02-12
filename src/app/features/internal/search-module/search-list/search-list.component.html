@@ -2,6 +2,9 @@
             [showBackBtn]="true"
             (backBtnClick)="back()"></pcl-header>
 
+<pcl-search-input [searchText]="searchText | async"
+                  (searchTextChange)="onSearchTextChange($event)"></pcl-search-input>
+
 <pcl-search-results-list [list]="list$ | async"
                          (entryClick)="onEntryClick($event)"></pcl-search-results-list>
 

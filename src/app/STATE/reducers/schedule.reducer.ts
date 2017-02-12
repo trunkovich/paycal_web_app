@@ -253,20 +253,20 @@ export const getScheduleLoadingState = (state: ScheduleState) => state.scheduleL
 export const getPhysiciansLoadingStatus = (state: ScheduleState) => state.physiciansLoading;
 export const getShiftEmployees = (state: ScheduleState) => state.shiftEmployees;
 export const getSearchType = (state: ScheduleState) => state.searchType;
-export const getSearchString = (state: ScheduleState) => state.search;
 export const getCallReferenceList = (state: ScheduleState) => state.callReferenceLaborCodes;
 export const getOrReferenceList = (state: ScheduleState) => state.orReferenceLaborCodes;
 export const getEmployeesInGroupList = (state: ScheduleState) => state.employeesInGroup;
+export const getSearchText = (state: ScheduleState) => state.search;
 
 export const getFilteredCallReferenceList = createSelector(
   getCallReferenceList,
-  getSearchString,
+  getSearchText,
   (callReferenceList: string[], search: string) => _.filter(callReferenceList, _.partial(_.includes, _, search))
 );
 
 export const getFilteredOrReferenceList = createSelector(
   getOrReferenceList,
-  getSearchString,
+  getSearchText,
   (orReferenceList: string[], search: string) => _.filter(orReferenceList, _.partial(_.includes, _, search))
 );
 
@@ -279,7 +279,7 @@ export const getSortedEmployeeInGroup = createSelector(
 
 export const getFilteredEmployeesInGroupList = createSelector(
   getSortedEmployeeInGroup,
-  getSearchString,
+  getSearchText,
   (employeesList: Employee[], search: string) => {
     let search1, search2;
     if (search.split(' ').length > 1) {

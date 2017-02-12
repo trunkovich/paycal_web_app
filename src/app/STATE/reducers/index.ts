@@ -132,6 +132,7 @@ let getSortedSelectedDateSchedule = createSelector(getScheduleState, fromSchedul
 let getGroupedSortedShiftEmployees = createSelector(getScheduleState, fromSchedule.getGroupedSortedShiftEmployees);
 let getSearchResults = createSelector(getScheduleState, fromSchedule.getSearchResults);
 let getSearchType = createSelector(getScheduleState, fromSchedule.getSearchType);
+let getScheduleSearchText = createSelector(getScheduleState, fromSchedule.getSearchText);
 
 let getEstimateEarnings = createSelector(
   getTotalWorkCount,
@@ -191,5 +192,6 @@ export const scheduleSelectors = {
   getGroupedSortedShiftEmployees: getGroupedSortedShiftEmployees,
   getPhysiciansLoadingStatus: getPhysiciansLoadingStatus,
   getSearchResults: getSearchResults,
-  getSearchType: getSearchType
+  getSearchType: getSearchType,
+  getSearchText: getScheduleSearchText
 };

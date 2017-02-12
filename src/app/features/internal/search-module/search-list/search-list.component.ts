@@ -21,6 +21,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   list$: Observable<SearchResults[]>;
   loading$: Observable<boolean>;
   title: string;
+  searchText: Observable<string>;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +32,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new SetSearchType(null));
     this.list$ = this.store.select(scheduleSelectors.getSearchResults);
+    this.searchText = this.store.select(scheduleSelectors.getSearchText);
     this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
     this.sub = this.route.params.subscribe((params) => {
       if (_.includes(ALLOWED_SEARCH_TYPES, params['type'])) {
@@ -52,6 +54,10 @@ export class SearchListComponent implements OnInit, OnDestroy {
 
   back() {
     this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
+  }
+
+  onSearchTextChange(search: string) {
+    console.log(search);
   }
 
   onEntryClick(entry: string | Employee) {
