@@ -6,6 +6,7 @@ import {Employee} from '../../../../STATE/models/employee.model';
 @Component({
   selector: 'pcl-search-results-group',
   template: `
+<div class="physician-group-header">{{group.letter}}</div>
 <pcl-search-results-entry *ngFor="let entry of group.entries" 
                           [entry]="entry" 
                           (click)="entryClick.emit(entry)">
