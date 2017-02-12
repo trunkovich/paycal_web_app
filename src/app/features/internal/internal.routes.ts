@@ -14,6 +14,7 @@ import {MessageLoadingComponent} from './message-loading/message-loading.compone
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {CropAvatarComponent} from './crop-avatar/crop-avatar.component';
 import {CropLoadingComponent} from './crop-loading/crop-loading.component';
+import {searchRoutes} from './search-module/search.routes';
 
 export const INTERNAL_ROUTES = Object.freeze({
   HOME: 'home',
@@ -41,5 +42,6 @@ export const internalRoutes: Routes = [
     { path: 'edit-profile', component: EditProfileComponent },
     { path: 'crop-avatar', component: CropAvatarComponent },
     { path: 'crop-loading', component: CropLoadingComponent },
+    { path: 'search', children: [...searchRoutes]}
   ] }
 ];

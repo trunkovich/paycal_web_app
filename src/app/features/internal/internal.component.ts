@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, RouterState, Router, NavigationEnd} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
+import * as _ from 'lodash';
+
 import {INTERNAL_ROUTES} from './internal.routes';
+import {SEARCH_ROUTES} from './search-module/search.routes';
 
 @Component({
   selector: 'pcl-internal',
@@ -17,7 +20,10 @@ export class InternalComponent {
     INTERNAL_ROUTES.MESSAGE_SUCCESS,
     INTERNAL_ROUTES.CROP_AVATAR,
     INTERNAL_ROUTES.EDIT_PROFILE,
-    INTERNAL_ROUTES.CROP_LOADING
+    INTERNAL_ROUTES.CROP_LOADING,
+    SEARCH_ROUTES.SEARCH_CALL,
+    SEARCH_ROUTES.SEARCH_OR,
+    SEARCH_ROUTES.SEARCH_PHYSICIANS
   ];
   showNav: boolean = true;
 
@@ -28,7 +34,7 @@ export class InternalComponent {
           val.urlAfterRedirects &&
           val.urlAfterRedirects.split('/').length &&
           val.urlAfterRedirects.split('/').length > 1 &&
-          this.navLessRoutes.indexOf(val.urlAfterRedirects.split('/')[1]) >= 0
+          _.some(val.urlAfterRedirects.split('/'), _.partial(_.includes, this.navLessRoutes))
         ) {
           this.showNav = false;
         } else {

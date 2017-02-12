@@ -22,7 +22,7 @@ import { SearchResultsEntryComponent } from './search-list/search-results-entry.
       PclCommonModule,
       MaterialModule,
       MomentModule,
-      RouterModule.forChild(searchRoutes),
+      RouterModule,
       ReactiveFormsModule,
       InternalModule
     ],
