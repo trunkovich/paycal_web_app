@@ -5,6 +5,7 @@ import {OnlyMobileDevices} from '../../../core/guards/only-mobile-devices.guard'
 import {SearchComponent} from './search.component';
 import {InternalComponent} from '../internal.component';
 import {SearchListComponent} from './search-list/search-list.component';
+import {ScheduleComponent} from './schedule/schedule.component';
 
 export const SEARCH_ROUTES = Object.freeze({
   SEARCH: 'search',
@@ -16,5 +17,6 @@ export const SEARCH_ROUTES = Object.freeze({
 export const searchRoutes: Routes = [
   { path: '', pathMatch: 'full', component: SearchComponent },
   { path: ':type', component: SearchListComponent },
+  { path: ':type/:id', component: ScheduleComponent },
   { path: '**', pathMatch: 'full', redirectTo: '/search' },
 ];

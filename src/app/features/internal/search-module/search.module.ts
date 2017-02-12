@@ -14,6 +14,7 @@ import { SearchResultsListComponent } from './search-list/search-results-list.co
 import { SearchResultsGroupComponent } from './search-list/search-results-group.component';
 import { SearchResultsEntryComponent } from './search-list/search-results-entry.component';
 import { SearchInputComponent } from './search-list/search-input.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import { SearchInputComponent } from './search-list/search-input.component';
       SearchResultsListComponent,
       SearchResultsGroupComponent,
       SearchResultsEntryComponent,
-      SearchInputComponent
+      SearchInputComponent,
+      ScheduleComponent
     ],
     providers: [],
 })

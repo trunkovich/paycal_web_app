@@ -447,6 +447,18 @@ export const getSortedSelectedDateSchedule = createSelector(
   }
 );
 
+export const getEmployeeById = id => {
+  return createSelector(
+    getEmployeesInGroupList,
+    (employees: Employee[]): Employee => {
+      if (!employees) {
+        return null;
+      }
+      return _.filter(employees, entry => entry.EmployeeID === id)[0];
+    }
+  );
+};
+
 export const getScheduleEntryById = id => {
   return createSelector(
     getMyAllScheduleEntries,

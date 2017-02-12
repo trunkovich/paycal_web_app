@@ -22,6 +22,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   title: string;
   searchText: Observable<string>;
+  type: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,15 +31,14 @@ export class SearchListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // this.store.dispatch(new SetSearchType(null));
     this.list$ = this.store.select(scheduleSelectors.getSearchResults);
     this.searchText = this.store.select(scheduleSelectors.getSearchText);
     this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
     this.sub = this.route.params.subscribe((params) => {
       if (_.includes(ALLOWED_SEARCH_TYPES, params['type'])) {
-        let type = params['type'];
-        this.store.dispatch(new SetSearchType(type));
-        this.title = type === 'physicians' ? 'Physicians' : (type === 'call-reference' ? 'Call Reference' : 'Or Reference');
+        this.type = params['type'];
+        this.store.dispatch(new SetSearchType(this.type));
+        this.title = this.type === 'physicians' ? 'Physicians' : (this.type === 'call-reference' ? 'Call Reference' : 'Or Reference');
         this.store.dispatch(new LoadSearchReferenceAction());
       } else {
         this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
@@ -61,7 +61,11 @@ export class SearchListComponent implements OnInit, OnDestroy {
   }
 
   onEntryClick(entry: string | Employee) {
-    console.log(entry);
+    if (this.type === 'physicians') {
+      this.router.navigate(['/', SEARCH_ROUTES.SEARCH, this.type, (entry as Employee).EmployeeID]);
+    } else {
+      this.router.navigate(['/', SEARCH_ROUTES.SEARCH, this.type, entry]);
+    }
   }
 
 }
