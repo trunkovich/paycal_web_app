@@ -20,6 +20,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   sub: Subscription;
   list$: Observable<SearchResults[]>;
   loading$: Observable<boolean>;
+  title: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +34,9 @@ export class SearchListComponent implements OnInit, OnDestroy {
     this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
     this.sub = this.route.params.subscribe((params) => {
       if (_.includes(ALLOWED_SEARCH_TYPES, params['type'])) {
-        this.store.dispatch(new SetSearchType(params['type']));
+        let type = params['type'];
+        this.store.dispatch(new SetSearchType(type));
+        this.title = type === 'physicians' ? 'Physicians' : (type === 'call-reference' ? 'Call Reference' : 'Or Reference');
         this.store.dispatch(new LoadSearchReferenceAction());
       } else {
         this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
@@ -45,6 +48,10 @@ export class SearchListComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  back() {
+    this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
   }
 
   onEntryClick(entry: string | Employee) {
