@@ -18,6 +18,7 @@ import {SearchResults} from '../../../../STATE/models/search-results.model';
 export class SearchListComponent implements OnInit, OnDestroy {
   sub: Subscription;
   list$: Observable<SearchResults[]>;
+  loading$: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +29,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new SetSearchType(null));
     this.list$ = this.store.select(scheduleSelectors.getSearchResults);
+    this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
     this.sub = this.route.params.subscribe((params) => {
       if (_.includes(ALLOWED_SEARCH_TYPES, params['type'])) {
         this.store.dispatch(new SetSearchType(params['type']));
