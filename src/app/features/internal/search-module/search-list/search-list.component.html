@@ -1,3 +1,4 @@
 <pcl-loader [show]="loading$ | async"></pcl-loader>
 
-<pcl-search-results-list [list]="list$ | async" (entryClick)="onEntryClick($event)"></pcl-search-results-list>
+<pcl-search-results-list [list]="list$ | async"
+                         (entryClick)="onEntryClick($event)"></pcl-search-results-list>

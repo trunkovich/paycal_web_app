@@ -12,6 +12,7 @@ import {SearchComponent} from './search.component';
 import {InternalModule} from '../internal.module';
 import { SearchListComponent } from './search-list/search-list.component';
 import { SearchResultsListComponent } from './search-results-list/search-results-list.component';
+import { SearchResultsGroupComponent } from './search-results-group/search-results-group.component';
 
 @NgModule({
     imports: [
@@ -25,7 +26,7 @@ import { SearchResultsListComponent } from './search-results-list/search-results
       InternalModule
     ],
     exports: [],
-    declarations: [SearchComponent, SearchListComponent, SearchResultsListComponent],
+    declarations: [SearchComponent, SearchListComponent, SearchResultsListComponent, SearchResultsGroupComponent],
     providers: [],
 })
 export class SearchModule { }
