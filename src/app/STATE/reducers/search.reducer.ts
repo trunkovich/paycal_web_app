@@ -8,26 +8,33 @@ import { createSelector } from 'reselect';
 import * as searchActions from '../actions/search.actions';
 import {Employee} from '../models/employee.model';
 import {SearchResults} from '../models/search-results.model';
+import {CalendarTypes} from '../models/calendar.types';
 
 export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-reference'];
 
 
 export interface SearchState {
   searchType: string | null;
-  callReferenceLaborCodes: string[];
-  orReferenceLaborCodes: string[];
-  employeesInGroup: Employee[];
+  searchEntryId: string | null;
+  callReferenceLaborCodes: string[] | null;
+  orReferenceLaborCodes: string[] | null;
+  employeesInGroup: Employee[] | null;
   search: string;
   loading: boolean;
+  viewType: CalendarTypes;
+  selectedDate: Date;
 }
 
 const initialSearchState = {
   searchType: null,
+  searchEntryId: null,
   callReferenceLaborCodes: null,
   orReferenceLaborCodes: null,
   employeesInGroup: null,
   search: '',
-  loading: false
+  loading: false,
+  viewType: CalendarTypes.DAY,
+  selectedDate: new Date()
 };
 
 
@@ -61,6 +68,15 @@ export function searchReducer(state: SearchState = initialSearchState, action: s
     case searchActions.ActionTypes.LOAD_OR_REFERENCE_FAIL: {
       return setNotLoadingHandler(state);
     }
+    case searchActions.ActionTypes.SET_SEARCH_ENTRY_ID: {
+      return setSearchEntryIdHandler(state, action);
+    }
+    case searchActions.ActionTypes.SET_SEARCH_VIEW_TYPE: {
+      return setSearchViewTypeHandler(state, action);
+    }
+    case searchActions.ActionTypes.SET_SEARCH_SELECTED_DATE: {
+      return setSearchSelectedDateHandler(state, action);
+    }
     default: {
       return state;
     }
@@ -86,6 +102,8 @@ function setSearchTypeHandler(state: SearchState, action: searchActions.SetSearc
   if (action.payload !== newState.searchType) {
     newState.searchType = action.payload;
     newState.search = '';
+    newState.viewType = CalendarTypes.DAY;
+    newState.selectedDate = new Date();
   }
   return newState;
 }
@@ -110,10 +128,27 @@ function loadEmployeesInGroupHandler(state: SearchState, action: searchActions.L
 
 function setSearchTextHandler(state: SearchState, action: searchActions.SetSearchTextAction): SearchState {
   let newState = _.cloneDeep(state);
-  newState.search = _.clone(action.payload);
+  newState.search = action.payload;
   return newState;
 }
 
+function setSearchEntryIdHandler(state: SearchState, action: searchActions.SetSearchEntryIdAction): SearchState {
+  let newState = _.cloneDeep(state);
+  newState.searchEntryId = action.payload;
+  return newState;
+}
+
+function setSearchViewTypeHandler(state: SearchState, action: searchActions.SetSearchViewTypeAction): SearchState {
+  let newState = _.cloneDeep(state);
+  newState.viewType = action.payload;
+  return newState;
+}
+
+function setSearchSelectedDateHandler(state: SearchState, action: searchActions.SetSearchSelectedDateAction): SearchState {
+  let newState = _.cloneDeep(state);
+  newState.selectedDate = new Date(action.payload);
+  return newState;
+}
 
 /* ------------------------------------------------------------------- */
 /* -----------------------------SELECTORS----------------------------- */
@@ -124,6 +159,9 @@ export const getOrReferenceList = (state: SearchState) => state.orReferenceLabor
 export const getEmployeesInGroupList = (state: SearchState) => state.employeesInGroup;
 export const getSearchText = (state: SearchState) => state.search;
 export const getLoadingState = (state: SearchState) => state.loading;
+export const getSearchEntryId = (state: SearchState) => state.searchEntryId;
+export const getViewType = (state: SearchState) => state.viewType;
+export const getSelectedDate = (state: SearchState) => state.selectedDate;
 
 export const getFilteredCallReferenceList = createSelector(
   getCallReferenceList,

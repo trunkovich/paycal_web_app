@@ -5,6 +5,7 @@ import { Action } from '@ngrx/store';
 
 import { type } from '../utils';
 import {Employee} from '../models/employee.model';
+import {CalendarTypes} from '../models/calendar.types';
 
 /**
  * For each action type in an action group, make a simple
@@ -34,7 +35,10 @@ export const ActionTypes = {
 // OTHERS
   SET_SEARCH_TYPE: type('[Search] Set search type'),
   SET_SEARCH_TEXT: type('[Search] Set search text'),
+  SET_SEARCH_ENTRY_ID: type('[Search] Set search entry id'),
   LOAD_SEARCH_REFERENCE: type('[Search] Load search reference'),
+  SET_SEARCH_VIEW_TYPE: type('[Search] Set search view type'),
+  SET_SEARCH_SELECTED_DATE: type('[Search] Set search selected date'),
   CLEAN_SCHEDULE: type('[Search] Clean Schedule')
 
 };
@@ -102,6 +106,18 @@ export class SetSearchTextAction implements Action {
 export class CleanScheduleAction implements Action {
   type = ActionTypes.CLEAN_SCHEDULE;
 }
+export class SetSearchEntryIdAction implements Action {
+  type = ActionTypes.SET_SEARCH_ENTRY_ID;
+  constructor(public payload: string) {}
+}
+export class SetSearchViewTypeAction implements Action {
+  type = ActionTypes.SET_SEARCH_VIEW_TYPE;
+  constructor(public payload: CalendarTypes) {}
+}
+export class SetSearchSelectedDateAction implements Action {
+  type = ActionTypes.SET_SEARCH_SELECTED_DATE;
+  constructor(public payload: Date) {}
+}
 
 
 
@@ -130,4 +146,7 @@ export type Actions
   | SetSearchType
   | CleanScheduleAction
   | LoadSearchReferenceAction
+  | SetSearchEntryIdAction
+  | SetSearchViewTypeAction
+  | SetSearchSelectedDateAction
   | SetSearchTextAction;

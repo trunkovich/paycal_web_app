@@ -22,6 +22,7 @@ export const ActionTypes = {
   LOAD_GROUP_SCHEDULE_MONTHS_FAIL: type('[Schedule] Load group schedule months fail'),
 
 // OTHERS
+  SET_CURRENT_SECTION: type('[Schedule] Set current section'),
   CLEAN_SCHEDULE: type('[Schedule] Clean Schedule')
 
 };
@@ -52,6 +53,10 @@ export class LoadGroupScheduleMonthsFailAction implements Action {
 export class CleanScheduleAction implements Action {
   type = ActionTypes.CLEAN_SCHEDULE;
 }
+export class SetCurrentSectionAction implements Action {
+  type = ActionTypes.SET_CURRENT_SECTION;
+  constructor(public payload: string) { }
+}
 
 
 
@@ -66,4 +71,5 @@ export type Actions
   | LoadGroupScheduleMonthsFailAction
 
 // OTHERS
+  | SetCurrentSectionAction
   | CleanScheduleAction;

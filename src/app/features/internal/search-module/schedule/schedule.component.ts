@@ -4,11 +4,17 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
 
-import {AppState, searchSelectors} from '../../../../STATE/reducers/index';
+import {AppState, searchSelectors, scheduleSelectors} from '../../../../STATE/reducers/index';
 import {ALLOWED_SEARCH_TYPES} from '../../../../STATE/reducers/schedule.reducer';
 import {SEARCH_ROUTES} from '../search.routes';
 import {Employee} from '../../../../STATE/models/employee.model';
-import {SetSearchType, LoadSearchReferenceAction} from '../../../../STATE/actions/search.actions';
+import {
+  SetSearchType, LoadSearchReferenceAction, SetSearchEntryIdAction,
+  SetSearchViewTypeAction, SetSearchSelectedDateAction
+} from '../../../../STATE/actions/search.actions';
+import {GroupSchedule} from '../../../../STATE/models/group-schedule.model';
+import {CalendarTypes} from '../../../../STATE/models/calendar.types';
+import {SetCurrentSectionAction} from '../../../../STATE/actions/schedule.actions';
 
 @Component({
   selector: 'pcl-schedule',
@@ -17,6 +23,9 @@ import {SetSearchType, LoadSearchReferenceAction} from '../../../../STATE/action
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
   sub: Subscription;
+  activeMonths$: Observable<GroupSchedule[]>;
+  viewType$: Observable<CalendarTypes>;
+  selectedDate$: Observable<Date>;
   loading$: Observable<boolean>;
   type: string;
   id: string;
@@ -30,6 +39,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.store.dispatch(new SetCurrentSectionAction('search'));
+    this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.DAY));
+    this.viewType$ = this.store.select(searchSelectors.getViewType);
+    this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
+    this.selectedDate$ = this.store.select(searchSelectors.getSelectedDate);
     this.loading$ = this.store.select(searchSelectors.getLoadingState);
     this.sub = this.route.params.subscribe(params => this.parseParams(params));
   }
@@ -46,7 +60,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.type = type;
     this.id = id;
     this.store.dispatch(new SetSearchType(type));
-    // this.store.dispatch(new SetSearchEntryIdAction(id));
+    this.store.dispatch(new SetSearchEntryIdAction(id));
     switch (this.type) {
       case 'physicians': {
         this.employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
@@ -77,6 +91,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  onDateChange(date: Date) {
+    this.store.dispatch(new SetSearchSelectedDateAction(date));
   }
 
   back() {

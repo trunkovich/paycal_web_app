@@ -39,6 +39,11 @@ import {CropLoadingComponent} from './crop-loading/crop-loading.component';
     ReactiveFormsModule,
     TextMaskModule
   ],
+  exports: [
+    CalendarComponent,
+    ViewTypeSwitcherComponent,
+    ViewTypeBottomSheetComponent
+  ],
   declarations: [
     InternalComponent,
     HomeComponent,

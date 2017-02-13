@@ -1,1 +1,43 @@
-<pcl-header [title]="title$ | async"></pcl-header>
+<pcl-header [title]="title$ | async"
+            [showBackBtn]="true"
+            (backBtnClick)="back()"></pcl-header>
+
+<div class="container">
+
+  <pcl-calendar [type]="viewType$ | async"
+                [initialDate]="selectedDate$ | async"
+                [activeMonths]="activeMonths$ | async"
+                (onDateChange)="onDateChange($event)"></pcl-calendar>
+
+  <pcl-view-type-switcher *ngIf="type && type === 'physicians'"
+                          [type]="viewType$ | async"></pcl-view-type-switcher>
+
+  <!--<div *ngIf="isDayView(homeViewType$ | async)">-->
+    <!--<pcl-schedule-entry-card *ngFor="let entry of entries$ | async"-->
+                             <!--[lineOne]="entry.LaborCode"-->
+                             <!--[shiftCode]="entry.ShiftCode"-->
+                             <!--[hideButton]="isEntryInPast(entry)"-->
+                             <!--[lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"-->
+                             <!--(shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>-->
+  <!--</div>-->
+
+  <!--<div *ngIf="isNotDayView(homeViewType$ | async)">-->
+    <!--<pcl-schedule-day-card *ngFor="let day of groupedEntries$ | async"-->
+                           <!--class="week-view-entry"-->
+                           <!--[day]="day"-->
+                           <!--(click)="onDayClick(day)"></pcl-schedule-day-card>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash;Some hacks to show default cards, but prevent showing them during initialization and loading&ndash;&gt;-->
+  <!--<div *ngIf="loading$"> &lt;!&ndash;only if loading$ initialized&ndash;&gt;-->
+    <!--<div *ngIf="!(loading$ | async)"> &lt;!&ndash;only if loading$ finished&ndash;&gt;-->
+      <!--<div *ngIf="(entries$ | async) && !(entries$ | async).length"> &lt;!&ndash;only if no entries&ndash;&gt;-->
+        <!--<pcl-schedule-entry-card *ngFor="let entry of defaultEntries"-->
+                                 <!--[hideButton]="true"-->
+                                 <!--[shiftCode]="entry.ShiftCode"-->
+                                 <!--[lineOne]="entry.LaborCode"></pcl-schedule-entry-card>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+</div>

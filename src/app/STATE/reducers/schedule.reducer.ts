@@ -11,11 +11,13 @@ export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-referen
 
 export interface ScheduleState {
   groupScheduleMonths: GroupSchedule[];
+  currentSection: string | null;
   loading: boolean;
 }
 
 const initialScheduleState = {
   groupScheduleMonths: [],
+  currentSection: null,
   loading: false
 };
 
@@ -33,6 +35,9 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
     }
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_FAIL: {
       return setNotLoadingHandler(state);
+    }
+    case scheduleActions.ActionTypes.SET_CURRENT_SECTION: {
+      return setCurrentSectionHandler(state, action);
     }
     default: {
       return state;
@@ -54,27 +59,15 @@ function setNotLoadingHandler(state: ScheduleState): ScheduleState {
   });
 }
 
-function loadGroupScheduleMonthsHandler(state: ScheduleState, action: scheduleActions.LoadGroupScheduleMonthsSuccessAction): ScheduleState {
-  // let newMonths = false;
-  // let newSchedule = _.cloneDeep(state.mySchedule);
-  // _.each(action.payload, (scheduleMonth) => {
-  //   if (!newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`]) {
-  //     newMonths = true;
-  //     newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`] = {
-  //       dateString: `${scheduleMonth.Year}.${scheduleMonth.Month}`,
-  //       loaded: false,
-  //       entries: [],
-  //       month: scheduleMonth.Month,
-  //       year: scheduleMonth.Year
-  //     };
-  //   }
-  // });
+function setCurrentSectionHandler(state: ScheduleState, action: scheduleActions.SetCurrentSectionAction): ScheduleState {
+  let newState = _.cloneDeep(state);
+  newState.currentSection = action.payload;
+  return newState;
+}
 
+function loadGroupScheduleMonthsHandler(state: ScheduleState, action: scheduleActions.LoadGroupScheduleMonthsSuccessAction): ScheduleState {
   let newState = _.cloneDeep(state);
   newState.groupScheduleMonths = _.cloneDeep(action.payload);
-  // if (newMonths) {
-  //   newState.mySchedule = _.assign({}, newSchedule);
-  // }
   return newState;
 }
 
@@ -82,3 +75,4 @@ function loadGroupScheduleMonthsHandler(state: ScheduleState, action: scheduleAc
 /* -----------------------------SELECTORS----------------------------- */
 /* ------------------------------------------------------------------- */
 export const getScheduleMonths = (state: ScheduleState) => state.groupScheduleMonths;
+export const getCurrentSection = (state: ScheduleState) => state.currentSection;

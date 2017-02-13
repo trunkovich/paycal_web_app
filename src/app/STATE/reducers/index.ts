@@ -124,6 +124,7 @@ let getEmployeeStatuses = createSelector(getReferencesState, fromReferences.getE
 /*==================SCHEDULE SELECTORS==================*/
 /*======================================================*/
 let getScheduleMonths = createSelector(getScheduleState, fromSchedule.getScheduleMonths);
+let getCurrentSection = createSelector(getScheduleState, fromSchedule.getCurrentSection);
 
 /*======================================================*/
 /*====================HOME SELECTORS====================*/
@@ -162,6 +163,9 @@ let getSearchType = createSelector(getSearchState, fromSearch.getSearchType);
 let getScheduleSearchText = createSelector(getSearchState, fromSearch.getSearchText);
 let getSearchLoadingState = createSelector(getSearchState, fromSearch.getLoadingState);
 let getEmployeeFromGroupById = (id) => createSelector(getSearchState, fromSearch.getEmployeeById(id));
+let getSearchEntryId = createSelector(getSearchState, fromSearch.getSearchEntryId);
+let getSearchViewType = createSelector(getSearchState, fromSearch.getViewType);
+let getSearchSelectedDate = createSelector(getSearchState, fromSearch.getSelectedDate);
 
 
 export const authSelectors = {
@@ -191,7 +195,8 @@ export const referenceSelectors = {
 
 
 export const scheduleSelectors = {
-  getScheduleMonths: getScheduleMonths
+  getScheduleMonths: getScheduleMonths,
+  getCurrentSection: getCurrentSection
 };
 
 export const homeSelectors = {
@@ -216,5 +221,8 @@ export const searchSelectors = {
   getSearchType: getSearchType,
   getSearchText: getScheduleSearchText,
   getEmployeeFromGroupById: getEmployeeFromGroupById,
-  getLoadingState: getSearchLoadingState
+  getLoadingState: getSearchLoadingState,
+  getSearchEntryId: getSearchEntryId,
+  getViewType: getSearchViewType,
+  getSelectedDate: getSearchSelectedDate
 };
