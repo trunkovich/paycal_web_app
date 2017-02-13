@@ -5,6 +5,7 @@
 import {Injectable} from '@angular/core';
 import {Api} from './api.service';
 import {Observable} from 'rxjs';
+import * as _ from 'lodash';
 
 import {EmployeeScheduleEntryListResponse} from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
 import {
@@ -42,18 +43,45 @@ export class ScheduleService {
       });
   }
 
-  loadMonths(months: AvailableMonthsStructure): Observable<LoadedMonth> {
+  private getUnloadedMonths(months: AvailableMonthsStructure): LoadedMonth[] {
     let unloadedMonths = [];
     Object.keys(months).forEach((key) => {
       if (!months[key].loaded) {
         unloadedMonths.push(months[key]);
       }
     });
-    return Observable.from(unloadedMonths)
+    return unloadedMonths;
+  }
+
+  loadMonths(months: AvailableMonthsStructure): Observable<LoadedMonth> {
+    return Observable.from(this.getUnloadedMonths(months))
       .flatMap((unloadedMonth: LoadedMonth) => {
-        let unloaded = Object.assign({}, unloadedMonth);
+        let unloaded = _.cloneDeep(unloadedMonth);
         return this.getMyMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month})
           .map((entries: EmployeeScheduleEntry[]) => {
+            unloaded.entries = entries;
+            unloaded.loaded = true;
+            return unloaded;
+          })
+          .catch((error) => {
+            console.error(error);
+            return Observable.of(unloaded);
+          });
+      });
+  }
+
+  loadSearchMonths(months: AvailableMonthsStructure, type: string, id: string): Observable<LoadedMonth> {
+    return Observable.from(this.getUnloadedMonths(months))
+      .flatMap((unloadedMonth: LoadedMonth) => {
+        let unloaded = _.cloneDeep(unloadedMonth);
+        let obs;
+        if (type === 'physicians') {
+          obs = this.getGroupMemberMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month, id: id});
+        } else {
+          obs = this.getLaborCodeMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month, id: id});
+        }
+        return obs
+          .map((entries: EmployeeScheduleEntry[] | MasterCalendarEntry[]) => {
             unloaded.entries = entries;
             unloaded.loaded = true;
             return unloaded;
@@ -137,39 +165,11 @@ export class ScheduleService {
       });
   }
 
-  getOrReferenceLaborCodes(data: { month: number; year: number; }): Observable<string[] | string> {
-    return this.api.getOrReferenceLaborCodes({
-      scheduleMonth: data.month,
-      scheduleYear: data.year
-    })
-      .map((res: LaborCodeListResponse) => {
-        if (res.IsSuccess) {
-          return res.LaborCodeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
-  }
-
-  getCallReferenceLaborCodes(data: { month: number; year: number; }): Observable<string[] | string> {
-    return this.api.getCallReferenceLaborCodes({
-      scheduleMonth: data.month,
-      scheduleYear: data.year
-    })
-      .map((res: LaborCodeListResponse) => {
-        if (res.IsSuccess) {
-          return res.LaborCodeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
-  }
-
-  getLaborCodeMonthSchedule(data: { month: number; year: number; laborCode: string; }): Observable<MasterCalendarEntry[] | string> {
+  getLaborCodeMonthSchedule(data: { month: number; year: number; id: string; }): Observable<MasterCalendarEntry[] | string> {
     return this.api.getLaborCodeMonthSchedule({
       scheduleMonth: data.month,
       scheduleYear: data.year,
-      laborCode: data.laborCode
+      laborCode: data.id
     })
       .map((res: MasterCalendarEntryListResponse) => {
         if (res.IsSuccess) {
@@ -180,37 +180,41 @@ export class ScheduleService {
       });
   }
 
-  getLaborCodeDaySchedule(data: {
-    month: number;
-    year: number;
-    laborCode: string;
-    day: number;
-  }): Observable<MasterCalendarEntry[] | string> {
-    return this.api.getLaborCodeDaySchedule({
-      scheduleDay: data.day,
+  getGroupMemberMonthSchedule(data: { month: number; year: number; id: string; }): Observable<EmployeeScheduleEntry[] | string> {
+    return this.api.getGroupMemberMonthSchedule({
       scheduleMonth: data.month,
       scheduleYear: data.year,
-      laborCode: data.laborCode
+      groupMemberEmployeeID: data.id
     })
-      .map((res: MasterCalendarEntryListResponse) => {
+      .map((res: EmployeeScheduleEntryListResponse) => {
         if (res.IsSuccess) {
-          return res.MasterCalendarEntryList;
+          return res.EmployeeScheduleEntryList;
         } else {
           throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
         }
       });
   }
 
-  getEmployeesInMyGroup(): Observable<Employee[] | string> {
-    return this.api.getEmployeesInMyGroup()
-      .map((res: EmployeeListResponse) => {
-        if (res.IsSuccess) {
-          return res.EmployeeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
-  }
+  // getLaborCodeDaySchedule(data: {
+  //   month: number;
+  //   year: number;
+  //   laborCode: string;
+  //   day: number;
+  // }): Observable<MasterCalendarEntry[] | string> {
+  //   return this.api.getLaborCodeDaySchedule({
+  //     scheduleDay: data.day,
+  //     scheduleMonth: data.month,
+  //     scheduleYear: data.year,
+  //     laborCode: data.laborCode
+  //   })
+  //     .map((res: MasterCalendarEntryListResponse) => {
+  //       if (res.IsSuccess) {
+  //         return res.MasterCalendarEntryList;
+  //       } else {
+  //         throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+  //       }
+  //     });
+  // }
 
   redidrectBeforeCreatingRequest() {
     this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE_LOADING]);

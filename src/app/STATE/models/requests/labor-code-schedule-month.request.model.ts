@@ -6,3 +6,7 @@ import {ScheduleMonthRequest} from './schedule-month.request.model';
 export interface LaborCodeScheduleMonthRequest extends ScheduleMonthRequest {
   laborCode: string;
 }
+
+export interface GroupMemberScheduleMonthRequest extends ScheduleMonthRequest {
+  groupMemberEmployeeID: string;
+}

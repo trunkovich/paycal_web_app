@@ -187,7 +187,7 @@ export const getMyAllScheduleEntries = createSelector(
   (mySchedule: AvailableMonthsStructure): EmployeeScheduleEntry[] | boolean => {
     let entries: EmployeeScheduleEntry[] = [];
     _.each(mySchedule, (value) => {
-      entries = _.concat(entries, value.entries);
+      entries = _.concat(entries, <EmployeeScheduleEntry[]>value.entries);
     });
     return entries;
   }
@@ -231,7 +231,7 @@ export const getSelectedDateSchedule = createSelector(
     }
     switch (type) {
       case CalendarTypes.DAY: {
-        return _.filter(mySchedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry) => {
+        return _.filter(<EmployeeScheduleEntry[]>mySchedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry) => {
           return scheduleEntry.Year === year &&
             scheduleEntry.Month === month &&
             scheduleEntry.Day === day;
@@ -249,15 +249,21 @@ export const getSelectedDateSchedule = createSelector(
           if (!mySchedule[`${year}.${month}`].entries) {
             return false;
           }
-          return _.filter(mySchedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry) => {
+          return _.filter(<EmployeeScheduleEntry[]>mySchedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry) => {
             return scheduleEntry.Year === year &&
               scheduleEntry.Month === month &&
               scheduleEntry.Day >= start.date() &&
               scheduleEntry.Day <= end.date();
           });
         } else {
-          let arr1 = mySchedule[`${start.year()}.${start.month() + 1}`] ? mySchedule[`${start.year()}.${start.month() + 1}`].entries : [];
-          let arr2 = mySchedule[`${end.year()}.${end.month() + 1}`] ? mySchedule[`${end.year()}.${end.month() + 1}`].entries : [];
+          let arr1 = mySchedule[`${start.year()}.${start.month() + 1}`] ?
+            <EmployeeScheduleEntry[]>mySchedule[`${start.year()}.${start.month() + 1}`].entries :
+            [];
+
+          let arr2 = mySchedule[`${end.year()}.${end.month() + 1}`] ?
+            <EmployeeScheduleEntry[]>mySchedule[`${end.year()}.${end.month() + 1}`].entries :
+            [];
+
           entries = _(arr1).concat(arr2)
             .filter((scheduleEntry: EmployeeScheduleEntry) => {
               let entryDate = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, date: scheduleEntry.Day}).add(1, 'minute');

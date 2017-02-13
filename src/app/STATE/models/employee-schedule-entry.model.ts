@@ -2,10 +2,11 @@
  * Created by TrUnK on 05.01.2017.
  */
 import * as moment from 'moment';
+import {MasterCalendarEntry} from './master-calendar-entry.model';
 
 export interface LoadedMonth {
   dateString: string; // format YYYY.M
-  entries: EmployeeScheduleEntry[];
+  entries: EmployeeScheduleEntry[] | MasterCalendarEntry[];
   loaded: boolean;
   month: number;
   year: number;

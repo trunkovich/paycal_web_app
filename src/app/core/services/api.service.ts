@@ -14,7 +14,10 @@ import {EmployeeListResponse} from '../../STATE/models/responses/employee-list-r
 import {CoverageRequest} from '../../STATE/models/requests/coverage-request.request.model';
 import {Response} from '../../STATE/models/responses/response.model';
 import {LaborCodeListResponse} from '../../STATE/models/responses/labor-code-list-response.model';
-import {LaborCodeScheduleMonthRequest} from '../../STATE/models/requests/labor-code-schedule-month.request.model';
+import {
+  LaborCodeScheduleMonthRequest,
+  GroupMemberScheduleMonthRequest
+} from '../../STATE/models/requests/labor-code-schedule-month.request.model';
 import {LaborCodeScheduleDayRequest} from '../../STATE/models/requests/labor-code-schedule-day.request.model';
 import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
 import {EditEmployeeRequestData} from '../../STATE/models/employee.model';
@@ -98,6 +101,9 @@ export class Api {
   }
   getLaborCodeMonthSchedule(data: LaborCodeScheduleMonthRequest): Observable<MasterCalendarEntryListResponse> {
     return this.request('get', 'GetLaborCodeMonthSchedule', data);
+  }
+  getGroupMemberMonthSchedule(data: GroupMemberScheduleMonthRequest): Observable<EmployeeScheduleEntryListResponse> {
+    return this.request('get', 'GetGroupMemberEmployeeMonthSchedule', data);
   }
   getEmployeesInMyGroup(): Observable<EmployeeListResponse> {
     return this.request('get', 'GetEmployeesInMyGroup');

@@ -7,9 +7,12 @@ import {Action, Store} from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as searchActions from '../actions/search.actions';
+import * as scheduleActions from '../actions/schedule.actions';
 import {ScheduleService} from '../../core/services/schedule.service';
 import {AppState, searchSelectors} from '../reducers/index';
 import {Employee} from '../models/employee.model';
+import {GroupSchedule} from '../models/group-schedule.model';
+import {AvailableMonthsStructure, LoadedMonth} from '../models/employee-schedule-entry.model';
 
 @Injectable()
 export class SearchEffects {
@@ -18,6 +21,33 @@ export class SearchEffects {
     private scheduleService: ScheduleService,
     private store: Store<AppState>
   ) {}
+
+  @Effect()
+  fillMonthsSchedule$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
+    .map(toPayload)
+    .map((months: GroupSchedule[]) => new searchActions.FillSearchMonthsScheduleAction(months))
+    .delay(1);
+
+  @Effect()
+  startFullMonthScheduleLoading$: Observable<Action> = this.actions$
+    .ofType(searchActions.ActionTypes.FILL_SEARCH_MONTH_SCHEDULE)
+    .withLatestFrom(this.store.select(searchSelectors.getSearchType), this.store.select(searchSelectors.getSearchEntryId))
+    .map(([action, searchType, entryId]: [any, string, string]) => {
+      return new searchActions.LoadSearchFullScheduleAction({type: searchType, id: entryId});
+    });
+
+  @Effect()
+  getAllAvailableMonthsSchedule$: Observable<Action> = this.actions$
+    .ofType(searchActions.ActionTypes.LOAD_SEARCH_FULL_SCHEDULE)
+    .map(toPayload)
+    .withLatestFrom(this.store.select(searchSelectors.getFullSchedule))
+    .switchMap(([payload, months]: [{type: string; id: string}, AvailableMonthsStructure]) => {
+      return this.scheduleService.loadSearchMonths(months, payload.type, payload.id)
+        .map((loadedMonth: LoadedMonth) => new searchActions.LoadSearchMonthScheduleSuccessAction(loadedMonth))
+        .catch(error => Observable.of(new searchActions.LoadSearchMonthScheduleFailAction(error)))
+        .finally(() => this.store.dispatch(new searchActions.LoadSearchMonthScheduleFinishedAction()));
+    });
 
   @Effect()
   loadSearchReference$: Observable<Action> = this.actions$

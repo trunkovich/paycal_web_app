@@ -16,6 +16,17 @@ export interface MasterCalendarEntry {
   Day: number;
 }
 
+interface CalendarEntry {
+  ScheduleID: number;
+  ScheduledPersonID: number;
+  LaborCode: string;
+  ShiftCode: string;
+  ShiftMultiple: number;
+  Year: number;
+  Month: number;
+  Day: number;
+}
+
 /**
  using System;
  using System.Collections.Generic;

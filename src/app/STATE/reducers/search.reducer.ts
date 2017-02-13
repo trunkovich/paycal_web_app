@@ -9,11 +9,13 @@ import * as searchActions from '../actions/search.actions';
 import {Employee} from '../models/employee.model';
 import {SearchResults} from '../models/search-results.model';
 import {CalendarTypes} from '../models/calendar.types';
+import {AvailableMonthsStructure} from '../models/employee-schedule-entry.model';
 
 export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-reference'];
 
 
 export interface SearchState {
+  searchSchedule: AvailableMonthsStructure;
   searchType: string | null;
   searchEntryId: string | null;
   callReferenceLaborCodes: string[] | null;
@@ -26,6 +28,7 @@ export interface SearchState {
 }
 
 const initialSearchState = {
+  searchSchedule: {},
   searchType: null,
   searchEntryId: null,
   callReferenceLaborCodes: null,
@@ -59,10 +62,13 @@ export function searchReducer(state: SearchState = initialSearchState, action: s
       return setSearchTextHandler(state, action);
     }
     case searchActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP:
+    case searchActions.ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE:
+    case searchActions.ActionTypes.LOAD_SEARCH_FULL_SCHEDULE:
     case searchActions.ActionTypes.LOAD_CALL_REFERENCE:
     case searchActions.ActionTypes.LOAD_OR_REFERENCE: {
       return setLoadingHandler(state);
     }
+    case searchActions.ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_FINALLY:
     case searchActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP_FAIL:
     case searchActions.ActionTypes.LOAD_CALL_REFERENCE_FAIL:
     case searchActions.ActionTypes.LOAD_OR_REFERENCE_FAIL: {
@@ -76,6 +82,15 @@ export function searchReducer(state: SearchState = initialSearchState, action: s
     }
     case searchActions.ActionTypes.SET_SEARCH_SELECTED_DATE: {
       return setSearchSelectedDateHandler(state, action);
+    }
+    case searchActions.ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_SUCCESS: {
+      return loadSearchMonthScheduleHandler(state, action);
+    }
+    case searchActions.ActionTypes.FILL_SEARCH_MONTH_SCHEDULE: {
+      return fillSearchMonthScheduleHandler(state, action);
+    }
+    case searchActions.ActionTypes.CLEAN_SEARCH_MONTHS_SCHEDULE: {
+      return cleanSearchMonthsHandler(state);
     }
     default: {
       return state;
@@ -97,6 +112,49 @@ function setNotLoadingHandler(state: SearchState): SearchState {
   });
 }
 
+function loadSearchMonthScheduleHandler(state: SearchState, action: searchActions.LoadSearchMonthScheduleSuccessAction): SearchState {
+  if (!action.payload.loaded) {
+    // error while loading
+    return state;
+  }
+  let newState = _.cloneDeep(state);
+  let loadedMonthWrapper = {};
+  loadedMonthWrapper[`${action.payload.dateString}`] = Object.assign({}, action.payload);
+  newState.searchSchedule = _.assign({}, newState.searchSchedule, loadedMonthWrapper);
+  return newState;
+}
+
+function fillSearchMonthScheduleHandler(state: SearchState, action: searchActions.FillSearchMonthsScheduleAction): SearchState {
+  let newMonths = false;
+  let newSchedule = _.cloneDeep(state.searchSchedule);
+  _.each(action.payload, (scheduleMonth) => {
+    if (!newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`]) {
+      newMonths = true;
+      newSchedule[`${scheduleMonth.Year}.${scheduleMonth.Month}`] = {
+        dateString: `${scheduleMonth.Year}.${scheduleMonth.Month}`,
+        loaded: false,
+        entries: [],
+        month: scheduleMonth.Month,
+        year: scheduleMonth.Year
+      };
+    }
+  });
+
+  if (newMonths) {
+    let newState = _.cloneDeep(state);
+    newState.searchSchedule = _.assign({}, newSchedule);
+    return newState;
+  } else {
+    return state;
+  }
+}
+
+function cleanSearchMonthsHandler(state: SearchState): SearchState {
+  let newState = _.cloneDeep(state);
+  newState.searchSchedule = {};
+  return newState;
+}
+
 function setSearchTypeHandler(state: SearchState, action: searchActions.SetSearchType): SearchState {
   let newState = _.cloneDeep(state);
   if (action.payload !== newState.searchType) {
@@ -104,6 +162,7 @@ function setSearchTypeHandler(state: SearchState, action: searchActions.SetSearc
     newState.search = '';
     newState.viewType = CalendarTypes.DAY;
     newState.selectedDate = new Date();
+    newState.searchSchedule = {};
   }
   return newState;
 }
@@ -162,6 +221,7 @@ export const getLoadingState = (state: SearchState) => state.loading;
 export const getSearchEntryId = (state: SearchState) => state.searchEntryId;
 export const getViewType = (state: SearchState) => state.viewType;
 export const getSelectedDate = (state: SearchState) => state.selectedDate;
+export const getSearchSchedule = (state: SearchState) => state.searchSchedule;
 
 export const getFilteredCallReferenceList = createSelector(
   getCallReferenceList,

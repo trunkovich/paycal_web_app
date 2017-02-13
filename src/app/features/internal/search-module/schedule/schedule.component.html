@@ -2,6 +2,8 @@
             [showBackBtn]="true"
             (backBtnClick)="back()"></pcl-header>
 
+<pcl-loader [show]="loading$ | async"></pcl-loader>
+
 <div class="container">
 
   <pcl-calendar [type]="viewType$ | async"

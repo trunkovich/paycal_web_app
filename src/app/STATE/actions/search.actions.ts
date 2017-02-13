@@ -6,6 +6,8 @@ import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import {Employee} from '../models/employee.model';
 import {CalendarTypes} from '../models/calendar.types';
+import {LoadedMonth} from '../models/employee-schedule-entry.model';
+import {GroupSchedule} from '../models/group-schedule.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -32,6 +34,14 @@ export const ActionTypes = {
   LOAD_EMPLOYEES_IN_GROUP_SUCCESS: type('[Search] Load employees in  group success'),
   LOAD_EMPLOYEES_IN_GROUP_FAIL: type('[Search] Load employees in  group labor fail'),
 
+// load search month schedule months actions
+  LOAD_SEARCH_FULL_SCHEDULE: type('[Search] Load search full schedule months'),
+  LOAD_SEARCH_MONTH_SCHEDULE: type('[Search] Load search month schedule months'),
+  LOAD_SEARCH_MONTH_SCHEDULE_SUCCESS: type('[Search] Load search month schedule months success'),
+  LOAD_SEARCH_MONTH_SCHEDULE_FAIL: type('[Search] Load search month schedule months fail'),
+  LOAD_SEARCH_MONTH_SCHEDULE_FINALLY: type('[Search] Load search month schedule months finally'),
+  FILL_SEARCH_MONTH_SCHEDULE: type('[Search] Fill search month schedule'),
+
 // OTHERS
   SET_SEARCH_TYPE: type('[Search] Set search type'),
   SET_SEARCH_TEXT: type('[Search] Set search text'),
@@ -39,6 +49,7 @@ export const ActionTypes = {
   LOAD_SEARCH_REFERENCE: type('[Search] Load search reference'),
   SET_SEARCH_VIEW_TYPE: type('[Search] Set search view type'),
   SET_SEARCH_SELECTED_DATE: type('[Search] Set search selected date'),
+  CLEAN_SEARCH_MONTHS_SCHEDULE: type('[Search] Clean searchSchedule'),
   CLEAN_SCHEDULE: type('[Search] Clean Schedule')
 
 };
@@ -91,6 +102,31 @@ export class LoadEmployeesInGroupFailAction implements Action {
   constructor(public payload: string) { }
 }
 
+// load my month schedule months actions
+export class LoadSearchFullScheduleAction implements Action {
+  type = ActionTypes.LOAD_SEARCH_FULL_SCHEDULE;
+  constructor(public payload: {type: string; id: string; }) { }
+}
+export class LoadSearchMonthScheduleAction implements Action {
+  type = ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE;
+  constructor(public payload: Date) { }
+}
+export class LoadSearchMonthScheduleSuccessAction implements Action {
+  type = ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_SUCCESS;
+  constructor(public payload: LoadedMonth) { }
+}
+export class LoadSearchMonthScheduleFailAction implements Action {
+  type = ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_FAIL;
+  constructor(public payload: string) { }
+}
+export class LoadSearchMonthScheduleFinishedAction implements Action {
+  type = ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_FINALLY;
+}
+export class FillSearchMonthsScheduleAction implements Action {
+  type = ActionTypes.FILL_SEARCH_MONTH_SCHEDULE;
+  constructor(public payload: GroupSchedule[]) { }
+}
+
 // OTHERS
 export class SetSearchType implements Action {
   type = ActionTypes.SET_SEARCH_TYPE;
@@ -118,6 +154,9 @@ export class SetSearchSelectedDateAction implements Action {
   type = ActionTypes.SET_SEARCH_SELECTED_DATE;
   constructor(public payload: Date) {}
 }
+export class CleanSearchMonthsScheduleAction implements Action {
+  type = ActionTypes.CLEAN_SEARCH_MONTHS_SCHEDULE;
+}
 
 
 
@@ -142,6 +181,14 @@ export type Actions
   | LoadEmployeesInGroupSuccessAction
   | LoadEmployeesInGroupFailAction
 
+// load employees in group
+  | LoadSearchFullScheduleAction
+  | LoadSearchMonthScheduleAction
+  | LoadSearchMonthScheduleSuccessAction
+  | LoadSearchMonthScheduleFailAction
+  | LoadSearchMonthScheduleFinishedAction
+  | FillSearchMonthsScheduleAction
+
 // OTHERS
   | SetSearchType
   | CleanScheduleAction
@@ -149,4 +196,5 @@ export type Actions
   | SetSearchEntryIdAction
   | SetSearchViewTypeAction
   | SetSearchSelectedDateAction
+  | CleanSearchMonthsScheduleAction
   | SetSearchTextAction;

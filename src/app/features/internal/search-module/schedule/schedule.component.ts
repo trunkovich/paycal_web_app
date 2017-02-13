@@ -10,11 +10,11 @@ import {SEARCH_ROUTES} from '../search.routes';
 import {Employee} from '../../../../STATE/models/employee.model';
 import {
   SetSearchType, LoadSearchReferenceAction, SetSearchEntryIdAction,
-  SetSearchViewTypeAction, SetSearchSelectedDateAction
+  SetSearchViewTypeAction, SetSearchSelectedDateAction, LoadSearchFullScheduleAction, CleanSearchMonthsScheduleAction
 } from '../../../../STATE/actions/search.actions';
 import {GroupSchedule} from '../../../../STATE/models/group-schedule.model';
 import {CalendarTypes} from '../../../../STATE/models/calendar.types';
-import {SetCurrentSectionAction} from '../../../../STATE/actions/schedule.actions';
+import {SetCurrentSectionAction, LoadGroupScheduleMonthsAction} from '../../../../STATE/actions/schedule.actions';
 
 @Component({
   selector: 'pcl-schedule',
@@ -41,6 +41,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new SetCurrentSectionAction('search'));
     this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.DAY));
+    this.store.dispatch(new CleanSearchMonthsScheduleAction());
+    this.store.dispatch(new LoadGroupScheduleMonthsAction());
     this.viewType$ = this.store.select(searchSelectors.getViewType);
     this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
     this.selectedDate$ = this.store.select(searchSelectors.getSelectedDate);
@@ -61,6 +63,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.id = id;
     this.store.dispatch(new SetSearchType(type));
     this.store.dispatch(new SetSearchEntryIdAction(id));
+    this.store.dispatch(new LoadSearchFullScheduleAction({type: this.type, id: id}));
     switch (this.type) {
       case 'physicians': {
         this.employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
