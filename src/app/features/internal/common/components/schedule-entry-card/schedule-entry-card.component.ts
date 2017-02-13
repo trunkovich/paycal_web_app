@@ -18,7 +18,7 @@ export class ScheduleEntryCardComponent implements OnInit {
   }
 
   onShiftClick($event: MouseEvent) {
-    this.shiftClick.emit(event);
+    this.shiftClick.emit($event);
   }
 
 }

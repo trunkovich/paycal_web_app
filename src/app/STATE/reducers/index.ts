@@ -24,6 +24,8 @@ import * as fromAuth from './auth.reducer';
 import * as fromProfile from './profile.reducer';
 import * as fromReferences from './references.reducer';
 import * as fromSchedule from './schedule.reducer';
+import * as fromHome from './home.reducer';
+import * as fromSearch from './search.reducer';
 import * as fromDebug from './debug.reducer';
 import {Employee} from '../models/employee.model';
 import {environment} from '../../../environments/environment';
@@ -40,6 +42,8 @@ export interface AppState {
   profile: fromProfile.ProfileState;
   references: fromReferences.ReferencesState;
   schedule: fromSchedule.ScheduleState;
+  home: fromHome.HomeState;
+  search: fromSearch.SearchState;
 }
 
 /**
@@ -54,6 +58,8 @@ const reducers = {
   profile: fromProfile.profileReducer,
   references: fromReferences.referencesReducer,
   schedule: fromSchedule.scheduleReducer,
+  home: fromHome.homeReducer,
+  search: fromSearch.searchReducer,
   debug: fromDebug.debugReducer
 };
 
@@ -74,6 +80,8 @@ export const getAuthState = (state: AppState) => state.auth;
 export const getProfileState = (state: AppState) => state.profile;
 export const getReferencesState = (state: AppState) => state.references;
 export const getScheduleState = (state: AppState) => state.schedule;
+export const getHomeState = (state: AppState) => state.home;
+export const getSearchState = (state: AppState) => state.search;
 
 
 
@@ -116,24 +124,23 @@ let getEmployeeStatuses = createSelector(getReferencesState, fromReferences.getE
 /*==================SCHEDULE SELECTORS==================*/
 /*======================================================*/
 let getScheduleMonths = createSelector(getScheduleState, fromSchedule.getScheduleMonths);
-let getFullSchedule = createSelector(getScheduleState, fromSchedule.getMySchedule);
-let getSelectedDateSchedule = createSelector(getScheduleState, fromSchedule.getSelectedDateSchedule);
-let getMySelectedDate = createSelector(getScheduleState, fromSchedule.getMySelectedDate);
-let getHomeViewType = createSelector(getScheduleState, fromSchedule.getHomeViewType);
-let getTotalWorkCount = createSelector(getScheduleState, fromSchedule.getTotalWorkCount);
-let getScheduleLoadingState = createSelector(getScheduleState, fromSchedule.getScheduleLoadingState);
-let getPhysiciansLoadingStatus = createSelector(getScheduleState, fromSchedule.getPhysiciansLoadingStatus);
-let getSelectedDateScheduleGroupedByDay = createSelector(getScheduleState, fromSchedule.getSelectedDateScheduleGroupedByDay);
-let getShiftEmployees = createSelector(getScheduleState, fromSchedule.getShiftEmployees);
-let getSortedShiftEmployees = createSelector(getScheduleState, fromSchedule.getSortedShiftEmployees);
-let isAnyPhysicianSelected = createSelector(getScheduleState, fromSchedule.isAnyPhysicianSelected);
-let getScheduleEntryById = (id) => createSelector(getScheduleState, fromSchedule.getScheduleEntryById(id));
-let getSortedSelectedDateSchedule = createSelector(getScheduleState, fromSchedule.getSortedSelectedDateSchedule);
-let getGroupedSortedShiftEmployees = createSelector(getScheduleState, fromSchedule.getGroupedSortedShiftEmployees);
-let getSearchResults = createSelector(getScheduleState, fromSchedule.getSearchResults);
-let getSearchType = createSelector(getScheduleState, fromSchedule.getSearchType);
-let getScheduleSearchText = createSelector(getScheduleState, fromSchedule.getSearchText);
-let getEmployeeById = (id) => createSelector(getScheduleState, fromSchedule.getEmployeeById(id));
+
+/*======================================================*/
+/*====================HOME SELECTORS====================*/
+/*======================================================*/
+let getHomeFullSchedule = createSelector(getHomeState, fromHome.getMySchedule);
+let getHomeSelectedDateSchedule = createSelector(getHomeState, fromHome.getSelectedDateSchedule);
+let getHomeSelectedDate = createSelector(getHomeState, fromHome.getMySelectedDate);
+let getHomeViewType = createSelector(getHomeState, fromHome.getHomeViewType);
+let getTotalWorkCount = createSelector(getHomeState, fromHome.getTotalWorkCount);
+let getHomeLoadingState = createSelector(getHomeState, fromHome.getHomeLoadingState);
+let getHomeSelectedDateScheduleGroupedByDay = createSelector(getHomeState, fromHome.getSelectedDateScheduleGroupedByDay);
+let getShiftEmployees = createSelector(getHomeState, fromHome.getShiftEmployees);
+let getSortedShiftEmployees = createSelector(getHomeState, fromHome.getSortedShiftEmployees);
+let isAnyPhysicianSelected = createSelector(getHomeState, fromHome.isAnyPhysicianSelected);
+let getHomeScheduleEntryById = (id) => createSelector(getHomeState, fromHome.getScheduleEntryById(id));
+let getHomeSortedSelectedDateSchedule = createSelector(getHomeState, fromHome.getSortedSelectedDateSchedule);
+let getHomeGroupedSortedShiftEmployees = createSelector(getHomeState, fromHome.getGroupedSortedShiftEmployees);
 
 let getEstimateEarnings = createSelector(
   getTotalWorkCount,
@@ -147,6 +154,14 @@ let getEstimateEarnings = createSelector(
   }
 );
 
+/*======================================================*/
+/*===================SEARCH SELECTORS===================*/
+/*======================================================*/
+let getSearchResults = createSelector(getSearchState, fromSearch.getSearchResults);
+let getSearchType = createSelector(getSearchState, fromSearch.getSearchType);
+let getScheduleSearchText = createSelector(getSearchState, fromSearch.getSearchText);
+let getSearchLoadingState = createSelector(getSearchState, fromSearch.getLoadingState);
+let getEmployeeFromGroupById = (id) => createSelector(getSearchState, fromSearch.getEmployeeById(id));
 
 
 export const authSelectors = {
@@ -176,24 +191,30 @@ export const referenceSelectors = {
 
 
 export const scheduleSelectors = {
-  getScheduleMonths: getScheduleMonths,
-  getFullSchedule: getFullSchedule,
-  getSelectedDateSchedule: getSelectedDateSchedule,
-  getMySelectedDate: getMySelectedDate,
+  getScheduleMonths: getScheduleMonths
+};
+
+export const homeSelectors = {
+  getHomeFullSchedule: getHomeFullSchedule,
+  getHomeSelectedDateSchedule: getHomeSelectedDateSchedule,
+  getHomeSelectedDate: getHomeSelectedDate,
   getHomeViewType: getHomeViewType,
   getTotalWorkCount: getTotalWorkCount,
-  getEstimateEarnings: getEstimateEarnings,
-  getScheduleLoadingState: getScheduleLoadingState,
-  getSelectedDateScheduleGroupedByDay: getSelectedDateScheduleGroupedByDay,
+  getHomeLoadingState: getHomeLoadingState,
+  getHomeSelectedDateScheduleGroupedByDay: getHomeSelectedDateScheduleGroupedByDay,
   getShiftEmployees: getShiftEmployees,
   getSortedShiftEmployees: getSortedShiftEmployees,
   isAnyPhysicianSelected: isAnyPhysicianSelected,
-  getScheduleEntryById: getScheduleEntryById,
-  getEmployeeById: getEmployeeById,
-  getSortedSelectedDateSchedule: getSortedSelectedDateSchedule,
-  getGroupedSortedShiftEmployees: getGroupedSortedShiftEmployees,
-  getPhysiciansLoadingStatus: getPhysiciansLoadingStatus,
+  getHomeScheduleEntryById: getHomeScheduleEntryById,
+  getHomeSortedSelectedDateSchedule: getHomeSortedSelectedDateSchedule,
+  getHomeGroupedSortedShiftEmployees: getHomeGroupedSortedShiftEmployees,
+  getEstimateEarnings: getEstimateEarnings
+};
+
+export const searchSelectors = {
   getSearchResults: getSearchResults,
   getSearchType: getSearchType,
-  getSearchText: getScheduleSearchText
+  getSearchText: getScheduleSearchText,
+  getEmployeeFromGroupById: getEmployeeFromGroupById,
+  getLoadingState: getSearchLoadingState
 };

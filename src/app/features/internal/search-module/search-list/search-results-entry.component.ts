@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+
 import {Employee} from '../../../../STATE/models/employee.model';
 
 @Component({

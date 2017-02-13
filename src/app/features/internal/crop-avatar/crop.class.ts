@@ -1,8 +1,9 @@
 /**
  * Created by TrUnK on 04.02.2017.
  */
-import {ImageDataModel} from '../../../STATE/models/image-data.model';
 import * as Cropper from 'cropperjs';
+
+import {ImageDataModel} from '../../../STATE/models/image-data.model';
 import {blobToFile} from '../../../STATE/utils';
 
 export class Crop {
@@ -30,12 +31,8 @@ export class Crop {
     });
   }
 
-  // rotate() {
-  //   this.cropper.rotate(90);
-  // }
-
   getFile(): Promise<File> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.cropper.getCroppedCanvas({
         width: 270,
         height: 270

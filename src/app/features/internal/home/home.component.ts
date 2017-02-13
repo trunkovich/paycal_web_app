@@ -2,22 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import * as moment from 'moment';
+import {Router} from '@angular/router';
 
-import {
-  EmployeeScheduleEntry,
-  EmployeeScheduleEntryGroupedByDay
-} from '../../../STATE/models/employee-schedule-entry.model';
+import {EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay} from '../../../STATE/models/employee-schedule-entry.model';
 import {CalendarTypes} from '../../../STATE/models/calendar.types';
 import {GroupSchedule} from '../../../STATE/models/group-schedule.model';
-import {
-  SetMySelectedDateAction,
-  SetHomeViewTypeAction
-} from '../../../STATE/actions/schedule.actions';
-import {scheduleSelectors, profileSelectors, AppState} from '../../../STATE/reducers/index';
+import {homeSelectors, profileSelectors, AppState, scheduleSelectors} from '../../../STATE/reducers/index';
 import {Employee} from '../../../STATE/models/employee.model';
-import {Router} from '@angular/router';
 import {INTERNAL_ROUTES} from '../internal.routes';
 import {APP_CONFIG} from '../../../../environments/environment';
+import {SetMySelectedDateAction, SetHomeViewTypeAction} from '../../../STATE/actions/home.actions';
 
 @Component({
   selector: 'pcl-home',
@@ -41,13 +35,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
-    this.entries$ = this.store.select(scheduleSelectors.getSortedSelectedDateSchedule);
-    this.groupedEntries$ = this.store.select(scheduleSelectors.getSelectedDateScheduleGroupedByDay);
-    this.selectedDate$ = this.store.select(scheduleSelectors.getMySelectedDate);
-    this.homeViewType$ = this.store.select(scheduleSelectors.getHomeViewType);
-    this.totalWorkCount$ = this.store.select(scheduleSelectors.getTotalWorkCount);
-    this.estimateEarning$ = this.store.select(scheduleSelectors.getEstimateEarnings);
-    this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
+    this.entries$ = this.store.select(homeSelectors.getHomeSortedSelectedDateSchedule);
+    this.groupedEntries$ = this.store.select(homeSelectors.getHomeSelectedDateScheduleGroupedByDay);
+    this.selectedDate$ = this.store.select(homeSelectors.getHomeSelectedDate);
+    this.homeViewType$ = this.store.select(homeSelectors.getHomeViewType);
+    this.totalWorkCount$ = this.store.select(homeSelectors.getTotalWorkCount);
+    this.estimateEarning$ = this.store.select(homeSelectors.getEstimateEarnings);
+    this.loading$ = this.store.select(homeSelectors.getHomeLoadingState);
     this.profile$ = this.store.select(profileSelectors.getMyProfile);
   }
 

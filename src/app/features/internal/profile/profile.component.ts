@@ -1,12 +1,11 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
-import {Location} from '@angular/common';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
+import {Router} from '@angular/router';
 
 import {Employee} from '../../../STATE/models/employee.model';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {LogoutAction} from '../../../STATE/actions/auth.actions';
-import {Router} from '@angular/router';
 import {AUTH_ROUTES} from '../../auth/auth.routes';
 import {INTERNAL_ROUTES} from '../internal.routes';
 

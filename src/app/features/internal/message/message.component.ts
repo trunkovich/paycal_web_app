@@ -1,16 +1,17 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {AppState, scheduleSelectors, profileSelectors} from '../../../STATE/reducers/index';
 import {Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {
-  CleanShiftEmployeesAction, RemoveUnselectedShiftEmployeesAction,
-  ToggleSelectionAction, CreateCoverageRequestAction
-} from '../../../STATE/actions/schedule.actions';
-import {QualifiedEmployee, Employee} from '../../../STATE/models/employee.model';
 import {Observable, Subscription} from 'rxjs';
-import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-entry.model';
 import {ActivatedRoute} from '@angular/router';
+
+import {AppState, homeSelectors, profileSelectors} from '../../../STATE/reducers/index';
+import {QualifiedEmployee, Employee} from '../../../STATE/models/employee.model';
+import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-entry.model';
 import {getSMSMessage} from '../../../../environments/environment';
+import {
+  RemoveUnselectedShiftEmployeesAction, CleanShiftEmployeesAction, ToggleSelectionAction,
+  CreateCoverageRequestAction
+} from '../../../STATE/actions/home.actions';
 
 
 @Component({
@@ -29,12 +30,12 @@ export class MessageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
       if (params['employeeScheduleEntryID']) {
-        this.scheduleEntry$ = this.store.select(scheduleSelectors.getScheduleEntryById(+params['employeeScheduleEntryID']));
+        this.scheduleEntry$ = this.store.select(homeSelectors.getHomeScheduleEntryById(+params['employeeScheduleEntryID']));
       }
     });
 
     this.store.dispatch(new RemoveUnselectedShiftEmployeesAction());
-    this.selectedEmployees$ = this.store.select(scheduleSelectors.getShiftEmployees);
+    this.selectedEmployees$ = this.store.select(homeSelectors.getShiftEmployees);
     this.profile$ = this.store.select(profileSelectors.getMyProfile);
   }
 

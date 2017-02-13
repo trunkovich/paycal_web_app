@@ -1,9 +1,10 @@
 import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
-import {INTERNAL_ROUTES} from '../internal.routes';
 import {Router} from '@angular/router';
-import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
+
+import {INTERNAL_ROUTES} from '../internal.routes';
+import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {ImageDataModel} from '../../../STATE/models/image-data.model';
 import {Crop} from './crop.class';
 import {UploadImageAction} from '../../../STATE/actions/profile.actions';

@@ -4,7 +4,6 @@ import {OnlySignedInUsers} from '../../core/guards/only-signed-in-users.guard';
 import {OnlyMobileDevices} from '../../core/guards/only-mobile-devices.guard';
 import {InternalComponent} from './internal.component';
 import {HomeComponent} from './home/home.component';
-import {MoreComponent} from './more/more.component';
 import {ProfileComponent} from './profile/profile.component';
 import {OnlyScheduledPersons} from '../../core/guards/only-scheduled-persons.guard';
 import {QualifiedPhysiciansComponent} from './qualified-physicians/qualified-physicians.component';
@@ -37,7 +36,6 @@ export const internalRoutes: Routes = [
     { path: 'message/:employeeScheduleEntryID', component: MessageComponent },
     { path: 'message-success', component: MessageSuccessComponent },
     { path: 'message-loading', component: MessageLoadingComponent },
-    { path: 'more', component: MoreComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'edit-profile', component: EditProfileComponent },
     { path: 'crop-avatar', component: CropAvatarComponent },

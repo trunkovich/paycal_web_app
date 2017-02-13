@@ -1,15 +1,16 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {QualifiedEmployee, QualifiedEmployeeGroup} from '../../../STATE/models/employee.model';
-import {AppState, scheduleSelectors} from '../../../STATE/reducers/index';
-import {Store} from '@ngrx/store';
 import {Subscription, Observable} from 'rxjs';
-import {
-  LoadShiftEmployeesAction, CleanShiftEmployeesAction,
-  ToggleSelectionAction, SetEmployeeLoading
-} from '../../../STATE/actions/schedule.actions';
+import {Store} from '@ngrx/store';
+
+import {QualifiedEmployee, QualifiedEmployeeGroup} from '../../../STATE/models/employee.model';
+import {AppState, homeSelectors} from '../../../STATE/reducers/index';
 import {INTERNAL_ROUTES} from '../internal.routes';
+import {
+  LoadShiftEmployeesAction, SetEmployeeLoading, CleanShiftEmployeesAction,
+  ToggleSelectionAction
+} from '../../../STATE/actions/home.actions';
 
 @Component({
   selector: 'pcl-qualified-physicians',
@@ -40,9 +41,9 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new SetEmployeeLoading());
-    this.physicianGroups$ = this.store.select(scheduleSelectors.getGroupedSortedShiftEmployees);
-    this.isPhysiciansLoading$ = this.store.select(scheduleSelectors.getPhysiciansLoadingStatus);
-    this.isAnyPhysicianSelected$ = this.store.select(scheduleSelectors.isAnyPhysicianSelected);
+    this.physicianGroups$ = this.store.select(homeSelectors.getHomeGroupedSortedShiftEmployees);
+    this.isPhysiciansLoading$ = this.store.select(homeSelectors.getHomeLoadingState);
+    this.isAnyPhysicianSelected$ = this.store.select(homeSelectors.isAnyPhysicianSelected);
   }
 
   ngOnDestroy() {

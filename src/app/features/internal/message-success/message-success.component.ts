@@ -1,7 +1,8 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Router} from '@angular/router';
+
 import {APP_CONFIG} from '../../../../environments/environment';
 import {INTERNAL_ROUTES} from '../internal.routes';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'pcl-message-success',

@@ -35,6 +35,8 @@ import {StartupEffects} from './STATE/effects/startup.effects';
 import {OnlyScheduledPersons} from './core/guards/only-scheduled-persons.guard';
 import {AvatarService} from './core/services/avatar.service';
 import {SearchModule} from './features/internal/search-module/search.module';
+import {HomeEffects} from './STATE/effects/home.effects';
+import {SearchEffects} from './STATE/effects/search.effects';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import {SearchModule} from './features/internal/search-module/search.module';
     EffectsModule.runAfterBootstrap(ProfileEffects),
     EffectsModule.runAfterBootstrap(ReferencesEffects),
     EffectsModule.runAfterBootstrap(ScheduleEffects),
+    EffectsModule.runAfterBootstrap(HomeEffects),
+    EffectsModule.runAfterBootstrap(SearchEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
 
     InternalModule,

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+
 import {BottomSheetService} from '../../../../../bottom-sheet/bottom-sheet.service';
 import {CalendarTypes} from '../../../../../STATE/models/calendar.types';
-import {Observable} from 'rxjs';
-import {AppState, scheduleSelectors} from '../../../../../STATE/reducers/index';
-import {Store} from '@ngrx/store';
-import {SetHomeViewTypeAction} from '../../../../../STATE/actions/schedule.actions';
+import {AppState, homeSelectors} from '../../../../../STATE/reducers/index';
+import {SetHomeViewTypeAction} from '../../../../../STATE/actions/home.actions';
 
 @Component({
   selector: 'pcl-view-type-bottom-sheet',
@@ -15,7 +16,7 @@ export class ViewTypeBottomSheetComponent {
   type$: Observable<CalendarTypes>;
 
   constructor(private bss: BottomSheetService, private store: Store<AppState>) {
-    this.type$ = store.select(scheduleSelectors.getHomeViewType);
+    this.type$ = store.select(homeSelectors.getHomeViewType);
   }
 
   close(result) {

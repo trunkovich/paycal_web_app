@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, Input, EventEmitter, Output} from '@angular/core';
+
 import {QualifiedEmployeeGroup, QualifiedEmployee} from '../../../STATE/models/employee.model';
 
 @Component({
@@ -7,7 +8,7 @@ import {QualifiedEmployeeGroup, QualifiedEmployee} from '../../../STATE/models/e
   styleUrls: ['./qualifiend-physicians-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QualifiendPhysiciansListComponent {
+export class QualifiedPhysiciansListComponent {
   @Input() physicianGroups: QualifiedEmployeeGroup[];
   @Output() employeeSelected = new EventEmitter();
 

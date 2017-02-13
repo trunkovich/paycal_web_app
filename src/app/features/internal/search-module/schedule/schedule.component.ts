@@ -4,11 +4,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
 
-import {AppState, scheduleSelectors} from '../../../../STATE/reducers/index';
+import {AppState, searchSelectors} from '../../../../STATE/reducers/index';
 import {ALLOWED_SEARCH_TYPES} from '../../../../STATE/reducers/schedule.reducer';
-import {SetSearchType, LoadSearchReferenceAction} from '../../../../STATE/actions/schedule.actions';
 import {SEARCH_ROUTES} from '../search.routes';
 import {Employee} from '../../../../STATE/models/employee.model';
+import {SetSearchType, LoadSearchReferenceAction} from '../../../../STATE/actions/search.actions';
 
 @Component({
   selector: 'pcl-schedule',
@@ -30,7 +30,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
+    this.loading$ = this.store.select(searchSelectors.getLoadingState);
     this.sub = this.route.params.subscribe(params => this.parseParams(params));
   }
 
@@ -49,7 +49,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // this.store.dispatch(new SetSearchEntryIdAction(id));
     switch (this.type) {
       case 'physicians': {
-        this.employee$ = this.store.select(scheduleSelectors.getEmployeeById(+id));
+        this.employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
         this.title$ = this.employee$.map((employee: Employee) => {
           if (employee) {
             return (employee.FirstName || '') + ' ' + (employee.LastName || '');

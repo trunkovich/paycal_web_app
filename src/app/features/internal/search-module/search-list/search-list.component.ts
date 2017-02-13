@@ -1,15 +1,15 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription, Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
 
 import {SEARCH_ROUTES} from '../search.routes';
 import {ALLOWED_SEARCH_TYPES} from '../../../../STATE/reducers/schedule.reducer';
-import {Store} from '@ngrx/store';
-import {AppState, scheduleSelectors} from '../../../../STATE/reducers/index';
-import {SetSearchType, LoadSearchReferenceAction, SetSearchTextAction} from '../../../../STATE/actions/schedule.actions';
+import {AppState, searchSelectors} from '../../../../STATE/reducers/index';
 import {SearchResults} from '../../../../STATE/models/search-results.model';
 import {Employee} from '../../../../STATE/models/employee.model';
+import {SetSearchType, LoadSearchReferenceAction, SetSearchTextAction} from '../../../../STATE/actions/search.actions';
 
 @Component({
   selector: 'pcl-search-list',
@@ -31,9 +31,9 @@ export class SearchListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.list$ = this.store.select(scheduleSelectors.getSearchResults);
-    this.searchText = this.store.select(scheduleSelectors.getSearchText);
-    this.loading$ = this.store.select(scheduleSelectors.getScheduleLoadingState);
+    this.list$ = this.store.select(searchSelectors.getSearchResults);
+    this.searchText = this.store.select(searchSelectors.getSearchText);
+    this.loading$ = this.store.select(searchSelectors.getLoadingState);
     this.sub = this.route.params.subscribe((params) => {
       if (_.includes(ALLOWED_SEARCH_TYPES, params['type'])) {
         this.type = params['type'];

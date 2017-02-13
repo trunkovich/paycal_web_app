@@ -1,7 +1,7 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {CalendarTypes} from '../../../../../STATE/models/calendar.types';
 import * as moment from 'moment';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+
+import {CalendarTypes} from '../../../../../STATE/models/calendar.types';
 import {Calendar} from './calendar.class';
 import {GroupSchedule} from '../../../../../STATE/models/group-schedule.model';
 

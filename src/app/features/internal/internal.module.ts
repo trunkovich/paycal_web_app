@@ -4,12 +4,13 @@ import {RouterModule} from '@angular/router';
 import {MaterialModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {MomentModule} from 'angular2-moment';
+import {TextMaskModule} from 'angular2-text-mask';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import {internalRoutes} from './internal.routes';
 import {InternalComponent} from './internal.component';
 import {PclCommonModule} from '../../common/pcl-common.module';
 import { HomeComponent } from './home/home.component';
-import { MoreComponent } from './more/more.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ScheduleEntryCardComponent } from './common/components/schedule-entry-card/schedule-entry-card.component';
 import { CalendarComponent } from './common/components/calendar/calendar.component';
@@ -21,10 +22,8 @@ import { QualifiedPhysiciansComponent } from './qualified-physicians/qualified-p
 import { MessageComponent } from './message/message.component';
 import { MessageSuccessComponent } from './message-success/message-success.component';
 import { MessageLoadingComponent } from './message-loading/message-loading.component';
-import { QualifiendPhysiciansListComponent } from './qualified-physicians/qualifiend-physicians-list.component';
+import { QualifiedPhysiciansListComponent } from './qualified-physicians/qualifiend-physicians-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {TextMaskModule} from 'angular2-text-mask';
 import { CropAvatarComponent } from './crop-avatar/crop-avatar.component';
 import {CropLoadingComponent} from './crop-loading/crop-loading.component';
 
@@ -43,7 +42,6 @@ import {CropLoadingComponent} from './crop-loading/crop-loading.component';
   declarations: [
     InternalComponent,
     HomeComponent,
-    MoreComponent,
     ProfileComponent,
     ScheduleEntryCardComponent,
     CalendarComponent,
@@ -54,7 +52,7 @@ import {CropLoadingComponent} from './crop-loading/crop-loading.component';
     MessageComponent,
     MessageSuccessComponent,
     MessageLoadingComponent,
-    QualifiendPhysiciansListComponent,
+    QualifiedPhysiciansListComponent,
     EditProfileComponent,
     CropAvatarComponent,
     CropLoadingComponent
