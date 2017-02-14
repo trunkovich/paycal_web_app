@@ -26,6 +26,7 @@ import { QualifiedPhysiciansListComponent } from './qualified-physicians/qualifi
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { CropAvatarComponent } from './crop-avatar/crop-avatar.component';
 import {CropLoadingComponent} from './crop-loading/crop-loading.component';
+import { MasterScheduleCardComponent } from './common/components/master-schedule-card/master-schedule-card.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import {CropLoadingComponent} from './crop-loading/crop-loading.component';
     ViewTypeSwitcherComponent,
     ViewTypeBottomSheetComponent,
     ScheduleEntryCardComponent,
-    ScheduleDayCardComponent
+    ScheduleDayCardComponent,
+    MasterScheduleCardComponent
   ],
   declarations: [
     InternalComponent,
@@ -62,7 +64,8 @@ import {CropLoadingComponent} from './crop-loading/crop-loading.component';
     QualifiedPhysiciansListComponent,
     EditProfileComponent,
     CropAvatarComponent,
-    CropLoadingComponent
+    CropLoadingComponent,
+    MasterScheduleCardComponent
   ]
 })
 export class InternalModule { }

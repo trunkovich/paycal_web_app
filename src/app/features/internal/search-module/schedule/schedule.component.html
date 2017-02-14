@@ -14,6 +14,13 @@
   <pcl-view-type-switcher *ngIf="type && type === 'physicians'"
                           [type]="viewType$ | async"></pcl-view-type-switcher>
 
+  <section *ngIf="type && type !== 'physicians'">
+    <pcl-master-schedule-card *ngFor="let entry of entries$ | async"
+                             [lineOne]="entry.SchedulePersonID"
+                             [shiftCode]="entry.ShiftCode"
+                             [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"></pcl-master-schedule-card>
+  </section>
+
   <section *ngIf="type === 'physicians'">
     <div *ngIf="isDayView(viewType$ | async)">
       <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
