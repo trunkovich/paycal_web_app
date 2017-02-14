@@ -6,7 +6,7 @@ import {MasterCalendarEntry} from './master-calendar-entry.model';
 
 export interface LoadedMonth {
   dateString: string; // format YYYY.M
-  entries: EmployeeScheduleEntry[] | MasterCalendarEntry[];
+  entries: (EmployeeScheduleEntry| MasterCalendarEntry)[];
   loaded: boolean;
   month: number;
   year: number;
@@ -18,7 +18,7 @@ export interface AvailableMonthsStructure {
 
 export interface EmployeeScheduleEntryGroupedByDay {
   date: moment.Moment;
-  entries: EmployeeScheduleEntry[];
+  entries: (EmployeeScheduleEntry | MasterCalendarEntry)[];
 }
 
 export interface EmployeeScheduleEntry {

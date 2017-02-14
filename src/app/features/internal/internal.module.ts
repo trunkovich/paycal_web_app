@@ -42,7 +42,9 @@ import {CropLoadingComponent} from './crop-loading/crop-loading.component';
   exports: [
     CalendarComponent,
     ViewTypeSwitcherComponent,
-    ViewTypeBottomSheetComponent
+    ViewTypeBottomSheetComponent,
+    ScheduleEntryCardComponent,
+    ScheduleDayCardComponent
   ],
   declarations: [
     InternalComponent,

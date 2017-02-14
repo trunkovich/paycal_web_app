@@ -167,7 +167,8 @@ let getSearchEntryId = createSelector(getSearchState, fromSearch.getSearchEntryI
 let getSearchViewType = createSelector(getSearchState, fromSearch.getViewType);
 let getSearchSelectedDate = createSelector(getSearchState, fromSearch.getSelectedDate);
 let getSearchFullSchedule = createSelector(getSearchState, fromSearch.getSearchSchedule);
-
+let getSearchSortedSelectedDateSchedule = createSelector(getSearchState, fromSearch.getSortedSelectedDateSchedule);
+let getSearchSelectedDateScheduleGroupedByDay = createSelector(getSearchState, fromSearch.getSelectedDateScheduleGroupedByDay);
 
 export const authSelectors = {
   getToken: getToken,
@@ -226,5 +227,7 @@ export const searchSelectors = {
   getSearchEntryId: getSearchEntryId,
   getViewType: getSearchViewType,
   getSelectedDate: getSearchSelectedDate,
-  getFullSchedule: getSearchFullSchedule
+  getFullSchedule: getSearchFullSchedule,
+  getSortedSelectedDateSchedule: getSearchSortedSelectedDateSchedule,
+  getSelectedDateScheduleGroupedByDay: getSearchSelectedDateScheduleGroupedByDay
 };

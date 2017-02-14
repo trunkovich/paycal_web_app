@@ -9,7 +9,8 @@ import * as searchActions from '../actions/search.actions';
 import {Employee} from '../models/employee.model';
 import {SearchResults} from '../models/search-results.model';
 import {CalendarTypes} from '../models/calendar.types';
-import {AvailableMonthsStructure} from '../models/employee-schedule-entry.model';
+import {AvailableMonthsStructure, EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay} from '../models/employee-schedule-entry.model';
+import {MasterCalendarEntry} from '../models/master-calendar-entry.model';
 
 export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-reference'];
 
@@ -308,3 +309,102 @@ export const getEmployeeById = id => {
     }
   );
 };
+
+export const getSelectedDateSchedule = createSelector(
+  getSearchSchedule,
+  getSelectedDate,
+  getViewType,
+  (schedule: AvailableMonthsStructure, date: Date, type: CalendarTypes): (EmployeeScheduleEntry | MasterCalendarEntry)[] | boolean => {
+    let m = moment(date);
+    let day = m.date();
+    let month = m.month() + 1;
+    let year = m.year();
+    if (!schedule[`${year}.${month}`]) {
+      return false;
+    }
+    switch (type) {
+      case CalendarTypes.DAY: {
+        return _.filter(schedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry | MasterCalendarEntry) => {
+          return scheduleEntry.Year === year &&
+            scheduleEntry.Month === month &&
+            scheduleEntry.Day === day;
+        });
+      }
+      case CalendarTypes.WEEK:
+      case CalendarTypes.TWO_WEEK: {
+        let start = moment(m).startOf('week');
+        let end = moment(m).endOf('week');
+        if (type === CalendarTypes.TWO_WEEK) {
+          end.add(1, 'week');
+        }
+        let entries: (EmployeeScheduleEntry | MasterCalendarEntry)[] = [];
+        if (start.isSame(end, 'month')) {
+          if (!schedule[`${year}.${month}`].entries) {
+            return false;
+          }
+          return _.filter(schedule[`${year}.${month}`].entries, (scheduleEntry: EmployeeScheduleEntry | MasterCalendarEntry) => {
+            return scheduleEntry.Year === year &&
+              scheduleEntry.Month === month &&
+              scheduleEntry.Day >= start.date() &&
+              scheduleEntry.Day <= end.date();
+          });
+        } else {
+          let arr1 = schedule[`${start.year()}.${start.month() + 1}`] ?
+            schedule[`${start.year()}.${start.month() + 1}`].entries :
+            [];
+
+          let arr2 = schedule[`${end.year()}.${end.month() + 1}`] ?
+            schedule[`${end.year()}.${end.month() + 1}`].entries :
+            [];
+
+          entries = _(arr1).concat(arr2)
+            .filter((scheduleEntry: EmployeeScheduleEntry | MasterCalendarEntry) => {
+              let entryDate = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, date: scheduleEntry.Day}).add(1, 'minute');
+              return entryDate.isBetween(start, end);
+            })
+            .value();
+        }
+        return entries;
+      }
+    }
+  }
+);
+
+const SORT_ORDER = {
+  'AM': 1,
+  'PM': 2,
+  'EV': 3,
+  'OV': 4,
+  '24': 5,
+};
+export const getSortedSelectedDateSchedule = createSelector(
+  getSelectedDateSchedule,
+  (entries: (EmployeeScheduleEntry | MasterCalendarEntry)[]): (EmployeeScheduleEntry | MasterCalendarEntry)[] => {
+    return _.sortBy(entries, entry => SORT_ORDER[entry.ShiftCode] || 10);
+  }
+);
+
+
+export const getSelectedDateScheduleGroupedByDay = createSelector(
+  getSelectedDateSchedule,
+  (entries: (EmployeeScheduleEntry | MasterCalendarEntry)[]): EmployeeScheduleEntryGroupedByDay[] | boolean => {
+    if (!entries) {
+      return false;
+    }
+    let groupedEntries: {[key: string]: (EmployeeScheduleEntry | MasterCalendarEntry)[]} = {};
+    let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
+    _.each(entries, (entry) => {
+      if (!groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`]) {
+        groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`] = [];
+      }
+      groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
+    });
+    _.each(groupedEntries, (value, key) => {
+      groupedEntriesArr.push({
+        date: moment(key, 'YYYY.MM.DD'),
+        entries: value
+      });
+    });
+    return groupedEntriesArr;
+  }
+);
