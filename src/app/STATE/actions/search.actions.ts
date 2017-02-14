@@ -33,6 +33,7 @@ export const ActionTypes = {
   LOAD_EMPLOYEES_IN_GROUP: type('[Search] Load employees in  group'),
   LOAD_EMPLOYEES_IN_GROUP_SUCCESS: type('[Search] Load employees in  group success'),
   LOAD_EMPLOYEES_IN_GROUP_FAIL: type('[Search] Load employees in  group labor fail'),
+  LOAD_EMPLOYEES_IN_GROUP_LOADED: type('[Search] Load employees in  group labor loaded'),
 
 // load search month schedule months actions
   LOAD_SEARCH_FULL_SCHEDULE: type('[Search] Load search full schedule months'),
@@ -96,6 +97,9 @@ export class LoadEmployeesInGroupAction implements Action {
 export class LoadEmployeesInGroupSuccessAction implements Action {
   type = ActionTypes.LOAD_EMPLOYEES_IN_GROUP_SUCCESS;
   constructor(public payload: Employee[]) { }
+}
+export class LoadEmployeesInGroupLoadedAction implements Action {
+  type = ActionTypes.LOAD_EMPLOYEES_IN_GROUP_LOADED;
 }
 export class LoadEmployeesInGroupFailAction implements Action {
   type = ActionTypes.LOAD_EMPLOYEES_IN_GROUP_FAIL;
@@ -179,6 +183,7 @@ export type Actions
 // load employees in group
   | LoadEmployeesInGroupAction
   | LoadEmployeesInGroupSuccessAction
+  | LoadEmployeesInGroupLoadedAction
   | LoadEmployeesInGroupFailAction
 
 // load employees in group

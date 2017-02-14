@@ -27,6 +27,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { CropAvatarComponent } from './crop-avatar/crop-avatar.component';
 import {CropLoadingComponent} from './crop-loading/crop-loading.component';
 import { MasterScheduleCardComponent } from './common/components/master-schedule-card/master-schedule-card.component';
+import { PhysicianPipe } from './common/pipes/physician.pipe';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { MasterScheduleCardComponent } from './common/components/master-schedule
     ViewTypeBottomSheetComponent,
     ScheduleEntryCardComponent,
     ScheduleDayCardComponent,
-    MasterScheduleCardComponent
+    MasterScheduleCardComponent,
+    PhysicianPipe
   ],
   declarations: [
     InternalComponent,
@@ -65,7 +67,8 @@ import { MasterScheduleCardComponent } from './common/components/master-schedule
     EditProfileComponent,
     CropAvatarComponent,
     CropLoadingComponent,
-    MasterScheduleCardComponent
+    MasterScheduleCardComponent,
+    PhysicianPipe
   ]
 })
 export class InternalModule { }

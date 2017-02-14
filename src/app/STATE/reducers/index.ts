@@ -169,6 +169,7 @@ let getSearchSelectedDate = createSelector(getSearchState, fromSearch.getSelecte
 let getSearchFullSchedule = createSelector(getSearchState, fromSearch.getSearchSchedule);
 let getSearchSortedSelectedDateSchedule = createSelector(getSearchState, fromSearch.getSortedSelectedDateSchedule);
 let getSearchSelectedDateScheduleGroupedByDay = createSelector(getSearchState, fromSearch.getSelectedDateScheduleGroupedByDay);
+let getEmployeesInGroupList = createSelector(getSearchState, fromSearch.getEmployeesInGroupList);
 
 export const authSelectors = {
   getToken: getToken,
@@ -222,6 +223,7 @@ export const searchSelectors = {
   getSearchResults: getSearchResults,
   getSearchType: getSearchType,
   getSearchText: getScheduleSearchText,
+  getEmployeesInGroupList: getEmployeesInGroupList,
   getEmployeeFromGroupById: getEmployeeFromGroupById,
   getLoadingState: getSearchLoadingState,
   getSearchEntryId: getSearchEntryId,

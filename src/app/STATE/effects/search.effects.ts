@@ -88,9 +88,11 @@ export class SearchEffects {
   @Effect()
   loadEmployeesInMyGroup$: Observable<Action> = this.actions$
     .ofType(searchActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP)
+    .withLatestFrom(this.store.select(searchSelectors.getEmployeesInGroupList))
+    .filter(([action, employeesFromStore]: [any, Employee[]]) => !employeesFromStore || !employeesFromStore.length)
     .switchMap(() => {
-      return this.scheduleService.loadEmployeesInMyGroup()
-        .map((employees: Employee[]) => new searchActions.LoadEmployeesInGroupSuccessAction(employees))
-        .catch(error => Observable.of(new searchActions.LoadEmployeesInGroupFailAction(error)));
+        return this.scheduleService.loadEmployeesInMyGroup()
+          .map((employees: Employee[]) => new searchActions.LoadEmployeesInGroupSuccessAction(employees))
+          .catch(error => Observable.of(new searchActions.LoadEmployeesInGroupFailAction(error)));
     });
 }
