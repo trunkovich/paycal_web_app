@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import * as searchActions from '../actions/search.actions';
 import * as scheduleActions from '../actions/schedule.actions';
 import {ScheduleService} from '../../core/services/schedule.service';
-import {AppState, searchSelectors} from '../reducers/index';
+import {AppState, searchSelectors, scheduleSelectors} from '../reducers/index';
 import {Employee} from '../models/employee.model';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {AvailableMonthsStructure, LoadedMonth} from '../models/employee-schedule-entry.model';
@@ -30,16 +30,9 @@ export class SearchEffects {
     .delay(1);
 
   @Effect()
-  startFullMonthScheduleLoading$: Observable<Action> = this.actions$
-    .ofType(searchActions.ActionTypes.FILL_SEARCH_MONTH_SCHEDULE)
-    .withLatestFrom(this.store.select(searchSelectors.getSearchType), this.store.select(searchSelectors.getSearchEntryId))
-    .map(([action, searchType, entryId]: [any, string, string]) => {
-      return new searchActions.LoadSearchFullScheduleAction({type: searchType, id: entryId});
-    });
-
-  @Effect()
   getAllAvailableMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(searchActions.ActionTypes.LOAD_SEARCH_FULL_SCHEDULE)
+    .delay(1)
     .map(toPayload)
     .withLatestFrom(this.store.select(searchSelectors.getFullSchedule))
     .switchMap(([payload, months]: [{type: string; id: string}, AvailableMonthsStructure]) => {
@@ -89,10 +82,13 @@ export class SearchEffects {
   loadEmployeesInMyGroup$: Observable<Action> = this.actions$
     .ofType(searchActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP)
     .withLatestFrom(this.store.select(searchSelectors.getEmployeesInGroupList))
-    .filter(([action, employeesFromStore]: [any, Employee[]]) => !employeesFromStore || !employeesFromStore.length)
-    .switchMap(() => {
+    .switchMap(([action, employeesFromStore]: [any, Employee[]]) => {
+      if (employeesFromStore && employeesFromStore.length) {
+        return Observable.of(new searchActions.LoadEmployeesInGroupFailAction('loaded'));
+      } else {
         return this.scheduleService.loadEmployeesInMyGroup()
           .map((employees: Employee[]) => new searchActions.LoadEmployeesInGroupSuccessAction(employees))
           .catch(error => Observable.of(new searchActions.LoadEmployeesInGroupFailAction(error)));
+      }
     });
 }

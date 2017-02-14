@@ -25,7 +25,6 @@ export class PhysicianPipe implements PipeTransform {
       return value.toString();
     }
     let physician: Employee = _.find(this.physicians, (employee) => employee.ScheduledPersonID === value);
-    console.log(physician);
     if (physician) {
       return (physician.LastName || '') + ', ' + (physician.FirstName || '');
     }

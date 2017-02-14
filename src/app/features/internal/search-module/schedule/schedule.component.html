@@ -8,7 +8,7 @@
 
   <pcl-calendar [type]="viewType$ | async"
                 [initialDate]="selectedDate$ | async"
-                [activeMonths]="activeMonths$ | async"
+                [activeMonths]="activeMonths"
                 (onDateChange)="onDateChange($event)"></pcl-calendar>
 
   <pcl-view-type-switcher *ngIf="type && type === 'physicians'"

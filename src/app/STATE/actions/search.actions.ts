@@ -51,6 +51,7 @@ export const ActionTypes = {
   SET_SEARCH_VIEW_TYPE: type('[Search] Set search view type'),
   SET_SEARCH_SELECTED_DATE: type('[Search] Set search selected date'),
   CLEAN_SEARCH_MONTHS_SCHEDULE: type('[Search] Clean searchSchedule'),
+  SET_SEARCH_LOADING: type('[Search] Set loading state'),
   CLEAN_SCHEDULE: type('[Search] Clean Schedule')
 
 };
@@ -161,6 +162,10 @@ export class SetSearchSelectedDateAction implements Action {
 export class CleanSearchMonthsScheduleAction implements Action {
   type = ActionTypes.CLEAN_SEARCH_MONTHS_SCHEDULE;
 }
+export class SetSearchLoadingAction implements Action {
+  type = ActionTypes.SET_SEARCH_LOADING;
+  constructor(public payload: boolean) {}
+}
 
 
 
@@ -202,4 +207,5 @@ export type Actions
   | SetSearchViewTypeAction
   | SetSearchSelectedDateAction
   | CleanSearchMonthsScheduleAction
+  | SetSearchLoadingAction
   | SetSearchTextAction;

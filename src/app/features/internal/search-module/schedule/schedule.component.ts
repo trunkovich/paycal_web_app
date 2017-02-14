@@ -11,7 +11,8 @@ import {SEARCH_ROUTES} from '../search.routes';
 import {Employee} from '../../../../STATE/models/employee.model';
 import {
   SetSearchType, LoadSearchReferenceAction, SetSearchEntryIdAction,
-  SetSearchViewTypeAction, SetSearchSelectedDateAction, LoadSearchFullScheduleAction, CleanSearchMonthsScheduleAction
+  SetSearchViewTypeAction, SetSearchSelectedDateAction, LoadSearchFullScheduleAction, CleanSearchMonthsScheduleAction,
+  SetSearchLoadingAction
 } from '../../../../STATE/actions/search.actions';
 import {GroupSchedule} from '../../../../STATE/models/group-schedule.model';
 import {CalendarTypes} from '../../../../STATE/models/calendar.types';
@@ -25,7 +26,7 @@ import {MasterCalendarEntry} from '../../../../STATE/models/master-calendar-entr
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
-  activeMonths$: Observable<GroupSchedule[]>;
+  activeMonths: GroupSchedule[];
   viewType$: Observable<CalendarTypes>;
   selectedDate$: Observable<Date>;
   entries$: Observable<EmployeeScheduleEntry[] | MasterCalendarEntry[]>;
@@ -34,6 +35,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   type: string;
   id: string;
   sub: Subscription;
+  sub2: Subscription;
   title$: Observable<string>;
   employee$: Observable<Employee>;
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
@@ -42,18 +44,25 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>
-  ) { }
+  ) {}
 
   ngOnInit() {
+    this.loading$ = this.store.select(searchSelectors.getScheduleLoadingState);
+    this.store.dispatch(new SetSearchLoadingAction(true));
     this.store.dispatch(new SetCurrentSectionAction('search'));
     this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.DAY));
     this.store.dispatch(new CleanSearchMonthsScheduleAction());
-    this.store.dispatch(new LoadGroupScheduleMonthsAction());
     this.viewType$ = this.store.select(searchSelectors.getViewType);
-    this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
     this.selectedDate$ = this.store.select(searchSelectors.getSelectedDate);
-    this.loading$ = this.store.select(searchSelectors.getLoadingState);
-    this.sub = this.route.params.subscribe(params => this.parseParams(params));
+    this.sub = this.store.select(scheduleSelectors.getScheduleMonths)
+      .filter((months) => months && !!months.length)
+      .subscribe((months) => {
+        this.activeMonths = months;
+
+        setTimeout(() => {
+          this.parseParams(this.route.snapshot.params);
+        });
+      });
   }
 
   private parseParams(params) {
@@ -69,7 +78,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.id = id;
     this.store.dispatch(new SetSearchType(type));
     this.store.dispatch(new SetSearchEntryIdAction(id));
-    this.store.dispatch(new LoadSearchFullScheduleAction({type: this.type, id: id}));
+    this.store.dispatch(new LoadSearchFullScheduleAction({type, id}));
+    this.store.dispatch(new LoadSearchReferenceAction());
     this.entries$ = this.store.select(searchSelectors.getSortedSelectedDateSchedule);
     this.groupedEntries$ = this.store.select(searchSelectors.getSelectedDateScheduleGroupedByDay);
     switch (this.type) {
@@ -93,14 +103,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         break;
       }
     }
-    if (this.type !== 'physicians') {
-    }
-    this.store.dispatch(new LoadSearchReferenceAction());
   }
 
   ngOnDestroy() {
     if (this.sub) {
       this.sub.unsubscribe();
+    }
+    if (this.sub2) {
+      this.sub2.unsubscribe();
     }
   }
 

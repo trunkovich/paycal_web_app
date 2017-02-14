@@ -9,7 +9,10 @@ import * as searchActions from '../actions/search.actions';
 import {Employee} from '../models/employee.model';
 import {SearchResults} from '../models/search-results.model';
 import {CalendarTypes} from '../models/calendar.types';
-import {AvailableMonthsStructure, EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay} from '../models/employee-schedule-entry.model';
+import {
+  AvailableMonthsStructure, EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay,
+  LoadedMonth
+} from '../models/employee-schedule-entry.model';
 import {MasterCalendarEntry} from '../models/master-calendar-entry.model';
 
 export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-reference'];
@@ -23,9 +26,10 @@ export interface SearchState {
   orReferenceLaborCodes: string[] | null;
   employeesInGroup: Employee[] | null;
   search: string;
-  loading: boolean;
   viewType: CalendarTypes;
   selectedDate: Date;
+  loading: boolean;
+  scheduleLoading: boolean;
 }
 
 const initialSearchState = {
@@ -36,9 +40,10 @@ const initialSearchState = {
   orReferenceLaborCodes: null,
   employeesInGroup: null,
   search: '',
-  loading: false,
   viewType: CalendarTypes.DAY,
-  selectedDate: new Date()
+  selectedDate: new Date(),
+  loading: false,
+  scheduleLoading: false
 };
 
 
@@ -46,6 +51,9 @@ export function searchReducer(state: SearchState = initialSearchState, action: s
   switch (action.type) {
     case searchActions.ActionTypes.CLEAN_SCHEDULE: {
       return _.cloneDeep(initialSearchState);
+    }
+    case searchActions.ActionTypes.SET_SEARCH_LOADING: {
+      return setScheduleLoadingHandler(state, action.payload);
     }
     case searchActions.ActionTypes.LOAD_CALL_REFERENCE_SUCCESS: {
       return loadCallReferenceHandler(setNotLoadingHandler(state), action);
@@ -69,11 +77,13 @@ export function searchReducer(state: SearchState = initialSearchState, action: s
     case searchActions.ActionTypes.LOAD_OR_REFERENCE: {
       return setLoadingHandler(state);
     }
-    case searchActions.ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_FINALLY:
     case searchActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP_FAIL:
     case searchActions.ActionTypes.LOAD_CALL_REFERENCE_FAIL:
     case searchActions.ActionTypes.LOAD_OR_REFERENCE_FAIL: {
       return setNotLoadingHandler(state);
+    }
+    case searchActions.ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_FINALLY: {
+      return setScheduleLoadingHandler(state, false);
     }
     case searchActions.ActionTypes.SET_SEARCH_ENTRY_ID: {
       return setSearchEntryIdHandler(state, action);
@@ -110,6 +120,12 @@ function setLoadingHandler(state: SearchState): SearchState {
 function setNotLoadingHandler(state: SearchState): SearchState {
   return _.assign({}, state, {
     loading: false,
+  });
+}
+
+function setScheduleLoadingHandler(state: SearchState, newState): SearchState {
+  return _.assign({}, state, {
+    scheduleLoading: newState,
   });
 }
 
@@ -152,7 +168,7 @@ function fillSearchMonthScheduleHandler(state: SearchState, action: searchAction
 
 function cleanSearchMonthsHandler(state: SearchState): SearchState {
   let newState = _.cloneDeep(state);
-  newState.searchSchedule = {};
+  newState.searchSchedule = _.mapValues(newState.searchSchedule, (month: LoadedMonth) => _.assign({}, month, {loaded: false, entries: []}));
   return newState;
 }
 
@@ -163,9 +179,8 @@ function setSearchTypeHandler(state: SearchState, action: searchActions.SetSearc
     newState.search = '';
     newState.viewType = CalendarTypes.DAY;
     newState.selectedDate = new Date();
-    newState.searchSchedule = {};
   }
-  return newState;
+  return cleanSearchMonthsHandler(newState);
 }
 
 function loadCallReferenceHandler(state: SearchState, action: searchActions.LoadCallReferenceSuccessAction): SearchState {
@@ -219,6 +234,7 @@ export const getOrReferenceList = (state: SearchState) => state.orReferenceLabor
 export const getEmployeesInGroupList = (state: SearchState) => state.employeesInGroup;
 export const getSearchText = (state: SearchState) => state.search;
 export const getLoadingState = (state: SearchState) => state.loading;
+export const getScheduleLoadingState = (state: SearchState) => state.scheduleLoading;
 export const getSearchEntryId = (state: SearchState) => state.searchEntryId;
 export const getViewType = (state: SearchState) => state.viewType;
 export const getSelectedDate = (state: SearchState) => state.selectedDate;
