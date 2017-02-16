@@ -1,27 +1,24 @@
 @import '../../../../styles';
 
 :host {
-  @include size(100%, 227px);
+  @include size(100%, 255px);
   display: block;
-
-  .header-block {
-    position: relative;
-    @include size(100%, 56px);
-    border-bottom: solid 1px $light-blue-grey;
-
-    .title {
-      @extend .text-center;
-      font-size: 14px;
-      letter-spacing: -0.1px;
-      line-height: 24px;
-      padding: 16px 24px;
-      color: #8f8e94;
-    }
-
-
-  }
+  box-sizing: border-box;
+  background-color: transparent;
+  padding: 10px;
 
   .content-block {
+    border-radius: 12px;
+    background-color: rgb(253, 253, 253);
+
+    .title {
+      font-size: 13px;
+      text-align: center;
+      color: #8f8e94;
+      line-height: 15px;
+      padding: 21px;
+    }
+
     .line {
       height: 1px;
       background-color: $light-blue-grey;
@@ -32,17 +29,23 @@
       font-size: 20px;
       letter-spacing: 0.4px;
       text-align: center;
-      color: $tealish;
+      color: #0076ff;
       line-height: 24px;
       padding: 16px 0;
     }
     a {
       @include anchor-all-styling {
-        color: $tealish;
+        color: #0076ff;
         text-decoration: none;
       }
     }
-    button.link {
+  }
+
+  .footer-block {
+    border-radius: 12px;
+    background-color: rgb(253, 253, 253);
+    margin-top: 8px;
+    button {
       @extend .reset-styles;
       @extend .reset-button-styles;
       @extend .big-text;
@@ -51,7 +54,12 @@
       width: 100%;
       line-height: 56px;
       padding: 0 24px;
-      color: $gunmetal;
+      display: block;
+      font-size: 20px;
+      letter-spacing: 0.4px;
+      text-align: center;
+      font-weight: 600;
+      color: #0076ff;
     }
   }
 }
