@@ -15,29 +15,19 @@
 
   .container {
 
-    .countings {
-      border-radius: 4px;
-      background-color: #ffffff;
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 0 0 0 rgba(0, 0, 0, 0.12);
-      padding: 2px 10px;
-      margin-bottom: 16px;
-
-      .line {
-        @extend .small-text;
-        margin: 6px;
-        span {
-          @extend .bold-text;
-        }
-      }
-    }
-
     pcl-calendar {
       margin-bottom: 16px;
     }
 
     pcl-schedule-entry-card,
+    pcl-master-schedule-card,
     pcl-schedule-day-card {
       margin-bottom: 8px;
+
+      .left-block {
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+      }
     }
   }
 }
