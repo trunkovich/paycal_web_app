@@ -94,11 +94,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         });
         break;
       }
-      case 'call-reference': {
-        this.title$ = Observable.of(id);
-        break;
-      }
-      case 'or-reference': {
+      default: {
         this.title$ = Observable.of(id);
         break;
       }
