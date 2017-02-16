@@ -3,6 +3,8 @@
 :host {
   @include size(100%, 261px);
   display: block;
+  background-color: #ffffff;
+  border-top: solid 2px #d4dfea;
 
   .header-block {
     @include clearfix();
