@@ -14,8 +14,8 @@ export const environment = {
 };
 
 export const APP_CONFIG = Object.freeze({
-  EMAIL: 'some@email.ru',
-  PHONE: '8052091259',
+  EMAIL: 'JefftDuran@gmail.com',
+  PHONE: '8185356093',
   API_BASE_URL: '//api.brainstorm.live/api/Hub/',
   LS_TOKEN_KEY: 'pc_token',
   CLOUDINARY_URL: 'https://api.cloudinary.com/v1_1/paycal/image/upload',

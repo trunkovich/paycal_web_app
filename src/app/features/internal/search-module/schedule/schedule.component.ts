@@ -87,7 +87,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
         this.title$ = this.employee$.map((employee: Employee) => {
           if (employee) {
-            return (employee.FirstName || '') + ' ' + (employee.LastName || '');
+            return this.formattedTitle(employee);
           } else {
             return '';
           }
@@ -133,5 +133,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   onDayClick(day: EmployeeScheduleEntryGroupedByDay) {
     this.store.dispatch(new SetSearchSelectedDateAction(day.date.toDate()));
     this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.DAY));
+  }
+
+  private formattedTitle(profile: Employee): string {
+    if (!profile) {
+      return '';
+    }
+    if (profile.EmployeePositionID === 2) {
+      return `Dr. ${profile.FirstName} ${profile.LastName}, MD.`;
+    }
+    return `${profile.FirstName} ${profile.LastName}`;
   }
 }
