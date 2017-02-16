@@ -44,6 +44,18 @@
                                [shiftCode]="entry.ShiftCode"
                                [hideButton]="true"
                                [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"></pcl-schedule-entry-card>
+
+      <!--Some hacks to show default cards, but prevent showing them during initialization and loading-->
+      <div *ngIf="loading$"> <!--only if loading$ initialized-->
+        <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
+          <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
+            <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
+                                     [hideButton]="true"
+                                     [shiftCode]="entry.ShiftCode"
+                                     [lineOne]="entry.LaborCode"></pcl-schedule-entry-card>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="isNotDayView(viewType$ | async)">
@@ -51,16 +63,19 @@
                              class="week-view-entry"
                              [day]="day"
                              (click)="onDayClick(day)"></pcl-schedule-day-card>
-    </div>
 
-    <!--Some hacks to show default cards, but prevent showing them during initialization and loading-->
-    <div *ngIf="loading$"> <!--only if loading$ initialized-->
-      <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
-        <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
-          <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
-                                   [hideButton]="true"
-                                   [shiftCode]="entry.ShiftCode"
-                                   [lineOne]="entry.LaborCode"></pcl-schedule-entry-card>
+      <div *ngIf="loading$"> <!--only if loading$ initialized-->
+        <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
+          <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
+            <div class="no-entries">
+              <div class="icon">
+                <md-icon [svgIcon]="'calendar-remove'"></md-icon>
+              </div>
+              <div class="no-entries-text">
+                No schedule entries found
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
