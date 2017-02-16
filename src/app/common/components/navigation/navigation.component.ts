@@ -2,6 +2,8 @@ import {Component, Input, HostBinding, OnChanges} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AppState, profileSelectors} from '../../../STATE/reducers/index';
 import {Store} from '@ngrx/store';
+import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
+import {ContactUsBottomSheetComponent} from '../../../features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
 
 @Component({
   selector: 'pcl-navigation',
@@ -13,13 +15,13 @@ export class NavigationComponent implements OnChanges {
   isHomeDisabled$: Observable<boolean>;
   @HostBinding('class.show') someNav: boolean = false;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private bss: BottomSheetService) {
     this.isHomeDisabled$ = store.select(profileSelectors.getMyProfile)
       .map((profile) => !profile || !profile.ScheduledPersonID);
   }
 
   openContactUsDialog() {
-    console.log('contact us clicked');
+    this.bss.open(ContactUsBottomSheetComponent);
   }
 
   ngOnChanges() {

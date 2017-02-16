@@ -28,6 +28,7 @@ import { CropAvatarComponent } from './crop-avatar/crop-avatar.component';
 import {CropLoadingComponent} from './crop-loading/crop-loading.component';
 import { MasterScheduleCardComponent } from './common/components/master-schedule-card/master-schedule-card.component';
 import { PhysicianPipe } from './common/pipes/physician.pipe';
+import {ContactUsBottomSheetComponent} from './contact-us-bottom-sheet/contact-us-bottom-sheet.component';
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import { PhysicianPipe } from './common/pipes/physician.pipe';
     CropAvatarComponent,
     CropLoadingComponent,
     MasterScheduleCardComponent,
-    PhysicianPipe
+    PhysicianPipe,
+    ContactUsBottomSheetComponent
   ]
 })
 export class InternalModule { }

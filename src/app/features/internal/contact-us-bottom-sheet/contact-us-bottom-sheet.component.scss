@@ -1,0 +1,57 @@
+@import '../../../../styles';
+
+:host {
+  @include size(100%, 227px);
+  display: block;
+
+  .header-block {
+    position: relative;
+    @include size(100%, 56px);
+    border-bottom: solid 1px $light-blue-grey;
+
+    .title {
+      @extend .text-center;
+      font-size: 14px;
+      letter-spacing: -0.1px;
+      line-height: 24px;
+      padding: 16px 24px;
+      color: #8f8e94;
+    }
+
+
+  }
+
+  .content-block {
+    .line {
+      height: 1px;
+      background-color: $light-blue-grey;
+    }
+
+    .link {
+      display: block;
+      font-size: 20px;
+      letter-spacing: 0.4px;
+      text-align: center;
+      color: $tealish;
+      line-height: 24px;
+      padding: 16px 0;
+    }
+    a {
+      @include anchor-all-styling {
+        color: $tealish;
+        text-decoration: none;
+      }
+    }
+    button.link {
+      @extend .reset-styles;
+      @extend .reset-button-styles;
+      @extend .big-text;
+      @extend .text-center;
+      height: 56px;
+      width: 100%;
+      line-height: 56px;
+      padding: 0 24px;
+      color: $gunmetal;
+    }
+  }
+}

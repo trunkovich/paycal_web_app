@@ -37,6 +37,7 @@ import {AvatarService} from './core/services/avatar.service';
 import {SearchModule} from './features/internal/search-module/search.module';
 import {HomeEffects} from './STATE/effects/home.effects';
 import {SearchEffects} from './STATE/effects/search.effects';
+import {ContactUsBottomSheetComponent} from './features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,6 @@ import {SearchEffects} from './STATE/effects/search.effects';
     OnlyScheduledPersons
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ViewTypeBottomSheetComponent, BottomSheetContainerComponent]
+  entryComponents: [ViewTypeBottomSheetComponent, BottomSheetContainerComponent, ContactUsBottomSheetComponent]
 })
 export class AppModule { }

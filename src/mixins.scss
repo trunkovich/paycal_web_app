@@ -125,6 +125,14 @@ $breakpoints: (
   &::-webkit-input-placeholder { @content; }
 }
 
+@mixin anchor-all-styling {
+  @content;
+  &.link { @content; }
+  &:visited { @content; }
+  &.hover { @content; }
+  &:active { @content; }
+}
+
 @mixin hardware($backface: true, $perspective: 1000) {
   @if $backface {
     -webkit-backface-visibility: hidden;
