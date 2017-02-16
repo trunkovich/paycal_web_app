@@ -3,20 +3,23 @@ import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
-import * as moment from 'moment';
-
 import {AppState, searchSelectors, scheduleSelectors} from '../../../../STATE/reducers/index';
 import {ALLOWED_SEARCH_TYPES} from '../../../../STATE/reducers/schedule.reducer';
 import {SEARCH_ROUTES} from '../search.routes';
 import {Employee} from '../../../../STATE/models/employee.model';
 import {
-  SetSearchType, LoadSearchReferenceAction, SetSearchEntryIdAction,
-  SetSearchViewTypeAction, SetSearchSelectedDateAction, LoadSearchFullScheduleAction, CleanSearchMonthsScheduleAction,
+  SetSearchType,
+  LoadSearchReferenceAction,
+  SetSearchEntryIdAction,
+  SetSearchViewTypeAction,
+  SetSearchSelectedDateAction,
+  LoadSearchFullScheduleAction,
+  CleanSearchMonthsScheduleAction,
   SetSearchLoadingAction
 } from '../../../../STATE/actions/search.actions';
 import {GroupSchedule} from '../../../../STATE/models/group-schedule.model';
 import {CalendarTypes} from '../../../../STATE/models/calendar.types';
-import {SetCurrentSectionAction, LoadGroupScheduleMonthsAction} from '../../../../STATE/actions/schedule.actions';
+import {SetCurrentSectionAction} from '../../../../STATE/actions/schedule.actions';
 import {EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay} from '../../../../STATE/models/employee-schedule-entry.model';
 import {MasterCalendarEntry} from '../../../../STATE/models/master-calendar-entry.model';
 
@@ -37,7 +40,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   sub: Subscription;
   sub2: Subscription;
   title$: Observable<string>;
-  employee$: Observable<Employee>;
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
 
   constructor(
@@ -82,22 +84,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.store.dispatch(new LoadSearchReferenceAction());
     this.entries$ = this.store.select(searchSelectors.getSortedSelectedDateSchedule);
     this.groupedEntries$ = this.store.select(searchSelectors.getSelectedDateScheduleGroupedByDay);
-    switch (this.type) {
-      case 'physicians': {
-        this.employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
-        this.title$ = this.employee$.map((employee: Employee) => {
-          if (employee) {
-            return this.formattedTitle(employee);
-          } else {
-            return '';
-          }
-        });
-        break;
-      }
-      default: {
-        this.title$ = Observable.of(id);
-        break;
-      }
+    if (this.type === 'physicians') {
+      let employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
+      this.title$ = employee$.map((employee: Employee) => this.formattedTitle(employee));
+    } else {
+      this.title$ = Observable.of(id);
     }
   }
 
