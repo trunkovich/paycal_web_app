@@ -38,7 +38,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
       if (_.includes(ALLOWED_SEARCH_TYPES, params['type'])) {
         this.type = params['type'];
         this.store.dispatch(new SetSearchType(this.type));
-        this.title = this.type === 'physicians' ? 'Physicians' : (this.type === 'call-reference' ? 'Call Reference' : 'Or Reference');
+        this.title = this.type === 'physicians' ? 'Providers' : (this.type === 'call-reference' ? 'Call Reference' : 'Or Reference');
         this.store.dispatch(new LoadSearchReferenceAction());
       } else {
         this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);

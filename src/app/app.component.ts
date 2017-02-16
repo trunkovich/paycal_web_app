@@ -67,6 +67,10 @@ export class AppComponent {
       'no-image',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/no_photo.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'calendar-remove',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/calendar-remove.svg')
+    );
 
   }
 }

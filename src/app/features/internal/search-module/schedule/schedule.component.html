@@ -15,6 +15,22 @@
                           [type]="viewType$ | async"></pcl-view-type-switcher>
 
   <section *ngIf="type && type !== 'physicians'">
+
+    <div *ngIf="loading$"> <!--only if loading$ initialized-->
+      <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
+        <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
+          <div class="no-entries">
+            <div class="icon">
+              <md-icon [svgIcon]="'calendar-remove'"></md-icon>
+            </div>
+            <div class="no-entries-text">
+              No one is scheduled to work
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <pcl-master-schedule-card *ngFor="let entry of entries$ | async"
                              [lineOne]="entry.SchedulePersonID"
                              [shiftCode]="entry.ShiftCode"
