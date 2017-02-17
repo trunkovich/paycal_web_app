@@ -195,7 +195,7 @@ let getSearchResults = createSelector(
     if (!profile || !profile.EmployeeID || !results || !results.length) {
       return results;
     }
-    if (!('EmployeeID' in <any>results[0].entries[0])) {
+    if (!results[0].entries || !(results[0].entries as Employee[]).length || typeof results[0].entries[0] === 'string') {
       return results;
     }
     let id = profile.EmployeeID;
