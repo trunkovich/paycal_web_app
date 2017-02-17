@@ -1,0 +1,17 @@
+@import '../../../../../../styles';
+
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+
+  .letters-wrapper {
+    @include centerer();
+
+    .letter {
+      line-height: 18px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+}
