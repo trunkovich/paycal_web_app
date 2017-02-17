@@ -1,8 +1,7 @@
 /**
  * Created by TrUnK on 21.01.2017.
  */
-import { createSelector } from 'reselect';
-import { ActionReducer } from '@ngrx/store';
+import {createSelector} from 'reselect';
 /**
  * combineReducers is another useful metareducer that takes a map of reducer
  * functions and creates a new reducer that stores the gathers the values
@@ -11,9 +10,8 @@ import { ActionReducer } from '@ngrx/store';
  *
  * More: https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch
  */
-import { combineReducers } from '@ngrx/store';
-
-
+import {ActionReducer, combineReducers} from '@ngrx/store';
+import * as _ from 'lodash';
 /**
  * Every reducer module's default export is the reducer function itself. In
  * addition, each module should export a type or interface that describes
@@ -27,10 +25,11 @@ import * as fromSchedule from './schedule.reducer';
 import * as fromHome from './home.reducer';
 import * as fromSearch from './search.reducer';
 import * as fromDebug from './debug.reducer';
-import {Employee} from '../models/employee.model';
+import {Employee, QualifiedEmployeeGroup, QualifiedEmployee} from '../models/employee.model';
 import {environment} from '../../../environments/environment';
 import {compose} from '@ngrx/core/compose';
 import {storeFreeze} from 'ngrx-store-freeze';
+import {SearchResults} from '../models/search-results.model';
 
 
 /**
@@ -141,7 +140,24 @@ let getSortedShiftEmployees = createSelector(getHomeState, fromHome.getSortedShi
 let isAnyPhysicianSelected = createSelector(getHomeState, fromHome.isAnyPhysicianSelected);
 let getHomeScheduleEntryById = (id) => createSelector(getHomeState, fromHome.getScheduleEntryById(id));
 let getHomeSortedSelectedDateSchedule = createSelector(getHomeState, fromHome.getSortedSelectedDateSchedule);
-let getHomeGroupedSortedShiftEmployees = createSelector(getHomeState, fromHome.getGroupedSortedShiftEmployees);
+let getHomeGroupedSortedShiftEmployees_old = createSelector(getHomeState, fromHome.getGroupedSortedShiftEmployees);
+
+let getHomeGroupedSortedShiftEmployees = createSelector(
+  getMyProfile,
+  getHomeGroupedSortedShiftEmployees_old,
+  (profile: Employee, employeeGroups: QualifiedEmployeeGroup[]): QualifiedEmployeeGroup[] => {
+    if (!profile || !profile.EmployeeID) {
+      return employeeGroups;
+    }
+    let id = profile.EmployeeID;
+    return _.map<QualifiedEmployeeGroup, QualifiedEmployeeGroup>(employeeGroups, (employeeGroup) => {
+      return {
+        letter: employeeGroup.letter,
+        physicians: _.filter<QualifiedEmployee>(employeeGroup.physicians, (employee) => employee.employee.EmployeeID !== id)
+      };
+    });
+  }
+);
 
 let getEstimateEarnings = createSelector(
   getTotalWorkCount,
@@ -158,7 +174,7 @@ let getEstimateEarnings = createSelector(
 /*======================================================*/
 /*===================SEARCH SELECTORS===================*/
 /*======================================================*/
-let getSearchResults = createSelector(getSearchState, fromSearch.getSearchResults);
+let getSearchResults_old = createSelector(getSearchState, fromSearch.getSearchResults);
 let getSearchType = createSelector(getSearchState, fromSearch.getSearchType);
 let getScheduleSearchText = createSelector(getSearchState, fromSearch.getSearchText);
 let getSearchLoadingState = createSelector(getSearchState, fromSearch.getLoadingState);
@@ -171,6 +187,26 @@ let getSearchSortedSelectedDateSchedule = createSelector(getSearchState, fromSea
 let getSearchSelectedDateScheduleGroupedByDay = createSelector(getSearchState, fromSearch.getSelectedDateScheduleGroupedByDay);
 let getEmployeesInGroupList = createSelector(getSearchState, fromSearch.getEmployeesInGroupList);
 let getSearchScheduleLoadingState = createSelector(getSearchState, fromSearch.getScheduleLoadingState);
+
+let getSearchResults = createSelector(
+  getMyProfile,
+  getSearchResults_old,
+  (profile: Employee, results: SearchResults[]): SearchResults[] => {
+    if (!profile || !profile.EmployeeID || !results || !results.length) {
+      return results;
+    }
+    if (!('EmployeeID' in <any>results[0].entries[0])) {
+      return results;
+    }
+    let id = profile.EmployeeID;
+    return _.map<SearchResults, SearchResults>(results, (result) => {
+      return {
+        letter: result.letter,
+        entries: _.filter<Employee>((result.entries as Employee[]), (employee) => employee.EmployeeID !== id)
+      };
+    });
+  }
+);
 
 export const authSelectors = {
   getToken: getToken,
