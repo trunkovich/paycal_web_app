@@ -46,7 +46,7 @@
 
     <div *ngIf="loading$"> <!--only if loading$ initialized-->
       <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
-        <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
+        <div *ngIf="(groupedEntries$ | async) && !(groupedEntries$ | async).length"> <!--only if no entries-->
           <div class="no-entries">
             <div class="icon">
               <md-icon [svgIcon]="'calendar-remove'"></md-icon>

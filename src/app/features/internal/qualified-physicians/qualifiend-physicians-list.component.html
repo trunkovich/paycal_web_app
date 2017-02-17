@@ -8,3 +8,15 @@
     <div class="selected" *ngIf="physician.selected"></div>
   </div>
 </div>
+
+
+<div *ngIf="!physicianGroups.length"> <!--only if no entries-->
+  <div class="no-entries">
+    <div class="icon">
+      <md-icon [svgIcon]="'calendar-remove'"></md-icon>
+    </div>
+    <div class="no-entries-text">
+      No provider is available to cover this shift
+    </div>
+  </div>
+</div>
