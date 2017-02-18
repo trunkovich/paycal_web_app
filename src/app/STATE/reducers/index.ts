@@ -134,6 +134,7 @@ let getHomeSelectedDate = createSelector(getHomeState, fromHome.getMySelectedDat
 let getHomeViewType = createSelector(getHomeState, fromHome.getHomeViewType);
 let getTotalWorkCount = createSelector(getHomeState, fromHome.getTotalWorkCount);
 let getHomeLoadingState = createSelector(getHomeState, fromHome.getHomeLoadingState);
+let getHomeInitLoadingState = createSelector(getHomeState, fromHome.getHomeInitLoadingState);
 let getHomeSelectedDateScheduleGroupedByDay = createSelector(getHomeState, fromHome.getSelectedDateScheduleGroupedByDay);
 let getShiftEmployees = createSelector(getHomeState, fromHome.getShiftEmployees);
 let getSortedShiftEmployees = createSelector(getHomeState, fromHome.getSortedShiftEmployees);
@@ -246,6 +247,7 @@ export const homeSelectors = {
   getHomeViewType: getHomeViewType,
   getTotalWorkCount: getTotalWorkCount,
   getHomeLoadingState: getHomeLoadingState,
+  getHomeInitLoadingState: getHomeInitLoadingState,
   getHomeSelectedDateScheduleGroupedByDay: getHomeSelectedDateScheduleGroupedByDay,
   getShiftEmployees: getShiftEmployees,
   getSortedShiftEmployees: getSortedShiftEmployees,

@@ -15,21 +15,9 @@
 
   .container {
 
-    .no-entries {
+    pcl-no-entries-fallback {
       margin-top: 100px;
       margin-top: 15vh;
-      color: $alto;
-      .icon {
-        @include size(120px);
-        @include center-block();
-        md-icon {
-          @include size(120px);
-        }
-      }
-      .no-entries-text {
-        @extend .big-bold-text;
-        @extend .text-center;
-      }
     }
 
     .countings {

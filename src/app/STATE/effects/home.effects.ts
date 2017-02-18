@@ -1,11 +1,10 @@
 /**
  * Created by TrUnK on 12.02.2017.
  */
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Effect, Actions, toPayload} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-
+import {Observable} from 'rxjs/Observable';
 import * as scheduleActions from '../actions/schedule.actions';
 import * as homeActions from '../actions/home.actions';
 import {ScheduleService} from '../../core/services/schedule.service';
@@ -41,6 +40,14 @@ export class HomeEffects {
       authActions.ActionTypes.SIGN_IN_SUCCESS,
       authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS,
       authActions.ActionTypes.READ_TOKEN_SUCCESS
+    )
+    .map(() => new homeActions.LoadMyCurrentMonthScheduleAction())
+    .delay(1);
+
+  @Effect()
+  loadCurrentMonthScheduleAfterSignIn$: Observable<Action> = this.actions$
+    .ofType(
+      homeActions.ActionTypes.LOAD_MY_CURRENT_MONTH_SCHEDULE
     )
     .map(() => new homeActions.LoadMyMonthScheduleAction(new Date()))
     .delay(1);

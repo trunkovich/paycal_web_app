@@ -3,8 +3,7 @@
  */
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { createSelector } from 'reselect';
-
+import {createSelector} from 'reselect';
 import * as homeActions from '../actions/home.actions';
 import {EmployeeScheduleEntry, AvailableMonthsStructure, EmployeeScheduleEntryGroupedByDay} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
@@ -17,6 +16,7 @@ export interface HomeState {
   homeViewType: CalendarTypes;
   shiftEmployees: QualifiedEmployee[];
   loading: boolean;
+  initLoading: boolean;
 }
 
 const initialHomeState = {
@@ -25,6 +25,7 @@ const initialHomeState = {
   homeViewType: CalendarTypes.DAY,
   shiftEmployees: [],
   loading: false,
+  initLoading: false
 };
 
 
@@ -40,25 +41,33 @@ export function homeReducer(state: HomeState = initialHomeState, action: homeAct
     case homeActions.ActionTypes.LOAD_MY_FULL_SCHEDULE:
     case homeActions.ActionTypes.SET_EMPLOYEES_LOADING:
     case homeActions.ActionTypes.LOAD_SHIFT_EMPLOYEES: {
-      return setLoadingHandler(state);
+      return setLoadingHandler(state, true);
+    }
+    case homeActions.ActionTypes.LOAD_MY_CURRENT_MONTH_SCHEDULE: {
+      return setInitLoadingHandler(state, true);
     }
     case homeActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_SUCCESS: {
-      return loadShiftEmployeesListHandler(setNotLoadingHandler(state), action);
+      let newState = setLoadingHandler(state, false);
+      return loadShiftEmployeesListHandler(newState, action);
     }
     case homeActions.ActionTypes.TOGGLE_SELECTION: {
-      return toggleSelectionHandler(setNotLoadingHandler(state), action);
+      let newState = setLoadingHandler(state, false);
+      return toggleSelectionHandler(newState, action);
     }
     case homeActions.ActionTypes.REMOVE_UNSELECTED_SHIFT_EMPLOYEES: {
       return removeUnselectedEmployeesHandler(state);
     }
     case homeActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_FAIL: {
-      return loadShiftEmployeesListFailHandler(setNotLoadingHandler(state));
+      let newState = setLoadingHandler(state, false);
+      return loadShiftEmployeesListFailHandler(newState);
     }
     case homeActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_FINALLY: {
-      return setNotLoadingHandler(state);
+      let newState = setInitLoadingHandler(state, false);
+      return setLoadingHandler(newState, false);
     }
     case homeActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_SUCCESS: {
-      return loadMyMonthScheduleHandler(state, action);
+      let newState = setInitLoadingHandler(state, false);
+      return loadMyMonthScheduleHandler(newState, action);
     }
     case homeActions.ActionTypes.SET_MY_SELECTED_DATE: {
       return setMySelectedDateHandler(state, action);
@@ -77,15 +86,15 @@ export function homeReducer(state: HomeState = initialHomeState, action: homeAct
 /* ------------------------------------------------------------------ */
 /* -------------------------REDUCER HANDLERS------------------------- */
 /* ------------------------------------------------------------------ */
-function setLoadingHandler(state: HomeState): HomeState {
+function setInitLoadingHandler(state: HomeState, status): HomeState {
   return _.assign({}, state, {
-    loading: true
+    initLoading: status
   });
 }
 
-function setNotLoadingHandler(state: HomeState): HomeState {
+function setLoadingHandler(state: HomeState, status): HomeState {
   return _.assign({}, state, {
-    loading: false,
+    loading: status
   });
 }
 
@@ -180,6 +189,7 @@ export const getMySchedule = (state: HomeState) => state.mySchedule;
 export const getMySelectedDate = (state: HomeState) => state.mySelectedDate;
 export const getHomeViewType = (state: HomeState) => state.homeViewType;
 export const getHomeLoadingState = (state: HomeState) => state.loading;
+export const getHomeInitLoadingState = (state: HomeState) => state.initLoading;
 export const getShiftEmployees = (state: HomeState) => state.shiftEmployees;
 
 export const getMyAllScheduleEntries = createSelector(
@@ -305,25 +315,26 @@ export const getScheduleEntryById = id => {
 
 export const getSelectedDateScheduleGroupedByDay = createSelector(
   getSelectedDateSchedule,
-  (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntryGroupedByDay[] | boolean => {
-    if (!entries) {
-      return false;
-    }
-    let groupedEntries: {[key: string]: EmployeeScheduleEntry[]} = {};
-    let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
-    _.each(entries, (entry) => {
-      if (!groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`]) {
-        groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`] = [];
-      }
-      groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
-    });
-    _.each(groupedEntries, (value, key) => {
-      groupedEntriesArr.push({
-        date: moment(key, 'YYYY.MM.DD'),
-        entries: value
-      });
-    });
-    return groupedEntriesArr;
+  (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntryGroupedByDay[] => {
+    return [];
+    // if (!entries) {
+    //   return null;
+    // }
+    // let groupedEntries: {[key: string]: EmployeeScheduleEntry[]} = {};
+    // let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
+    // _.each(entries, (entry) => {
+    //   if (!groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`]) {
+    //     groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`] = [];
+    //   }
+    //   groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
+    // });
+    // _.each(groupedEntries, (value, key) => {
+    //   groupedEntriesArr.push({
+    //     date: moment(key, 'YYYY.MM.DD'),
+    //     entries: value
+    //   });
+    // });
+    // return groupedEntriesArr;
   }
 );
 

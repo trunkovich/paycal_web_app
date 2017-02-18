@@ -1,6 +1,8 @@
 <pcl-header [title]="formattedTitle(profile$ | async)"></pcl-header>
 <div class="container">
 
+  <pcl-loader [show]="initLoading"></pcl-loader>
+
   <pcl-calendar [type]="homeViewType$ | async"
                 [initialDate]="selectedDate$ | async"
                 [activeMonths]="activeMonths$ | async"
@@ -17,47 +19,36 @@
 
   <pcl-view-type-switcher [type]="homeViewType$ | async"></pcl-view-type-switcher>
 
+  <!--DAY VIEW-->
   <div *ngIf="isDayView(homeViewType$ | async)">
-    <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
+    <pcl-schedule-entry-card *ngFor="let entry of entries"
                              [lineOne]="entry.LaborCode"
                              [shiftCode]="entry.ShiftCode"
                              [hideButton]="isEntryInPast(entry)"
                              [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"
                              (shiftClick)="onShiftClick(entry)"></pcl-schedule-entry-card>
 
-    <!--Some hacks to show default cards, but prevent showing them during initialization and loading-->
-    <div *ngIf="loading$"> <!--only if loading$ initialized-->
-      <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
-        <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
-          <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
-                                   [hideButton]="true"
-                                   [shiftCode]="entry.ShiftCode"
-                                   [lineOne]="entry.LaborCode"></pcl-schedule-entry-card>
-        </div>
-      </div>
+    <!--default cards-->
+    <div *ngIf="!entries.length">
+      <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
+                               [hideButton]="true"
+                               [shiftCode]="entry.ShiftCode"
+                               [lineOne]="entry.LaborCode"></pcl-schedule-entry-card>
     </div>
+
   </div>
 
+  <!--WEEK / 2-WEEK VIEW-->
   <div *ngIf="isNotDayView(homeViewType$ | async)">
     <pcl-schedule-day-card *ngFor="let day of groupedEntries$ | async"
                            class="week-view-entry"
                            [day]="day"
                            (click)="onDayClick(day)"></pcl-schedule-day-card>
 
-    <div *ngIf="loading$"> <!--only if loading$ initialized-->
-      <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
-        <div *ngIf="(groupedEntries$ | async) && !(groupedEntries$ | async).length"> <!--only if no entries-->
-          <div class="no-entries">
-            <div class="icon">
-              <md-icon [svgIcon]="'calendar-remove'"></md-icon>
-            </div>
-            <div class="no-entries-text">
-              No schedule entries found
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <pcl-no-entries-fallback *ngIf="!groupedEntries.length"
+                             [icon]="'calendar-remove'"
+                             [text]="'No schedule entries found'"></pcl-no-entries-fallback>
+
   </div>
 
 </div>

@@ -1,9 +1,8 @@
 /**
  * Created by TrUnK on 12.02.2017.
  */
-import { Action } from '@ngrx/store';
-
-import { type } from '../utils';
+import {Action} from '@ngrx/store';
+import {type} from '../utils';
 import {LoadedMonth} from '../models/employee-schedule-entry.model';
 import {CalendarTypes} from '../models/calendar.types';
 import {QualifiedEmployee} from '../models/employee.model';
@@ -27,6 +26,7 @@ export const ActionTypes = {
   LOAD_MY_MONTH_SCHEDULE_FAIL: type('[Home] Load my month schedule months fail'),
   LOAD_MY_MONTH_SCHEDULE_FINALLY: type('[Home] Load my month schedule months finally'),
   FILL_MY_MONTH_SCHEDULE: type('[Home] Fill my month schedule'),
+  LOAD_MY_CURRENT_MONTH_SCHEDULE: type('[Home] Load my current month schedule'),
 
 // Find Employees to cover shift actions
   LOAD_SHIFT_EMPLOYEES: type('[Home] Find employees to cover shift'),
@@ -80,6 +80,9 @@ export class LoadMyMonthScheduleFinishedAction implements Action {
 export class FillMyMonthsScheduleAction implements Action {
   type = ActionTypes.FILL_MY_MONTH_SCHEDULE;
   constructor(public payload: GroupSchedule[]) { }
+}
+export class LoadMyCurrentMonthScheduleAction implements Action {
+  type = ActionTypes.LOAD_MY_CURRENT_MONTH_SCHEDULE;
 }
 
 // Find Employees to cover shift actions
@@ -147,6 +150,7 @@ export type Actions
   | LoadMyMonthScheduleSuccessAction
   | LoadMyMonthScheduleFailAction
   | LoadMyMonthScheduleFinishedAction
+  | LoadMyCurrentMonthScheduleAction
   | FillMyMonthsScheduleAction
 
 // Find Employees to cover shift actions

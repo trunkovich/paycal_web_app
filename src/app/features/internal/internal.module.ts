@@ -29,6 +29,7 @@ import {MasterScheduleCardComponent} from './common/components/master-schedule-c
 import {PhysicianPipe} from './common/pipes/physician.pipe';
 import {ContactUsBottomSheetComponent} from './contact-us-bottom-sheet/contact-us-bottom-sheet.component';
 import {ShiftCodeComponent} from './common/components/shift-code/shift-code.component';
+import {NoEntriesFallbackComponent} from './common/components/no-entries-fallback/no-entries-fallback.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import {ShiftCodeComponent} from './common/components/shift-code/shift-code.comp
     ScheduleEntryCardComponent,
     ScheduleDayCardComponent,
     MasterScheduleCardComponent,
-    PhysicianPipe
+    PhysicianPipe,
+    NoEntriesFallbackComponent
   ],
   declarations: [
     InternalComponent,
@@ -71,7 +73,8 @@ import {ShiftCodeComponent} from './common/components/shift-code/shift-code.comp
     MasterScheduleCardComponent,
     PhysicianPipe,
     ContactUsBottomSheetComponent,
-    ShiftCodeComponent
+    ShiftCodeComponent,
+    NoEntriesFallbackComponent
   ]
 })
 export class InternalModule { }

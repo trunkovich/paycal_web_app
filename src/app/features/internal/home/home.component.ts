@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 import {Router} from '@angular/router';
-
 import {EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay} from '../../../STATE/models/employee-schedule-entry.model';
 import {CalendarTypes} from '../../../STATE/models/calendar.types';
 import {GroupSchedule} from '../../../STATE/models/group-schedule.model';
@@ -19,31 +19,50 @@ import {SetCurrentSectionAction} from '../../../STATE/actions/schedule.actions';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  initLoading: boolean;
+  entries: EmployeeScheduleEntry[];
+  groupedEntries: EmployeeScheduleEntryGroupedByDay[];
   activeMonths$: Observable<GroupSchedule[]>;
-  entries$: Observable<EmployeeScheduleEntry[]>;
-  groupedEntries$: Observable<EmployeeScheduleEntryGroupedByDay[]>;
   selectedDate$: Observable<Date>;
   homeViewType$: Observable<CalendarTypes>;
   totalWorkCount$: Observable<number>;
   estimateEarning$: Observable<number>;
   profile$: Observable<Employee>;
-  loading$: Observable<boolean>;
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
   summaryEnabled = APP_CONFIG.SHOW_SUMMARY;
+  subs: Subscription[] = [];
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
+  ngOnDestroy() {
+    _.each<Subscription>(this.subs, (sub) => sub.unsubscribe());
+  }
+
   ngOnInit() {
+    this.subs = [
+      this.store.select(homeSelectors.getHomeInitLoadingState)
+        .subscribe((initLoading) => {
+          this.initLoading = initLoading;
+        })
+      ,
+      this.store.select(homeSelectors.getHomeSortedSelectedDateSchedule)
+        .subscribe((entries) => {
+          this.entries = entries;
+        })
+      ,
+      this.store.select(homeSelectors.getHomeSelectedDateScheduleGroupedByDay)
+        .subscribe((groupedEntries) => {
+          this.groupedEntries = groupedEntries;
+        })
+    ];
+
     this.store.dispatch(new SetCurrentSectionAction('home'));
     this.activeMonths$ = this.store.select(scheduleSelectors.getScheduleMonths);
-    this.entries$ = this.store.select(homeSelectors.getHomeSortedSelectedDateSchedule);
-    this.groupedEntries$ = this.store.select(homeSelectors.getHomeSelectedDateScheduleGroupedByDay);
     this.selectedDate$ = this.store.select(homeSelectors.getHomeSelectedDate);
     this.homeViewType$ = this.store.select(homeSelectors.getHomeViewType);
     this.totalWorkCount$ = this.store.select(homeSelectors.getTotalWorkCount);
     this.estimateEarning$ = this.store.select(homeSelectors.getEstimateEarnings);
-    this.loading$ = this.store.select(homeSelectors.getHomeLoadingState);
     this.profile$ = this.store.select(profileSelectors.getMyProfile);
   }
 
