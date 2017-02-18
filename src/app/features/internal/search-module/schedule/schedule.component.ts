@@ -29,16 +29,15 @@ import {MasterCalendarEntry} from '../../../../STATE/models/master-calendar-entr
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
+  entries: (EmployeeScheduleEntry | MasterCalendarEntry)[];
+  groupedEntries: EmployeeScheduleEntryGroupedByDay[];
   activeMonths: GroupSchedule[];
   viewType$: Observable<CalendarTypes>;
   selectedDate$: Observable<Date>;
-  entries$: Observable<EmployeeScheduleEntry[] | MasterCalendarEntry[]>;
-  groupedEntries$: Observable<EmployeeScheduleEntryGroupedByDay[]>;
   loading$: Observable<boolean>;
   type: string;
   id: string;
-  sub: Subscription;
-  sub2: Subscription;
+  subs: Subscription[] = [];
   title$: Observable<string>;
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
 
@@ -56,15 +55,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.store.dispatch(new CleanSearchMonthsScheduleAction());
     this.viewType$ = this.store.select(searchSelectors.getViewType);
     this.selectedDate$ = this.store.select(searchSelectors.getSelectedDate);
-    this.sub = this.store.select(scheduleSelectors.getScheduleMonths)
-      .filter((months) => months && !!months.length)
-      .subscribe((months) => {
-        this.activeMonths = months;
-
-        setTimeout(() => {
-          this.parseParams(this.route.snapshot.params);
-        });
-      });
+    this.subs.push(
+      this.store.select(scheduleSelectors.getScheduleMonths)
+        .filter((months) => months && !!months.length)
+        .subscribe((months) => {
+          this.activeMonths = months;
+          setTimeout(() => {
+            this.parseParams(this.route.snapshot.params);
+          });
+        })
+    );
   }
 
   private parseParams(params) {
@@ -82,8 +82,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetSearchEntryIdAction(id));
     this.store.dispatch(new LoadSearchFullScheduleAction({type, id}));
     this.store.dispatch(new LoadSearchReferenceAction());
-    this.entries$ = this.store.select(searchSelectors.getSortedSelectedDateSchedule);
-    this.groupedEntries$ = this.store.select(searchSelectors.getSelectedDateScheduleGroupedByDay);
+    this.subs.push(
+      this.store.select(searchSelectors.getSortedSelectedDateSchedule)
+        .subscribe((entries) => {
+          this.entries = entries;
+        })
+    );
+    this.subs.push(
+      this.store.select(searchSelectors.getSelectedDateScheduleGroupedByDay)
+        .subscribe((groupedEntries) => {
+          this.groupedEntries = groupedEntries;
+        })
+    );
     if (this.type === 'physicians') {
       let employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
       this.title$ = employee$.map((employee: Employee) => this.formattedTitle(employee));
@@ -93,12 +103,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-    if (this.sub2) {
-      this.sub2.unsubscribe();
-    }
+    _.each<Subscription>(this.subs, (sub) => sub.unsubscribe());
   }
 
   onDateChange(date: Date) {

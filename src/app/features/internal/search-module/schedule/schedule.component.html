@@ -14,70 +14,46 @@
   <pcl-view-type-switcher *ngIf="type && type === 'physicians'"
                           [type]="viewType$ | async"></pcl-view-type-switcher>
 
+  <!--LABOR CODE SECTION-->
   <section *ngIf="type && type !== 'physicians'">
 
-    <div *ngIf="loading$"> <!--only if loading$ initialized-->
-      <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
-        <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
-          <div class="no-entries">
-            <div class="icon">
-              <md-icon [svgIcon]="'calendar-remove'"></md-icon>
-            </div>
-            <div class="no-entries-text">
-              No one is scheduled to work
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <pcl-no-entries-fallback *ngIf="!entries.length"
+                             [icon]="'calendar-remove'"
+                             [text]="'No one is scheduled to work'"></pcl-no-entries-fallback>
 
-    <pcl-master-schedule-card *ngFor="let entry of entries$ | async"
+    <pcl-master-schedule-card *ngFor="let entry of entries"
                              [lineOne]="entry.SchedulePersonID"
                              [shiftCode]="entry.ShiftCode"
                              [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"></pcl-master-schedule-card>
   </section>
 
+  <!--PHYSICIAN SECTION-->
   <section *ngIf="type === 'physicians'">
     <div *ngIf="isDayView(viewType$ | async)">
-      <pcl-schedule-entry-card *ngFor="let entry of entries$ | async"
+      <pcl-schedule-entry-card *ngFor="let entry of entries"
                                [lineOne]="entry.LaborCode"
                                [shiftCode]="entry.ShiftCode"
                                [hideButton]="true"
                                [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"></pcl-schedule-entry-card>
 
-      <!--Some hacks to show default cards, but prevent showing them during initialization and loading-->
-      <div *ngIf="loading$"> <!--only if loading$ initialized-->
-        <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
-          <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
-            <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
-                                     [hideButton]="true"
-                                     [shiftCode]="entry.ShiftCode"
-                                     [lineOne]="entry.LaborCode"></pcl-schedule-entry-card>
-          </div>
-        </div>
+      <!--default cards-->
+      <div *ngIf="!entries.length">
+        <pcl-schedule-entry-card *ngFor="let entry of defaultEntries"
+                                 [hideButton]="true"
+                                 [shiftCode]="entry.ShiftCode"
+                                 [lineOne]="entry.LaborCode"></pcl-schedule-entry-card>
       </div>
     </div>
 
     <div *ngIf="isNotDayView(viewType$ | async)">
-      <pcl-schedule-day-card *ngFor="let day of groupedEntries$ | async"
+      <pcl-schedule-day-card *ngFor="let day of groupedEntries"
                              class="week-view-entry"
                              [day]="day"
                              (click)="onDayClick(day)"></pcl-schedule-day-card>
 
-      <div *ngIf="loading$"> <!--only if loading$ initialized-->
-        <div *ngIf="!(loading$ | async)"> <!--only if loading$ finished-->
-          <div *ngIf="(entries$ | async) && !(entries$ | async).length"> <!--only if no entries-->
-            <div class="no-entries">
-              <div class="icon">
-                <md-icon [svgIcon]="'calendar-remove'"></md-icon>
-              </div>
-              <div class="no-entries-text">
-                No schedule entries found
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <pcl-no-entries-fallback *ngIf="!groupedEntries.length"
+                               [icon]="'calendar-remove'"
+                               [text]="'No schedule entries found'"></pcl-no-entries-fallback>
     </div>
   </section>
 

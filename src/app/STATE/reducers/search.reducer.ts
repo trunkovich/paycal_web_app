@@ -3,14 +3,15 @@
  */
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { createSelector } from 'reselect';
-
+import {createSelector} from 'reselect';
 import * as searchActions from '../actions/search.actions';
 import {Employee} from '../models/employee.model';
 import {SearchResults} from '../models/search-results.model';
 import {CalendarTypes} from '../models/calendar.types';
 import {
-  AvailableMonthsStructure, EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay,
+  AvailableMonthsStructure,
+  EmployeeScheduleEntry,
+  EmployeeScheduleEntryGroupedByDay,
   LoadedMonth
 } from '../models/employee-schedule-entry.model';
 import {MasterCalendarEntry} from '../models/master-calendar-entry.model';
@@ -403,9 +404,9 @@ export const getSortedSelectedDateSchedule = createSelector(
 
 export const getSelectedDateScheduleGroupedByDay = createSelector(
   getSelectedDateSchedule,
-  (entries: (EmployeeScheduleEntry | MasterCalendarEntry)[]): EmployeeScheduleEntryGroupedByDay[] | boolean => {
+  (entries: (EmployeeScheduleEntry | MasterCalendarEntry)[]): EmployeeScheduleEntryGroupedByDay[] => {
     if (!entries) {
-      return false;
+      return null;
     }
     let groupedEntries: {[key: string]: (EmployeeScheduleEntry | MasterCalendarEntry)[]} = {};
     let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
