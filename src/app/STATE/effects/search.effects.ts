@@ -1,15 +1,14 @@
 /**
  * Created by TrUnK on 12.02.2017.
  */
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Effect, Actions, toPayload} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-
+import {Observable} from 'rxjs/Observable';
 import * as searchActions from '../actions/search.actions';
 import * as scheduleActions from '../actions/schedule.actions';
 import {ScheduleService} from '../../core/services/schedule.service';
-import {AppState, searchSelectors, scheduleSelectors} from '../reducers/index';
+import {AppState, searchSelectors} from '../reducers/index';
 import {Employee} from '../models/employee.model';
 import {GroupSchedule} from '../models/group-schedule.model';
 import {AvailableMonthsStructure, LoadedMonth} from '../models/employee-schedule-entry.model';
@@ -21,6 +20,12 @@ export class SearchEffects {
     private scheduleService: ScheduleService,
     private store: Store<AppState>
   ) {}
+
+  @Effect()
+  cleanSchedule$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.CLEAN_SCHEDULE)
+    .map(() => new searchActions.CleanScheduleAction())
+    .delay(1);
 
   @Effect()
   fillMonthsSchedule$: Observable<Action> = this.actions$

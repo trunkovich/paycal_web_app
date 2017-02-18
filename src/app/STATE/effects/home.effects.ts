@@ -23,6 +23,12 @@ export class HomeEffects {
   ) {}
 
   @Effect()
+  cleanSchedule$: Observable<Action> = this.actions$
+    .ofType(scheduleActions.ActionTypes.CLEAN_SCHEDULE)
+    .map(() => new homeActions.CleanScheduleAction())
+    .delay(1);
+
+  @Effect()
   fillMyMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
     .map(toPayload)
