@@ -316,25 +316,24 @@ export const getScheduleEntryById = id => {
 export const getSelectedDateScheduleGroupedByDay = createSelector(
   getSelectedDateSchedule,
   (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntryGroupedByDay[] => {
-    return [];
-    // if (!entries) {
-    //   return null;
-    // }
-    // let groupedEntries: {[key: string]: EmployeeScheduleEntry[]} = {};
-    // let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
-    // _.each(entries, (entry) => {
-    //   if (!groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`]) {
-    //     groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`] = [];
-    //   }
-    //   groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
-    // });
-    // _.each(groupedEntries, (value, key) => {
-    //   groupedEntriesArr.push({
-    //     date: moment(key, 'YYYY.MM.DD'),
-    //     entries: value
-    //   });
-    // });
-    // return groupedEntriesArr;
+    if (!entries) {
+      return null;
+    }
+    let groupedEntries: {[key: string]: EmployeeScheduleEntry[]} = {};
+    let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
+    _.each(entries, (entry) => {
+      if (!groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`]) {
+        groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`] = [];
+      }
+      groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
+    });
+    _.each(groupedEntries, (value, key) => {
+      groupedEntriesArr.push({
+        date: moment(key, 'YYYY.MM.DD'),
+        entries: value
+      });
+    });
+    return groupedEntriesArr;
   }
 );
 
