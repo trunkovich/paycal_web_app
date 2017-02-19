@@ -40,7 +40,7 @@
 
   <!--WEEK / 2-WEEK VIEW-->
   <div *ngIf="isNotDayView(homeViewType$ | async)">
-    <pcl-schedule-day-card *ngFor="let day of groupedEntries$ | async"
+    <pcl-schedule-day-card *ngFor="let day of groupedEntries"
                            class="week-view-entry"
                            [day]="day"
                            (click)="onDayClick(day)"></pcl-schedule-day-card>
