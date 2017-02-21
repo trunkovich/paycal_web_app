@@ -326,7 +326,28 @@ $warn: $blush;
 }
 
 /* Material select */
+$mat-font-family: 'Open Sans', sans-serif;
+pcl-root {
+  .mat-input-wrapper {
+    padding-bottom: 0;
+  }
 
+  //CHANGE FONT
+  .mat-input-container,
+  .mat-select,
+  .mat-button-toggle,
+  .mat-card,
+  .mat-checkbox,
+  .mat-list-item-content,
+  .mat-radio-button,
+  .mat-slide-toggle-content,
+  .mat-toolbar,
+  .mat-tooltip,
+  %mat-button-base{
+    font-family: $mat-font-family;
+  }
+
+}
 
 
 
