@@ -152,53 +152,53 @@ $checkbox-mark-color: $white;
 //$black-26pct-opacity-on-light: #b0b0b0;
 //$disabled-color: if($is-dark-theme, $white-30pct-opacity-on-dark, $black-26pct-opacity-on-light);
 pcl-root {
-  .md-checkbox-frame {
+  .mat-checkbox-frame {
     border-color: $checkbox-border-color;
     z-index: 1;
     border-width: 1px;
   }
 
-  .md-checkbox-checkmark {
+  .mat-checkbox-checkmark {
     fill: $checkbox-mark-color;
   }
 
-  .md-checkbox-checkmark-path {
+  .mat-checkbox-checkmark-path {
     // !important is needed here because a stroke must be set as an attribute on the SVG in order
     // for line animation to work properly.
     stroke: $checkbox-mark-color !important;
   }
 
-  .md-checkbox-mixedmark {
+  .mat-checkbox-mixedmark {
     background-color: $checkbox-mark-color;
   }
 
-  .md-checkbox-background {
+  .mat-checkbox-background {
     background-color: $background;
   }
 
-  .md-checkbox-indeterminate, .md-checkbox-checked {
-    &.md-primary .md-checkbox-background {
+  .mat-checkbox-indeterminate, .mat-checkbox-checked {
+    &.mat-primary .mat-checkbox-background {
       background-color: $primary;
     }
 
-    &.md-accent .md-checkbox-background {
+    &.mat-accent .mat-checkbox-background {
       background-color: $accent;
     }
 
-    &.md-warn .md-checkbox-background {
+    &.mat-warn .mat-checkbox-background {
       background-color: $warn;
     }
   }
-  .md-checkbox:not(.md-checkbox-disabled) {
-    &.md-primary .md-checkbox-ripple .md-ripple-foreground {
+  .mat-checkbox:not(.mat-checkbox-disabled) {
+    &.mat-primary .mat-checkbox-ripple .mat-ripple-foreground {
       background-color: rgba($primary, 0.26);
     }
 
-    &.md-accent .md-checkbox-ripple .md-ripple-foreground {
+    &.mat-accent .mat-checkbox-ripple .mat-ripple-foreground {
       background-color: rgba($accent, 0.26);
     }
 
-    &.md-warn .md-checkbox-ripple .md-ripple-foreground {
+    &.mat-warn .mat-checkbox-ripple .mat-ripple-foreground {
       background-color: rgba($warn, 0.26);
     }
   }
@@ -216,30 +216,12 @@ pcl-root {
   [md-ripple] {
     overflow: hidden;
   }
-  .md-ripple-background {
+
+  .mat-checkbox:not(.mat-checkbox-disabled).mat-primary .mat-checkbox-ripple .mat-ripple-element {
     background-color: rgba(0,0,0,.0588);
-    opacity: 0;
-    transition: opacity .3s linear;
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
   }
-  .md-ripple-foreground.md-ripple-fade-out {
-    opacity: 0;
-  }
-  .md-ripple-foreground {
-    background-color: rgba(0,0,0,.0588);
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: .25;
-    position: absolute;
-    transition: opacity,-webkit-transform 0ms cubic-bezier(0,0,.2,1);
-    transition: opacity,transform 0ms cubic-bezier(0,0,.2,1);
-    transition: opacity,transform 0ms cubic-bezier(0,0,.2,1),-webkit-transform 0ms cubic-bezier(0,0,.2,1);
-  }
-  .md-checkbox-inner-container {
+
+  .mat-checkbox-inner-container {
     width: 24px !important;
     height: 24px !important;
   }
@@ -268,66 +250,79 @@ $background: $pale-grey;
 $primary: $tealish;
 $warn: $blush;
 
-md-select {
+.mat-select {
   font-size: 16px;
   height: 40px;
   width: 100%;
   margin-top: 10px;
 }
 
-.md-select-trigger {
-  color: $select-placeholder;
-  border-bottom: 1px solid $select-underline;
-
-  md-select:focus:not(.md-select-disabled) & {
-    color: $primary;
-    border-bottom: 1px solid $primary;
-  }
-
-  md-select.ng-invalid.ng-touched:not(.md-select-disabled) & {
-    color: $warn;
-    border-bottom: 1px solid $warn;
-  }
-}
-
-.md-select-arrow {
+.mat-select-trigger {
   color: $select-placeholder;
 
-  md-select:focus:not(.md-select-disabled) & {
+  .mat-select:focus:not(.mat-select-disabled) & {
     color: $primary;
   }
 
-  md-select.ng-invalid.ng-touched:not(.md-select-disabled) & {
+  .mat-select.ng-invalid.ng-touched:not(.mat-select-disabled) & {
     color: $warn;
   }
 }
 
-.md-select-content {
+.mat-select-underline {
+  background-color: $select-underline;
+
+  .mat-select:focus:not(.mat-select-disabled) & {
+    background-color: $primary;
+  }
+
+  .mat-select.ng-invalid.ng-touched:not(.mat-select-disabled) & {
+    background-color: $warn;
+  }
+}
+
+.mat-select-arrow {
+  color: $select-placeholder;
+
+  .mat-select:focus:not(.mat-select-disabled) & {
+    color: $primary;
+  }
+
+  .mat-select.ng-invalid.ng-touched:not(.mat-select-disabled) & {
+    color: $warn;
+  }
+}
+
+.mat-select-content {
   background: $background;
 }
 
-.md-select-value {
+.mat-select-value {
   color: $foreground;
 
-  .md-select-disabled & {
+  .mat-select-disabled & {
     color: $foreground;
   }
 }
 
-md-option {
-  &:hover:not(.md-option-disabled), &:focus:not(.md-option-disabled) {
+.mat-option {
+  &:hover:not(.mat-option-disabled), &:focus:not(.mat-option-disabled) {
     background: $light-blue-grey;
   }
 
-  &.md-selected {
+  &.mat-selected {
     background: $light-blue-grey;
     color: $primary;
   }
 
-  &.md-option-disabled {
+  &.mat-option-disabled {
     color: $pale-grey;
   }
 
+}
+
+.mat-select-panel-done-animating {
+  background: none;
 }
 
 /* Material select */
@@ -355,16 +350,16 @@ $input-underline-color-accent: $tealish;
 $input-underline-color-warn: $tealish;
 $input-required-placeholder-color: $blush;
 $input-invalid: $blush;
-.md-input-placeholder {
+.mat-input-placeholder {
   color: $input-placeholder-color;
 
-  &.md-focused {
+  &.mat-focused {
     color: $input-floating-placeholder-color;
 
-    &.md-accent {
+    &.mat-accent {
       color: $input-underline-color-accent;
     }
-    &.md-warn {
+    &.mat-warn {
       color: $input-underline-color-warn;
     }
   }
@@ -376,19 +371,19 @@ md-input-container {
 
   &.ng-dirty.ng-invalid,
   &.ng-touched.ng-invalid {
-    .md-input-placeholder {
+    .mat-input-placeholder {
       color: $input-invalid;
     }
-    .md-input-underline {
+    .mat-input-underline {
       border-color: $input-invalid;
 
-      .md-input-ripple {
+      .mat-input-ripple {
         background-color: $input-invalid;
 
-        &.md-accent {
+        &.mat-accent {
           background-color: $input-invalid;
         }
-        &.md-warn {
+        &.mat-warn {
           background-color: $input-invalid;
         }
       }
@@ -396,29 +391,29 @@ md-input-container {
   }
 }
 
-input.md-input-element[disabled] {
+input.mat-input-element[disabled] {
   -webkit-text-fill-color: $light-blue-grey; /* Override iOS / Android font color change */
   -webkit-opacity: 1; /* Override iOS opacity change affecting text & background color */
   color: $light-blue-grey; /* Override IE font color change */
 }
 
-input.md-input-element:-webkit-autofill + .md-input-placeholder,
-.md-input-placeholder.md-float.md-focused {
-  .md-placeholder-required {
+input.mat-input-element:-webkit-autofill + .mat-input-placeholder,
+.mat-input-placeholder.mat-float.mat-focused {
+  .mat-placeholder-required {
     color: $input-required-placeholder-color;
   }
 }
 
-.md-input-underline {
+.mat-input-underline {
   border-color: $input-underline-color;
 
-  .md-input-ripple {
+  .mat-input-ripple {
     background-color: $input-underline-focused-color;
 
-    &.md-accent {
+    &.mat-accent {
       background-color: $input-underline-color-accent;
     }
-    &.md-warn {
+    &.mat-warn {
       background-color: $input-underline-color-warn;
     }
   }
