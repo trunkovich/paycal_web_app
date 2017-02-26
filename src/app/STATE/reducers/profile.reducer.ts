@@ -2,7 +2,6 @@
  * Created by TrUnK on 06.01.2017.
  */
 import * as _ from 'lodash';
-
 import * as profileActions from '../actions/profile.actions';
 import {Employee} from '../models/employee.model';
 import {ImageDataModel} from '../models/image-data.model';
@@ -36,7 +35,7 @@ export function profileReducer(state: ProfileState = initialProfileState, action
       return clearImageDataHandler(state);
     }
     case profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS: {
-      return saveRedirectUrlHandler(state, action);
+      return getUserProfileHandler(state, action);
     }
     case profileActions.ActionTypes.UPDATE_PROFILE: {
       return setLoadingHanlder(state, true);
@@ -56,7 +55,7 @@ export function profileReducer(state: ProfileState = initialProfileState, action
 /* ------------------------------------------------------------------ */
 /* -------------------------REDUCER HANDLERS------------------------- */
 /* ------------------------------------------------------------------ */
-function saveRedirectUrlHandler(state: ProfileState, action: profileActions.GetUserProfileSuccessAction): ProfileState {
+function getUserProfileHandler(state: ProfileState, action: profileActions.GetUserProfileSuccessAction): ProfileState {
   let newState = _.cloneDeep(state);
   newState.employee = _.cloneDeep(action.payload);
   newState.errorMsg = null;
