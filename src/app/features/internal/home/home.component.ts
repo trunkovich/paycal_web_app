@@ -13,6 +13,7 @@ import {INTERNAL_ROUTES} from '../internal.routes';
 import {APP_CONFIG} from '../../../../environments/environment';
 import {SetMySelectedDateAction, SetHomeViewTypeAction} from '../../../STATE/actions/home.actions';
 import {SetCurrentSectionAction} from '../../../STATE/actions/schedule.actions';
+import {TrackHomeViewOpenedAction} from '../../../STATE/actions/mixpanel.actions';
 
 @Component({
   selector: 'pcl-home',
@@ -64,6 +65,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.totalWorkCount$ = this.store.select(homeSelectors.getTotalWorkCount);
     this.estimateEarning$ = this.store.select(homeSelectors.getEstimateEarnings);
     this.profile$ = this.store.select(profileSelectors.getMyProfile);
+
+    this.homeViewType$
+      .first()
+      .subscribe(viewType => this.store.dispatch(new TrackHomeViewOpenedAction(viewType)));
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {

@@ -1,18 +1,17 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpInterceptorModule} from 'ng-http-interceptor';
 import {MaterialModule} from '@angular/material';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-
 import {AuthModule} from './features/auth/auth.module';
 import {PclCommonModule} from './common/pcl-common.module';
 import {InternalModule} from './features/internal/internal.module';
-import { AppComponent } from './app.component';
-import { OnlyMobileComponent } from './core/components/only-mobile/only-mobile.component';
+import {AppComponent} from './app.component';
+import {OnlyMobileComponent} from './core/components/only-mobile/only-mobile.component';
 import {AppRoutes} from './app.routes';
 import {AuthService} from './core/services/auth.service';
 import {PaycalHttpInterceptor} from './core/services/http-interceptor.service';
@@ -22,7 +21,6 @@ import {ReferencesService} from './core/services/references.service';
 import {OnlyDesktopDevices} from './core/guards/only-desktop-devices.guard';
 import {OnlyMobileDevices} from './core/guards/only-mobile-devices.guard';
 import {OnlySignedInUsers} from './core/guards/only-signed-in-users.guard';
-
 import {AuthEffects} from './STATE/effects/auth.effects';
 import {ErrorHandlingEffects} from './STATE/effects/error-handling.effects';
 import {ProfileEffects} from './STATE/effects/profile.effects';
@@ -38,6 +36,8 @@ import {SearchModule} from './features/internal/search-module/search.module';
 import {HomeEffects} from './STATE/effects/home.effects';
 import {SearchEffects} from './STATE/effects/search.effects';
 import {ContactUsBottomSheetComponent} from './features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
+import {Angulartics2Module, Angulartics2Mixpanel} from 'angulartics2';
+import {MixpanelEffects} from './STATE/effects/mixpanel.effects';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,9 @@ import {ContactUsBottomSheetComponent} from './features/internal/contact-us-bott
     EffectsModule.runAfterBootstrap(ScheduleEffects),
     EffectsModule.runAfterBootstrap(HomeEffects),
     EffectsModule.runAfterBootstrap(SearchEffects),
+    EffectsModule.runAfterBootstrap(MixpanelEffects),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    Angulartics2Module.forRoot([ Angulartics2Mixpanel ]),
 
     InternalModule,
     AuthModule,

@@ -2,13 +2,13 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-
 import {SignInClearErrorAction, SaveLeadAction} from '../../../STATE/actions/auth.actions';
 import {Region} from '../../../STATE/models/region.model';
 import {State} from '../../../STATE/models/state.model';
 import {Lead} from '../../../STATE/models/lead.model';
 import {isMobile} from '../../../core/check-mobile';
 import {AppState, authSelectors, referenceSelectors} from '../../../STATE/reducers/index';
+import {TrackRegistrationFormLandedAction, TrackRegistrationFormSubmittedAction} from '../../../STATE/actions/mixpanel.actions';
 
 @Component({
   selector: 'pcl-registration',
@@ -29,6 +29,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     private store: Store<AppState>) {}
 
   ngOnInit() {
+    this.store.dispatch(new TrackRegistrationFormLandedAction());
     this.registrationForm = this._fb.group({
       name: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/\d{3}-\d{3}-\d{4}/)]],
@@ -48,6 +49,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(data: Lead) {
+    this.store.dispatch(new TrackRegistrationFormSubmittedAction());
     data.phone = data.phone.replace(/\D+/g, '');
     this.store.dispatch(new SignInClearErrorAction());
     this.store.dispatch(new SaveLeadAction(data));

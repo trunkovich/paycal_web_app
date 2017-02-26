@@ -3,15 +3,17 @@ import {Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-
 import {AppState, homeSelectors, profileSelectors} from '../../../STATE/reducers/index';
 import {QualifiedEmployee, Employee} from '../../../STATE/models/employee.model';
 import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-entry.model';
 import {getSMSMessage} from '../../../../environments/environment';
 import {
-  RemoveUnselectedShiftEmployeesAction, CleanShiftEmployeesAction, ToggleSelectionAction,
+  RemoveUnselectedShiftEmployeesAction,
+  CleanShiftEmployeesAction,
+  ToggleSelectionAction,
   CreateCoverageRequestAction
 } from '../../../STATE/actions/home.actions';
+import {TrackMessageGeatureOpenedAction} from '../../../STATE/actions/mixpanel.actions';
 
 
 @Component({
@@ -30,6 +32,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
       if (params['employeeScheduleEntryID']) {
+        this.store.dispatch(new TrackMessageGeatureOpenedAction(params['employeeScheduleEntryID']));
         this.scheduleEntry$ = this.store.select(homeSelectors.getHomeScheduleEntryById(+params['employeeScheduleEntryID']));
       }
     });

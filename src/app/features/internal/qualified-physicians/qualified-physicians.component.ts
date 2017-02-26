@@ -3,14 +3,16 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription, Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-
 import {QualifiedEmployee, QualifiedEmployeeGroup} from '../../../STATE/models/employee.model';
 import {AppState, homeSelectors} from '../../../STATE/reducers/index';
 import {INTERNAL_ROUTES} from '../internal.routes';
 import {
-  LoadShiftEmployeesAction, SetEmployeeLoading, CleanShiftEmployeesAction,
+  LoadShiftEmployeesAction,
+  SetEmployeeLoading,
+  CleanShiftEmployeesAction,
   ToggleSelectionAction
 } from '../../../STATE/actions/home.actions';
+import {TrackEmployeesRequestedAction} from '../../../STATE/actions/mixpanel.actions';
 
 @Component({
   selector: 'pcl-qualified-physicians',
@@ -36,6 +38,7 @@ export class QualifiedPhysiciansComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe((params) => {
       if (params['employeeScheduleEntryID']) {
         this.employeeScheduleEntryID = params['employeeScheduleEntryID'];
+        this.store.dispatch(new TrackEmployeesRequestedAction(this.employeeScheduleEntryID));
         this.store.dispatch(new LoadShiftEmployeesAction(+params['employeeScheduleEntryID']));
       }
     });
