@@ -4,13 +4,13 @@
 import * as _ from 'lodash';
 
 import * as referencesActions from '../actions/references.actions';
-import {GroupPosition} from '../models/group-position.model';
-import {GroupSpecialization} from '../models/group-specialization.model';
-import {Region} from '../models/region.model';
-import {State} from '../models/state.model';
-import {TimeZone} from '../models/time-zone.model';
-import {ReferenceType} from '../models/reference-type.model';
-import {EmployeeStatus} from '../models/employee-status.model';
+import { GroupPosition } from '../models/group-position.model';
+import { GroupSpecialization } from '../models/group-specialization.model';
+import { Region } from '../models/region.model';
+import { State } from '../models/state.model';
+import { TimeZone } from '../models/time-zone.model';
+import { ReferenceType } from '../models/reference-type.model';
+import { EmployeeStatus } from '../models/employee-status.model';
 
 export interface ReferencesState {
   groupPositions: GroupPosition[];
@@ -35,25 +35,25 @@ const initialReferencesState = {
 export function referencesReducer(state: ReferencesState = initialReferencesState, action: referencesActions.Actions): ReferencesState {
   switch (action.type) {
     case referencesActions.ActionTypes.LOAD_GROUP_POSITIONS_SUCCESS: {
-      return setReferenceItemHandler(state, action, 'groupPositions');
+      return setReferenceItemHandler(state, (action as referencesActions.LoadGroupPositionsSuccessAction), 'groupPositions');
     }
     case referencesActions.ActionTypes.LOAD_GROUP_SPECIALIZATIONS_SUCCESS: {
-      return setReferenceItemHandler(state, action, 'groupSpecializations');
+      return setReferenceItemHandler(state, (action as referencesActions.LoadGroupSpecializationsSuccessAction), 'groupSpecializations');
     }
     case referencesActions.ActionTypes.LOAD_REGIONS_SUCCESS: {
-      return setReferenceItemHandler(state, action, 'regions');
+      return setReferenceItemHandler(state, (action as referencesActions.LoadRegionsSuccessAction), 'regions');
     }
     case referencesActions.ActionTypes.LOAD_STATES_SUCCESS: {
-      return setReferenceItemHandler(state, action, 'states');
+      return setReferenceItemHandler(state, (action as referencesActions.LoadStatesSuccessAction), 'states');
     }
     case referencesActions.ActionTypes.LOAD_TIME_ZONES_SUCCESS: {
-      return setReferenceItemHandler(state, action, 'timeZones');
+      return setReferenceItemHandler(state, (action as referencesActions.LoadTimeZonesSuccessAction), 'timeZones');
     }
     case referencesActions.ActionTypes.LOAD_REFERENCES_TYPES_SUCCESS: {
-      return setReferenceItemHandler(state, action, 'referencesTypes');
+      return setReferenceItemHandler(state, (action as referencesActions.LoadReferencesTypesSuccessAction), 'referencesTypes');
     }
     case referencesActions.ActionTypes.LOAD_EMPLOYEE_STATUSES_SUCCESS: {
-      return setReferenceItemHandler(state, action, 'employeeStatuses');
+      return setReferenceItemHandler(state, (action as referencesActions.LoadEmployeeStatusesSuccessAction), 'employeeStatuses');
     }
     default: {
       return state;

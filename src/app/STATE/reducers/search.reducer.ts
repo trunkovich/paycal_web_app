@@ -3,18 +3,18 @@
  */
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 import * as searchActions from '../actions/search.actions';
-import {Employee} from '../models/employee.model';
-import {SearchResults} from '../models/search-results.model';
-import {CalendarTypes} from '../models/calendar.types';
+import { Employee } from '../models/employee.model';
+import { SearchResults } from '../models/search-results.model';
+import { CalendarTypes } from '../models/calendar.types';
 import {
   AvailableMonthsStructure,
   EmployeeScheduleEntry,
   EmployeeScheduleEntryGroupedByDay,
   LoadedMonth
 } from '../models/employee-schedule-entry.model';
-import {MasterCalendarEntry} from '../models/master-calendar-entry.model';
+import { MasterCalendarEntry } from '../models/master-calendar-entry.model';
 
 export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-reference'];
 
@@ -54,22 +54,22 @@ export function searchReducer(state: SearchState = initialSearchState, action: s
       return _.cloneDeep(initialSearchState);
     }
     case searchActions.ActionTypes.SET_SEARCH_LOADING: {
-      return setScheduleLoadingHandler(state, action.payload);
+      return setScheduleLoadingHandler(state, (action as searchActions.SetSearchLoadingAction).payload);
     }
     case searchActions.ActionTypes.LOAD_CALL_REFERENCE_SUCCESS: {
-      return loadCallReferenceHandler(setNotLoadingHandler(state), action);
+      return loadCallReferenceHandler(setNotLoadingHandler(state), (action as searchActions.LoadCallReferenceSuccessAction));
     }
     case searchActions.ActionTypes.LOAD_OR_REFERENCE_SUCCESS: {
-      return loadOrReferenceHandler(setNotLoadingHandler(state), action);
+      return loadOrReferenceHandler(setNotLoadingHandler(state), (action as searchActions.LoadCallReferenceSuccessAction));
     }
     case searchActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP_SUCCESS: {
-      return loadEmployeesInGroupHandler(setNotLoadingHandler(state), action);
+      return loadEmployeesInGroupHandler(setNotLoadingHandler(state), (action as searchActions.LoadEmployeesInGroupSuccessAction));
     }
     case searchActions.ActionTypes.SET_SEARCH_TYPE: {
-      return setSearchTypeHandler(state, action);
+      return setSearchTypeHandler(state, (action as searchActions.SetSearchType));
     }
     case searchActions.ActionTypes.SET_SEARCH_TEXT: {
-      return setSearchTextHandler(state, action);
+      return setSearchTextHandler(state, (action as searchActions.SetSearchTextAction));
     }
     case searchActions.ActionTypes.LOAD_EMPLOYEES_IN_GROUP:
     case searchActions.ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE:
@@ -87,19 +87,19 @@ export function searchReducer(state: SearchState = initialSearchState, action: s
       return setScheduleLoadingHandler(state, false);
     }
     case searchActions.ActionTypes.SET_SEARCH_ENTRY_ID: {
-      return setSearchEntryIdHandler(state, action);
+      return setSearchEntryIdHandler(state, (action as searchActions.SetSearchEntryIdAction));
     }
     case searchActions.ActionTypes.SET_SEARCH_VIEW_TYPE: {
-      return setSearchViewTypeHandler(state, action);
+      return setSearchViewTypeHandler(state, (action as searchActions.SetSearchViewTypeAction));
     }
     case searchActions.ActionTypes.SET_SEARCH_SELECTED_DATE: {
-      return setSearchSelectedDateHandler(state, action);
+      return setSearchSelectedDateHandler(state, (action as searchActions.SetSearchSelectedDateAction));
     }
     case searchActions.ActionTypes.LOAD_SEARCH_MONTH_SCHEDULE_SUCCESS: {
-      return loadSearchMonthScheduleHandler(state, action);
+      return loadSearchMonthScheduleHandler(state, (action as searchActions.LoadSearchMonthScheduleSuccessAction));
     }
     case searchActions.ActionTypes.FILL_SEARCH_MONTH_SCHEDULE: {
-      return fillSearchMonthScheduleHandler(state, action);
+      return fillSearchMonthScheduleHandler(state, (action as searchActions.FillSearchMonthsScheduleAction));
     }
     case searchActions.ActionTypes.CLEAN_SEARCH_MONTHS_SCHEDULE: {
       return cleanSearchMonthsHandler(state);

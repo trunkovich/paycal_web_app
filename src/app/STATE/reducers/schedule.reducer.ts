@@ -4,7 +4,7 @@
 import * as _ from 'lodash';
 
 import * as scheduleActions from '../actions/schedule.actions';
-import {GroupSchedule} from '../models/group-schedule.model';
+import { GroupSchedule } from '../models/group-schedule.model';
 
 export const ALLOWED_SEARCH_TYPES = ['physicians', 'call-reference', 'or-reference'];
 
@@ -28,7 +28,7 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
       return _.cloneDeep(initialScheduleState);
     }
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS: {
-      return loadGroupScheduleMonthsHandler(setNotLoadingHandler(state), action);
+      return loadGroupScheduleMonthsHandler(setNotLoadingHandler(state), (action as scheduleActions.LoadGroupScheduleMonthsSuccessAction));
     }
     case scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS: {
       return setLoadingHandler(state);
@@ -37,7 +37,7 @@ export function scheduleReducer(state: ScheduleState = initialScheduleState, act
       return setNotLoadingHandler(state);
     }
     case scheduleActions.ActionTypes.SET_CURRENT_SECTION: {
-      return setCurrentSectionHandler(state, action);
+      return setCurrentSectionHandler(state, (action as scheduleActions.SetCurrentSectionAction));
     }
     default: {
       return state;

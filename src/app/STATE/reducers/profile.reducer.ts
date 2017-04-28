@@ -3,8 +3,8 @@
  */
 import * as _ from 'lodash';
 import * as profileActions from '../actions/profile.actions';
-import {Employee} from '../models/employee.model';
-import {ImageDataModel} from '../models/image-data.model';
+import { Employee } from '../models/employee.model';
+import { ImageDataModel } from '../models/image-data.model';
 
 export interface ProfileState {
   employee: Employee | null;
@@ -29,23 +29,24 @@ export function profileReducer(state: ProfileState = initialProfileState, action
       return clearProfileErrorHandler(state);
     }
     case profileActions.ActionTypes.STORE_IMAGE_DATA: {
-      return storeImageDataHandler(state, action);
+      return storeImageDataHandler(state, (action as profileActions.StoreImageData));
     }
     case profileActions.ActionTypes.CLEAR_IMAGE_DATA: {
       return clearImageDataHandler(state);
     }
     case profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS: {
-      return getUserProfileHandler(state, action);
+      return getUserProfileHandler(state, (action as profileActions.GetUserProfileSuccessAction));
     }
     case profileActions.ActionTypes.UPDATE_PROFILE: {
       return setLoadingHanlder(state, true);
     }
     case profileActions.ActionTypes.UPDATE_PROFILE_SUCCESS: {
-      return updateProfileHandler(state, action);
+      return updateProfileHandler(state, (action as profileActions.UpdateProfileSuccessAction));
     }
     case profileActions.ActionTypes.GET_USER_PROFILE_FAIL:
     case profileActions.ActionTypes.UPDATE_PROFILE_FAIL: {
-      return setErrorMsgHandler(state, action);
+      return setErrorMsgHandler(state, (action as profileActions.GetUserProfileFailAction |
+                                                  profileActions.UpdateProfileFailAction));
     }
     default: {
       return state;

@@ -4,7 +4,7 @@
 import * as _ from 'lodash';
 
 import * as authActions from '../actions/auth.actions';
-import {TokenObject} from '../models/token.model';
+import { TokenObject } from '../models/token.model';
 
 export interface AuthState {
   token: string | null;
@@ -45,20 +45,26 @@ export function authReducer(state: AuthState = initialAuthState, action: authAct
     case authActions.ActionTypes.SAVE_LEAD_FAIL:
     case authActions.ActionTypes.CHANGE_PASSWORD_FAIL:
     case authActions.ActionTypes.SIGN_IN_FAIL: {
-      return setErrorMsg(state, action);
+      return setErrorMsg(state, (action as authActions.RequestPasswordRecoveryFailAction |
+                                          authActions.CompleteRegistrationFailAction |
+                                          authActions.ResetPasswordFailAction |
+                                          authActions.SaveLeadFailAction |
+                                          authActions.ChangePasswordFailAction |
+                                          authActions.SignInFailAction));
     }
     case authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS:
     case authActions.ActionTypes.SIGN_IN_SUCCESS: {
-      return signInHandler(state, action);
+      return signInHandler(state, (action as authActions.CompleteRegistrationSuccessAction |
+                                            authActions.SignInSuccessAction));
     }
     case authActions.ActionTypes.READ_TOKEN_SUCCESS: {
-      return readTokenHandler(state, action);
+      return readTokenHandler(state, (action as authActions.ReadTokenSuccessAction));
     }
     case authActions.ActionTypes.READ_TOKEN_FAIL: {
       return readTokenFailHandler(state);
     }
     case authActions.ActionTypes.SAVE_REDIRECT_URL: {
-      return saveRedirectUrlHandler(state, action);
+      return saveRedirectUrlHandler(state, (action as authActions.SaveRedirectUrl));
     }
     case authActions.ActionTypes.LOGOUT: {
       return _.cloneDeep(initialAuthState);

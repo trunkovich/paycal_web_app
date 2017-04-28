@@ -3,11 +3,15 @@
  */
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 import * as homeActions from '../actions/home.actions';
-import {EmployeeScheduleEntry, AvailableMonthsStructure, EmployeeScheduleEntryGroupedByDay} from '../models/employee-schedule-entry.model';
-import {CalendarTypes} from '../models/calendar.types';
-import {QualifiedEmployee, QualifiedEmployeeGroup} from '../models/employee.model';
+import {
+  AvailableMonthsStructure,
+  EmployeeScheduleEntry,
+  EmployeeScheduleEntryGroupedByDay
+} from '../models/employee-schedule-entry.model';
+import { CalendarTypes } from '../models/calendar.types';
+import { QualifiedEmployee, QualifiedEmployeeGroup } from '../models/employee.model';
 
 
 export interface HomeState {
@@ -48,11 +52,11 @@ export function homeReducer(state: HomeState = initialHomeState, action: homeAct
     }
     case homeActions.ActionTypes.LOAD_SHIFT_EMPLOYEES_SUCCESS: {
       let newState = setLoadingHandler(state, false);
-      return loadShiftEmployeesListHandler(newState, action);
+      return loadShiftEmployeesListHandler(newState, (action as homeActions.LoadShiftEmployeesSuccessAction));
     }
     case homeActions.ActionTypes.TOGGLE_SELECTION: {
       let newState = setLoadingHandler(state, false);
-      return toggleSelectionHandler(newState, action);
+      return toggleSelectionHandler(newState, (action as homeActions.ToggleSelectionAction));
     }
     case homeActions.ActionTypes.REMOVE_UNSELECTED_SHIFT_EMPLOYEES: {
       return removeUnselectedEmployeesHandler(state);
@@ -67,16 +71,16 @@ export function homeReducer(state: HomeState = initialHomeState, action: homeAct
     }
     case homeActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE_SUCCESS: {
       let newState = setInitLoadingHandler(state, false);
-      return loadMyMonthScheduleHandler(newState, action);
+      return loadMyMonthScheduleHandler(newState, (action as homeActions.LoadMyMonthScheduleSuccessAction));
     }
     case homeActions.ActionTypes.SET_MY_SELECTED_DATE: {
-      return setMySelectedDateHandler(state, action);
+      return setMySelectedDateHandler(state, (action as homeActions.SetMySelectedDateAction));
     }
     case homeActions.ActionTypes.SET_HOME_VIEW_TYPE: {
-      return setHomeViewTypeHandler(state, action);
+      return setHomeViewTypeHandler(state, (action as homeActions.SetHomeViewTypeAction));
     }
     case homeActions.ActionTypes.FILL_MY_MONTH_SCHEDULE: {
-      return fillMyMonthScheduleHandler(state, action);
+      return fillMyMonthScheduleHandler(state, (action as homeActions.FillMyMonthsScheduleAction));
     }
     default: {
       return state;

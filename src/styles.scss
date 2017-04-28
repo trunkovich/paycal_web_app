@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
 @import "~@angular/material/core/theming/prebuilt/purple-green.scss";
 
-$image-path: 'assets/' !default;
+$image-path: '/assets/' !default;
 $retina-suffix: '@2x';
 $base-width: 375;
 $header-height: 45px;

@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {Employee} from '../../../../STATE/models/employee.model';
+import { Employee } from '../../../../STATE/models/employee.model';
 
 @Component({
   selector: 'pcl-search-results-entry',
@@ -10,5 +10,5 @@ import {Employee} from '../../../../STATE/models/employee.model';
 `
 })
 export class SearchResultsEntryComponent {
-  @Input() entry: string | Employee;
+  @Input() entry: Employee;
 }

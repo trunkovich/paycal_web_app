@@ -1,19 +1,19 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {Location} from '@angular/common';
-import {Observable, Subscription} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {AppState, homeSelectors, profileSelectors} from '../../../STATE/reducers/index';
-import {QualifiedEmployee, Employee} from '../../../STATE/models/employee.model';
-import {EmployeeScheduleEntry} from '../../../STATE/models/employee-schedule-entry.model';
-import {getSMSMessage} from '../../../../environments/environment';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Location } from '@angular/common';
+import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { AppState, homeSelectors, profileSelectors } from '../../../STATE/reducers/index';
+import { Employee, QualifiedEmployee } from '../../../STATE/models/employee.model';
+import { EmployeeScheduleEntry } from '../../../STATE/models/employee-schedule-entry.model';
+import { getSMSMessage } from '../../../../environments/environment';
 import {
-  RemoveUnselectedShiftEmployeesAction,
   CleanShiftEmployeesAction,
-  ToggleSelectionAction,
-  CreateCoverageRequestAction
+  CreateCoverageRequestAction,
+  RemoveUnselectedShiftEmployeesAction,
+  ToggleSelectionAction
 } from '../../../STATE/actions/home.actions';
-import {TrackMessageGeatureOpenedAction} from '../../../STATE/actions/mixpanel.actions';
+import { TrackMessageGeatureOpenedAction } from '../../../STATE/actions/mixpanel.actions';
 
 
 @Component({
@@ -24,8 +24,8 @@ import {TrackMessageGeatureOpenedAction} from '../../../STATE/actions/mixpanel.a
 export class MessageComponent implements OnInit, OnDestroy {
   selectedEmployees$: Observable<QualifiedEmployee[]>;
   profile$: Observable<Employee>;
-  private sub: Subscription;
-  private scheduleEntry$: Observable<EmployeeScheduleEntry>;
+  sub: Subscription;
+  scheduleEntry$: Observable<EmployeeScheduleEntry>;
 
   constructor(private store: Store<AppState>, private _location: Location, private route: ActivatedRoute) { }
 
