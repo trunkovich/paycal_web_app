@@ -1,6 +1,6 @@
-import {Employee} from '../app/STATE/models/employee.model';
-import {EmployeeScheduleEntry} from '../app/STATE/models/employee-schedule-entry.model';
-import {PhonePipe} from '../app/common/pipes/phone.pipe';
+import { Employee } from '../app/STATE/models/employee.model';
+import { EmployeeScheduleEntry } from '../app/STATE/models/employee-schedule-entry.model';
+import { PhonePipe } from '../app/common/pipes/phone.pipe';
 import * as moment from 'moment';
 
 export const environment = {
@@ -42,11 +42,12 @@ export const getSMSMessage = (profile: Employee, scheduleEntry: EmployeeSchedule
   }
   let phonePipe = new PhonePipe();
   let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, day: scheduleEntry.Day});
-  return `Good Morning,
-
-I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. ` +
-    `If you are interested please contact me with the information below.
-
-${phonePipe.transform(profile.MobilePhone)}
-${profile.Email}`;
+  return `I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. If you are interested my phone number is ${phonePipe.transform(profile.MobilePhone)} and my email address is ${profile.Email}.`;
+//   `Good Morning,
+//
+// I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. ` +
+// `If you are interested please contact me with the information below.
+//
+// ${phonePipe.transform(profile.MobilePhone)}
+// ${profile.Email}`;
 };
