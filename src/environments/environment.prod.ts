@@ -44,7 +44,7 @@ export const getSMSMessage = (profile: Employee, scheduleEntry: EmployeeSchedule
   let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, day: scheduleEntry.Day});
   return `Hello,
 
-This is ${profile.FirstName} ${profile.LastName}.` +
+This is ${profile.FirstName} ${profile.LastName}. ` +
 `Will you be available to cover my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} shift on ${m.format('dddd, MMMM D, YYYY')}? ` +
 `My mobile phone number is ${phonePipe.transform(profile.MobilePhone)} and my email is ${profile.Email}. ` +
 `Please let me know. Thanks!`;
