@@ -47,13 +47,10 @@ export const getSMSMessage = (profile: Employee, scheduleEntry: EmployeeSchedule
   }
   let phonePipe = new PhonePipe();
   let m = moment({year: scheduleEntry.Year, month: scheduleEntry.Month - 1, day: scheduleEntry.Day});
-  return `I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. If you are interested my phone number is ${phonePipe.transform(profile.MobilePhone)} and my email address is ${profile.Email}.`;
-//   `Good Morning,
-//
-// I’m looking for my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} Shift coverage on ${m.format('dddd, MMMM D, YYYY')}. ` +
-// `If you are interested please contact me with the information below.
-//
-// ${phonePipe.transform(profile.MobilePhone)}
-// ${profile.Email}`;
-};
+  return `Hello,
 
+This is ${profile.FirstName} ${profile.LastName}.` +
+`Will you be available to cover my ${scheduleEntry.LaborCode} ${scheduleEntry.ShiftCode} shift on ${m.format('dddd, MMMM D, YYYY')}? ` +
+`My mobile phone number is ${phonePipe.transform(profile.MobilePhone)} and my email is ${profile.Email}. ` +
+`Please let me know. Thanks!`;
+};
