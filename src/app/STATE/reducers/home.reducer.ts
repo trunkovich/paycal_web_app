@@ -298,10 +298,14 @@ const SORT_ORDER = {
   'OV': 4,
   '24': 5,
 };
+const sortByShiftCode = (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntry[] => {
+  return _.sortBy(entries, entry => SORT_ORDER[entry.ShiftCode] || 10);
+};
+
 export const getSortedSelectedDateSchedule = createSelector(
   getSelectedDateSchedule,
   (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntry[] => {
-    return _.sortBy(entries, entry => SORT_ORDER[entry.ShiftCode] || 10);
+    return sortByShiftCode(entries);
   }
 );
 
@@ -334,7 +338,7 @@ export const getSelectedDateScheduleGroupedByDay = createSelector(
     _.each(groupedEntries, (value, key) => {
       groupedEntriesArr.push({
         date: moment(key, 'YYYY.MM.DD'),
-        entries: value
+        entries: sortByShiftCode(value)
       });
     });
     return groupedEntriesArr;
