@@ -14,7 +14,7 @@ export const environment = {
 };
 
 export const APP_CONFIG = Object.freeze({
-  EMAIL: 'JefftDuran@gmail.com',
+  EMAIL: 'Jeff@pmtkp.com',
   PHONE: '7144100280',
   API_BASE_URL: '//api.brainstorm.live/api/Hub/',
   LS_TOKEN_KEY: 'pc_token',
