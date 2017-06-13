@@ -54,3 +54,20 @@ This is ${profile.FirstName} ${profile.LastName}. ` +
 `My mobile phone number is ${phonePipe.transform(profile.MobilePhone)} and my email is ${profile.Email}. ` +
 `Please let me know. Thanks!`;
 };
+
+export const CALENDAR_COLORS = Object.freeze({
+  2017: {
+    1: { 1: 'yellow',  2: 'red', 6: 'green', 15: 'blue', 20: 'green', 29: 'yellow' },
+    2: { 3: 'green', 12: 'blue', 17: 'green', 26: 'yellow' },
+    3: { 3: 'green', 12: 'blue', 17: 'green', 26: 'pink', 31: 'green' },
+    4: { 9: 'yellow', 14: 'green', 23: 'blue', 28: 'green' },
+    5: { 7: 'yellow', 12: 'green', 21: 'blue', 26: 'green', 29: 'red' },
+    6: { 4: 'yellow', 9: 'green', 18: 'blue', 23: 'green' },
+    7: { 2: 'yellow', 4: 'red', 7: 'green', 16: 'blue', 21: 'green', 30: 'yellow' },
+    8: { 4: 'green', 13: 'blue', 18: 'green', 27: 'yellow' },
+    9: { 1: 'green', 4: 'red', 10: 'blue', 15: 'green', 24: 'pink', 29: 'green' },
+    10: { 8: 'yellow', 13: 'green', 22: 'blue', 27: 'green' },
+    11: { 5: 'yellow', 10: 'green', 19: 'blue', 23: 'red', 24: 'green' },
+    12: { 3: 'yellow', 8: 'green', 17: 'blue', 22: 'green', 25: 'red', 31: 'yellow' }
+  }
+});
