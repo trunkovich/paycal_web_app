@@ -3,7 +3,9 @@
  */
 
 import * as moment from 'moment';
-import {CalendarTypes} from '../../../../../STATE/models/calendar.types';
+import * as _ from 'lodash';
+import { CalendarTypes } from '../../../../../STATE/models/calendar.types';
+import { CALENDAR_COLORS } from '../../../../../../environments/environment';
 
 enum ViewType {
   DAY,
@@ -45,6 +47,7 @@ export class Calendar {
   private type: CalendarTypes;
   private activeMonths: ActiveMonthStructure;
   private currentDate: moment.Moment;
+  private calendarColors = _.cloneDeep(CALENDAR_COLORS);
 
   data: CalendarView;
   viewDate: moment.Moment;
@@ -161,6 +164,13 @@ export class Calendar {
     }
     if (entry.outOfRange) {
       classes += ' out-of-range';
+    }
+    if (
+      !entry.selected &&
+      this.calendarColors[entry.value.year()] &&
+      this.calendarColors[entry.value.year()][entry.value.month() + 1][entry.value.date()]
+    ) {
+      classes += ` ${this.calendarColors[entry.value.year()][entry.value.month() + 1][entry.value.date()]}`;
     }
     if (entry.selected) {
       if (this.isWeekType()) {

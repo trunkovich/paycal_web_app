@@ -146,6 +146,26 @@
                 border-radius: 50%;
                 background-color: $tealish;
               }
+
+              &.green {
+                background-color: #00dc00;
+              }
+
+              &.yellow {
+                background-color: yellow;
+              }
+
+              &.red {
+                background-color: red;
+              }
+
+              &.pink {
+                background-color: pink;
+              }
+
+              &.blue {
+                background-color: #6cdbff;
+              }
             }
             &.day-entry {
               width: calc(100%/7);
