@@ -65,6 +65,25 @@
           line-height: 22px;
           padding: 13px 24px;
         }
+
+        .provider-entry {
+          @include clearfix();
+          @extend .big-text;
+          line-height: 22px;
+          padding-left: 24px;
+          .title {
+            @extend .float-left;
+            padding: 13px 0;
+          }
+          .contact-buttons {
+            @extend .float-right;
+            padding: 4px 0;
+
+            md-icon {
+              fill: #27a5bc;
+            }
+          }
+        }
       }
     }
   }

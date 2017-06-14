@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {PaycalHttpInterceptor} from './core/services/http-interceptor.service';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MdIconRegistry} from '@angular/material';
+import { Component } from '@angular/core';
+import { PaycalHttpInterceptor } from './core/services/http-interceptor.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MdIconRegistry } from '@angular/material';
 
 @Component({
   selector: 'pcl-root',
@@ -70,6 +70,18 @@ export class AppComponent {
     mdIconRegistry.addSvgIcon(
       'calendar-remove',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/calendar-remove.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'phone',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/phone.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'email',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/email.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'send',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/send.svg')
     );
 
   }
