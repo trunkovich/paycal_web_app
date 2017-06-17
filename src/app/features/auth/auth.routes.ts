@@ -1,18 +1,19 @@
 import { Routes } from '@angular/router';
 
-import {SignInComponent} from './sign-in/sign-in.component';
-import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
-import {ForgotPasswordSuccessComponent} from './forgot-password-success/forgot-password-success.component';
-import {PasswordResetComponent} from './password-reset/password-reset.component';
-import {PasswordResetSuccessComponent} from './password-reset-success/password-reset-success.component';
-import {CompleteRegistrationSuccessComponent} from './complete-registration-success/complete-registration-success.component';
-import {CompleteRegistrationComponent} from './complete-registration/complete-registration.component';
-import {OnlyMobileDevices} from '../../core/guards/only-mobile-devices.guard';
-import {RegistrationComponent} from './registration/registration.component';
-import {RegistrationSuccessComponent} from './registration-success/registration-success.component';
-import {ChangePasswordComponent} from './change-password/change-password.component';
-import {ChangePasswordSuccessComponent} from './change-password-success/change-password-success.component';
-import {OnlySignedInUsers} from '../../core/guards/only-signed-in-users.guard';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { PasswordResetSuccessComponent } from './password-reset-success/password-reset-success.component';
+import { CompleteRegistrationSuccessComponent } from './complete-registration-success/complete-registration-success.component';
+import { CompleteRegistrationComponent } from './complete-registration/complete-registration.component';
+import { OnlyMobileDevices } from '../../core/guards/only-mobile-devices.guard';
+import { RegistrationComponent } from './registration/registration.component';
+import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
+import { OnlySignedInUsers } from '../../core/guards/only-signed-in-users.guard';
+import { TermsComponent } from './terms/terms.component';
 
 export const AUTH_ROUTES = Object.freeze({
   LOGIN: 'login',
@@ -25,7 +26,8 @@ export const AUTH_ROUTES = Object.freeze({
   COMPLETE_REGISTRATION: 'complete-registration',
   COMPLETE_REGISTRATION_SUCCESS: 'complete-registration-success',
   CHANGE_PASSWORD: 'change-password',
-  CHANGE_PASSWORD_SUCCESS: 'change-password-success'
+  CHANGE_PASSWORD_SUCCESS: 'change-password-success',
+  TERMS_AND_CONDITIONS: 'terms-and-conditions'
 });
 
 // Can't use AUTH_ROUTES here, because of error:
@@ -43,4 +45,5 @@ export const authRoutes: Routes = [
   { path: 'complete-registration-success', component: CompleteRegistrationSuccessComponent, canActivate: [OnlyMobileDevices] },
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [OnlyMobileDevices, OnlySignedInUsers] },
   { path: 'change-password-success', component: ChangePasswordSuccessComponent, canActivate: [OnlyMobileDevices, OnlySignedInUsers] },
+  { path: 'terms-and-conditions', component: TermsComponent }
 ];
