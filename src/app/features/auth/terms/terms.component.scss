@@ -1,6 +1,12 @@
 
 
 :host {
+  background: white;
+  display: block;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
   .text {
     p {
       margin-top: 24px;

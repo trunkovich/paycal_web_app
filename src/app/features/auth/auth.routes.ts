@@ -34,7 +34,7 @@ export const AUTH_ROUTES = Object.freeze({
 // `Error encountered resolving symbol values statically`
 // Please keep it in sync by hands.
 export const authRoutes: Routes = [
-  { path: 'login', component: SignInComponent, canActivate: [OnlyMobileDevices] },
+  { path: 'login', component: SignInComponent, canActivate: [OnlyMobileDevices], data: { animation: { value: 'login' } } },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [OnlyMobileDevices] },
   { path: 'forgot-password-success', component: ForgotPasswordSuccessComponent, canActivate: [OnlyMobileDevices] },
   { path: 'password-reset/:ResetPasswordCode', component: PasswordResetComponent, canActivate: [OnlyMobileDevices] },
@@ -45,5 +45,5 @@ export const authRoutes: Routes = [
   { path: 'complete-registration-success', component: CompleteRegistrationSuccessComponent, canActivate: [OnlyMobileDevices] },
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [OnlyMobileDevices, OnlySignedInUsers] },
   { path: 'change-password-success', component: ChangePasswordSuccessComponent, canActivate: [OnlyMobileDevices, OnlySignedInUsers] },
-  { path: 'terms-and-conditions', component: TermsComponent }
+  { path: 'terms-and-conditions', component: TermsComponent, data: { animation: { value: 'terms' } } }
 ];

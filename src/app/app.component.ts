@@ -2,16 +2,49 @@ import { Component } from '@angular/core';
 import { PaycalHttpInterceptor } from './core/services/http-interceptor.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MdIconRegistry } from '@angular/material';
+import { animate, group, query, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'pcl-root',
   template: `
-  <router-outlet></router-outlet>
+    <div style="position: relative; height: 100%;" [@routerAnimations]="prepareRouteTransition(outlet)">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
   `,
-  styles: []
+  styles: [],
+  animations: [
+    trigger('routerAnimations', [
+      transition('login => terms', group([
+        query(':enter', [
+          style({ transform: 'translateX(100%)', zIndex: 2 }),
+          animate(250, style({ transform: 'translateX(0)' }))
+        ]),
+        query(':leave', [
+          style({ opacity: 1, zIndex: 1 }),
+          animate(250)
+        ])
+      ])),
+      transition('terms => login', group([
+        query(':leave', [
+          style({ transform: 'translateX(0%)', zIndex: 2 }),
+          animate(200, style({ transform: 'translateX(100%)' }))
+        ]),
+        query(':enter', [
+          style({ opacity: 1, zIndex: 1 }),
+          animate(200)
+        ])
+      ])),
+    ])
+  ]
 })
 export class AppComponent {
   title = 'app works!';
+
+  prepareRouteTransition(outlet) {
+    const animation = outlet.activatedRouteData['animation'] || {};
+    console.log(animation['value']);
+    return animation['value'] || null;
+  }
 
   constructor(private paycalHttpInterceptor: PaycalHttpInterceptor, mdIconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
     paycalHttpInterceptor.initInterceptors();
@@ -32,8 +65,8 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/browser-icon.svg')
     );
     mdIconRegistry.addSvgIcon(
-      'nav-home',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-home.svg')
+      'nav-login',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-login.svg')
     );
     mdIconRegistry.addSvgIcon(
       'nav-more',

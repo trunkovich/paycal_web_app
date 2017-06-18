@@ -20,6 +20,7 @@ import { RegistrationSuccessComponent } from './registration-success/registratio
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
 import { TermsComponent } from './terms/terms.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { TermsComponent } from './terms/terms.component';
     ReactiveFormsModule,
     TextMaskModule,
     MaterialModule,
+    BrowserAnimationsModule,
     PclCommonModule,
     RouterModule.forChild(authRoutes),
 
