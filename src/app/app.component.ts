@@ -123,6 +123,10 @@ export class AppComponent {
       'chevron-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/chevron-up.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'message-text',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/message-text.svg')
+    );
 
   }
 }

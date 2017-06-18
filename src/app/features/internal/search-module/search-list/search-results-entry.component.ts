@@ -16,14 +16,15 @@ import { Employee } from '../../../../STATE/models/employee.model';
       <md-icon svgIcon="phone"></md-icon>
     </a>
     <a md-icon-button
+    [href]="('sms:' + entry.MobilePhone + '?body=Hello ' + entry.FirstName) | safeUrl"
+    (click)="$event.stopPropagation()">
+      <md-icon svgIcon="message-text"></md-icon>
+    </a>
+    <a md-icon-button
+       class="email-button"
        href="mailto:{{entry.Email}}"
        (click)="$event.stopPropagation()">
       <md-icon svgIcon="email"></md-icon>
-    </a>
-    <a md-icon-button
-       [href]="('sms:' + entry.MobilePhone + '?body=Hello ' + entry.FirstName) | safeUrl"
-       (click)="$event.stopPropagation()">
-      <md-icon svgIcon="send"></md-icon>
     </a>
   </div>
 </div>
