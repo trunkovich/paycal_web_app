@@ -64,8 +64,8 @@ export class AppComponent {
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/browser-icon.svg')
     );
     mdIconRegistry.addSvgIcon(
-      'nav-login',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-login.svg')
+      'nav-home',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/nav-home.svg')
     );
     mdIconRegistry.addSvgIcon(
       'nav-more',
