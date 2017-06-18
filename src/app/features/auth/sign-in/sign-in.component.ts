@@ -1,11 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import {SignInAction, SignInClearErrorAction} from '../../../STATE/actions/auth.actions';
-import {Credentials} from '../../../STATE/models/credentials.model';
-import {AppState, authSelectors} from '../../../STATE/reducers/index';
+import { SignInAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
+import { Credentials } from '../../../STATE/models/credentials.model';
+import { AppState, authSelectors } from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-sign-in',
@@ -18,16 +18,20 @@ export class SignInComponent implements OnInit, OnDestroy {
   showPassword: boolean = false;
   errorMsg$: Observable<string>;
   signInLoading$: Observable<boolean>;
+  disableTerms: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
-    private store: Store<AppState>) {}
+    private store: Store<AppState>) {
+    this.disableTerms = !!localStorage.getItem('terms-signed');
+  }
 
   ngOnInit() {
     this.loginForm = this._fb.group({
       phone: ['', [Validators.required, Validators.pattern(/\d{3}-\d{3}-\d{4}/)]],
       password: ['', Validators.required],
-      rememberMe: [true, Validators.required]
+      rememberMe: [true, Validators.required],
+      terms: [{value: this.disableTerms, disabled: this.disableTerms}, Validators.requiredTrue]
     });
     this.errorMsg$ = this.store.select(authSelectors.getAuthError);
     this.signInLoading$ = this.store.select(authSelectors.getAuthLoadingState);
@@ -43,6 +47,9 @@ export class SignInComponent implements OnInit, OnDestroy {
       password: data.password,
       rememberMe: data.rememberMe
     };
+    if (!this.disableTerms) {
+      localStorage.setItem('terms-signed', 'true');
+    }
     this.store.dispatch(new SignInClearErrorAction());
     this.store.dispatch(new SignInAction(credentials));
   }

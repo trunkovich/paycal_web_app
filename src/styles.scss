@@ -221,6 +221,12 @@ pcl-root {
     background-color: rgba(0,0,0,.0588);
   }
 
+  .mat-checkbox.mat-checkbox-disabled {
+    .mat-checkbox-background {
+      background-color: $checkbox-border-color;
+    }
+  }
+
   .mat-checkbox-inner-container {
     width: 24px !important;
     height: 24px !important;

@@ -28,6 +28,16 @@
     md-checkbox {
       display: block;
       margin-bottom: 16px;
+
+      a {
+        color: $tealish;
+        &:link,
+        &:visited,
+        &:hover,
+        &:active {
+          text-decoration: underline;
+        }
+      }
     }
     .error-msg {
       @extend .text-center;

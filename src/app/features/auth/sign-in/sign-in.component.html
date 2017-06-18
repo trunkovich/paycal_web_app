@@ -38,7 +38,24 @@
         Remember me
       </md-checkbox>
 
-      <div class="error-msg">{{errorMsg$ | async}}</div>
+      <md-checkbox formControlName="terms"
+                   color="primary"
+                   class="weak-text">
+        I accept <a [routerLink]="['/','terms-and-conditions']">terms and conditions</a>
+      </md-checkbox>
+
+      <div class="error-msg">
+        <span *ngIf="!(errorMsg$ | async) &&
+                     loginForm.invalid &&
+                     loginForm.get('phone').valid &&
+                     loginForm.get('password').valid &&
+                     loginForm.get('terms').invalid">
+          YOU NEED TO ACCEPT TERMS & CONDITIONS
+        </span>
+        <span>
+          {{errorMsg$ | async}}
+        </span>
+      </div>
 
       <pcl-button title="Submit"
                   [type]="'submit'"
