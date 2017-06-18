@@ -154,6 +154,10 @@ export class Calendar {
     this.parseViewsAndSetDisabled();
   }
 
+  isEventThisDay(entry: CalendarEntry): boolean {
+    return this.calendarColors[entry.value.year()] && this.calendarColors[entry.value.year()][entry.value.month() + 1][entry.value.date()];
+  }
+
   getClassesForDay(entry: CalendarEntry, index: number, entries: CalendarEntry[]): string {
     let classes = '';
     if (entry.selected) {
@@ -166,7 +170,6 @@ export class Calendar {
       classes += ' out-of-range';
     }
     if (
-      !entry.selected &&
       this.calendarColors[entry.value.year()] &&
       this.calendarColors[entry.value.year()][entry.value.month() + 1][entry.value.date()]
     ) {

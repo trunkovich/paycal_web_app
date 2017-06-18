@@ -129,15 +129,13 @@
 
             .calendar-entry {
               @include center-block();
-
+              position: relative;
               &.disabled {
                 color: $light-blue-grey;
               }
-
               &.out-of-range {
                 color: $alto;
               }
-
               &.selected {
                 @extend .bold-text;
                 color: white;
@@ -146,25 +144,30 @@
                 border-radius: 50%;
                 background-color: $tealish;
               }
-
-              &.green {
-                background-color: #00dc00;
+              &.green .event-day {
+                background-color: #5dcf5e;
+              }
+              &.yellow .event-day {
+                background-color: #ffd300;
+              }
+              &.red .event-day {
+                background-color: #f24437;
+              }
+              &.pink .event-day {
+                background-color: #f978a7;
+              }
+              &.blue .event-day {
+                background-color: #4990e2;
               }
 
-              &.yellow {
-                background-color: yellow;
-              }
-
-              &.red {
-                background-color: red;
-              }
-
-              &.pink {
-                background-color: pink;
-              }
-
-              &.blue {
-                background-color: #6cdbff;
+              .event-day {
+                @include size(8px);
+                position: absolute;
+                left: 50%;
+                bottom: 2px;
+                margin-left: -5px;
+                border-radius: 50%;
+                border: 1px solid white;
               }
             }
             &.day-entry {

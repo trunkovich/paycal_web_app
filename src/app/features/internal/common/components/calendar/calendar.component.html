@@ -54,6 +54,8 @@
                (click)="!entry.disabled && onDayClick(entry.value)"
                [ngClass]="calendar?.getClassesForDay(entry, j, data.calendarEntries)">
             {{entry.title}}
+            <div class="event-day"
+                 *ngIf="calendar?.isEventThisDay(entry)"></div>
           </div>
         </div>
 
