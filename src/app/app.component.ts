@@ -115,6 +115,14 @@ export class AppComponent {
       'send',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/send.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'chevron-down',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/chevron-down.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'chevron-up',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/chevron-up.svg')
+    );
 
   }
 }

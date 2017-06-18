@@ -1,7 +1,7 @@
 <div class="current-date icon-down"
      (click)="openCalendar()">{{ formattedDate }}</div>
 
-<div class="calendar" [class.active]="showCalendar">
+<div class="calendar" [class.active]="showCalendar" [class.show-legend]="isLegendVisible">
   <div class="calendar-title">
 
     <div class="icon-back-and-prev icon-previous"
@@ -134,7 +134,51 @@
   </div>
 
   <div class="calendar-footer">
+    <div class="legend-button">
+      <a (click)="toggleLegend()" *ngIf="calendar?.isDayView()">
+        Legend
+      </a>
+      <md-icon [svgIcon]="isLegendVisible ? 'chevron-up' : 'chevron-down'"></md-icon>
+    </div>
     <button (click)="closeCalendar()">DONE</button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-entry">
+      <div class="dot event-green"></div>
+      <div class="info-list">
+        <p>Payday</p>
+      </div>
+    </div>
+    <div class="legend-entry">
+      <div class="dot event-yellow"></div>
+      <div class="info-list">
+        <p>Pay Period Ending Date</p>
+        <p>Health Plan Deduction</p>
+        <p>Long-Term Care Deduction</p>
+        <p>Disability Insurance Deduction</p>
+      </div>
+    </div>
+    <div class="legend-entry">
+      <div class="dot event-blue"></div>
+      <div class="info-list">
+        <p>Pay Period Ending Date</p>
+        <p>Life Insurance Deduction</p>
+      </div>
+    </div>
+    <div class="legend-entry">
+      <div class="dot event-pink"></div>
+      <div class="info-list">
+        <p>Pay Period Ending Date</p>
+        <p>Regular Deduction Only/No Special Ded</p>
+      </div>
+    </div>
+    <div class="legend-entry">
+      <div class="dot event-red"></div>
+      <div class="info-list">
+        <p>Observed Holiday</p>
+      </div>
+    </div>
   </div>
 
 </div>

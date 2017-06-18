@@ -1,5 +1,27 @@
 @import '../../../../../../styles';
 
+$event-yellow: #ffd300;
+$event-green: #5dcf5e;
+$event-red: #f24437;
+$event-pink: #f978a7;
+$event-blue: #4990e2;
+
+.event-yellow {
+  background-color: $event-yellow;
+}
+.event-green {
+  background-color: $event-green;
+}
+.event-red {
+  background-color: $event-red;
+}
+.event-pink {
+  background-color: $event-pink;
+}
+.event-blue {
+  background-color: $event-blue;
+}
+
 :host {
   display: block;
   padding-top: 16px;
@@ -15,12 +37,17 @@
     height: 391px;
     background-color: #ffffff;
     transform: translate3d(0, -100%, 0);
-    transition: transform 400ms;
+    transition: transform 400ms, height 400ms;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
     padding-top: 45px;
+    overflow: hidden;
 
     &.active {
       transform: translate3d(0, 0, 0);
+    }
+
+    &.show-legend {
+      height: 720px;
     }
 
     .calendar-title {
@@ -145,19 +172,19 @@
                 background-color: $tealish;
               }
               &.green .event-day {
-                background-color: #5dcf5e;
+                @extend .event-green;
               }
               &.yellow .event-day {
-                background-color: #ffd300;
+                @extend .event-yellow;
               }
               &.red .event-day {
-                background-color: #f24437;
+                @extend .event-red;
               }
               &.pink .event-day {
-                background-color: #f978a7;
+                @extend .event-pink;
               }
               &.blue .event-day {
-                background-color: #4990e2;
+                @extend .event-blue;
               }
 
               .event-day {
@@ -258,7 +285,23 @@
 
     .calendar-footer {
       height: 35px;
-      padding: 8px;
+      padding: 8px 24px;
+
+      .legend-button {
+        @extend .float-left;
+        height: 35px;
+        color: $bluish-grey;
+        font-weight: 600;
+
+        a {
+          display: inline-block;
+          line-height: 35px;
+        }
+        md-icon {
+          @include size(16px);
+          transform: translateY(3px);
+        }
+      }
 
       button {
         @extend .float-right;
@@ -268,6 +311,32 @@
         padding: 0 16px;
         height: 35px;
         color: $tealish;
+        transform: translateX(16px);
+      }
+    }
+
+    .legend {
+      padding: 0 24px;
+
+      .legend-entry {
+        @include clearfix();
+        margin-bottom: 12px;
+
+        .dot {
+          @extend .float-left;
+          @include size(8px);
+          border-radius: 50%;
+          margin: 5.5px;
+        }
+
+        .info-list {
+          margin-left: 19px;
+
+          p {
+            line-height: 19px;
+            margin-bottom: 4px;
+          }
+        }
       }
     }
   }

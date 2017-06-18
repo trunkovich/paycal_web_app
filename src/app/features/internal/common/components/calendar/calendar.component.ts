@@ -1,9 +1,9 @@
 import * as moment from 'moment';
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import {CalendarTypes} from '../../../../../STATE/models/calendar.types';
-import {Calendar} from './calendar.class';
-import {GroupSchedule} from '../../../../../STATE/models/group-schedule.model';
+import { CalendarTypes } from '../../../../../STATE/models/calendar.types';
+import { Calendar } from './calendar.class';
+import { GroupSchedule } from '../../../../../STATE/models/group-schedule.model';
 
 @Component({
   selector: 'pcl-calendar',
@@ -19,6 +19,7 @@ export class CalendarComponent implements OnChanges {
   showCalendar: boolean = false;
   date: moment.Moment;
   calendar: Calendar | null;
+  isLegendVisible: boolean = false;
 
   ngOnChanges(changes) {
     this.init();
@@ -39,6 +40,10 @@ export class CalendarComponent implements OnChanges {
 
   getTypeClass(): string {
     return this.type === CalendarTypes.DAY ? 'day-type' : (this.type === CalendarTypes.WEEK ? 'week-type' : 'two-week-type');
+  }
+
+  toggleLegend() {
+    this.isLegendVisible = !this.isLegendVisible;
   }
 
   init() {
