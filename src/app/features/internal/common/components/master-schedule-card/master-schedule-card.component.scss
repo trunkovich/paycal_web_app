@@ -29,8 +29,10 @@
     }
 
     .text-block {
+      @extend .float-left;
       padding: 15px;
       padding-left: 30px;
+
 
       .title {
         @extend .big-text;
@@ -42,6 +44,16 @@
       .note {
         @extend .small-bold-weak-text;
         line-height: 18px;
+      }
+    }
+
+    .right-block {
+      @extend .float-right;
+      @include size(40px, 100%);
+      position: relative;
+
+      button {
+        @include centerer()
       }
     }
   }

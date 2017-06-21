@@ -127,6 +127,10 @@ export class AppComponent {
       'message-text',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/message-text.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'dots-vertical',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/dots-vertical.svg')
+    );
 
   }
 }

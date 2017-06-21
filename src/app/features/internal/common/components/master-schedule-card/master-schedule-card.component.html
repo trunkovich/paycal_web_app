@@ -15,4 +15,11 @@
     </p>
   </div>
 
+  <div class="right-block" *ngIf="isPerson">
+    <button md-icon-button
+       (click)="openContactDialog()">
+      <md-icon svgIcon="dots-vertical"></md-icon>
+    </button>
+  </div>
+
 </div>

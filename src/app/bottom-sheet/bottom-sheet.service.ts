@@ -1,6 +1,7 @@
-import {Injectable, Injector, ComponentFactoryResolver, ApplicationRef, ComponentRef} from '@angular/core';
-import {BottomSheetContainerComponent} from './bottom-sheet-container/bottom-sheet-container.component';
-import {Subject} from 'rxjs';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector } from '@angular/core';
+import { BottomSheetContainerComponent } from './bottom-sheet-container/bottom-sheet-container.component';
+import { Subject } from 'rxjs';
+import * as _ from 'lodash';
 
 @Injectable()
 export class BottomSheetService {
@@ -10,12 +11,14 @@ export class BottomSheetService {
   constructor(private _appRef: ApplicationRef, private _cfr: ComponentFactoryResolver, private _injector: Injector) {
   }
 
-  open(content: any) {
+  open(content: any, extra: any = {}) {
     const contentCmpFactory = this._cfr.resolveComponentFactory(content);
     const bSheetCmpFactory = this._cfr.resolveComponentFactory(BottomSheetContainerComponent);
 
     const contentCmpt = contentCmpFactory.create(this._injector);
     this.bSheetCmpt = bSheetCmpFactory.create(this._injector, [[contentCmpt.location.nativeElement]]);
+
+    (contentCmpt.instance as any).extra = _.cloneDeep(extra);
 
     document.querySelector('body').appendChild(this.bSheetCmpt.location.nativeElement);
 

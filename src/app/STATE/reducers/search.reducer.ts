@@ -327,6 +327,18 @@ export const getEmployeeById = id => {
   );
 };
 
+export const getEmployeeBySchedulePersonId = id => {
+  return createSelector(
+    getEmployeesInGroupList,
+    (employees: Employee[]): Employee => {
+      if (!employees) {
+        return null;
+      }
+      return _.filter(employees, entry => entry.ScheduledPersonID === id)[0];
+    }
+  );
+};
+
 export const getSelectedDateSchedule = createSelector(
   getSearchSchedule,
   getSelectedDate,

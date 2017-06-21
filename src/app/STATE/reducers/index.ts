@@ -1,7 +1,7 @@
 /**
  * Created by TrUnK on 21.01.2017.
  */
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 /**
  * combineReducers is another useful metareducer that takes a map of reducer
  * functions and creates a new reducer that stores the gathers the values
@@ -10,7 +10,7 @@ import {createSelector} from 'reselect';
  *
  * More: https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch
  */
-import {ActionReducer, combineReducers} from '@ngrx/store';
+import { ActionReducer, combineReducers } from '@ngrx/store';
 import * as _ from 'lodash';
 /**
  * Every reducer module's default export is the reducer function itself. In
@@ -25,11 +25,11 @@ import * as fromSchedule from './schedule.reducer';
 import * as fromHome from './home.reducer';
 import * as fromSearch from './search.reducer';
 import * as fromDebug from './debug.reducer';
-import {Employee, QualifiedEmployeeGroup, QualifiedEmployee} from '../models/employee.model';
-import {environment} from '../../../environments/environment';
-import {compose} from '@ngrx/core/compose';
-import {storeFreeze} from 'ngrx-store-freeze';
-import {SearchResults} from '../models/search-results.model';
+import { Employee, QualifiedEmployee, QualifiedEmployeeGroup } from '../models/employee.model';
+import { environment } from '../../../environments/environment';
+import { compose } from '@ngrx/core/compose';
+import { storeFreeze } from 'ngrx-store-freeze';
+import { SearchResults } from '../models/search-results.model';
 
 
 /**
@@ -180,6 +180,7 @@ let getSearchType = createSelector(getSearchState, fromSearch.getSearchType);
 let getScheduleSearchText = createSelector(getSearchState, fromSearch.getSearchText);
 let getSearchLoadingState = createSelector(getSearchState, fromSearch.getLoadingState);
 let getEmployeeFromGroupById = (id) => createSelector(getSearchState, fromSearch.getEmployeeById(id));
+let getEmployeeFromGroupBySchedulePersonId = (id) => createSelector(getSearchState, fromSearch.getEmployeeBySchedulePersonId(id));
 let getSearchEntryId = createSelector(getSearchState, fromSearch.getSearchEntryId);
 let getSearchViewType = createSelector(getSearchState, fromSearch.getViewType);
 let getSearchSelectedDate = createSelector(getSearchState, fromSearch.getSelectedDate);
@@ -264,6 +265,7 @@ export const searchSelectors = {
   getSearchText: getScheduleSearchText,
   getEmployeesInGroupList: getEmployeesInGroupList,
   getEmployeeFromGroupById: getEmployeeFromGroupById,
+  getEmployeeFromGroupBySchedulePersonId: getEmployeeFromGroupBySchedulePersonId,
   getLoadingState: getSearchLoadingState,
   getSearchEntryId: getSearchEntryId,
   getViewType: getSearchViewType,

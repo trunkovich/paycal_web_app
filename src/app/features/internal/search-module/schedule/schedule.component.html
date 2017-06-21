@@ -22,9 +22,11 @@
                              [text]="'No one is scheduled to work'"></pcl-no-entries-fallback>
 
     <pcl-master-schedule-card *ngFor="let entry of entries"
-                             [lineOne]="entry.SchedulePersonID"
-                             [shiftCode]="entry.ShiftCode"
-                             [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"></pcl-master-schedule-card>
+                              [lineOne]="entry.SchedulePersonID"
+                              [shiftCode]="entry.ShiftCode"
+                              [isPerson]="true"
+                              (onContactPersonClick)="openContactPersonDialog(entry)"
+                              [lineTwo]="(entry.StartTime || '') + ' - ' + (entry.EndTime || '')"></pcl-master-schedule-card>
   </section>
 
   <!--PHYSICIAN SECTION-->

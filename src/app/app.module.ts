@@ -39,6 +39,7 @@ import { ContactUsBottomSheetComponent } from './features/internal/contact-us-bo
 import { Angulartics2Mixpanel, Angulartics2Module } from 'angulartics2';
 import { MixpanelEffects } from './STATE/effects/mixpanel.effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ContactPersonBottomSheetComponent } from './features/internal/contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     OnlyScheduledPersons
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ViewTypeBottomSheetComponent, BottomSheetContainerComponent, ContactUsBottomSheetComponent]
+  entryComponents: [
+    ViewTypeBottomSheetComponent,
+    BottomSheetContainerComponent,
+    ContactUsBottomSheetComponent,
+    ContactPersonBottomSheetComponent
+  ]
 })
 export class AppModule { }

@@ -1,27 +1,29 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import {AppState, searchSelectors, scheduleSelectors} from '../../../../STATE/reducers/index';
-import {ALLOWED_SEARCH_TYPES} from '../../../../STATE/reducers/schedule.reducer';
-import {SEARCH_ROUTES} from '../search.routes';
-import {Employee} from '../../../../STATE/models/employee.model';
+import { AppState, scheduleSelectors, searchSelectors } from '../../../../STATE/reducers/index';
+import { ALLOWED_SEARCH_TYPES } from '../../../../STATE/reducers/schedule.reducer';
+import { SEARCH_ROUTES } from '../search.routes';
+import { Employee } from '../../../../STATE/models/employee.model';
 import {
-  SetSearchType,
+  CleanSearchMonthsScheduleAction,
+  LoadSearchFullScheduleAction,
   LoadSearchReferenceAction,
   SetSearchEntryIdAction,
-  SetSearchViewTypeAction,
+  SetSearchLoadingAction,
   SetSearchSelectedDateAction,
-  LoadSearchFullScheduleAction,
-  CleanSearchMonthsScheduleAction,
-  SetSearchLoadingAction
+  SetSearchType,
+  SetSearchViewTypeAction
 } from '../../../../STATE/actions/search.actions';
-import {GroupSchedule} from '../../../../STATE/models/group-schedule.model';
-import {CalendarTypes} from '../../../../STATE/models/calendar.types';
-import {SetCurrentSectionAction} from '../../../../STATE/actions/schedule.actions';
-import {EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay} from '../../../../STATE/models/employee-schedule-entry.model';
-import {MasterCalendarEntry} from '../../../../STATE/models/master-calendar-entry.model';
+import { GroupSchedule } from '../../../../STATE/models/group-schedule.model';
+import { CalendarTypes } from '../../../../STATE/models/calendar.types';
+import { SetCurrentSectionAction } from '../../../../STATE/actions/schedule.actions';
+import { EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay } from '../../../../STATE/models/employee-schedule-entry.model';
+import { MasterCalendarEntry } from '../../../../STATE/models/master-calendar-entry.model';
+import { BottomSheetService } from '../../../../bottom-sheet/bottom-sheet.service';
+import { ContactPersonBottomSheetComponent } from '../../contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 
 @Component({
   selector: 'pcl-schedule',
@@ -44,7 +46,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private bss: BottomSheetService
   ) {}
 
   ngOnInit() {
@@ -125,6 +128,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   onDayClick(day: EmployeeScheduleEntryGroupedByDay) {
     this.store.dispatch(new SetSearchSelectedDateAction(day.date.toDate()));
     this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.DAY));
+  }
+
+  openContactPersonDialog(entry: MasterCalendarEntry) {
+    this.bss.open(ContactPersonBottomSheetComponent, {
+      schedulePersonId: entry.SchedulePersonID
+    });
   }
 
   private formattedTitle(profile: Employee): string {

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'pcl-master-schedule-card',
@@ -9,4 +9,10 @@ export class MasterScheduleCardComponent {
   @Input() lineOne: string;
   @Input() shiftCode: string;
   @Input() lineTwo: string;
+  @Input() isPerson: boolean;
+  @Output() onContactPersonClick = new EventEmitter();
+
+  openContactDialog() {
+    this.onContactPersonClick.emit();
+  }
 }

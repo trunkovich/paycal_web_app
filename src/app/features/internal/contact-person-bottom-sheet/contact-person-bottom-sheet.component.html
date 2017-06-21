@@ -1,0 +1,16 @@
+<div class="content-block">
+  <div class="title">Contact {{person?.FirstName + ' ' + person?.LastName}}</div>
+  <div class="line"></div>
+  <a class="link"
+     href="tel:{{person?.MobilePhone}}">Call</a>
+  <div class="line"></div>
+  <a class="link"
+     [href]="('sms:' + person?.MobilePhone + '?body=Hello ' + person?.FirstName) | safeUrl">SMS</a>
+  <div class="line"></div>
+  <a class="link"
+     href="mailto:{{person?.Email}}">Email</a>
+</div>
+
+<div class="footer-block">
+  <button class="link" (click)="close($event)">Cancel</button>
+</div>
