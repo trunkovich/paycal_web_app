@@ -41,7 +41,7 @@ export const internalRoutes: Routes = [
     { path: 'edit-profile', component: EditProfileComponent },
     { path: 'crop-avatar', component: CropAvatarComponent },
     { path: 'crop-loading', component: CropLoadingComponent },
-    { path: 'google-form', component: GoogleFormComponent },
+    { path: 'form', component: GoogleFormComponent },
     { path: 'search', children: [...searchRoutes]}
   ] }
 ];
