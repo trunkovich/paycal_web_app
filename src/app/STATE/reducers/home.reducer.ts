@@ -323,10 +323,20 @@ export const getScheduleEntryById = id => {
 
 export const getSelectedDateScheduleGroupedByDay = createSelector(
   getSelectedDateSchedule,
-  (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntryGroupedByDay[] => {
+  getMySelectedDate,
+  getHomeViewType,
+  (entries: EmployeeScheduleEntry[], date: Date, type: CalendarTypes): EmployeeScheduleEntryGroupedByDay[] => {
     if (!entries) {
       return null;
     }
+
+    let m = moment(date);
+    let iterate = moment(m).startOf('week');
+    let end = moment(m).endOf('week');
+    if (type === CalendarTypes.TWO_WEEK) {
+      end.add(1, 'week');
+    }
+
     let groupedEntries: {[key: string]: EmployeeScheduleEntry[]} = {};
     let groupedEntriesArr: EmployeeScheduleEntryGroupedByDay[] = [];
     _.each(entries, (entry) => {
@@ -335,13 +345,24 @@ export const getSelectedDateScheduleGroupedByDay = createSelector(
       }
       groupedEntries[`${entry.Year}.${entry.Month}.${entry.Day}`].push(entry);
     });
+
+    while (iterate.isBefore(end)) {
+      if (!_.includes(_.keys(groupedEntries), `${iterate.year()}.${iterate.month() + 1}.${iterate.date()}`)) {
+        groupedEntries[`${iterate.year()}.${iterate.month() + 1}.${iterate.date()}`] = [
+          ({LaborCode: 'OUT AM', ShiftCode: 'AM'} as EmployeeScheduleEntry),
+          ({LaborCode: 'OUT PM', ShiftCode: 'PM'} as EmployeeScheduleEntry)
+        ];
+      }
+      iterate.add(1, 'day');
+    }
+
     _.each(groupedEntries, (value, key) => {
       groupedEntriesArr.push({
         date: moment(key, 'YYYY.MM.DD'),
         entries: sortByShiftCode(value)
       });
     });
-    return groupedEntriesArr;
+    return _.sortBy(groupedEntriesArr, 'date');
   }
 );
 
