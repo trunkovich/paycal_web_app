@@ -5,7 +5,7 @@
 
     <form novalidate
           [formGroup]="loginForm"
-          (ngSubmit)="onSubmit(loginForm.value)">
+          (ngSubmit)="onSubmit(loginForm)">
 
       <md-input-container>
         <input mdInput
@@ -49,6 +49,7 @@
                      loginForm.invalid &&
                      loginForm.get('phone').valid &&
                      loginForm.get('password').valid &&
+                     loginForm.get('terms').touched &&
                      loginForm.get('terms').invalid">
           YOU NEED TO ACCEPT TERMS & CONDITIONS
         </span>
@@ -57,9 +58,8 @@
         </span>
       </div>
 
-      <pcl-button title="Submit"
+      <pcl-button title="Login"
                   [type]="'submit'"
-                  [disabled]="loginForm.invalid"
                   [loading]="signInLoading$ | async">
       </pcl-button>
 

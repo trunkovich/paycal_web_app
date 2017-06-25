@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { SignInAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
 import { Credentials } from '../../../STATE/models/credentials.model';
 import { AppState, authSelectors } from '../../../STATE/reducers/index';
+import { markInvalidFieldsAsTouched } from '../../../STATE/utils';
 
 @Component({
   selector: 'pcl-sign-in',
@@ -41,17 +42,21 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SignInClearErrorAction());
   }
 
-  onSubmit(data) {
-    let credentials: Credentials = {
-      phone: data.phone.replace(/\D+/g, ''),
-      password: data.password,
-      rememberMe: data.rememberMe
-    };
-    if (!this.disableTerms) {
-      localStorage.setItem('terms-signed', 'true');
+  onSubmit(form: FormGroup) {
+    if (form.invalid) {
+      markInvalidFieldsAsTouched(form);
+    } else {
+      let credentials: Credentials = {
+        phone: form.value.phone.replace(/\D+/g, ''),
+        password: form.value.password,
+        rememberMe: form.value.rememberMe
+      };
+      if (!this.disableTerms) {
+        localStorage.setItem('terms-signed', 'true');
+      }
+      this.store.dispatch(new SignInClearErrorAction());
+      this.store.dispatch(new SignInAction(credentials));
     }
-    this.store.dispatch(new SignInClearErrorAction());
-    this.store.dispatch(new SignInAction(credentials));
   }
 
   togglePassword(el: HTMLElement) {

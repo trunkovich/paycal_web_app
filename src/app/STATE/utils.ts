@@ -3,7 +3,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/startWith';
-import {FormGroup} from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import * as _ from 'lodash';
 
 /**
  * This function coerces a string into a string literal type.
@@ -44,4 +45,15 @@ export const blobToFile = (theBlob: Blob, fileName: string): File => {
   b.lastModifiedDate = new Date();
   b.name = fileName;
   return <File>theBlob;
-}
+};
+
+export function markInvalidFieldsAsTouched(form: FormGroup): void {
+  if (form.valid) {
+    return;
+  }
+  _.each<AbstractControl>(form.controls, (control) => {
+    if (control.invalid) {
+      control.markAsTouched();
+    }
+  });
+};
