@@ -140,7 +140,6 @@
       </a>
       <md-icon [svgIcon]="isLegendVisible ? 'chevron-up' : 'chevron-down'"></md-icon>
     </div>
-    <button (click)="closeCalendar()">DONE</button>
   </div>
 
   <div class="legend">
@@ -180,5 +179,8 @@
       </div>
     </div>
   </div>
+
+  <button (click)="closeCalendar()"
+          class="done-button">DONE</button>
 
 </div>

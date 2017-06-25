@@ -47,7 +47,11 @@ $event-blue: #4990e2;
     }
 
     &.show-legend {
-      height: 720px;
+      height: 770px;
+
+      .done-button {
+        bottom: 55px;
+      }
     }
 
     .calendar-title {
@@ -302,17 +306,19 @@ $event-blue: #4990e2;
           transform: translateY(3px);
         }
       }
+    }
 
-      button {
-        @extend .float-right;
-        @extend .reset-button-styles;
-        @extend .reset-styles;
-        @extend .bold-text;
-        padding: 0 16px;
-        height: 35px;
-        color: $tealish;
-        transform: translateX(16px);
-      }
+    .done-button {
+      @include absolute(bottom 8px right 24px);
+      @extend .float-right;
+      @extend .reset-button-styles;
+      @extend .reset-styles;
+      @extend .bold-text;
+      padding: 0 16px;
+      height: 35px;
+      color: $tealish;
+      transform: translateX(16px);
+      transition: bottom 400ms;
     }
 
     .legend {
