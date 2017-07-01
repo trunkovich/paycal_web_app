@@ -396,7 +396,6 @@ md-input-container {
   @extend .big-text;
   @extend .full-width;
 
-  &.ng-dirty.ng-invalid,
   &.ng-touched.ng-invalid {
     .mat-input-placeholder {
       color: $input-invalid;
