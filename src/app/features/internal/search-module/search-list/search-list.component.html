@@ -6,6 +6,7 @@
                   (searchTextChange)="onSearchTextChange($event)"></pcl-search-input>
 
 <pcl-search-results-list [list]="list$ | async"
-                         (entryClick)="onEntryClick($event)"></pcl-search-results-list>
+                         (entryClick)="onEntryClick($event)"
+                         (onContactPersonClick)="openContactPersonDialog($event)"></pcl-search-results-list>
 
 <pcl-loader [show]="loading$ | async"></pcl-loader>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Employee } from '../../../../STATE/models/employee.model';
 
@@ -10,22 +10,10 @@ import { Employee } from '../../../../STATE/models/employee.model';
     {{(entry.LastName || '') + ' ' + (entry.FirstName || '')}}
   </div>
   <div class="contact-buttons">
-    <a md-icon-button
-       href="tel:{{entry.MobilePhone}}"
-       (click)="$event.stopPropagation()">
-      <md-icon svgIcon="phone"></md-icon>
-    </a>
-    <a md-icon-button
-    [href]="('sms:' + entry.MobilePhone) | safeUrl"
-    (click)="$event.stopPropagation()">
-      <md-icon svgIcon="message-text"></md-icon>
-    </a>
-    <a md-icon-button
-       class="email-button"
-       href="mailto:{{entry.Email}}"
-       (click)="$event.stopPropagation()">
-      <md-icon svgIcon="email"></md-icon>
-    </a>
+    <button md-icon-button
+            (click)="onContactPersonClick.emit(entry); $event.stopPropagation();">
+      <md-icon svgIcon="dots-vertical"></md-icon>
+    </button>
   </div>
 </div>
 <div class="entry" *ngIf="!entry.FirstName">{{entry}}</div>
@@ -33,4 +21,5 @@ import { Employee } from '../../../../STATE/models/employee.model';
 })
 export class SearchResultsEntryComponent {
   @Input() entry: Employee;
+  @Output() onContactPersonClick = new EventEmitter<Employee>();
 }
