@@ -16,7 +16,7 @@ import { Employee } from '../../../../STATE/models/employee.model';
       <md-icon svgIcon="phone"></md-icon>
     </a>
     <a md-icon-button
-    [href]="('sms:' + entry.MobilePhone + '?body=Hello ' + entry.FirstName) | safeUrl"
+    [href]="('sms:' + entry.MobilePhone) | safeUrl"
     (click)="$event.stopPropagation()">
       <md-icon svgIcon="message-text"></md-icon>
     </a>
