@@ -2,14 +2,15 @@
  * Created by TrUnK on 06.01.2017.
  */
 import { Injectable } from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
+import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import * as Raven from 'raven-js';
 
 import * as authActions from '../actions/auth.actions';
 import * as profileActions from '../actions/profile.actions';
-import {AuthService} from '../../core/services/auth.service';
-import {Employee, EditEmployeeRequestData} from '../models/employee.model';
+import { AuthService } from '../../core/services/auth.service';
+import { EditEmployeeRequestData, Employee } from '../models/employee.model';
 
 @Injectable()
 export class ProfileEffects {
@@ -103,4 +104,15 @@ export class ProfileEffects {
     .ofType(authActions.ActionTypes.LOGOUT)
     .map(() => new profileActions.CleanProfileAction());
 
+  @Effect({dispatch: false})
+  registerSentryContext$: Observable<Action> = this.actions$
+    .ofType(profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS)
+    .map(toPayload)
+    .do((user: Employee) =>
+      Raven.setUserContext({
+        username: user.MobilePhone,
+        email: user.Email,
+        id: user.EmployeeID.toString()
+      }))
+    .delay(1);
 }

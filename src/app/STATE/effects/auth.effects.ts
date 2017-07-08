@@ -2,17 +2,18 @@
  * Created by TrUnK on 06.01.2017.
  */
 import { Injectable } from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
+import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import * as Raven from 'raven-js';
 
 import * as authActions from '../actions/auth.actions';
-import {AuthService} from '../../core/services/auth.service';
-import {Credentials} from '../models/credentials.model';
-import {ResetPasswordModel} from '../models/reset-password.model';
-import {CompleteRegistrationModel} from '../models/complete-registration.model';
-import {TokenObject} from '../models/token.model';
-import {Lead} from '../models/lead.model';
+import { AuthService } from '../../core/services/auth.service';
+import { Credentials } from '../models/credentials.model';
+import { ResetPasswordModel } from '../models/reset-password.model';
+import { CompleteRegistrationModel } from '../models/complete-registration.model';
+import { TokenObject } from '../models/token.model';
+import { Lead } from '../models/lead.model';
 
 
 /**
@@ -143,5 +144,6 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   logout$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.LOGOUT)
+    .do(() => Raven.setUserContext({}))
     .do(() => this.authService.logout());
 }
