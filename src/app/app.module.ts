@@ -56,7 +56,6 @@ export class RavenErrorHandler implements ErrorHandler {
 }
 
 export function provideErrorHandler() {
-  console.log(`environment.production: ${environment.production}`);
   if (environment.production) {
     return new RavenErrorHandler();
   } else {
