@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -7,6 +7,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { HttpInterceptorModule } from 'ng-http-interceptor';
 import { MaterialModule } from '@angular/material';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import * as Raven from 'raven-js';
+
 import { AuthModule } from './features/auth/auth.module';
 import { PclCommonModule } from './common/pcl-common.module';
 import { InternalModule } from './features/internal/internal.module';
@@ -40,6 +42,27 @@ import { Angulartics2Mixpanel, Angulartics2Module } from 'angulartics2';
 import { MixpanelEffects } from './STATE/effects/mixpanel.effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactPersonBottomSheetComponent } from './features/internal/contact-person-bottom-sheet/contact-person-bottom-sheet.component';
+import { environment } from '../environments/environment';
+
+
+Raven
+  .config('https://b37d34c761234570a1a223eacc7c0d88@sentry.io/189282')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    Raven.captureException(err.originalError);
+  }
+}
+
+export function provideErrorHandler() {
+  if (environment.production) {
+    return new RavenErrorHandler();
+  } else {
+    return new ErrorHandler();
+  }
+}
+
 
 @NgModule({
   declarations: [
@@ -72,6 +95,7 @@ import { ContactPersonBottomSheetComponent } from './features/internal/contact-p
     SearchModule
   ],
   providers: [
+    { provide: ErrorHandler, useFactory: provideErrorHandler },
     Api,
     AuthService,
     ReferencesService,
