@@ -51,11 +51,12 @@ Raven
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
-    Raven.captureException(err.originalError);
+    Raven.captureException(err.originalError || err);
   }
 }
 
 export function provideErrorHandler() {
+  console.log(`environment.production: ${environment.production}`);
   if (environment.production) {
     return new RavenErrorHandler();
   } else {
