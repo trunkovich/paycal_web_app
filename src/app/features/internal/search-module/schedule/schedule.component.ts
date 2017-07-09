@@ -114,7 +114,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+    if (this.type === 'physicians') {
+      this.router.navigate(['profile'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
   }
 
   isNotDayView(viewType) {
