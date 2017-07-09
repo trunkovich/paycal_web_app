@@ -52,12 +52,9 @@ export class AuthEffects {
           Raven.captureBreadcrumb({
             message: 'Sign in failed',
             category: 'Sign-in',
-            level: 'error',
-            data: {
-              error: JSON.stringify(error)
-            }
+            level: 'error'
           });
-          Raven.captureException(new Error('sign in failed'));
+          Raven.captureException(error);
           return Observable.of(new authActions.SignInFailAction(error.message));
         });
     });
