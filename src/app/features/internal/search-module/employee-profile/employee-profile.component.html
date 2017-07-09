@@ -1,6 +1,8 @@
 <pcl-header [showBackBtn]="true"
             (backBtnClick)="back()"></pcl-header>
 
+<pcl-loader [show]="loading$ | async"></pcl-loader>
+
 <div class="avatar-section">
   <div class="avatar"
        *ngIf="profile && profile?.PhotoUrl"

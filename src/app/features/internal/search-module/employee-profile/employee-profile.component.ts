@@ -32,6 +32,7 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
   type = 'physicians';
   entryId: string;
   nextThreeDaysEntries$: Observable<EmployeeScheduleEntryGroupedByDay[]>;
+  loading$: Observable<boolean>;
 
   sub: Subscription;
   sub2: Subscription;
@@ -39,6 +40,8 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.loading$ = this.store.select(searchSelectors.getScheduleLoadingState);
+
     this.store.dispatch(new SetSearchLoadingAction(true));
     this.store.dispatch(new SetCurrentSectionAction('search'));
     this.store.dispatch(new CleanSearchMonthsScheduleAction());
