@@ -134,15 +134,15 @@
   </div>
 
   <div class="calendar-footer">
-    <div class="legend-button">
-      <a (click)="toggleLegend()" *ngIf="calendar?.isDayView()">
+    <div class="legend-button" *ngIf="calendar?.isDayView()">
+      <a (click)="toggleLegend()">
         Legend
       </a>
       <md-icon [svgIcon]="isLegendVisible ? 'chevron-up' : 'chevron-down'"></md-icon>
     </div>
   </div>
 
-  <div class="legend">
+  <div class="legend" *ngIf="calendar?.isDayView()">
     <div class="legend-entry">
       <div class="dot event-green"></div>
       <div class="info-list">
