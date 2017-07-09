@@ -1,44 +1,52 @@
-<pcl-header [showNextBtn]="true"
-            [nextBtnLabel]="'EDIT'"
-            [title]="'My Profile'"
-            (nextBtnClick)="onNextBtnClick()"></pcl-header>
+<pcl-header [showBackBtn]="true"
+            (backBtnClick)="back()"></pcl-header>
 
 <div class="avatar-section">
   <div class="avatar"
-       *ngIf="profile?.PhotoUrl"
+       *ngIf="profile && profile?.PhotoUrl"
        [style.backgroundImage]="getPhotoUrl(profile)"></div>
   <div class="avatar-default"
-       *ngIf="!profile?.PhotoUrl">
+       *ngIf="profile && !profile?.PhotoUrl">
     {{profile?.FirstName[0] + profile?.LastName[0]}}
   </div>
   <div class="name">{{getEmployeeName(profile)}}</div>
 </div>
 
 <div class="info-line">
-  <div class="label">Email</div>
-  <div class="value">{{profile?.Email}}</div>
+  <div class="label">{{profile?.MobilePhone | phone}}</div>
+  <div class="contact-buttons">
+    <a md-icon-button
+       href="tel:{{profile?.MobilePhone}}">
+      <md-icon svgIcon="phone"></md-icon>
+    </a>
+    <a md-icon-button
+       [href]="('sms:' + profile?.MobilePhone) | safeUrl">
+      <md-icon svgIcon="message-text"></md-icon>
+    </a>
+  </div>
 </div>
 
-<div class="info-line">
-  <div class="label">Mobile</div>
-  <div class="value">{{profile?.MobilePhone | phone}}</div>
+<div class="info-line last">
+  <div class="label">{{profile?.Email}}</div>
+  <div class="contact-buttons">
+    <a md-icon-button
+       href="mailto:{{profile?.Email}}">
+      <md-icon svgIcon="email"></md-icon>
+    </a>
+  </div>
 </div>
 
-<div class="info-line">
-  <div class="label">Work Unit Value</div>
-  <div class="value">{{(profile?.WorkUnitValue || 0) | currency:'USD':true:'1.0-0'}}</div>
-</div>
+<section class="schedule container">
 
-<div class="header-line">other settings</div>
+  <pcl-schedule-day-card *ngFor="let day of (nextThreeDaysEntries$ | async)"
+                         class="week-view-entry"
+                         [day]="day"
+                         (click)="onDayClick(day)"></pcl-schedule-day-card>
 
-<button class="info-line"
-        (click)="onChangePasswordClick()"
-        md-ripple>
-  <span class="label">Change Password</span>
-</button>
+</section>
 
 <button class="info-line last"
-        (click)="onLogoutClick()"
+        (click)="goToFullSchedule()"
         md-ripple>
-  <span class="label">Logout</span>
+  <span class="label">Full schedule</span>
 </button>

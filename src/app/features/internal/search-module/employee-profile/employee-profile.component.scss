@@ -73,6 +73,21 @@
     box-shadow: inset 0 1px 0 0 $light-blue-grey;
     padding: 0 24px;
 
+    .contact-buttons {
+      @extend .float-right;
+      padding: 4px;
+
+      .email-button {
+        md-icon {
+          transform: translateY(-2px);
+        }
+      }
+
+      md-icon {
+        fill: $tealish;
+      }
+    }
+
     .label {
       @extend .big-text;
       @extend .float-left;
@@ -105,5 +120,13 @@
     padding: 20px 24px 8px 24px;
     text-transform: uppercase;
     box-shadow: inset 0 1px 0 0 $light-blue-grey;
+  }
+
+  .schedule {
+    margin-top: 16px;
+
+    .week-view-entry {
+      margin-bottom: 8px;
+    }
   }
 }

@@ -1,13 +1,26 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 import { Employee } from '../../../../STATE/models/employee.model';
-import { LogoutAction } from '../../../../STATE/actions/auth.actions';
-import { AUTH_ROUTES } from '../../../auth/auth.routes';
-import { INTERNAL_ROUTES } from '../../internal.routes';
-import { AppState, profileSelectors } from '../../../../STATE/reducers/index';
+import { AppState, scheduleSelectors, searchSelectors } from '../../../../STATE/reducers/index';
+import { SEARCH_ROUTES } from '../search.routes';
+import {
+  CleanSearchMonthsScheduleAction,
+  LoadSearchFullScheduleAction,
+  LoadSearchReferenceAction,
+  SetSearchEntryIdAction,
+  SetSearchLoadingAction,
+  SetSearchSelectedDateAction,
+  SetSearchType,
+  SetSearchViewTypeAction
+} from '../../../../STATE/actions/search.actions';
+import { Observable } from 'rxjs/Observable';
+import { EmployeeScheduleEntryGroupedByDay } from '../../../../STATE/models/employee-schedule-entry.model';
+import { CalendarTypes } from '../../../../STATE/models/calendar.types';
+import { SetCurrentSectionAction } from '../../../../STATE/actions/schedule.actions';
 
 @Component({
   selector: 'pcl-employee-profile',
@@ -16,15 +29,51 @@ import { AppState, profileSelectors } from '../../../../STATE/reducers/index';
 })
 export class EmployeeProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
-  sub: Subscription;
+  type = 'physicians';
+  entryId: string;
+  nextThreeDaysEntries$: Observable<EmployeeScheduleEntryGroupedByDay[]>;
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  sub: Subscription;
+  sub2: Subscription;
+
+  constructor(private store: Store<AppState>, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.sub = this.store.select(profileSelectors.getMyProfile)
-      .subscribe(employee => {
-        this.profile = employee;
+    this.store.dispatch(new SetSearchLoadingAction(true));
+    this.store.dispatch(new SetCurrentSectionAction('search'));
+    this.store.dispatch(new CleanSearchMonthsScheduleAction());
+
+    this.route.params
+      .map(params => params.id)
+      .subscribe(id => {
+        this.entryId = id;
+
+        this.sub = this.store.select(scheduleSelectors.getScheduleMonths)
+          .filter((months) => months && !!months.length)
+          .subscribe(() => {
+            setTimeout(() => {
+              this.store.dispatch(new SetSearchType(this.type));
+              this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.TWO_WEEK));
+              this.store.dispatch(new SetSearchEntryIdAction(this.entryId));
+              this.store.dispatch(new LoadSearchFullScheduleAction({type: this.type, id: this.entryId}));
+              this.store.dispatch(new LoadSearchReferenceAction());
+            });
+          });
+
+        this.sub2 = this.store.select(searchSelectors.getEmployeeFromGroupById(+this.entryId))
+          .subscribe((profile: Employee) => {
+            this.profile = profile;
+          });
       });
+
+
+    const today = moment();
+    this.nextThreeDaysEntries$ = this.store.select(searchSelectors.getSelectedDateScheduleGroupedByDay)
+      .filter(entries => !!entries)
+      .switchMap(entries => Observable.from(entries))
+      .filter(entry => entry.date.isAfter(today))
+      .take(3)
+      .toArray();
   }
 
   ngOnDestroy() {
@@ -33,19 +82,14 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  onNextBtnClick() {
-    // Set timeout for ripple animation
-    setTimeout(() => this.router.navigate(['/', INTERNAL_ROUTES.EDIT_PROFILE]), 200);
+  back() {
+    this.router.navigate([SEARCH_ROUTES.SEARCH, SEARCH_ROUTES.SEARCH_PHYSICIANS]);
   }
 
-  onLogoutClick() {
-    // Set timeout for ripple animation
-    setTimeout(() => this.store.dispatch(new LogoutAction()), 200);
-  }
-
-  onChangePasswordClick() {
-    // Set timeout for ripple animation
-    setTimeout(() => this.router.navigate(['/', AUTH_ROUTES.CHANGE_PASSWORD]), 200);
+  onDayClick(day) {
+    this.store.dispatch(new SetSearchSelectedDateAction(day.date.toDate()));
+    this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.DAY));
+    this.router.navigate([SEARCH_ROUTES.SEARCH, SEARCH_ROUTES.SEARCH_PHYSICIANS, this.entryId]);
   }
 
   getPhotoUrl(profile: Employee): string {
@@ -62,5 +106,9 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
     } else {
       return `${profile.FirstName || ''} ${profile.LastName || ''}`;
     }
+  }
+
+  goToFullSchedule() {
+    this.router.navigate([SEARCH_ROUTES.SEARCH, SEARCH_ROUTES.SEARCH_PHYSICIANS, this.entryId]);
   }
 }
