@@ -10,7 +10,6 @@ import { AppState, searchSelectors } from '../../../../STATE/reducers/index';
 import { SearchResults } from '../../../../STATE/models/search-results.model';
 import { Employee } from '../../../../STATE/models/employee.model';
 import { LoadSearchReferenceAction, SetSearchTextAction, SetSearchType } from '../../../../STATE/actions/search.actions';
-import { ContactPersonBottomSheetComponent } from '../../contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 import { BottomSheetService } from '../../../../bottom-sheet/bottom-sheet.service';
 
 @Component({
@@ -65,16 +64,10 @@ export class SearchListComponent implements OnInit, OnDestroy {
 
   onEntryClick(entry: string | Employee) {
     if (this.type === 'physicians') {
-      this.router.navigate(['/', SEARCH_ROUTES.SEARCH, this.type, (entry as Employee).EmployeeID]);
+      this.router.navigate(['/', SEARCH_ROUTES.SEARCH, this.type, (entry as Employee).EmployeeID, 'profile']);
     } else {
       this.router.navigate(['/', SEARCH_ROUTES.SEARCH, this.type, entry]);
     }
-  }
-
-  openContactPersonDialog(entry: Employee) {
-    this.bss.open(ContactPersonBottomSheetComponent, {
-      schedulePersonId: entry.ScheduledPersonID
-    });
   }
 
 }

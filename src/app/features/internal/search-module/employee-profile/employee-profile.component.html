@@ -1,0 +1,44 @@
+<pcl-header [showNextBtn]="true"
+            [nextBtnLabel]="'EDIT'"
+            [title]="'My Profile'"
+            (nextBtnClick)="onNextBtnClick()"></pcl-header>
+
+<div class="avatar-section">
+  <div class="avatar"
+       *ngIf="profile?.PhotoUrl"
+       [style.backgroundImage]="getPhotoUrl(profile)"></div>
+  <div class="avatar-default"
+       *ngIf="!profile?.PhotoUrl">
+    {{profile?.FirstName[0] + profile?.LastName[0]}}
+  </div>
+  <div class="name">{{getEmployeeName(profile)}}</div>
+</div>
+
+<div class="info-line">
+  <div class="label">Email</div>
+  <div class="value">{{profile?.Email}}</div>
+</div>
+
+<div class="info-line">
+  <div class="label">Mobile</div>
+  <div class="value">{{profile?.MobilePhone | phone}}</div>
+</div>
+
+<div class="info-line">
+  <div class="label">Work Unit Value</div>
+  <div class="value">{{(profile?.WorkUnitValue || 0) | currency:'USD':true:'1.0-0'}}</div>
+</div>
+
+<div class="header-line">other settings</div>
+
+<button class="info-line"
+        (click)="onChangePasswordClick()"
+        md-ripple>
+  <span class="label">Change Password</span>
+</button>
+
+<button class="info-line last"
+        (click)="onLogoutClick()"
+        md-ripple>
+  <span class="label">Logout</span>
+</button>

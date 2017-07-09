@@ -8,13 +8,11 @@ import { Employee } from '../../../../STATE/models/employee.model';
   template: `
 <pcl-search-results-group *ngFor="let group of list" 
                           [group]="group" 
-                          (entryClick)="entryClick.emit($event)"
-                          (onContactPersonClick)="onContactPersonClick.emit($event)">
+                          (entryClick)="entryClick.emit($event)">
 </pcl-search-results-group>
 `
 })
 export class SearchResultsListComponent {
   @Input() list: SearchResults[];
   @Output() entryClick = new EventEmitter<string | Employee>();
-  @Output() onContactPersonClick = new EventEmitter<Employee>();
 }

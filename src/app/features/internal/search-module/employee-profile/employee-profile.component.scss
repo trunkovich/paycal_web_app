@@ -1,0 +1,109 @@
+@import '../../../../../styles';
+
+:host {
+  display: block;
+  position: relative;
+  background-color: $pale-grey;
+  min-height: calc(100% - 55px);
+  padding-bottom: 55px;
+
+  pcl-header /deep/ {
+    @include absolute(top 0 left 0 right 0);
+    background-color: transparent;
+    box-shadow: none;
+    color: white;
+
+    md-icon {
+      fill: white !important;
+    }
+
+    button {
+      color: white !important;
+    }
+  }
+
+  .avatar-section {
+    @extend .gradient1;
+    height: 210px;
+    padding-top: 45px;
+
+    .avatar {
+      @include size(126px);
+      @include center-block();
+      border-radius: 50%;
+      background-color: #D8D8D8;
+      background-size: 100%;
+      margin-top: 20px;
+      box-shadow: 0 3px 30px 0 rgba(24, 107, 122, 0.7);
+    }
+    .avatar-default {
+      @include size(126px);
+      @include center-block();
+      border-radius: 50%;
+      margin-top: 20px;
+      background-color: #f7f9fb;
+      box-shadow: 0 3px 30px 0 rgba(24, 107, 122, 0.7);
+      line-height: 126px;
+      font-size: 48px;
+      font-weight: 600;
+      text-align: center;
+      color: $bluish-grey;
+    }
+    .name {
+      @extend .big-bold-text;
+      @extend .text-center;
+      margin-top: 12px;
+      line-height: 22px;
+      color: white;
+    }
+    .group {
+      @extend .small-bold-text;
+      @extend .text-center;
+      opacity: 0.7;
+      margin-top: 3px;
+      line-height: 17px;
+      color: white;
+    }
+  }
+
+  .info-line {
+    @include clearfix();
+    line-height: 60px;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 0 0 $light-blue-grey;
+    padding: 0 24px;
+
+    .label {
+      @extend .big-text;
+      @extend .float-left;
+    }
+    .value {
+      @extend .big-weak-text;
+      @extend .float-right;
+      text-align: right;
+    }
+    &.last {
+      box-shadow: inset 0 -1px 0 0 $light-blue-grey, inset 0 1px 0 0 $light-blue-grey;
+    }
+  }
+
+  button {
+    @extend .reset-button-styles;
+    @extend .reset-styles;
+
+    &.info-line {
+      display: block;
+      position: relative;
+      width: 100%;
+      color: inherit;
+    }
+  }
+
+  .header-line {
+    @extend .small-bold-weak-text;
+    line-height: 17px;
+    padding: 20px 24px 8px 24px;
+    text-transform: uppercase;
+    box-shadow: inset 0 1px 0 0 $light-blue-grey;
+  }
+}
