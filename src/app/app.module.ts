@@ -42,7 +42,6 @@ import { Angulartics2Mixpanel, Angulartics2Module } from 'angulartics2';
 import { MixpanelEffects } from './STATE/effects/mixpanel.effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactPersonBottomSheetComponent } from './features/internal/contact-person-bottom-sheet/contact-person-bottom-sheet.component';
-import { environment } from '../environments/environment';
 
 
 Raven
@@ -56,11 +55,11 @@ export class RavenErrorHandler implements ErrorHandler {
 }
 
 export function provideErrorHandler() {
-  if (environment.production) {
+  // if (environment.production) {
     return new RavenErrorHandler();
-  } else {
-    return new ErrorHandler();
-  }
+  // } else {
+    // return new ErrorHandler();
+  // }
 }
 
 

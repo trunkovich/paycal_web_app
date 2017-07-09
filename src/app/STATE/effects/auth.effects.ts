@@ -38,10 +38,28 @@ export class AuthEffects {
   signIn$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.SIGN_IN)
     .map(toPayload)
+    .do(() => {
+      Raven.captureBreadcrumb({
+        message: 'Sign in effect',
+        category: 'Sign-in',
+        level: 'debug'
+      });
+    })
     .switchMap((credentials: Credentials) => {
       return this.authService.signIn(credentials)
         .map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject))
-        .catch(error => Observable.of(new authActions.SignInFailAction(error.message)));
+        .catch(error => {
+          Raven.captureBreadcrumb({
+            message: 'Sign in failed',
+            category: 'Sign-in',
+            level: 'error',
+            data: {
+              error: JSON.stringify(error)
+            }
+          });
+          Raven.captureException(new Error('sign in failed'));
+          return Observable.of(new authActions.SignInFailAction(error.message));
+        });
     });
 
   @Effect()
@@ -72,6 +90,13 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   redirectAfterSuccessSignIn$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.SIGN_IN_SUCCESS)
+    .do(() => {
+      Raven.captureBreadcrumb({
+        message: 'Sign in success effect',
+        category: 'Sign-in',
+        level: 'debug'
+      });
+    })
     .do(() => this.authService.redirectAfterLogin());
 
   @Effect({ dispatch: false })
