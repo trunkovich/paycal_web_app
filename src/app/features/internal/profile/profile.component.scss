@@ -24,26 +24,30 @@
 
   .avatar-section {
     @extend .gradient1;
-    height: 170px;
+    height: 210px;
     padding-top: 45px;
 
     .avatar {
-      @include size(84px);
+      @include size(126px);
       @include center-block();
       border-radius: 50%;
       background-color: #D8D8D8;
       background-size: 100%;
       margin-top: 20px;
+      box-shadow: 0 3px 30px 0 rgba(24, 107, 122, 0.7);
     }
     .avatar-default {
-      @include size(84px);
+      @include size(126px);
       @include center-block();
+      border-radius: 50%;
       margin-top: 20px;
-
-      md-icon {
-        @include size(84px);
-        fill: white;
-      }
+      background-color: #f7f9fb;
+      box-shadow: 0 3px 30px 0 rgba(24, 107, 122, 0.7);
+      line-height: 126px;
+      font-size: 48px;
+      font-weight: 600;
+      text-align: center;
+      color: $bluish-grey;
     }
     .name {
       @extend .big-bold-text;
