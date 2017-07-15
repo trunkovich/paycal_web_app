@@ -7,6 +7,8 @@ import { SignInAction, SignInClearErrorAction } from '../../../STATE/actions/aut
 import { Credentials } from '../../../STATE/models/credentials.model';
 import { AppState, authSelectors } from '../../../STATE/reducers/index';
 import { markInvalidFieldsAsTouched } from '../../../STATE/utils';
+import { MdDialog } from '@angular/material';
+import { LocalStorageAlertComponent } from '../local-storage-alert/local-storage-alert.component';
 
 @Component({
   selector: 'pcl-sign-in',
@@ -23,7 +25,9 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   constructor(
     private _fb: FormBuilder,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    public dialog: MdDialog
+  ) {
     this.disableTerms = !!localStorage.getItem('terms-signed');
   }
 
@@ -43,6 +47,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: FormGroup) {
+    this.dialog.open(LocalStorageAlertComponent);
+
     if (form.invalid) {
       markInvalidFieldsAsTouched(form);
     } else {
@@ -52,7 +58,13 @@ export class SignInComponent implements OnInit, OnDestroy {
         rememberMe: form.value.rememberMe
       };
       if (!this.disableTerms) {
-        localStorage.setItem('terms-signed', 'true');
+        try {
+          localStorage.setItem('terms-signed', 'true');
+        } catch (err) {
+          if (err.name === 'QuotaExceededError') {
+            this.dialog.open(LocalStorageAlertComponent);
+          }
+        }
       }
       this.store.dispatch(new SignInClearErrorAction());
       this.store.dispatch(new SignInAction(credentials));

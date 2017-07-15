@@ -21,6 +21,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
 import { TermsComponent } from './terms/terms.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LocalStorageAlertComponent } from './local-storage-alert/local-storage-alert.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RegistrationSuccessComponent,
     ChangePasswordComponent,
     ChangePasswordSuccessComponent,
-    TermsComponent
+    TermsComponent,
+    LocalStorageAlertComponent
   ]
 })
 export class AuthModule { }

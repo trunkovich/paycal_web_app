@@ -43,6 +43,7 @@ import { MixpanelEffects } from './STATE/effects/mixpanel.effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactPersonBottomSheetComponent } from './features/internal/contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 import { environment } from '../environments/environment';
+import { LocalStorageAlertComponent } from './features/auth/local-storage-alert/local-storage-alert.component';
 
 
 Raven
@@ -114,7 +115,8 @@ export function provideErrorHandler() {
     ViewTypeBottomSheetComponent,
     BottomSheetContainerComponent,
     ContactUsBottomSheetComponent,
-    ContactPersonBottomSheetComponent
+    ContactPersonBottomSheetComponent,
+    LocalStorageAlertComponent
   ]
 })
 export class AppModule { }
