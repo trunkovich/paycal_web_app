@@ -38,23 +38,10 @@ export class AuthEffects {
   signIn$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.SIGN_IN)
     .map(toPayload)
-    .do(() => {
-      Raven.captureBreadcrumb({
-        message: 'Sign in effect',
-        category: 'Sign-in',
-        level: 'debug'
-      });
-    })
     .switchMap((credentials: Credentials) => {
       return this.authService.signIn(credentials)
         .map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject))
         .catch(error => {
-          Raven.captureBreadcrumb({
-            message: 'Sign in failed',
-            category: 'Sign-in',
-            level: 'error'
-          });
-          Raven.captureException(error);
           return Observable.of(new authActions.SignInFailAction(error.message));
         });
     });

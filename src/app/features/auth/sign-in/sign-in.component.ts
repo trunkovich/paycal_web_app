@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as Raven from 'raven-js';
 
 import { SignInAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
 import { Credentials } from '../../../STATE/models/credentials.model';
@@ -44,30 +43,9 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: FormGroup) {
-    Raven.captureBreadcrumb({
-      message: 'User clicked Sign-in submit button',
-      category: 'Sign-in',
-      level: 'debug',
-      data: {
-        login: form.value.phone,
-        pwdLngth: form.value.password.length,
-        rememberMe: form.value.rememberMe ? 'true' : 'false',
-        terms: form.value.terms ? 'true' : 'false',
-      }
-    });
     if (form.invalid) {
-      Raven.captureBreadcrumb({
-        message: 'Form is invalid',
-        category: 'Sign-in',
-        level: 'debug'
-      });
       markInvalidFieldsAsTouched(form);
     } else {
-      Raven.captureBreadcrumb({
-        message: 'Form is valid',
-        category: 'Sign-in',
-        level: 'debug'
-      });
       let credentials: Credentials = {
         phone: form.value.phone.replace(/\D+/g, ''),
         password: form.value.password,
