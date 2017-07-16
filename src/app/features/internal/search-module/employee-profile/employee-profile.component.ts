@@ -75,7 +75,7 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
       .filter(entries => !!entries)
       .switchMap(entries => Observable.from(entries))
       .filter(entry => entry.date.isAfter(today))
-      .take(3)
+      .take(7)
       .toArray();
   }
 
