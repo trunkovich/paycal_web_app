@@ -13,7 +13,10 @@ export class GoogleFormComponent implements AfterViewInit {
   ngAfterViewInit() {
     const doc = this.iframe.nativeElement.contentWindow.document;
     doc.open();
-    doc.write('<style>body{margin: 0}</style><script type="text/javascript" src="https://Paycal.formstack.com/forms/js.php/pmt"></script>');
+    doc.write(`
+<style>body{margin: 0}</style>
+<script type="text/javascript" src="//Paycal.formstack.com/forms/js.php/pmt"></script>
+`);
     doc.close();
   }
 }
