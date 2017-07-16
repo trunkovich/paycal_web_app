@@ -47,8 +47,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: FormGroup) {
-    this.dialog.open(LocalStorageAlertComponent);
-
     if (form.invalid) {
       markInvalidFieldsAsTouched(form);
     } else {
