@@ -31,6 +31,7 @@ import { ContactUsBottomSheetComponent } from './contact-us-bottom-sheet/contact
 import { ShiftCodeComponent } from './common/components/shift-code/shift-code.component';
 import { NoEntriesFallbackComponent } from './common/components/no-entries-fallback/no-entries-fallback.component';
 import { ContactPersonBottomSheetComponent } from './contact-person-bottom-sheet/contact-person-bottom-sheet.component';
+import { GoogleFormComponent } from './google-form/google-form.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,8 @@ import { ContactPersonBottomSheetComponent } from './contact-person-bottom-sheet
     ContactUsBottomSheetComponent,
     ContactPersonBottomSheetComponent,
     ShiftCodeComponent,
-    NoEntriesFallbackComponent
+    NoEntriesFallbackComponent,
+    GoogleFormComponent
   ]
 })
 export class InternalModule { }
