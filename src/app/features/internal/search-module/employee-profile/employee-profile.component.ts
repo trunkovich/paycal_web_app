@@ -6,7 +6,6 @@ import * as moment from 'moment';
 
 import { Employee } from '../../../../STATE/models/employee.model';
 import { AppState, scheduleSelectors, searchSelectors } from '../../../../STATE/reducers/index';
-import { SEARCH_ROUTES } from '../search.routes';
 import {
   CleanSearchMonthsScheduleAction,
   LoadSearchFullScheduleAction,
@@ -86,13 +85,13 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.router.navigate([SEARCH_ROUTES.SEARCH, SEARCH_ROUTES.SEARCH_PHYSICIANS]);
+    this.router.navigate(['search', 'physicians']);
   }
 
   onDayClick(day) {
     this.store.dispatch(new SetSearchSelectedDateAction(day.date.toDate()));
     this.store.dispatch(new SetSearchViewTypeAction(CalendarTypes.DAY));
-    this.router.navigate([SEARCH_ROUTES.SEARCH, SEARCH_ROUTES.SEARCH_PHYSICIANS, this.entryId]);
+    this.router.navigate(['search', 'physicians', this.entryId]);
   }
 
   getPhotoUrl(profile: Employee): string {
@@ -112,6 +111,6 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
   }
 
   goToFullSchedule() {
-    this.router.navigate([SEARCH_ROUTES.SEARCH, SEARCH_ROUTES.SEARCH_PHYSICIANS, this.entryId]);
+    this.router.navigate(['search', 'physicians', this.entryId]);
   }
 }

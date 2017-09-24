@@ -1,5 +1,4 @@
-import {Component, Inject, forwardRef} from '@angular/core';
-import {BottomSheetService} from '../bottom-sheet.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'pcl-bottom-sheet-container',
@@ -8,10 +7,11 @@ import {BottomSheetService} from '../bottom-sheet.service';
 })
 export class BottomSheetContainerComponent {
 
-  constructor(@Inject(forwardRef(() => BottomSheetService)) public bss: BottomSheetService) { }
+  constructor() { }
 
   close(result) {
-    this.bss.close(result);
+    // This function is replaced here:
+    // bottom-sheet.service.ts:26
   }
 
 }

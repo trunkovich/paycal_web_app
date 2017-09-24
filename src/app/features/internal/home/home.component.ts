@@ -9,7 +9,6 @@ import { CalendarTypes } from '../../../STATE/models/calendar.types';
 import { GroupSchedule } from '../../../STATE/models/group-schedule.model';
 import { AppState, homeSelectors, profileSelectors, scheduleSelectors } from '../../../STATE/reducers/index';
 import { Employee } from '../../../STATE/models/employee.model';
-import { INTERNAL_ROUTES } from '../internal.routes';
 import { APP_CONFIG } from '../../../../environments/environment';
 import { SetHomeViewTypeAction, SetMySelectedDateAction } from '../../../STATE/actions/home.actions';
 import { SetCurrentSectionAction } from '../../../STATE/actions/schedule.actions';
@@ -72,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onShiftClick(entry: EmployeeScheduleEntry) {
-    this.router.navigate(['/', INTERNAL_ROUTES.QUALIFIED_PHYSICIANS, entry.EmployeeScheduleEntryID]);
+    this.router.navigate(['/', 'qualified-physicians', entry.EmployeeScheduleEntryID]);
   }
 
   onDateChange(date: Date) {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AUTH_ROUTES } from '../auth.routes';
 
 @Component({
   selector: 'pcl-terms',
@@ -15,7 +14,7 @@ export class TermsComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate([AUTH_ROUTES.LOGIN]);
+    this.router.navigate(['/', 'login']);
   }
 
 }

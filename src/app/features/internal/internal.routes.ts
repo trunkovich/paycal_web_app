@@ -16,19 +16,6 @@ import { CropLoadingComponent } from './crop-loading/crop-loading.component';
 import { searchRoutes } from './search-module/search.routes';
 import { GoogleFormComponent } from './google-form/google-form.component';
 
-export const INTERNAL_ROUTES = Object.freeze({
-  HOME: 'home',
-  MORE: 'more',
-  PROFILE: 'profile',
-  EDIT_PROFILE: 'edit-profile',
-  CROP_AVATAR: 'crop-avatar',
-  CROP_LOADING: 'crop-loading',
-  QUALIFIED_PHYSICIANS: 'qualified-physicians',
-  MESSAGE: 'message',
-  MESSAGE_SUCCESS: 'message-success',
-  MESSAGE_LOADING: 'message-loading'
-});
-
 export const internalRoutes: Routes = [
   { path: '', component: InternalComponent, canActivate: [OnlySignedInUsers, OnlyMobileDevices], children: [
     { path: '', pathMatch: 'full', redirectTo: '/home' },

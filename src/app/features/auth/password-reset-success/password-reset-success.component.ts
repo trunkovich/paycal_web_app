@@ -1,8 +1,7 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {AUTH_ROUTES} from '../auth.routes';
-import {APP_CONFIG} from '../../../../environments/environment';
+import { APP_CONFIG } from '../../../../environments/environment';
 
 @Component({
   selector: 'pcl-password-reset-success',
@@ -15,7 +14,7 @@ export class PasswordResetSuccessComponent implements OnInit, OnDestroy {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.timeoutId = setTimeout(() => this.router.navigate(['/', AUTH_ROUTES.LOGIN]), APP_CONFIG.AUTO_REDIRECT_TIMER);
+    this.timeoutId = setTimeout(() => this.router.navigate(['/', 'login']), APP_CONFIG.AUTO_REDIRECT_TIMER);
   }
 
   ngOnDestroy() {

@@ -8,7 +8,11 @@ export class BottomSheetService {
   _afterClose: Subject<any>;
   bSheetCmpt: ComponentRef<BottomSheetContainerComponent>;
 
-  constructor(private _appRef: ApplicationRef, private _cfr: ComponentFactoryResolver, private _injector: Injector) {
+  constructor(
+    private _appRef: ApplicationRef,
+    private _cfr: ComponentFactoryResolver,
+    private _injector: Injector
+  ) {
   }
 
   open(content: any, extra: any = {}) {
@@ -19,6 +23,7 @@ export class BottomSheetService {
     this.bSheetCmpt = bSheetCmpFactory.create(this._injector, [[contentCmpt.location.nativeElement]]);
 
     (contentCmpt.instance as any).extra = _.cloneDeep(extra);
+    (this.bSheetCmpt.instance as any).close = (result) => this.close(result);
 
     document.querySelector('body').appendChild(this.bSheetCmpt.location.nativeElement);
 

@@ -1,12 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
-import {SignInClearErrorAction, RequestPasswordRecoveryAction} from '../../../STATE/actions/auth.actions';
-import {AUTH_ROUTES} from '../auth.routes';
-import {AppState, authSelectors} from '../../../STATE/reducers/index';
+import { RequestPasswordRecoveryAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
+import { AppState, authSelectors } from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-forgot-password',
@@ -38,7 +37,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   }
 
   onBackBtnClick($event: MouseEvent) {
-    this.router.navigate(['/', AUTH_ROUTES.LOGIN]);
+    this.router.navigate(['/', 'login']);
   }
 
   onSubmit(data) {

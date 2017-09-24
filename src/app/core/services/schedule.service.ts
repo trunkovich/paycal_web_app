@@ -2,27 +2,23 @@
  * Created by TrUnK on 16.01.2017.
  */
 
-import {Injectable} from '@angular/core';
-import {Api} from './api.service';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Api } from './api.service';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import {EmployeeScheduleEntryListResponse} from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
-import {
-  EmployeeScheduleEntry, AvailableMonthsStructure,
-  LoadedMonth
-} from '../../STATE/models/employee-schedule-entry.model';
-import {GroupScheduleListResponse} from '../../STATE/models/responses/group-schedule-list-response.model';
-import {GroupSchedule} from '../../STATE/models/group-schedule.model';
-import {EmployeeListResponse} from '../../STATE/models/responses/employee-list-response.model';
-import {Employee} from '../../STATE/models/employee.model';
-import {CoverageRequest} from '../../STATE/models/requests/coverage-request.request.model';
-import {Response} from '../../STATE/models/responses/response.model';
-import {LaborCodeListResponse} from '../../STATE/models/responses/labor-code-list-response.model';
-import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
-import {MasterCalendarEntry} from '../../STATE/models/master-calendar-entry.model';
-import {Router} from '@angular/router';
-import {INTERNAL_ROUTES} from '../../features/internal/internal.routes';
+import { EmployeeScheduleEntryListResponse } from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
+import { AvailableMonthsStructure, EmployeeScheduleEntry, LoadedMonth } from '../../STATE/models/employee-schedule-entry.model';
+import { GroupScheduleListResponse } from '../../STATE/models/responses/group-schedule-list-response.model';
+import { GroupSchedule } from '../../STATE/models/group-schedule.model';
+import { EmployeeListResponse } from '../../STATE/models/responses/employee-list-response.model';
+import { Employee } from '../../STATE/models/employee.model';
+import { CoverageRequest } from '../../STATE/models/requests/coverage-request.request.model';
+import { Response } from '../../STATE/models/responses/response.model';
+import { LaborCodeListResponse } from '../../STATE/models/responses/labor-code-list-response.model';
+import { MasterCalendarEntryListResponse } from '../../STATE/models/responses/master-calendar-entry-list-response.model';
+import { MasterCalendarEntry } from '../../STATE/models/master-calendar-entry.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ScheduleService {
@@ -217,10 +213,10 @@ export class ScheduleService {
   // }
 
   redidrectBeforeCreatingRequest() {
-    this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE_LOADING]);
+    this.router.navigate(['/', 'message-loading']);
   }
 
   redidrectAfterCreatingRequest() {
-    this.router.navigate(['/', INTERNAL_ROUTES.MESSAGE_SUCCESS]);
+    this.router.navigate(['/', 'message-success']);
   }
 }

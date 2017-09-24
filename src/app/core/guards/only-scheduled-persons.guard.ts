@@ -1,8 +1,7 @@
-import {CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
-import {Injectable} from '@angular/core';
-import {AppState, profileSelectors} from '../../STATE/reducers/index';
-import {Store} from '@ngrx/store';
-import {SEARCH_ROUTES} from '../../features/internal/search-module/search.routes';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { AppState, profileSelectors } from '../../STATE/reducers/index';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class OnlyScheduledPersons implements CanActivate {
@@ -27,7 +26,7 @@ export class OnlyScheduledPersons implements CanActivate {
       })
       .do((result) => {
         if (!result) {
-          this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
+          this.router.navigate(['/', 'search']);
         }
       });
   }

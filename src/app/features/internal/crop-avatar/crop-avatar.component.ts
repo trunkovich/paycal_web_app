@@ -1,13 +1,12 @@
-import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {Subscription} from 'rxjs';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
-import {INTERNAL_ROUTES} from '../internal.routes';
-import {AppState, profileSelectors} from '../../../STATE/reducers/index';
-import {ImageDataModel} from '../../../STATE/models/image-data.model';
-import {Crop} from './crop.class';
-import {UploadImageAction} from '../../../STATE/actions/profile.actions';
+import { AppState, profileSelectors } from '../../../STATE/reducers/index';
+import { ImageDataModel } from '../../../STATE/models/image-data.model';
+import { Crop } from './crop.class';
+import { UploadImageAction } from '../../../STATE/actions/profile.actions';
 
 @Component({
   selector: 'pcl-crop-avatar',
@@ -36,7 +35,7 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
           this.crop = new Crop(data, this.image.nativeElement);
           setTimeout(() => this.sub.unsubscribe(), 0);
         } else {
-          this.router.navigate(['/', INTERNAL_ROUTES.EDIT_PROFILE]);
+          this.router.navigate(['/', 'edit-profile']);
         }
       });
   }
@@ -52,7 +51,7 @@ export class CropAvatarComponent implements OnInit, OnDestroy {
   }
 
   onBackBtnClick() {
-    this.router.navigate(['/', INTERNAL_ROUTES.EDIT_PROFILE]);
+    this.router.navigate(['/', 'edit-profile']);
   }
 
   save() {

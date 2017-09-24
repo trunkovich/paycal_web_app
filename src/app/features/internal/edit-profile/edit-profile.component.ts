@@ -1,18 +1,17 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Subscription, Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import emailMask from 'text-mask-addons/dist/emailMask';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
-import {Employee, EditEmployeeRequestData} from '../../../STATE/models/employee.model';
-import {AppState, profileSelectors} from '../../../STATE/reducers/index';
-import {PhonePipe} from '../../../common/pipes/phone.pipe';
-import {ProfileClearErrorAction, UpdateProfileAction, StoreImageData} from '../../../STATE/actions/profile.actions';
-import {AvatarService} from '../../../core/services/avatar.service';
-import {ImageDataModel} from '../../../STATE/models/image-data.model';
-import {INTERNAL_ROUTES} from '../internal.routes';
+import { EditEmployeeRequestData, Employee } from '../../../STATE/models/employee.model';
+import { AppState, profileSelectors } from '../../../STATE/reducers/index';
+import { PhonePipe } from '../../../common/pipes/phone.pipe';
+import { ProfileClearErrorAction, StoreImageData, UpdateProfileAction } from '../../../STATE/actions/profile.actions';
+import { AvatarService } from '../../../core/services/avatar.service';
+import { ImageDataModel } from '../../../STATE/models/image-data.model';
 
 /* tslint:disable */
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -108,7 +107,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   onBackBtnClick() {
-    this.router.navigate(['/', INTERNAL_ROUTES.PROFILE]);
+    this.router.navigate(['/',  'profile']);
   }
 
   getPhotoUrl(profile: Employee): string {

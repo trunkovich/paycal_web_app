@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 
-import { SEARCH_ROUTES } from '../search.routes';
 import { ALLOWED_SEARCH_TYPES } from '../../../../STATE/reducers/schedule.reducer';
 import { AppState, searchSelectors } from '../../../../STATE/reducers/index';
 import { SearchResults } from '../../../../STATE/models/search-results.model';
@@ -43,7 +42,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
         this.title = this.type === 'physicians' ? 'Providers' : (this.type === 'call-reference' ? 'Call Reference' : 'Or Reference');
         this.store.dispatch(new LoadSearchReferenceAction());
       } else {
-        this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
+        this.router.navigate(['/', 'search']);
       }
     });
   }
@@ -55,7 +54,7 @@ export class SearchListComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
+    this.router.navigate(['/', 'search']);
   }
 
   onSearchTextChange(search: string) {
@@ -64,9 +63,9 @@ export class SearchListComponent implements OnInit, OnDestroy {
 
   onEntryClick(entry: string | Employee) {
     if (this.type === 'physicians') {
-      this.router.navigate(['/', SEARCH_ROUTES.SEARCH, this.type, (entry as Employee).EmployeeID, 'profile']);
+      this.router.navigate(['/', 'search', this.type, (entry as Employee).EmployeeID, 'profile']);
     } else {
-      this.router.navigate(['/', SEARCH_ROUTES.SEARCH, this.type, entry]);
+      this.router.navigate(['/', 'search', this.type, entry]);
     }
   }
 

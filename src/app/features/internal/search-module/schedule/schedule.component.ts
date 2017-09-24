@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppState, scheduleSelectors, searchSelectors } from '../../../../STATE/reducers/index';
 import { ALLOWED_SEARCH_TYPES } from '../../../../STATE/reducers/schedule.reducer';
-import { SEARCH_ROUTES } from '../search.routes';
 import { Employee } from '../../../../STATE/models/employee.model';
 import {
   CleanSearchMonthsScheduleAction,
@@ -74,7 +73,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (_.includes(ALLOWED_SEARCH_TYPES, params['type']) && params['id']) {
       this.init(params['type'], params['id']);
     } else {
-      this.router.navigate(['/', SEARCH_ROUTES.SEARCH]);
+      this.router.navigate(['/', 'search']);
     }
   }
 

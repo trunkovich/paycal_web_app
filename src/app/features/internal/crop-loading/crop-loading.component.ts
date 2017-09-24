@@ -1,8 +1,7 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {APP_CONFIG} from '../../../../environments/environment';
-import {INTERNAL_ROUTES} from '../internal.routes';
+import { APP_CONFIG } from '../../../../environments/environment';
 
 @Component({
   selector: 'pcl-crop-loading',
@@ -15,7 +14,7 @@ export class CropLoadingComponent implements OnInit, OnDestroy {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.timeoutId = setTimeout(() => this.router.navigate(['/', INTERNAL_ROUTES.PROFILE]), APP_CONFIG.AUTO_REDIRECT_TIMER * 10);
+    this.timeoutId = setTimeout(() => this.router.navigate(['/', 'profile']), APP_CONFIG.AUTO_REDIRECT_TIMER * 10);
   }
 
   ngOnDestroy() {

@@ -1,27 +1,25 @@
 /**
  * Created by TrUnK on 06.01.2017.
  */
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
-import {EmployeeSignInResponse} from '../../STATE/models/responses/employee-sign-in-response.model';
-import {Credentials} from '../../STATE/models/credentials.model';
-import {APP_CONFIG} from '../../../environments/environment';
-import {Employee, EditEmployeeRequestData} from '../../STATE/models/employee.model';
-import {EmployeeResponse} from '../../STATE/models/responses/employee-response.model';
-import {TokenObject} from '../../STATE/models/token.model';
-import {Response} from '../../STATE/models/responses/response.model';
-import {AUTH_ROUTES} from '../../features/auth/auth.routes';
-import {Api} from './api.service';
-import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
-import {CompleteRegistrationModel} from '../../STATE/models/complete-registration.model';
-import {Lead} from '../../STATE/models/lead.model';
-import {authSelectors, AppState} from '../../STATE/reducers/index';
-import {INTERNAL_ROUTES} from '../../features/internal/internal.routes';
-import {CloudinaryResponse} from '../../STATE/models/responses/cloudinary-response.model';
+import { EmployeeSignInResponse } from '../../STATE/models/responses/employee-sign-in-response.model';
+import { Credentials } from '../../STATE/models/credentials.model';
+import { APP_CONFIG } from '../../../environments/environment';
+import { EditEmployeeRequestData, Employee } from '../../STATE/models/employee.model';
+import { EmployeeResponse } from '../../STATE/models/responses/employee-response.model';
+import { TokenObject } from '../../STATE/models/token.model';
+import { Response } from '../../STATE/models/responses/response.model';
+import { Api } from './api.service';
+import { ResetPasswordModel } from '../../STATE/models/reset-password.model';
+import { CompleteRegistrationModel } from '../../STATE/models/complete-registration.model';
+import { Lead } from '../../STATE/models/lead.model';
+import { AppState, authSelectors } from '../../STATE/reducers/index';
+import { CloudinaryResponse } from '../../STATE/models/responses/cloudinary-response.model';
 
 @Injectable()
 export class AuthService {
@@ -158,38 +156,38 @@ export class AuthService {
   }
 
   redirectAfterPasswordRecoveryRequest() {
-    this.router.navigate(['/', AUTH_ROUTES.FORGOT_PASSWORD_SUCCESS]);
+    this.router.navigate(['/', 'forgot-password-success']);
   }
   redirectAfterResetPassword() {
-    this.router.navigate(['/', AUTH_ROUTES.PASSWORD_RESET_SUCCESS]);
+    this.router.navigate(['/', 'password-reset-success']);
   }
 
   redirectAfterSaveLead() {
-    this.router.navigate(['/', AUTH_ROUTES.REGISTRATION_SUCCESS]);
+    this.router.navigate(['/', 'registration-success']);
   }
 
   redirectAfterCompleteRegistration() {
-    this.router.navigate(['/', AUTH_ROUTES.COMPLETE_REGISTRATION_SUCCESS]);
+    this.router.navigate(['/', 'complete-registration-success']);
   }
 
   redirectAfterChangePassword() {
-    this.router.navigate(['/', AUTH_ROUTES.CHANGE_PASSWORD_SUCCESS]);
+    this.router.navigate(['/', 'change-password-success']);
   }
 
   redirectToLogin() {
-    this.router.navigate(['/', AUTH_ROUTES.LOGIN]);
+    this.router.navigate(['/', 'login']);
   }
 
   redirectToProfile() {
-    this.router.navigate(['/', INTERNAL_ROUTES.PROFILE]);
+    this.router.navigate(['/', 'profile']);
   }
 
   redirectToCropAvatar() {
-    this.router.navigate(['/', INTERNAL_ROUTES.CROP_AVATAR]);
+    this.router.navigate(['/', 'crop-avatar']);
   }
 
   redirectToCropLoading() {
-    this.router.navigate(['/', INTERNAL_ROUTES.CROP_LOADING]);
+    this.router.navigate(['/', 'crop-loading']);
   }
 
   redirectAfterLogin() {

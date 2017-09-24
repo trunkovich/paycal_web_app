@@ -15,24 +15,6 @@ import { ChangePasswordSuccessComponent } from './change-password-success/change
 import { OnlySignedInUsers } from '../../core/guards/only-signed-in-users.guard';
 import { TermsComponent } from './terms/terms.component';
 
-export const AUTH_ROUTES = Object.freeze({
-  LOGIN: 'login',
-  FORGOT_PASSWORD: 'forgot-password',
-  FORGOT_PASSWORD_SUCCESS: 'forgot-password-success',
-  PASSWORD_RESET: 'password-reset',
-  PASSWORD_RESET_SUCCESS: 'password-reset-success',
-  REGISTRATION: 'registration',
-  REGISTRATION_SUCCESS: 'registration-success',
-  COMPLETE_REGISTRATION: 'complete-registration',
-  COMPLETE_REGISTRATION_SUCCESS: 'complete-registration-success',
-  CHANGE_PASSWORD: 'change-password',
-  CHANGE_PASSWORD_SUCCESS: 'change-password-success',
-  TERMS_AND_CONDITIONS: 'terms-and-conditions'
-});
-
-// Can't use AUTH_ROUTES here, because of error:
-// `Error encountered resolving symbol values statically`
-// Please keep it in sync by hands.
 export const authRoutes: Routes = [
   { path: 'login', component: SignInComponent, canActivate: [OnlyMobileDevices], data: { animation: { value: 'login' } } },
   { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [OnlyMobileDevices] },

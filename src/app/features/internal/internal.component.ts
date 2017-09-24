@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import {Router, NavigationEnd} from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import * as _ from 'lodash';
-
-import {INTERNAL_ROUTES} from './internal.routes';
-import {SEARCH_ROUTES} from './search-module/search.routes';
 
 @Component({
   selector: 'pcl-internal',
@@ -14,16 +11,16 @@ import {SEARCH_ROUTES} from './search-module/search.routes';
 })
 export class InternalComponent {
   navLessRoutes = [
-    INTERNAL_ROUTES.QUALIFIED_PHYSICIANS,
-    INTERNAL_ROUTES.MESSAGE,
-    INTERNAL_ROUTES.MESSAGE_LOADING,
-    INTERNAL_ROUTES.MESSAGE_SUCCESS,
-    INTERNAL_ROUTES.CROP_AVATAR,
-    INTERNAL_ROUTES.EDIT_PROFILE,
-    INTERNAL_ROUTES.CROP_LOADING,
-    SEARCH_ROUTES.SEARCH_CALL,
-    SEARCH_ROUTES.SEARCH_OR,
-    SEARCH_ROUTES.SEARCH_PHYSICIANS
+    'qualified-physicians',
+    'message',
+    'message-loading',
+    'message-success',
+    'crop-avatar',
+    'edit-profile',
+    'crop-loading',
+    'call-reference',
+    'or-reference',
+    'physicians'
   ];
   showNav: boolean = true;
 
