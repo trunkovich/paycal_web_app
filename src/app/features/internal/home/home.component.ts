@@ -1,19 +1,19 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import {Router} from '@angular/router';
-import {EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay} from '../../../STATE/models/employee-schedule-entry.model';
-import {CalendarTypes} from '../../../STATE/models/calendar.types';
-import {GroupSchedule} from '../../../STATE/models/group-schedule.model';
-import {homeSelectors, profileSelectors, AppState, scheduleSelectors} from '../../../STATE/reducers/index';
-import {Employee} from '../../../STATE/models/employee.model';
-import {INTERNAL_ROUTES} from '../internal.routes';
-import {APP_CONFIG} from '../../../../environments/environment';
-import {SetMySelectedDateAction, SetHomeViewTypeAction} from '../../../STATE/actions/home.actions';
-import {SetCurrentSectionAction} from '../../../STATE/actions/schedule.actions';
-import {TrackHomeViewOpenedAction} from '../../../STATE/actions/mixpanel.actions';
+import { Router } from '@angular/router';
+import { EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay } from '../../../STATE/models/employee-schedule-entry.model';
+import { CalendarTypes } from '../../../STATE/models/calendar.types';
+import { GroupSchedule } from '../../../STATE/models/group-schedule.model';
+import { AppState, homeSelectors, profileSelectors, scheduleSelectors } from '../../../STATE/reducers/index';
+import { Employee } from '../../../STATE/models/employee.model';
+import { INTERNAL_ROUTES } from '../internal.routes';
+import { APP_CONFIG } from '../../../../environments/environment';
+import { SetHomeViewTypeAction, SetMySelectedDateAction } from '../../../STATE/actions/home.actions';
+import { SetCurrentSectionAction } from '../../../STATE/actions/schedule.actions';
+import { TrackHomeViewOpenedAction } from '../../../STATE/actions/mixpanel.actions';
 
 @Component({
   selector: 'pcl-home',
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnDestroy() {
-    _.each<Subscription>(this.subs, (sub) => sub.unsubscribe());
+    _.each(this.subs, (sub: Subscription) => sub.unsubscribe());
   }
 
   ngOnInit() {

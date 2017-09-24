@@ -51,7 +51,7 @@ export function markInvalidFieldsAsTouched(form: FormGroup): void {
   if (form.valid) {
     return;
   }
-  _.each<AbstractControl>(form.controls, (control) => {
+  _.each(form.controls, (control: AbstractControl) => {
     if (control.invalid) {
       control.markAsTouched();
     }

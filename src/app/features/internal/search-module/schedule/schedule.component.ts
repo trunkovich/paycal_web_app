@@ -106,7 +106,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    _.each<Subscription>(this.subs, (sub) => sub.unsubscribe());
+    _.each(this.subs, (sub: Subscription) => sub.unsubscribe());
   }
 
   onDateChange(date: Date) {
