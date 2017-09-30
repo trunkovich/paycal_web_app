@@ -1,18 +1,18 @@
 /**
  * Created by TrUnK on 12.02.2017.
  */
-import {Injectable} from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
-import {Action, Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import * as scheduleActions from '../actions/schedule.actions';
 import * as homeActions from '../actions/home.actions';
-import {ScheduleService} from '../../core/services/schedule.service';
-import {AvailableMonthsStructure, LoadedMonth, EmployeeScheduleEntry} from '../models/employee-schedule-entry.model';
-import {AppState, homeSelectors} from '../reducers/index';
+import { ScheduleService } from '../../core/services/schedule.service';
+import { AvailableMonthsStructure, EmployeeScheduleEntry, LoadedMonth } from '../models/employee-schedule-entry.model';
+import { AppState, homeSelectors } from '../reducers/index';
 import * as authActions from '../actions/auth.actions';
-import {Employee, QualifiedEmployee} from '../models/employee.model';
-import {GroupSchedule} from '../models/group-schedule.model';
+import { Employee, QualifiedEmployee } from '../models/employee.model';
+import { GroupSchedule } from '../models/group-schedule.model';
 
 @Injectable()
 export class HomeEffects {
@@ -31,7 +31,7 @@ export class HomeEffects {
   @Effect()
   fillMyMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
-    .map(toPayload)
+    .map((action: scheduleActions.LoadGroupScheduleMonthsSuccessAction) => action.payload)
     .map((months: GroupSchedule[]) => new homeActions.FillMyMonthsScheduleAction(months))
     .delay(1);
 
@@ -61,7 +61,7 @@ export class HomeEffects {
   @Effect()
   createCoverageRequest$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.CREATE_COVERAGE_REQUEST)
-    .map(toPayload)
+    .map((action: homeActions.CreateCoverageRequestAction) => action.payload)
     .switchMap((request) => {
       return this.scheduleService.createCoverageRequest(request)
         .map(() => new homeActions.CreateCoverageRequestSuccessAction())
@@ -86,7 +86,7 @@ export class HomeEffects {
   @Effect()
   getCurrentMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE)
-    .map(toPayload)
+    .map((action: homeActions.LoadMyMonthScheduleAction) => action.payload)
     .switchMap((date: Date) => {
       return this.scheduleService.getMyMonthSchedule({month: date.getMonth() + 1, year: date.getFullYear()})
         .map((entries: EmployeeScheduleEntry[]) => {
@@ -117,7 +117,7 @@ export class HomeEffects {
   @Effect()
   findEmployeesToCoverMyShift$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.LOAD_SHIFT_EMPLOYEES)
-    .map(toPayload)
+    .map((action: homeActions.LoadShiftEmployeesAction) => action.payload)
     .switchMap((employeeScheduleEntryID: number) => {
       return this.scheduleService.findEmployeesToCoverMyShift(employeeScheduleEntryID)
         .map((employees: Employee[]) => {

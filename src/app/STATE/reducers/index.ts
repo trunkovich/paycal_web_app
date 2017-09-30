@@ -10,7 +10,7 @@ import { createSelector } from 'reselect';
  *
  * More: https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch
  */
-import { ActionReducer, combineReducers } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import * as _ from 'lodash';
 /**
  * Every reducer module's default export is the reducer function itself. In
@@ -24,10 +24,8 @@ import * as fromReferences from './references.reducer';
 import * as fromSchedule from './schedule.reducer';
 import * as fromHome from './home.reducer';
 import * as fromSearch from './search.reducer';
-import * as fromDebug from './debug.reducer';
 import { Employee, QualifiedEmployee, QualifiedEmployeeGroup } from '../models/employee.model';
 import { environment } from '../../../environments/environment';
-import { compose } from '@ngrx/core/compose';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { SearchResults } from '../models/search-results.model';
 
@@ -52,27 +50,18 @@ export interface AppState {
  * wrapping that in storeLogger. Remember that compose applies
  * the result from right to left.
  */
-const reducers = {
+
+export const reducers: ActionReducerMap<AppState> = {
   auth: fromAuth.authReducer,
   profile: fromProfile.profileReducer,
   references: fromReferences.referencesReducer,
   schedule: fromSchedule.scheduleReducer,
   home: fromHome.homeReducer,
-  search: fromSearch.searchReducer,
-  debug: fromDebug.debugReducer
+  search: fromSearch.searchReducer
+  // debug: fromDebug.debugReducer
 };
 
-const developmentReducer: ActionReducer<AppState> = compose(storeFreeze, combineReducers)(reducers);
-const productionReducer: ActionReducer<AppState> = combineReducers(reducers);
-
-export function reducer(state: any, action: any) {
-  if (environment.production) {
-    return productionReducer(state, action);
-  } else {
-    return developmentReducer(state, action);
-  }
-}
-
+export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];
 
 
 export const getAuthState = (state: AppState) => state.auth;
@@ -81,8 +70,6 @@ export const getReferencesState = (state: AppState) => state.references;
 export const getScheduleState = (state: AppState) => state.schedule;
 export const getHomeState = (state: AppState) => state.home;
 export const getSearchState = (state: AppState) => state.search;
-
-
 
 /*======================================================*/
 /*====================AUTH SELECTORS====================*/

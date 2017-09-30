@@ -2,19 +2,19 @@
  * Created by TrUnK on 16.01.2017.
  */
 import { Injectable } from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as referencesActions from '../actions/references.actions';
-import {ReferencesService} from '../../core/services/references.service';
-import {GroupPosition} from '../models/group-position.model';
-import {GroupSpecialization} from '../models/group-specialization.model';
-import {Region} from '../models/region.model';
-import {State} from '../models/state.model';
-import {TimeZone} from '../models/time-zone.model';
-import {ReferenceType} from '../models/reference-type.model';
-import {EmployeeStatus} from '../models/employee-status.model';
+import { ReferencesService } from '../../core/services/references.service';
+import { GroupPosition } from '../models/group-position.model';
+import { GroupSpecialization } from '../models/group-specialization.model';
+import { Region } from '../models/region.model';
+import { State } from '../models/state.model';
+import { TimeZone } from '../models/time-zone.model';
+import { ReferenceType } from '../models/reference-type.model';
+import { EmployeeStatus } from '../models/employee-status.model';
 
 @Injectable()
 export class ReferencesEffects {
@@ -23,7 +23,7 @@ export class ReferencesEffects {
   @Effect()
   getGroupPositions$: Observable<Action> = this.actions$
     .ofType(referencesActions.ActionTypes.LOAD_GROUP_POSITIONS)
-    .map(toPayload)
+    .map((action: referencesActions.LoadGroupPositionsAction) => action.payload)
     .switchMap((data: {groupId: number}) => {
       return this.referencesService.getGroupPositions(data)
         .map((groupPositions: GroupPosition[]) => new referencesActions.LoadGroupPositionsSuccessAction(groupPositions))
@@ -33,7 +33,7 @@ export class ReferencesEffects {
   @Effect()
   getGroupSpecializations$: Observable<Action> = this.actions$
     .ofType(referencesActions.ActionTypes.LOAD_GROUP_SPECIALIZATIONS)
-    .map(toPayload)
+    .map((action: referencesActions.LoadGroupSpecializationsAction) => action.payload)
     .switchMap((data: {groupId: number}) => {
       return this.referencesService.getGroupSpecializations(data)
         .map((groupSpecializations: GroupSpecialization[]) => {

@@ -2,7 +2,7 @@
  * Created by TrUnK on 06.01.2017.
  */
 import { Injectable } from '@angular/core';
-import { Actions, Effect, toPayload } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
@@ -15,21 +15,6 @@ import { CompleteRegistrationModel } from '../models/complete-registration.model
 import { TokenObject } from '../models/token.model';
 import { Lead } from '../models/lead.model';
 
-
-/**
- * Effects offer a way to isolate and easily test side-effects within your
- * application. StateUpdates is an observable of the latest state and
- * dispatched action. The `toPayload` helper function returns just
- * the payload of the currently dispatched action, useful in
- * instances where the current state is not necessary.
- *
- * If you are unfamiliar with the operators being used in these examples, please
- * check out the sources below:
- *
- * Official Docs: http://reactivex.io/rxjs/manual/overview.html#categories-of-operators
- * RxJS 5 Operators By Example: https://gist.github.com/btroncone/d6cf141d6f2c00dc6b35
- */
-
 @Injectable()
 export class AuthEffects {
   constructor(private actions$: Actions, private authService: AuthService) { }
@@ -37,7 +22,7 @@ export class AuthEffects {
   @Effect()
   signIn$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.SIGN_IN)
-    .map(toPayload)
+    .map((action: authActions.SignInAction) => action.payload)
     .switchMap((credentials: Credentials) => {
       return this.authService.signIn(credentials)
         .map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject))
@@ -49,7 +34,7 @@ export class AuthEffects {
   @Effect()
   saveLead$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.SAVE_LEAD)
-    .map(toPayload)
+    .map((action: authActions.SaveLeadAction) => action.payload)
     .switchMap((data: Lead) => {
       return this.authService.saveLead(data)
         .map(() => new authActions.SaveLeadSuccessAction())
@@ -59,7 +44,7 @@ export class AuthEffects {
   @Effect()
   completeRegistration$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.COMPLETE_REGISTRATION)
-    .map(toPayload)
+    .map((action: authActions.CompleteRegistrationAction) => action.payload)
     .switchMap((completeRegistrationData: CompleteRegistrationModel) => {
       return this.authService.continueRegistration(completeRegistrationData)
         .map((tokenObject: TokenObject) => new authActions.CompleteRegistrationSuccessAction(tokenObject))
@@ -89,9 +74,9 @@ export class AuthEffects {
     .do(() => this.authService.redirectAfterSaveLead());
 
   @Effect({ dispatch: false })
-  storeTokenAfterSuccessSignIn$: Observable<Action> = this.actions$
+  storeTokenAfterSuccessSignIn$ = this.actions$
     .ofType(authActions.ActionTypes.SIGN_IN_SUCCESS)
-    .map(toPayload)
+    .map((action: authActions.SignInSuccessAction) => action.payload)
     .do((token) => AuthService.storeToken(token));
 
   @Effect()
@@ -107,7 +92,7 @@ export class AuthEffects {
   @Effect()
   requestPasswordRecovery$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY)
-    .map(toPayload)
+    .map((action: authActions.RequestPasswordRecoveryAction) => action.payload)
     .switchMap((phone: string) => {
       return this.authService.requestPasswordRecovery(phone)
         .map(() => new authActions.RequestPasswordRecoverySuccessAction())
@@ -127,7 +112,7 @@ export class AuthEffects {
   @Effect()
   resetPassword$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.RESET_PASSWORD)
-    .map(toPayload)
+    .map((action: authActions.ResetPasswordAction) => action.payload)
     .switchMap((resetPasswordData: ResetPasswordModel) => {
       return this.authService.resetPassword(resetPasswordData)
         .map(() => new authActions.ResetPasswordSuccessAction())
@@ -137,7 +122,7 @@ export class AuthEffects {
   @Effect()
   changePassword$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.CHANGE_PASSWORD)
-    .map(toPayload)
+    .map((action: authActions.ChangePasswordAction) => action.payload)
     .switchMap((password: string) => {
       return this.authService.changePassword(password)
         .map(() => new authActions.ChangePasswordSuccessAction())

@@ -2,16 +2,15 @@
  * Created by TrUnK on 20.01.2017.
  */
 import { Injectable } from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
-import {Action, Store} from '@ngrx/store';
+import { Actions, Effect } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as scheduleActions from '../actions/schedule.actions';
-import {ScheduleService} from '../../core/services/schedule.service';
-import {GroupSchedule} from '../models/group-schedule.model';
-import {AppState, scheduleSelectors} from '../reducers/index';
+import { ScheduleService } from '../../core/services/schedule.service';
+import { GroupSchedule } from '../models/group-schedule.model';
+import { AppState } from '../reducers/index';
 import * as authActions from '../actions/auth.actions';
-import {Employee} from '../models/employee.model';
 
 @Injectable()
 export class ScheduleEffects {

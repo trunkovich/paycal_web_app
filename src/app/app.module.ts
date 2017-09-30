@@ -28,7 +28,7 @@ import { ErrorHandlingEffects } from './STATE/effects/error-handling.effects';
 import { ProfileEffects } from './STATE/effects/profile.effects';
 import { ReferencesEffects } from './STATE/effects/references.effects';
 import { ScheduleEffects } from './STATE/effects/schedule.effects';
-import { reducer } from './STATE/reducers/index';
+import { metaReducers, reducers } from './STATE/reducers/index';
 import { BottomSheetContainerComponent } from './bottom-sheet/bottom-sheet-container/bottom-sheet-container.component';
 import { ViewTypeBottomSheetComponent } from './features/internal/common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
 import { StartupEffects } from './STATE/effects/startup.effects';
@@ -77,17 +77,19 @@ export function provideErrorHandler() {
     PclCommonModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    StoreModule.provideStore(reducer),
-    EffectsModule.runAfterBootstrap(StartupEffects),
-    EffectsModule.runAfterBootstrap(AuthEffects),
-    EffectsModule.runAfterBootstrap(ErrorHandlingEffects),
-    EffectsModule.runAfterBootstrap(ProfileEffects),
-    EffectsModule.runAfterBootstrap(ReferencesEffects),
-    EffectsModule.runAfterBootstrap(ScheduleEffects),
-    EffectsModule.runAfterBootstrap(HomeEffects),
-    EffectsModule.runAfterBootstrap(SearchEffects),
-    EffectsModule.runAfterBootstrap(MixpanelEffects),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([
+      StartupEffects,
+      AuthEffects,
+      ErrorHandlingEffects,
+      ProfileEffects,
+      ReferencesEffects,
+      ScheduleEffects,
+      HomeEffects,
+      SearchEffects,
+      MixpanelEffects
+    ]),
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
     Angulartics2Module.forRoot([ Angulartics2Mixpanel ]),
     BrowserAnimationsModule,
 

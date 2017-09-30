@@ -1,17 +1,17 @@
 /**
  * Created by TrUnK on 12.02.2017.
  */
-import {Injectable} from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
-import {Action, Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import * as searchActions from '../actions/search.actions';
 import * as scheduleActions from '../actions/schedule.actions';
-import {ScheduleService} from '../../core/services/schedule.service';
-import {AppState, searchSelectors} from '../reducers/index';
-import {Employee} from '../models/employee.model';
-import {GroupSchedule} from '../models/group-schedule.model';
-import {AvailableMonthsStructure, LoadedMonth} from '../models/employee-schedule-entry.model';
+import { ScheduleService } from '../../core/services/schedule.service';
+import { AppState, searchSelectors } from '../reducers/index';
+import { Employee } from '../models/employee.model';
+import { GroupSchedule } from '../models/group-schedule.model';
+import { AvailableMonthsStructure, LoadedMonth } from '../models/employee-schedule-entry.model';
 
 @Injectable()
 export class SearchEffects {
@@ -30,7 +30,7 @@ export class SearchEffects {
   @Effect()
   fillMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
-    .map(toPayload)
+    .map((action: scheduleActions.LoadGroupScheduleMonthsSuccessAction) => action.payload)
     .map((months: GroupSchedule[]) => new searchActions.FillSearchMonthsScheduleAction(months))
     .delay(1);
 
@@ -38,7 +38,7 @@ export class SearchEffects {
   getAllAvailableMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(searchActions.ActionTypes.LOAD_SEARCH_FULL_SCHEDULE)
     .delay(1)
-    .map(toPayload)
+    .map((action: searchActions.LoadSearchFullScheduleAction) => action.payload)
     .withLatestFrom(this.store.select(searchSelectors.getFullSchedule))
     .switchMap(([payload, months]: [{type: string; id: string}, AvailableMonthsStructure]) => {
       return this.scheduleService.loadSearchMonths(months, payload.type, payload.id)

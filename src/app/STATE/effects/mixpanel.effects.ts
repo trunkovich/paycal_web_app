@@ -1,11 +1,11 @@
 /**
  * Created by TrUnK on 26.02.2017.
  */
-import {Injectable} from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
-import {Action} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
-import {Angulartics2Mixpanel} from 'angulartics2';
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Angulartics2Mixpanel } from 'angulartics2';
 import * as _ from 'lodash';
 import * as profileActions from '../actions/profile.actions';
 import * as homeActions from '../actions/home.actions';
@@ -17,9 +17,9 @@ import {
   TrackHomeViewOpenedAction,
   TrackShiftCoverageRequestedAction
 } from '../actions/mixpanel.actions';
-import {Employee} from '../models/employee.model';
-import {CalendarTypes} from '../models/calendar.types';
-import {AuthService} from '../../core/services/auth.service';
+import { Employee } from '../models/employee.model';
+import { CalendarTypes } from '../models/calendar.types';
+import { AuthService } from '../../core/services/auth.service';
 
 @Injectable()
 export class MixpanelEffects {
@@ -28,7 +28,7 @@ export class MixpanelEffects {
   @Effect()
   startInitTracking$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS)
-    .map(toPayload)
+    .map((action: profileActions.GetUserProfileSuccessAction) => action.payload)
     .map((profile: Employee) => {
       return new InitTrackingAction(profile);
     })
@@ -37,7 +37,7 @@ export class MixpanelEffects {
   @Effect()
   startTrackHomeViewOpened$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.SET_HOME_VIEW_TYPE)
-    .map(toPayload)
+    .map((action: homeActions.SetHomeViewTypeAction) => action.payload)
     .map((view) => {
       return new TrackHomeViewOpenedAction(view);
     })
@@ -46,7 +46,7 @@ export class MixpanelEffects {
   @Effect()
   startTrackShiftCoverageRequested$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.CREATE_COVERAGE_REQUEST)
-    .map(toPayload)
+    .map((action: homeActions.CreateCoverageRequestAction) => action.payload)
     .map((data) => {
       return new TrackShiftCoverageRequestedAction(data);
     })
@@ -67,7 +67,7 @@ export class MixpanelEffects {
   @Effect()
   initTracking$: Observable<Action> = this.actions$
     .ofType(mixpanelActions.ActionTypes.INIT_TRACKING)
-    .map(toPayload)
+    .map((action: mixpanelActions.InitTrackingAction) => action.payload)
     .do((profile: Employee) => {
       this.angulartics2.setUsername('' + profile.EmployeeID);
       let mp_profile = _.pick(profile, [
@@ -89,9 +89,9 @@ export class MixpanelEffects {
     .map(() => new TrackAppLaunchedAction());
 
   @Effect({ dispatch: false })
-  aliasTrakcingUser$: Observable<Action> = this.actions$
+  aliasTrakcingUser$ = this.actions$
     .ofType(mixpanelActions.ActionTypes.ALIAS_TRACKING_USER)
-    .map(toPayload)
+    .map((action: mixpanelActions.AliasTrackingUserAction) => action.payload)
     .do((id: number) => this.angulartics2.setAlias(id));
 
   @Effect({ dispatch: false })
@@ -100,30 +100,30 @@ export class MixpanelEffects {
     .do(() => this.angulartics2.eventTrack('App Launched', null));
 
   @Effect({ dispatch: false })
-  trackHomeViewOpened$: Observable<Action> = this.actions$
+  trackHomeViewOpened$ = this.actions$
     .ofType(mixpanelActions.ActionTypes.TRACK_HOME_VIEW_OPENED)
-    .map(toPayload)
+    .map((action: mixpanelActions.TrackHomeViewOpenedAction) => action.payload)
     .do((viewType: CalendarTypes) => {
       let type = (viewType === CalendarTypes.DAY ? 'day' : (viewType === CalendarTypes.WEEK ? 'week' : 'two-week'));
       this.angulartics2.eventTrack('Home View Opened', { type });
     });
 
   @Effect({ dispatch: false })
-  trackEmployeesRequested$: Observable<Action> = this.actions$
+  trackEmployeesRequested$ = this.actions$
     .ofType(mixpanelActions.ActionTypes.TRACK_EMPLOYEES_REQUESTED)
-    .map(toPayload)
+    .map((action: mixpanelActions.TrackEmployeesRequestedAction) => action.payload)
     .do((employeeScheduleEntryID: number) => this.angulartics2.eventTrack('Employees Requested', { employeeScheduleEntryID }));
 
   @Effect({ dispatch: false })
-  trackMessageFeatureOpened$: Observable<Action> = this.actions$
+  trackMessageFeatureOpened$ = this.actions$
     .ofType(mixpanelActions.ActionTypes.TRACK_MESSAGE_FEATURE_OPENED)
-    .map(toPayload)
+    .map((action: mixpanelActions.TrackMessageGeatureOpenedAction) => action.payload)
     .do((employeeScheduleEntryID: number) => this.angulartics2.eventTrack('Message Feature Opened', { employeeScheduleEntryID }));
 
   @Effect({ dispatch: false })
-  trackShiftCoverageRequested$: Observable<Action> = this.actions$
+  trackShiftCoverageRequested$ = this.actions$
     .ofType(mixpanelActions.ActionTypes.TRACK_SHIFT_COVERAGE_REQUESTED)
-    .map(toPayload)
+    .map((action: mixpanelActions.TrackShiftCoverageRequestedAction) => action.payload)
     .do(({employeeScheduleEntryID, message, delimitedIDs}) => {
       this.angulartics2.eventTrack('Shift Coverage Requested', {employeeScheduleEntryID, message, delimitedIDs});
     });

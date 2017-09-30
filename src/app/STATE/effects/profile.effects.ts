@@ -2,7 +2,7 @@
  * Created by TrUnK on 06.01.2017.
  */
 import { Injectable } from '@angular/core';
-import { Actions, Effect, toPayload } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as Raven from 'raven-js';
@@ -39,7 +39,7 @@ export class ProfileEffects {
   @Effect()
   updateProfile$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.UPDATE_PROFILE)
-    .map(toPayload)
+    .map((action: profileActions.UpdateProfileAction) => action.payload)
     .switchMap((data: EditEmployeeRequestData) => {
       return this.authService.updateProfile(data)
         .map(() => new profileActions.UpdateProfileSuccessAction(data))
@@ -49,7 +49,7 @@ export class ProfileEffects {
   @Effect()
   uploadImage$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.UPLOAD_IMAGE)
-    .map(toPayload)
+    .map((action: profileActions.UploadImageAction) => action.payload)
     .switchMap((image: File) => {
       return this.authService.uploadImage(image)
         .map((url: string) => new profileActions.UploadImageSuccessAction(url))
@@ -59,7 +59,7 @@ export class ProfileEffects {
   @Effect()
   saveProfileImage$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.SAVE_PROFILE_IMAGE)
-    .map(toPayload)
+    .map((action: profileActions.SaveProfileImageAction) => action.payload)
     .switchMap((url: string) => {
       return this.authService.updateProfileImage(url)
         .map(() => new profileActions.SaveProfileImageSuccessAction())
@@ -69,7 +69,7 @@ export class ProfileEffects {
   @Effect()
   afterImageUpload$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.UPLOAD_IMAGE_SUCCESS)
-    .map(toPayload)
+    .map((action: profileActions.UploadImageSuccessAction) => action.payload)
     .map((url: string) => new profileActions.SaveProfileImageAction(url));
 
   @Effect({ dispatch: false })
@@ -105,9 +105,9 @@ export class ProfileEffects {
     .map(() => new profileActions.CleanProfileAction());
 
   @Effect({dispatch: false})
-  registerSentryContext$: Observable<Action> = this.actions$
+  registerSentryContext$ = this.actions$
     .ofType(profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS)
-    .map(toPayload)
+    .map((action: profileActions.GetUserProfileSuccessAction) => action.payload)
     .do((user: Employee) =>
       Raven.setUserContext({
         username: user.MobilePhone,
