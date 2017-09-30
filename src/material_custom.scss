@@ -28,6 +28,10 @@ pcl-root {
     border-width: 1px;
   }
 
+  .mat-checkbox-layout {
+    white-space: normal;
+  }
+
   .mat-checkbox-checkmark {
     fill: $checkbox-mark-color;
   }
@@ -199,11 +203,9 @@ $warn: $blush;
 }
 
 /* Material select */
+
 $mat-font-family: 'Open Sans', sans-serif;
 pcl-root {
-  .mat-input-wrapper {
-    padding-bottom: 0;
-  }
 
   //CHANGE FONT
   .mat-input-container,
@@ -247,7 +249,7 @@ $input-invalid: $blush;
   }
 }
 
-md-input-container {
+.mat-form-field {
   @extend .big-text;
   @extend .full-width;
 

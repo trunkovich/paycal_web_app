@@ -14,22 +14,22 @@
           [formGroup]="registrationForm"
           (ngSubmit)="onSubmit(registrationForm.value)">
 
-      <md-input-container>
+      <md-form-field>
         <input mdInput
                placeholder="Full Name"
                type="text"
                formControlName="name"
                name="name">
-      </md-input-container>
+      </md-form-field>
 
-      <md-input-container>
+      <md-form-field>
         <input mdInput
                placeholder="Phone"
                [textMask]="{mask: mask}"
                type="tel"
                formControlName="phone"
                name="login">
-      </md-input-container>
+      </md-form-field>
 
       <md-select placeholder="Kaiser Region" name="region" formControlName="regionID">
         <md-option *ngFor="let region of regions$ | async" [value]="region.RegionID">
@@ -37,13 +37,13 @@
         </md-option>
       </md-select>
 
-      <md-input-container>
+      <md-form-field>
         <input mdInput
                placeholder="Group"
                type="text"
                formControlName="groupName"
                name="groupName">
-      </md-input-container>
+      </md-form-field>
 
       <md-select placeholder="State" name="state" formControlName="stateID">
         <md-option *ngFor="let state of states$ | async" [value]="state.StateID">

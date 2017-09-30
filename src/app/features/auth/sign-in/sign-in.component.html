@@ -7,16 +7,16 @@
           [formGroup]="loginForm"
           (ngSubmit)="onSubmit(loginForm)">
 
-      <md-input-container>
+      <md-form-field>
         <input mdInput
                placeholder="phone"
                [textMask]="{mask: mask}"
                type="tel"
                formControlName="phone"
                name="login">
-      </md-input-container>
+      </md-form-field>
 
-      <md-input-container>
+      <md-form-field>
         <input mdInput
                #passwordInput1
                type="password"
@@ -30,7 +30,7 @@
           <md-icon [svgIcon]="showPassword ? 'eye-outline-off' : 'eye-outline'"></md-icon>
         </button>
 
-      </md-input-container>
+      </md-form-field>
 
       <md-checkbox formControlName="rememberMe"
                    color="primary"
