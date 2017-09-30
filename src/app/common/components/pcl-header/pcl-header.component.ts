@@ -1,23 +1,23 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'pcl-header',
   template: `
 <header>
-  <button *ngIf="showBackBtn" 
+  <button *ngIf="showBackBtn"
           md-ripple
           mdRippleCentered="true"
-          type="button" 
-          class="icon-button back-button" 
+          type="button"
+          class="icon-button back-button"
           (click)="onBackBtnClick($event)">
     <md-icon [svgIcon]="'back'"></md-icon>
   </button>
   <div class="title">{{title}}</div>
-  <button *ngIf="showNextBtn" 
+  <button *ngIf="showNextBtn"
           md-ripple
           mdRippleCentered="true"
-          [type]="nextBtnType || 'button'" 
-          class="next-button" 
+          [type]="nextBtnType || 'button'"
+          class="next-button"
           [disabled]="disabledNextBtn"
           (click)="onNextBtnClick($event)">
     {{ nextBtnLabel || 'NEXT'}}

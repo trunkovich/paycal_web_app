@@ -1,11 +1,11 @@
-import {Component, OnInit, OnDestroy } from '@angular/core';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
-import {SignInClearErrorAction, ResetPasswordAction} from '../../../STATE/actions/auth.actions';
-import {ActivatedRoute} from '@angular/router';
-import {ResetPasswordModel} from '../../../STATE/models/reset-password.model';
-import {AppState, authSelectors} from '../../../STATE/reducers/index';
+import { ResetPasswordAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
+import { ResetPasswordModel } from '../../../STATE/models/reset-password.model';
+import { AppState, authSelectors } from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-password-reset',

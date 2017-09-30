@@ -1,9 +1,10 @@
-import {Component, Input, HostBinding, OnChanges} from '@angular/core';
-import {Observable} from 'rxjs';
-import {AppState, profileSelectors} from '../../../STATE/reducers/index';
-import {Store} from '@ngrx/store';
-import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
-import {ContactUsBottomSheetComponent} from '../../../features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
+import { Component, HostBinding, Input, OnChanges } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { AppState, profileSelectors } from '../../../STATE/reducers/index';
+import { BottomSheetService } from '../../../bottom-sheet/bottom-sheet.service';
+import { ContactUsBottomSheetComponent } from '../../../features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
 
 @Component({
   selector: 'pcl-navigation',

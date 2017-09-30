@@ -1,4 +1,6 @@
-@import '../../../../styles';
+@import '../../../../colors';
+@import '../../../../mixins';
+@import '../../../../helpers';
 
 :host {
   display: block;

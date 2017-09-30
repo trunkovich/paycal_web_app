@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { MomentModule } from 'angular2-moment';
 import { TextMaskModule } from 'angular2-text-mask';
@@ -32,18 +31,20 @@ import { ShiftCodeComponent } from './common/components/shift-code/shift-code.co
 import { NoEntriesFallbackComponent } from './common/components/no-entries-fallback/no-entries-fallback.component';
 import { ContactPersonBottomSheetComponent } from './contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 import { GoogleFormComponent } from './google-form/google-form.component';
+import { CustomMaterialModule } from '../../custom-material.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     CommonModule,
-    PclCommonModule,
-    MaterialModule,
     MomentModule,
-    BottomSheetModule,
     RouterModule.forChild(internalRoutes),
     ReactiveFormsModule,
-    TextMaskModule
+    TextMaskModule,
+
+    BottomSheetModule,
+    PclCommonModule,
+    CustomMaterialModule
   ],
   exports: [
     CalendarComponent,

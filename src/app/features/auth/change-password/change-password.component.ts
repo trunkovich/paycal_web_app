@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy } from '@angular/core';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Location } from '@angular/common';
 
-import {SignInClearErrorAction, ChangePasswordAction} from '../../../STATE/actions/auth.actions';
-import {AppState, authSelectors} from '../../../STATE/reducers/index';
-import {Location} from '@angular/common';
+import { ChangePasswordAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
+import { AppState, authSelectors } from '../../../STATE/reducers/index';
 
 @Component({
   selector: 'pcl-change-password',

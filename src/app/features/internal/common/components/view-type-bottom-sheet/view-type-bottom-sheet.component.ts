@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import {BottomSheetService} from '../../../../../bottom-sheet/bottom-sheet.service';
-import {CalendarTypes} from '../../../../../STATE/models/calendar.types';
-import {AppState, homeSelectors, scheduleSelectors, searchSelectors} from '../../../../../STATE/reducers/index';
-import {SetHomeViewTypeAction} from '../../../../../STATE/actions/home.actions';
-import {SetSearchViewTypeAction} from '../../../../../STATE/actions/search.actions';
+import { BottomSheetService } from '../../../../../bottom-sheet/bottom-sheet.service';
+import { CalendarTypes } from '../../../../../STATE/models/calendar.types';
+import { AppState, homeSelectors, scheduleSelectors, searchSelectors } from '../../../../../STATE/reducers/index';
+import { SetHomeViewTypeAction } from '../../../../../STATE/actions/home.actions';
+import { SetSearchViewTypeAction } from '../../../../../STATE/actions/search.actions';
 
 @Component({
   selector: 'pcl-view-type-bottom-sheet',

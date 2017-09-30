@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpInterceptorModule } from 'ng-http-interceptor';
-import { MaterialModule } from '@angular/material';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as Raven from 'raven-js';
 
@@ -45,6 +44,7 @@ import { ContactPersonBottomSheetComponent } from './features/internal/contact-p
 import { environment } from '../environments/environment';
 import { LocalStorageAlertComponent } from './features/auth/local-storage-alert/local-storage-alert.component';
 import { InitEffects } from './STATE/effects/init.effects';
+import { CustomMaterialModule } from './custom-material.module';
 
 
 Raven
@@ -75,8 +75,6 @@ export function provideErrorHandler() {
     BrowserModule,
     HttpModule,
     HttpInterceptorModule,
-    PclCommonModule,
-    MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
@@ -95,8 +93,10 @@ export function provideErrorHandler() {
     Angulartics2Module.forRoot([ Angulartics2Mixpanel ]),
     BrowserAnimationsModule,
 
-    InternalModule,
+    CustomMaterialModule,
     AuthModule,
+    PclCommonModule,
+    InternalModule,
     SearchModule
   ],
   providers: [

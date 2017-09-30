@@ -1,0 +1,10 @@
+@import "~@angular/material/theming";
+@import "material_constants";
+
+// Include non-theme styles for core.
+@include mat-core();
+
+$theme: mat-light-theme($primary, $accent, $warn);
+
+// Include all theme styles for the components.
+@include angular-material-theme($theme);

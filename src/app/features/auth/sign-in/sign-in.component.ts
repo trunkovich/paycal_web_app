@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { MdDialog } from '@angular/material';
 
 import { SignInAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
 import { Credentials } from '../../../STATE/models/credentials.model';
 import { AppState, authSelectors } from '../../../STATE/reducers/index';
 import { markInvalidFieldsAsTouched } from '../../../STATE/utils';
-import { MdDialog } from '@angular/material';
 import { LocalStorageAlertComponent } from '../local-storage-alert/local-storage-alert.component';
 
 @Component({

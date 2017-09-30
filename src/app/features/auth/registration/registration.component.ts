@@ -1,14 +1,15 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {SignInClearErrorAction, SaveLeadAction} from '../../../STATE/actions/auth.actions';
-import {Region} from '../../../STATE/models/region.model';
-import {State} from '../../../STATE/models/state.model';
-import {Lead} from '../../../STATE/models/lead.model';
-import {isMobile} from '../../../core/check-mobile';
-import {AppState, authSelectors, referenceSelectors} from '../../../STATE/reducers/index';
-import {TrackRegistrationFormLandedAction, TrackRegistrationFormSubmittedAction} from '../../../STATE/actions/mixpanel.actions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { SaveLeadAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
+import { Region } from '../../../STATE/models/region.model';
+import { State } from '../../../STATE/models/state.model';
+import { Lead } from '../../../STATE/models/lead.model';
+import { isMobile } from '../../../core/check-mobile';
+import { AppState, authSelectors, referenceSelectors } from '../../../STATE/reducers/index';
+import { TrackRegistrationFormLandedAction, TrackRegistrationFormSubmittedAction } from '../../../STATE/actions/mixpanel.actions';
 
 @Component({
   selector: 'pcl-registration',

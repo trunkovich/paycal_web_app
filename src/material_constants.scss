@@ -1,0 +1,73 @@
+@import "~@angular/material/theming";
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-primary: (
+  50 : #e5f4f7,
+  100 : #bee4eb,
+  200 : #93d2de,
+  300 : #68c0d0,
+  400 : #47b3c6,
+  500 : #27a5bc,
+  600 : #239db6,
+  700 : #1d93ad,
+  800 : #178aa5,
+  900 : #0e7997,
+  A100 : #c6f1ff,
+  A200 : #93e5ff,
+  A400 : #60d9ff,
+  A700 : #47d3ff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$md-warn: (
+  50 : #feefee,
+  100 : #fbd7d5,
+  200 : #f9bdb9,
+  300 : #f7a39d,
+  400 : #f58f88,
+  500 : #f37b73,
+  600 : #f1736b,
+  700 : #ef6860,
+  800 : #ed5e56,
+  900 : #ea4b43,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffd8d6,
+  A700 : #ffc0bd,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+// Define a theme.
+$primary: mat-palette($md-primary);
+$accent:  mat-palette($md-primary);
+$warn:  mat-palette($md-warn);

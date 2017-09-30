@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '@angular/material';
 import { MomentModule } from 'angular2-moment';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,17 +15,19 @@ import { SearchResultsEntryComponent } from './search-list/search-results-entry.
 import { SearchInputComponent } from './search-list/search-input.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
+import { CustomMaterialModule } from '../../../custom-material.module';
 
 @NgModule({
     imports: [
       BrowserModule,
       CommonModule,
-      PclCommonModule,
-      MaterialModule,
       MomentModule,
       RouterModule,
       ReactiveFormsModule,
-      InternalModule
+
+      InternalModule,
+      PclCommonModule,
+      CustomMaterialModule
     ],
     exports: [],
     declarations: [

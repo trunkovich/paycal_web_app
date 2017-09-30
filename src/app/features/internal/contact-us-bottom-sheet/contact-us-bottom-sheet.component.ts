@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
-import {BottomSheetService} from '../../../bottom-sheet/bottom-sheet.service';
-import {APP_CONFIG} from '../../../../environments/environment';
-import {AppState} from '../../../STATE/reducers/index';
-import {Store} from '@ngrx/store';
-import {TrackEmailUsClickedAction, TrackCallUsClickedAction} from '../../../STATE/actions/mixpanel.actions';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { BottomSheetService } from '../../../bottom-sheet/bottom-sheet.service';
+import { APP_CONFIG } from '../../../../environments/environment';
+import { AppState } from '../../../STATE/reducers/index';
+import { TrackCallUsClickedAction, TrackEmailUsClickedAction } from '../../../STATE/actions/mixpanel.actions';
 
 
 @Component({

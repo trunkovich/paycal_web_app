@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
@@ -22,19 +21,21 @@ import { ChangePasswordSuccessComponent } from './change-password-success/change
 import { TermsComponent } from './terms/terms.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageAlertComponent } from './local-storage-alert/local-storage-alert.component';
+import { CustomMaterialModule } from '../../custom-material.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     TextMaskModule,
-    MaterialModule,
     BrowserAnimationsModule,
-    PclCommonModule,
     RouterModule.forChild(authRoutes),
 
     // temp
-    FormsModule
+    FormsModule,
+
+    PclCommonModule,
+    CustomMaterialModule
   ],
   exports: [SignInComponent],
   declarations: [

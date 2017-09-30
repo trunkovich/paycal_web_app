@@ -1,4 +1,6 @@
-@import '../../../../styles';
+@import '../../../../colors';
+@import '../../../../mixins';
+@import '../../../../helpers';
 
 :host {
   @include size(100%, 255px);

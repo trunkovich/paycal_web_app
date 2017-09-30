@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {isMobile} from '../../../core/check-mobile';
+
+import { isMobile } from '../../../core/check-mobile';
 
 @Component({
   selector: 'pcl-registration-success',
