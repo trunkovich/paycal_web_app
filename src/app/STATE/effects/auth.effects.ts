@@ -82,7 +82,6 @@ export class AuthEffects {
   @Effect()
   getUserFromLS$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.READ_TOKEN)
-    .startWith(new authActions.ReadTokenAction())
     .switchMap(() => {
       return AuthService.readToken()
         .map((token) => new authActions.ReadTokenSuccessAction(token))

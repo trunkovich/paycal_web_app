@@ -44,6 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactPersonBottomSheetComponent } from './features/internal/contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 import { environment } from '../environments/environment';
 import { LocalStorageAlertComponent } from './features/auth/local-storage-alert/local-storage-alert.component';
+import { InitEffects } from './STATE/effects/init.effects';
 
 
 Raven
@@ -87,7 +88,8 @@ export function provideErrorHandler() {
       ScheduleEffects,
       HomeEffects,
       SearchEffects,
-      MixpanelEffects
+      MixpanelEffects,
+      InitEffects
     ]),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
     Angulartics2Module.forRoot([ Angulartics2Mixpanel ]),

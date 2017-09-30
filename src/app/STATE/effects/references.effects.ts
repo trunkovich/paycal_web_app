@@ -45,7 +45,6 @@ export class ReferencesEffects {
   @Effect()
   getRegions$: Observable<Action> = this.actions$
     .ofType(referencesActions.ActionTypes.LOAD_REGIONS)
-    .startWith(new referencesActions.LoadRegionsAction())
     .switchMap(() => {
       return this.referencesService.getRegions()
         .map((regions: Region[]) => regions.sort((a, b) => a.DisplayOrder - b.DisplayOrder)) // sorting, using DisplayOrder
@@ -56,7 +55,6 @@ export class ReferencesEffects {
   @Effect()
   getStates$: Observable<Action> = this.actions$
     .ofType(referencesActions.ActionTypes.LOAD_STATES)
-    .startWith(new referencesActions.LoadStatesAction())
     .switchMap(() => {
       return this.referencesService.getStates()
         .map((states: State[]) => new referencesActions.LoadStatesSuccessAction(states))
