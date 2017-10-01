@@ -1,0 +1,28 @@
+<div class="container">
+  <div  class="headline big-text blue-text">
+    <p>CREATE SCHEDULE FOR:
+      <span class="bold-text">{{scheduleMonth | amDateFormat:'MMMM YYYY' }}</span>
+    </p>
+    <p>DEADLINE:
+      <span class="bold-text">{{deadline | amDateFormat:'MMMM Do, YYYY' }}</span>
+    </p>
+  </div>
+
+  <div class="info big-text">
+    <p class="bold-text remember-text">
+      Remember:
+    </p>
+    <ul>
+      <li>the only accepted format for requests is this form;</li>
+      <li>Phone & fax requests will not be accepted;</li>
+      <li>Late requests will not be accepted</li>
+    </ul>
+    <p class="bold-text thank-you-text">
+      Thank you for your prompt reply
+    </p>
+  </div>
+
+  <pcl-button title="CREATE SCHEDULE NOW" (buttonClick)="start()"></pcl-button>
+</div>
+
+

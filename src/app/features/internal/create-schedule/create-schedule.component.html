@@ -1,0 +1,13 @@
+<pcl-header
+  title="Create Monthly Schedule"
+  showBackBtn="true"
+  (backBtnClick)="back()">
+</pcl-header>
+
+<pcl-introduction
+  *ngIf="!introductionShown"
+  (onStartClick)="start()"
+  [scheduleMonth]="scheduleMonth"
+  [deadline]="deadline">
+</pcl-introduction>
+

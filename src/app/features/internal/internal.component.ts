@@ -20,7 +20,8 @@ export class InternalComponent {
     'crop-loading',
     'call-reference',
     'or-reference',
-    'physicians'
+    'physicians',
+    'create-schedule'
   ];
   showNav: boolean = true;
 

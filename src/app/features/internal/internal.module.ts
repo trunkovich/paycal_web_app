@@ -32,6 +32,8 @@ import { NoEntriesFallbackComponent } from './common/components/no-entries-fallb
 import { ContactPersonBottomSheetComponent } from './contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 import { GoogleFormComponent } from './google-form/google-form.component';
 import { CustomMaterialModule } from '../../custom-material.module';
+import { CreateScheduleComponent } from './create-schedule/create-schedule.component';
+import { IntroductionComponent } from './create-schedule/introduction/introduction.component';
 
 @NgModule({
   imports: [
@@ -79,7 +81,9 @@ import { CustomMaterialModule } from '../../custom-material.module';
     ContactPersonBottomSheetComponent,
     ShiftCodeComponent,
     NoEntriesFallbackComponent,
-    GoogleFormComponent
+    GoogleFormComponent,
+    CreateScheduleComponent,
+    IntroductionComponent
   ]
 })
 export class InternalModule { }

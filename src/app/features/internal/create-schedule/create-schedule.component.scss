@@ -1,0 +1,9 @@
+@import '../../../../colors';
+@import '../../../../mixins';
+@import '../../../../helpers';
+
+:host {
+  display: block;
+  @extend .full-height;
+  background-color: $pale-grey;
+}
