@@ -34,6 +34,17 @@ import { GoogleFormComponent } from './google-form/google-form.component';
 import { CustomMaterialModule } from '../../custom-material.module';
 import { CreateScheduleComponent } from './create-schedule/create-schedule.component';
 import { IntroductionComponent } from './create-schedule/introduction/introduction.component';
+import { ScheduleStep1Component } from './create-schedule/schedule-step-1/schedule-step-1.component';
+import { ScheduleStep2Component } from './create-schedule/schedule-step-2/schedule-step-2.component';
+import { ScheduleStep3Component } from './create-schedule/schedule-step-3/schedule-step-3.component';
+import { ScheduleStep4Component } from './create-schedule/schedule-step-4/schedule-step-4.component';
+import { ScheduleStep5Component } from './create-schedule/schedule-step-5/schedule-step-5.component';
+import { ScheduleStep6Component } from './create-schedule/schedule-step-6/schedule-step-6.component';
+import { ScheduleStep7Component } from './create-schedule/schedule-step-7/schedule-step-7.component';
+import { ScheduleStep8Component } from './create-schedule/schedule-step-8/schedule-step-8.component';
+import { ScheduleStep9Component } from './create-schedule/schedule-step-9/schedule-step-9.component';
+import { ScheduleStep10Component } from './create-schedule/schedule-step-10/schedule-step-10.component';
+import { ScheduleStep11Component } from './create-schedule/schedule-step-11/schedule-step-11.component';
 
 @NgModule({
   imports: [
@@ -83,7 +94,18 @@ import { IntroductionComponent } from './create-schedule/introduction/introducti
     NoEntriesFallbackComponent,
     GoogleFormComponent,
     CreateScheduleComponent,
-    IntroductionComponent
+    IntroductionComponent,
+    ScheduleStep1Component,
+    ScheduleStep2Component,
+    ScheduleStep3Component,
+    ScheduleStep4Component,
+    ScheduleStep5Component,
+    ScheduleStep6Component,
+    ScheduleStep7Component,
+    ScheduleStep8Component,
+    ScheduleStep9Component,
+    ScheduleStep10Component,
+    ScheduleStep11Component,
   ]
 })
 export class InternalModule { }
