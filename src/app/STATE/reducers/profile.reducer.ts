@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import * as profileActions from '../actions/profile.actions';
 import { Employee } from '../models/employee.model';
 import { ImageDataModel } from '../models/image-data.model';
+import { createSelector } from 'reselect';
 
 export interface ProfileState {
   employee: Employee | null;
@@ -111,3 +112,5 @@ export const getMyProfile = (state: ProfileState) => state.employee;
 export const getMyProfileErrorMsg = (state: ProfileState) => state.errorMsg;
 export const getLoadingState = (state: ProfileState) => state.loading;
 export const getUploadedImageData = (state: ProfileState) => state.imageDataUri;
+
+export const getGroupId = createSelector(getMyProfile, (employee: Employee) => employee ? employee.GroupID : null);

@@ -11,6 +11,13 @@ import { State } from '../models/state.model';
 import { TimeZone } from '../models/time-zone.model';
 import { ReferenceType } from '../models/reference-type.model';
 import { EmployeeStatus } from '../models/employee-status.model';
+import { CallNightType } from '../models/call-night-type.model';
+import { CallUnavailabilityType } from '../models/call-unavailability-type.model';
+import { HospitalistRoundingType } from '../models/hospitalist-rounding-type.model';
+import { Hospital } from '../models/hospital.model';
+import { ShiftType } from '../models/shift-type.model';
+import { ScheduleRequestStatusType } from '../models/schedule-request-status.model';
+import { VacationWindowType } from '../models/vacation-window-type.model';
 
 export interface ReferencesState {
   groupPositions: GroupPosition[];
@@ -20,6 +27,13 @@ export interface ReferencesState {
   timeZones: TimeZone[];
   referencesTypes: ReferenceType[];
   employeeStatuses: EmployeeStatus[];
+  callUnavailabilityTypes: CallUnavailabilityType[];
+  callNightTypes: CallNightType[];
+  hospitalistRoundingTypes: HospitalistRoundingType[];
+  hospitals: Hospital[];
+  shiftTypes: ShiftType[];
+  scheduleRequestStatusTypes: ScheduleRequestStatusType[];
+  vacationWindowTypes: VacationWindowType[];
 }
 
 const initialReferencesState = {
@@ -29,7 +43,14 @@ const initialReferencesState = {
   states: [],
   timeZones: [],
   referencesTypes: [],
-  employeeStatuses: []
+  employeeStatuses: [],
+  callUnavailabilityTypes: [],
+  callNightTypes: [],
+  hospitalistRoundingTypes: [],
+  hospitals: [],
+  shiftTypes: [],
+  scheduleRequestStatusTypes: [],
+  vacationWindowTypes: []
 };
 
 export function referencesReducer(state: ReferencesState = initialReferencesState, action: referencesActions.Actions): ReferencesState {
@@ -55,6 +76,39 @@ export function referencesReducer(state: ReferencesState = initialReferencesStat
     case referencesActions.ActionTypes.LOAD_EMPLOYEE_STATUSES_SUCCESS: {
       return setReferenceItemHandler(state, (action as referencesActions.LoadEmployeeStatusesSuccessAction), 'employeeStatuses');
     }
+    case referencesActions.ActionTypes.LOAD_CALL_UNAVAILABILITY_TYPES_SUCCESS: {
+      return setReferenceItemHandler(
+        state,
+        (action as referencesActions.LoadCallUnavailabilityTypesSuccessAction),
+        'callUnavailabilityTypes'
+      );
+    }
+    case referencesActions.ActionTypes.LOAD_CALL_NIGHT_TYPES_SUCCESS: {
+      return setReferenceItemHandler(state, (action as referencesActions.LoadCallNightTypesSuccessAction), 'callNightTypes');
+    }
+    case referencesActions.ActionTypes.LOAD_HOSPITALIST_ROUNDING_TYPES_SUCCESS: {
+      return setReferenceItemHandler(
+        state,
+        (action as referencesActions.LoadHospitalistRoundingTypesSuccessAction),
+        'hospitalistRoundingTypes'
+      );
+    }
+    case referencesActions.ActionTypes.LOAD_HOSPITALS_SUCCESS: {
+      return setReferenceItemHandler(state, (action as referencesActions.LoadHospitalsSuccessAction), 'hospitals');
+    }
+    case referencesActions.ActionTypes.LOAD_SHIFT_TYPES_SUCCESS: {
+      return setReferenceItemHandler(state, (action as referencesActions.LoadShiftTypesSuccessAction), 'shiftTypes');
+    }
+    case referencesActions.ActionTypes.LOAD_SCHEDULE_REQUEST_STATUS_TYPES_SUCCESS: {
+      return setReferenceItemHandler(
+        state,
+        (action as referencesActions.LoadScheduleRequestStatusTypesSuccessAction),
+        'scheduleRequestStatusTypes'
+      );
+    }
+    case referencesActions.ActionTypes.LOAD_VACATION_WINDOW_TYPES_SUCCESS: {
+      return setReferenceItemHandler(state, (action as referencesActions.LoadVacationWindowTypesSuccessAction), 'vacationWindowTypes');
+    }
     default: {
       return state;
     }
@@ -69,7 +123,14 @@ function setReferenceItemHandler(state: ReferencesState, action: referencesActio
                                                                 referencesActions.LoadReferencesTypesSuccessAction |
                                                                 referencesActions.LoadRegionsSuccessAction |
                                                                 referencesActions.LoadStatesSuccessAction |
-                                                                referencesActions.LoadTimeZonesSuccessAction, key: string) {
+                                                                referencesActions.LoadTimeZonesSuccessAction |
+                                                                referencesActions.LoadCallUnavailabilityTypesSuccessAction |
+                                                                referencesActions.LoadCallNightTypesSuccessAction |
+                                                                referencesActions.LoadHospitalistRoundingTypesSuccessAction |
+                                                                referencesActions.LoadHospitalsSuccessAction |
+                                                                referencesActions.LoadShiftTypesSuccessAction |
+                                                                referencesActions.LoadScheduleRequestStatusTypesSuccessAction |
+                                                                referencesActions.LoadVacationWindowTypesSuccessAction, key: string) {
   let newState = _.cloneDeep(state);
   newState[key] = _.cloneDeep(action.payload);
   return newState;
@@ -85,3 +146,10 @@ export const getStates = (state: ReferencesState) => state.states;
 export const getTimeZones = (state: ReferencesState) => state.timeZones;
 export const getReferencesTypes = (state: ReferencesState) => state.referencesTypes;
 export const getEmployeeStatuses = (state: ReferencesState) => state.employeeStatuses;
+export const getCallUnavailabilityTypes = (state: ReferencesState) => state.callUnavailabilityTypes;
+export const getCallNightTypes = (state: ReferencesState) => state.callNightTypes;
+export const getHospitalistRoundingTypes = (state: ReferencesState) => state.hospitalistRoundingTypes;
+export const getHospitals = (state: ReferencesState) => state.hospitals;
+export const getScheduleRequestStatusTypes = (state: ReferencesState) => state.scheduleRequestStatusTypes;
+export const getShiftTypes = (state: ReferencesState) => state.shiftTypes;
+export const getVacationWindowTypes = (state: ReferencesState) => state.vacationWindowTypes;

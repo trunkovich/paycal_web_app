@@ -4,13 +4,20 @@
 import { Action } from '@ngrx/store';
 
 import { type } from '../utils';
-import {GroupPosition} from '../models/group-position.model';
-import {GroupSpecialization} from '../models/group-specialization.model';
-import {Region} from '../models/region.model';
-import {State} from '../models/state.model';
-import {TimeZone} from '../models/time-zone.model';
-import {ReferenceType} from '../models/reference-type.model';
-import {EmployeeStatus} from '../models/employee-status.model';
+import { GroupPosition } from '../models/group-position.model';
+import { GroupSpecialization } from '../models/group-specialization.model';
+import { Region } from '../models/region.model';
+import { State } from '../models/state.model';
+import { TimeZone } from '../models/time-zone.model';
+import { ReferenceType } from '../models/reference-type.model';
+import { EmployeeStatus } from '../models/employee-status.model';
+import { CallUnavailabilityType } from '../models/call-unavailability-type.model';
+import { CallNightType } from '../models/call-night-type.model';
+import { ShiftType } from '../models/shift-type.model';
+import { Hospital } from '../models/hospital.model';
+import { HospitalistRoundingType } from '../models/hospitalist-rounding-type.model';
+import { ScheduleRequestStatusType } from '../models/schedule-request-status.model';
+import { VacationWindowType } from '../models/vacation-window-type.model';
 
 /**
  * For each action type in an action group, make a simple
@@ -37,7 +44,7 @@ export const ActionTypes = {
   LOAD_REGIONS_SUCCESS: type('[References] Load regions success'),
   LOAD_REGIONS_FAIL: type('[References] Load regions fail'),
 
-  // states actions
+  // Load states
   LOAD_STATES: type('[References] Load states'),
   LOAD_STATES_SUCCESS: type('[References] Load states success'),
   LOAD_STATES_FAIL: type('[References] Load states fail'),
@@ -55,7 +62,42 @@ export const ActionTypes = {
   // employeeStatuses actions
   LOAD_EMPLOYEE_STATUSES: type('[References] Load employee statuses'),
   LOAD_EMPLOYEE_STATUSES_SUCCESS: type('[References] Load employee statuses success'),
-  LOAD_EMPLOYEE_STATUSES_FAIL: type('[References] Load employee statuses fail')
+  LOAD_EMPLOYEE_STATUSES_FAIL: type('[References] Load employee statuses fail'),
+
+  // load call unavailability types
+  LOAD_CALL_UNAVAILABILITY_TYPES: type('[References] load call unavailability types'),
+  LOAD_CALL_UNAVAILABILITY_TYPES_SUCCESS: type('[References] load call unavailability types success'),
+  LOAD_CALL_UNAVAILABILITY_TYPES_FAIL: type('[References] load call unavailability types fail'),
+
+  // Load call night types
+  LOAD_CALL_NIGHT_TYPES: type('[References] Load call night types'),
+  LOAD_CALL_NIGHT_TYPES_SUCCESS: type('[References] Load call night types success'),
+  LOAD_CALL_NIGHT_TYPES_FAIL: type('[References] Load call night types fail'),
+
+  // Load hospitalist rounding types
+  LOAD_HOSPITALIST_ROUNDING_TYPES: type('[References] Load hospitalist rounding types'),
+  LOAD_HOSPITALIST_ROUNDING_TYPES_SUCCESS: type('[References] Load hospitalist rounding types success'),
+  LOAD_HOSPITALIST_ROUNDING_TYPES_FAIL: type('[References] Load hospitalist rounding types fail'),
+
+  // Load hospitals
+  LOAD_HOSPITALS: type('[References] Load hospitals'),
+  LOAD_HOSPITALS_SUCCESS: type('[References] Load hospitals success'),
+  LOAD_HOSPITALS_FAIL: type('[References] Load hospitals fail'),
+
+  // Load shift types
+  LOAD_SHIFT_TYPES: type('[References] Load shift types'),
+  LOAD_SHIFT_TYPES_SUCCESS: type('[References] Load shift types success'),
+  LOAD_SHIFT_TYPES_FAIL: type('[References] Load shift types fail'),
+
+  // Load schedule request status types
+  LOAD_SCHEDULE_REQUEST_STATUS_TYPES: type('[References] Load schedule request status types'),
+  LOAD_SCHEDULE_REQUEST_STATUS_TYPES_SUCCESS: type('[References] Load schedule request status types success'),
+  LOAD_SCHEDULE_REQUEST_STATUS_TYPES_FAIL: type('[References] Load schedule request status types fail'),
+
+  // Load vacation window types
+  LOAD_VACATION_WINDOW_TYPES: type('[References] Load vacation window types'),
+  LOAD_VACATION_WINDOW_TYPES_SUCCESS: type('[References] Load vacation window types success'),
+  LOAD_VACATION_WINDOW_TYPES_FAIL: type('[References] Load vacation window types fail'),
 
 };
 
@@ -109,7 +151,7 @@ export class LoadRegionsFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // states actions
+  // Load states
 export class LoadStatesAction implements Action {
   type = ActionTypes.LOAD_STATES;
 }
@@ -161,6 +203,97 @@ export class LoadEmployeeStatusesFailAction implements Action {
   constructor(public payload: string) { }
 }
 
+// load call unavailability types
+export class LoadCallUnavailabilityTypesAction implements Action {
+  type = ActionTypes.LOAD_CALL_UNAVAILABILITY_TYPES;
+}
+export class LoadCallUnavailabilityTypesSuccessAction implements Action {
+  type = ActionTypes.LOAD_CALL_UNAVAILABILITY_TYPES_SUCCESS;
+  constructor(public payload: CallUnavailabilityType[]) { }
+}
+export class LoadCallUnavailabilityTypesFailAction implements Action {
+  type = ActionTypes.LOAD_CALL_UNAVAILABILITY_TYPES_FAIL;
+  constructor(public payload: string) { }
+}
+
+// Load call night types
+export class LoadCallNightTypesAction implements Action {
+  type = ActionTypes.LOAD_CALL_NIGHT_TYPES;
+}
+export class LoadCallNightTypesSuccessAction implements Action {
+  type = ActionTypes.LOAD_CALL_NIGHT_TYPES_SUCCESS;
+  constructor(public payload: CallNightType[]) { }
+}
+export class LoadCallNightTypesFailAction implements Action {
+  type = ActionTypes.LOAD_CALL_NIGHT_TYPES_FAIL;
+  constructor(public payload: string) { }
+}
+
+// Load hospitalist rounding types
+export class LoadHospitalistRoundingTypesAction implements Action {
+  type = ActionTypes.LOAD_HOSPITALIST_ROUNDING_TYPES;
+}
+export class LoadHospitalistRoundingTypesSuccessAction implements Action {
+  type = ActionTypes.LOAD_HOSPITALIST_ROUNDING_TYPES_SUCCESS;
+  constructor(public payload: HospitalistRoundingType[]) { }
+}
+export class LoadHospitalistRoundingTypesFailAction implements Action {
+  type = ActionTypes.LOAD_HOSPITALIST_ROUNDING_TYPES_FAIL;
+  constructor(public payload: string) { }
+}
+
+// Load hospitals
+export class LoadHospitalsAction implements Action {
+  type = ActionTypes.LOAD_HOSPITALS;
+}
+export class LoadHospitalsSuccessAction implements Action {
+  type = ActionTypes.LOAD_HOSPITALS_SUCCESS;
+  constructor(public payload: Hospital[]) { }
+}
+export class LoadHospitalsFailAction implements Action {
+  type = ActionTypes.LOAD_HOSPITALS_FAIL;
+  constructor(public payload: string) { }
+}
+
+// Load shift types
+export class LoadShiftTypesAction implements Action {
+  type = ActionTypes.LOAD_SHIFT_TYPES;
+}
+export class LoadShiftTypesSuccessAction implements Action {
+  type = ActionTypes.LOAD_SHIFT_TYPES_SUCCESS;
+  constructor(public payload: ShiftType[]) { }
+}
+export class LoadShiftTypesFailAction implements Action {
+  type = ActionTypes.LOAD_SHIFT_TYPES_FAIL;
+  constructor(public payload: string) { }
+}
+
+// Load schedule request status types
+export class LoadScheduleRequestStatusTypesAction implements Action {
+  type = ActionTypes.LOAD_SCHEDULE_REQUEST_STATUS_TYPES;
+}
+export class LoadScheduleRequestStatusTypesSuccessAction implements Action {
+  type = ActionTypes.LOAD_SCHEDULE_REQUEST_STATUS_TYPES_SUCCESS;
+  constructor(public payload: ScheduleRequestStatusType[]) { }
+}
+export class LoadScheduleRequestStatusTypesFailAction implements Action {
+  type = ActionTypes.LOAD_SCHEDULE_REQUEST_STATUS_TYPES_FAIL;
+  constructor(public payload: string) { }
+}
+
+// Load vacation window types
+export class LoadVacationWindowTypesAction implements Action {
+  type = ActionTypes.LOAD_VACATION_WINDOW_TYPES;
+}
+export class LoadVacationWindowTypesSuccessAction implements Action {
+  type = ActionTypes.LOAD_VACATION_WINDOW_TYPES_SUCCESS;
+  constructor(public payload: VacationWindowType[]) { }
+}
+export class LoadVacationWindowTypesFailAction implements Action {
+  type = ActionTypes.LOAD_VACATION_WINDOW_TYPES_FAIL;
+  constructor(public payload: string) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -181,7 +314,7 @@ export type Actions
   | LoadRegionsSuccessAction
   | LoadRegionsFailAction
 
-// states actions
+// Load states
   | LoadStatesAction
   | LoadStatesSuccessAction
   | LoadStatesFailAction
@@ -195,6 +328,41 @@ export type Actions
   | LoadReferencesTypesAction
   | LoadReferencesTypesSuccessAction
   | LoadReferencesTypesFailAction
+
+// load call unavailability types
+  | LoadCallUnavailabilityTypesAction
+  | LoadCallUnavailabilityTypesSuccessAction
+  | LoadCallUnavailabilityTypesFailAction
+
+// Load call night types
+  | LoadCallNightTypesAction
+  | LoadCallNightTypesSuccessAction
+  | LoadCallNightTypesFailAction
+
+// Load hospitalist rounding types
+  | LoadHospitalistRoundingTypesAction
+  | LoadHospitalistRoundingTypesSuccessAction
+  | LoadHospitalistRoundingTypesFailAction
+
+// Load hospitals
+  | LoadHospitalsAction
+  | LoadHospitalsSuccessAction
+  | LoadHospitalsFailAction
+
+// Load shift types
+  | LoadShiftTypesAction
+  | LoadShiftTypesSuccessAction
+  | LoadShiftTypesFailAction
+
+// Load schedule request status types
+  | LoadScheduleRequestStatusTypesAction
+  | LoadScheduleRequestStatusTypesSuccessAction
+  | LoadScheduleRequestStatusTypesFailAction
+
+// Load vacation window types
+  | LoadVacationWindowTypesAction
+  | LoadVacationWindowTypesSuccessAction
+  | LoadVacationWindowTypesFailAction
 
 // employeeStatuses actions
   | LoadEmployeeStatusesAction

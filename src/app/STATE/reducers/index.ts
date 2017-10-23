@@ -89,6 +89,7 @@ let getMyProfile = createSelector(getProfileState, fromProfile.getMyProfile);
 let getMyProfileErrorMsg = createSelector(getProfileState, fromProfile.getMyProfileErrorMsg);
 let getMyProfileLoadingState = createSelector(getProfileState, fromProfile.getLoadingState);
 let getUploadedImageData = createSelector(getProfileState, fromProfile.getUploadedImageData);
+let getEmployeeGroupId = createSelector(getProfileState, fromProfile.getGroupId);
 
 
 
@@ -102,7 +103,13 @@ let getStates = createSelector(getReferencesState, fromReferences.getStates);
 let getTimeZones = createSelector(getReferencesState, fromReferences.getTimeZones);
 let getReferencesTypes = createSelector(getReferencesState, fromReferences.getReferencesTypes);
 let getEmployeeStatuses = createSelector(getReferencesState, fromReferences.getEmployeeStatuses);
-
+let getCallUnavailabilityTypes = createSelector(getReferencesState, fromReferences.getCallUnavailabilityTypes);
+let getCallNightTypes = createSelector(getReferencesState, fromReferences.getCallNightTypes);
+let getHospitalistRoundingTypes = createSelector(getReferencesState, fromReferences.getHospitalistRoundingTypes);
+let getHospitals = createSelector(getReferencesState, fromReferences.getHospitals);
+let getScheduleRequestStatusTypes = createSelector(getReferencesState, fromReferences.getScheduleRequestStatusTypes);
+let getShiftTypes = createSelector(getReferencesState, fromReferences.getShiftTypes);
+let getVacationWindowTypes = createSelector(getReferencesState, fromReferences.getVacationWindowTypes);
 
 
 
@@ -209,7 +216,8 @@ export const profileSelectors = {
   getMyProfile: getMyProfile,
   getMyProfileErrorMsg: getMyProfileErrorMsg,
   getLoadingState: getMyProfileLoadingState,
-  getUploadedImageData: getUploadedImageData
+  getUploadedImageData: getUploadedImageData,
+  getGroupId: getEmployeeGroupId
 };
 
 export const referenceSelectors = {
@@ -219,9 +227,15 @@ export const referenceSelectors = {
   getStates: getStates,
   getTimeZones: getTimeZones,
   getReferencesTypes: getReferencesTypes,
-  getEmployeeStatuses: getEmployeeStatuses
+  getEmployeeStatuses: getEmployeeStatuses,
+  getCallUnavailabilityTypes: getCallUnavailabilityTypes,
+  getCallNightTypes: getCallNightTypes,
+  getHospitalistRoundingTypes: getHospitalistRoundingTypes,
+  getHospitals: getHospitals,
+  getScheduleRequestStatusTypes: getScheduleRequestStatusTypes,
+  getShiftTypes: getShiftTypes,
+  getVacationWindowTypes: getVacationWindowTypes,
 };
-
 
 export const scheduleSelectors = {
   getScheduleMonths: getScheduleMonths,
