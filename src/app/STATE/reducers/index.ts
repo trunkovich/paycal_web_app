@@ -24,6 +24,7 @@ import * as fromReferences from './references.reducer';
 import * as fromSchedule from './schedule.reducer';
 import * as fromHome from './home.reducer';
 import * as fromSearch from './search.reducer';
+import * as fromCreateSchedule from './create-schedule.reducer';
 import { Employee, QualifiedEmployee, QualifiedEmployeeGroup } from '../models/employee.model';
 import { environment } from '../../../environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -41,6 +42,7 @@ export interface AppState {
   schedule: fromSchedule.ScheduleState;
   home: fromHome.HomeState;
   search: fromSearch.SearchState;
+  createSchedule: fromCreateSchedule.CreateScheduleState;
 }
 
 /**
@@ -57,7 +59,8 @@ export const reducers: ActionReducerMap<AppState> = {
   references: fromReferences.referencesReducer,
   schedule: fromSchedule.scheduleReducer,
   home: fromHome.homeReducer,
-  search: fromSearch.searchReducer
+  search: fromSearch.searchReducer,
+  createSchedule: fromCreateSchedule.createScheduleReducer
   // debug: fromDebug.debugReducer
 };
 
@@ -70,6 +73,7 @@ export const getReferencesState = (state: AppState) => state.references;
 export const getScheduleState = (state: AppState) => state.schedule;
 export const getHomeState = (state: AppState) => state.home;
 export const getSearchState = (state: AppState) => state.search;
+export const getCreateScheduleState = (state: AppState) => state.createSchedule;
 
 /*======================================================*/
 /*====================AUTH SELECTORS====================*/
@@ -79,6 +83,13 @@ let getAuthStatus = createSelector(getAuthState, fromAuth.getAuthenticated);
 let getRedirectURL = createSelector(getAuthState, fromAuth.getRedirectURL);
 let getAuthError = createSelector(getAuthState, fromAuth.getErrorMsg);
 let getAuthLoadingState = createSelector(getAuthState, fromAuth.getLoading);
+
+/*======================================================*/
+/*====================CREATE SCHEDULE SELECTORS====================*/
+/*======================================================*/
+let getAllScheduleRequests = createSelector(getCreateScheduleState, fromCreateSchedule.getAllScheduleRequests);
+let getSelectedScheduleRequest = createSelector(getCreateScheduleState, fromCreateSchedule.getSelectedScheduleRequest);
+let getSelectedScheduleRequestId = createSelector(getCreateScheduleState, fromCreateSchedule.getSelectedScheduleRequestId);
 
 
 
@@ -275,4 +286,10 @@ export const searchSelectors = {
   getSortedSelectedDateSchedule: getSearchSortedSelectedDateSchedule,
   getSelectedDateScheduleGroupedByDay: getSearchSelectedDateScheduleGroupedByDay,
   getScheduleLoadingState: getSearchScheduleLoadingState
+};
+
+export const createScheduleSelectors = {
+  getAllScheduleRequests: getAllScheduleRequests,
+  getSelectedScheduleRequest: getSelectedScheduleRequest,
+  getSelectedScheduleRequestId: getSelectedScheduleRequestId
 };

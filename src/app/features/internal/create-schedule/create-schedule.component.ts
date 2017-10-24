@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AppState } from '../../../STATE/reducers/index';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -15,7 +17,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
 
   @ViewChild('step') step;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: Store<AppState>) {}
 
   ngOnInit() {
 

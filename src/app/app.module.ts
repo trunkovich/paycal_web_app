@@ -45,6 +45,8 @@ import { environment } from '../environments/environment';
 import { LocalStorageAlertComponent } from './features/auth/local-storage-alert/local-storage-alert.component';
 import { InitEffects } from './STATE/effects/init.effects';
 import { CustomMaterialModule } from './custom-material.module';
+import { CreateScheduleService } from './core/services/create-schedule.service';
+import { CreateScheduleEffects } from './STATE/effects/create-schedule.effects';
 
 
 Raven
@@ -87,6 +89,7 @@ export function provideErrorHandler() {
       HomeEffects,
       SearchEffects,
       MixpanelEffects,
+      CreateScheduleEffects,
       InitEffects
     ]),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
@@ -107,6 +110,7 @@ export function provideErrorHandler() {
     ScheduleService,
     PaycalHttpInterceptor,
     AvatarService,
+    CreateScheduleService,
 
     // GUARDS
     OnlySignedInUsers,

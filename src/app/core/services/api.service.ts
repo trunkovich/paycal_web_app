@@ -1,27 +1,43 @@
 import { Injectable } from '@angular/core';
-import {Http, URLSearchParams, Headers} from '@angular/http';
+import { Headers, Http, URLSearchParams } from '@angular/http';
 import * as _ from 'lodash';
 
-import {APP_CONFIG} from '../../../environments/environment';
-import {ResetPasswordModel} from '../../STATE/models/reset-password.model';
-import {CompleteRegistrationModel} from '../../STATE/models/complete-registration.model';
-import {Lead} from '../../STATE/models/lead.model';
-import {ScheduleMonthRequest} from '../../STATE/models/requests/schedule-month.request.model';
-import {EmployeeScheduleEntryListResponse} from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
-import {Observable} from 'rxjs';
-import {GroupScheduleListResponse} from '../../STATE/models/responses/group-schedule-list-response.model';
-import {EmployeeListResponse} from '../../STATE/models/responses/employee-list-response.model';
-import {CoverageRequest} from '../../STATE/models/requests/coverage-request.request.model';
-import {Response} from '../../STATE/models/responses/response.model';
-import {LaborCodeListResponse} from '../../STATE/models/responses/labor-code-list-response.model';
+import { APP_CONFIG } from '../../../environments/environment';
+import { ResetPasswordModel } from '../../STATE/models/reset-password.model';
+import { CompleteRegistrationModel } from '../../STATE/models/complete-registration.model';
+import { Lead } from '../../STATE/models/lead.model';
+import { ScheduleMonthRequest } from '../../STATE/models/requests/schedule-month.request.model';
+import { EmployeeScheduleEntryListResponse } from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
+import { Observable } from 'rxjs';
+import { GroupScheduleListResponse } from '../../STATE/models/responses/group-schedule-list-response.model';
+import { EmployeeListResponse } from '../../STATE/models/responses/employee-list-response.model';
+import { CoverageRequest } from '../../STATE/models/requests/coverage-request.request.model';
+import { Response } from '../../STATE/models/responses/response.model';
+import { LaborCodeListResponse } from '../../STATE/models/responses/labor-code-list-response.model';
 import {
-  LaborCodeScheduleMonthRequest,
-  GroupMemberScheduleMonthRequest
+  GroupMemberScheduleMonthRequest,
+  LaborCodeScheduleMonthRequest
 } from '../../STATE/models/requests/labor-code-schedule-month.request.model';
-import {LaborCodeScheduleDayRequest} from '../../STATE/models/requests/labor-code-schedule-day.request.model';
-import {MasterCalendarEntryListResponse} from '../../STATE/models/responses/master-calendar-entry-list-response.model';
-import {EditEmployeeRequestData} from '../../STATE/models/employee.model';
-import {CloudinaryResponse} from '../../STATE/models/responses/cloudinary-response.model';
+import { LaborCodeScheduleDayRequest } from '../../STATE/models/requests/labor-code-schedule-day.request.model';
+import { MasterCalendarEntryListResponse } from '../../STATE/models/responses/master-calendar-entry-list-response.model';
+import { EditEmployeeRequestData } from '../../STATE/models/employee.model';
+import { CloudinaryResponse } from '../../STATE/models/responses/cloudinary-response.model';
+import {
+  CreateCallUnavailabilityWindowRequest,
+  CreateEducationalLeaveRequest,
+  CreateHospitalRoundingRequest,
+  CreatePreferredCallNightRequest,
+  CreatePreferredOffWeekendRequest,
+  CreateVacationWindowRequest,
+  CreateVolunteerShiftRequest,
+  ScheduleRequestIDRequest,
+  UpdateScheduleRequestEmployeeNotesRequest,
+  UpdateScheduleRequestUseCompTimeRequest
+} from '../../STATE/models/requests/create-schedule-request.model';
+import {
+  ScheduleRequestByEmployeeListResponse,
+  ScheduleRequestDetailsResponse
+} from '../../STATE/models/responses/create-schedule-response.model';
 
 @Injectable()
 export class Api {
@@ -111,6 +127,65 @@ export class Api {
   getLaborCodeDaySchedule(data: LaborCodeScheduleDayRequest): Observable<MasterCalendarEntryListResponse> {
     return this.request('get', 'GetLaborCodeDaySchedule', data);
   }
+
+
+
+  getScheduleRequestByEmployee(): Observable<ScheduleRequestByEmployeeListResponse> {
+    return this.request('get', 'GetScheduleRequestByEmployee');
+  }
+  getScheduleRequestDetails(data: ScheduleRequestIDRequest): Observable<ScheduleRequestDetailsResponse> {
+    return this.request('get', 'GetScheduleRequestDetails', data);
+  }
+  createVacationWindow(data: CreateVacationWindowRequest): Observable<Response> {
+    return this.request('get', 'CreateVacationWindow', data);
+  }
+  createCallUnavailabilityWindow(data: CreateCallUnavailabilityWindowRequest): Observable<Response> {
+    return this.request('get', 'CreateCallUnavailabilityWindow', data);
+  }
+  createPreferredCallNight(data: CreatePreferredCallNightRequest): Observable<Response> {
+    return this.request('get', 'CreatePreferredCallNight', data);
+  }
+  createHospitalRounding(data: CreateHospitalRoundingRequest): Observable<Response> {
+    return this.request('get', 'CreateHospitalRounding', data);
+  }
+  createVolunteerShift(data: CreateVolunteerShiftRequest): Observable<Response> {
+    return this.request('get', 'CreateVolunteerShift', data);
+  }
+  createEducationalLeave(data: CreateEducationalLeaveRequest): Observable<Response> {
+    return this.request('get', 'CreateEducationalLeave', data);
+  }
+  createPreferredOffWeekend(data: CreatePreferredOffWeekendRequest): Observable<Response> {
+    return this.request('get', 'CreatePreferredOffWeekend', data);
+  }
+  deleteVacationWindows(data: ScheduleRequestIDRequest): Observable<Response> {
+    return this.request('get', 'DeleteVacationWindows', data);
+  }
+  deleteCallUnavailabilityWindows(data: ScheduleRequestIDRequest): Observable<Response> {
+    return this.request('get', 'DeleteCallUnavailabilityWindows', data);
+  }
+  deletePreferredCallNights(data: ScheduleRequestIDRequest): Observable<Response> {
+    return this.request('get', 'DeletePreferredCallNights', data);
+  }
+  deleteHospitalRoundings(data: ScheduleRequestIDRequest): Observable<Response> {
+    return this.request('get', 'DeleteHospitalRoundings', data);
+  }
+  deleteVolunteerShifts(data: ScheduleRequestIDRequest): Observable<Response> {
+    return this.request('get', 'DeleteVolunteerShifts', data);
+  }
+  deleteEducationalLeaves(data: ScheduleRequestIDRequest): Observable<Response> {
+    return this.request('get', 'DeleteEducationalLeaves', data);
+  }
+  deletePreferredOffWeekends(data: ScheduleRequestIDRequest): Observable<Response> {
+    return this.request('get', 'DeletePreferredOffWeekends', data);
+  }
+  updateScheduleRequestUseCompTime(data: UpdateScheduleRequestUseCompTimeRequest): Observable<Response> {
+    return this.request('get', 'UpdateScheduleRequestUseCompTime', data);
+  }
+  updateScheduleRequestEmployeeNotes(data: UpdateScheduleRequestEmployeeNotesRequest): Observable<Response> {
+    return this.request( 'get', 'UpdateScheduleRequestEmployeeNotes', data);
+  }
+
+
 
   uploadImage(image: File): Observable<CloudinaryResponse> {
     return Observable.fromPromise(this.upload(APP_CONFIG.CLOUDINARY_URL, image));
