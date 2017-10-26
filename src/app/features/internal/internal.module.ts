@@ -45,6 +45,7 @@ import { ScheduleStep8Component } from './create-schedule/schedule-step-8/schedu
 import { ScheduleStep9Component } from './create-schedule/schedule-step-9/schedule-step-9.component';
 import { ScheduleStep10Component } from './create-schedule/schedule-step-10/schedule-step-10.component';
 import { ScheduleStep11Component } from './create-schedule/schedule-step-11/schedule-step-11.component';
+import { SelectMonthForSchedulingComponent } from './select-month-for-scheduling/select-month-for-scheduling.component';
 
 @NgModule({
   imports: [
@@ -106,6 +107,7 @@ import { ScheduleStep11Component } from './create-schedule/schedule-step-11/sche
     ScheduleStep9Component,
     ScheduleStep10Component,
     ScheduleStep11Component,
+    SelectMonthForSchedulingComponent
   ]
 })
 export class InternalModule { }

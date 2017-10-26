@@ -1,0 +1,14 @@
+@import '../../../../colors';
+@import '../../../../mixins';
+@import '../../../../helpers';
+
+:host {
+  @extend .full-height;
+  display: block;
+
+  pcl-button {
+    margin-top: 10px;
+  }
+}
+
+

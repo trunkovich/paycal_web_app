@@ -1,0 +1,12 @@
+<pcl-header [title]="'Select schedule request'"
+            [showBackBtn]="true"
+            (backBtnClick)="back()"></pcl-header>
+
+<div class="container">
+  <pcl-button *ngFor="let request of (scheduleRequests$ | async)"
+              [title]="'request - ' + request.ScheduleRequestID"
+              (buttonClick)="goToCreateRequest(request.ScheduleRequestID)"></pcl-button>
+
+</div>
+
+<pcl-loader [show]="loading$ | async"></pcl-loader>

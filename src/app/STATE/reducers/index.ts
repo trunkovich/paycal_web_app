@@ -87,6 +87,7 @@ let getAuthLoadingState = createSelector(getAuthState, fromAuth.getLoading);
 /*======================================================*/
 /*====================CREATE SCHEDULE SELECTORS====================*/
 /*======================================================*/
+let getCreateScheduleLoadingState = createSelector(getCreateScheduleState, fromCreateSchedule.getLoading);
 let getAllScheduleRequests = createSelector(getCreateScheduleState, fromCreateSchedule.getAllScheduleRequests);
 let getSelectedScheduleRequest = createSelector(getCreateScheduleState, fromCreateSchedule.getSelectedScheduleRequest);
 let getSelectedScheduleRequestId = createSelector(getCreateScheduleState, fromCreateSchedule.getSelectedScheduleRequestId);
@@ -289,6 +290,7 @@ export const searchSelectors = {
 };
 
 export const createScheduleSelectors = {
+  getLoading: getCreateScheduleLoadingState,
   getAllScheduleRequests: getAllScheduleRequests,
   getSelectedScheduleRequest: getSelectedScheduleRequest,
   getSelectedScheduleRequestId: getSelectedScheduleRequestId

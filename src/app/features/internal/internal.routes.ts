@@ -16,6 +16,7 @@ import { CropLoadingComponent } from './crop-loading/crop-loading.component';
 import { searchRoutes } from './search-module/search.routes';
 import { GoogleFormComponent } from './google-form/google-form.component';
 import { CreateScheduleComponent } from './create-schedule/create-schedule.component';
+import { SelectMonthForSchedulingComponent } from './select-month-for-scheduling/select-month-for-scheduling.component';
 
 export const internalRoutes: Routes = [
   { path: '', component: InternalComponent, canActivate: [OnlySignedInUsers, OnlyMobileDevices], children: [
@@ -29,7 +30,8 @@ export const internalRoutes: Routes = [
     { path: 'edit-profile', component: EditProfileComponent },
     { path: 'crop-avatar', component: CropAvatarComponent },
     { path: 'crop-loading', component: CropLoadingComponent },
-    { path: 'create-schedule', component: CreateScheduleComponent },
+    { path: 'select-schedule', component: SelectMonthForSchedulingComponent },
+    { path: 'create-schedule/:scheduleRequestID', component: CreateScheduleComponent },
     { path: 'form', component: GoogleFormComponent },
     { path: 'search', children: [...searchRoutes]}
   ] }
