@@ -41,7 +41,7 @@ export class CreateScheduleService {
       });
   }
 
-  getScheduleRequestDetails(scheduleRequestId): Observable<CreateScheduleDetailsModel | string> {
+  getScheduleRequestDetails(scheduleRequestId: number): Observable<CreateScheduleDetailsModel | string> {
     return this.api.getScheduleRequestDetails({scheduleRequestId})
       .map((res: ScheduleRequestDetailsResponse) => {
         if (res.IsSuccess) {

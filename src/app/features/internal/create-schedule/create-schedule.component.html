@@ -1,5 +1,5 @@
 <pcl-header
-  title="Create Monthly Schedule"
+  [title]="requestDetails?.ScheduleRequest.ScheduleRequestID"
   showBackBtn="true"
   (backBtnClick)="back()">
 </pcl-header>
@@ -11,10 +11,12 @@
   [deadline]="deadline">
 </pcl-introduction>
 
+<pcl-loader [show]="loading$ | async"></pcl-loader>
+
 <md-vertical-stepper icon="number"
                      [ngClass]="'step-' + selectedIndex + '-active'"
-  (selectionChange)="selectionChange($event)"
-  *ngIf="introductionShown">
+                     (selectionChange)="selectionChange($event)"
+                     *ngIf="introductionShown">
 
   <md-step>
     <ng-template mdStepLabel>
@@ -23,7 +25,8 @@
         <button md-button *ngIf="selectedIndex === 0">Clear</button>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-1 [vacationDays]="requestCalendar?.vacationDays"
+                         [calendar]="requestCalendar"></pcl-schedule-step-1>
   </md-step>
 
   <md-step>

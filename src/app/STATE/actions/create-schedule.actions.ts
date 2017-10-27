@@ -117,6 +117,9 @@ export const ActionTypes = {
   UPDATE_SR_USE_COMP_TIME_SUCCESS: type('[Create Schedule] update schedule request use comp time success'),
   UPDATE_SR_USE_COMP_TIME_FAIL: type('[Create Schedule] update schedule request use comp time fail'),
 
+  // OTHER
+  SET_SELECTED_SCHEDULE_REQUEST_ID: type('[Create Schedule] set selected schedule request id'),
+
 };
 
 
@@ -363,6 +366,12 @@ export class UpdateSRUseCompTimeFailAction implements Action {
   constructor(public payload: string) { }
 }
 
+// OTHER
+export class SetSelectedScheduleRequestIdAction implements Action {
+  type = ActionTypes.SET_SELECTED_SCHEDULE_REQUEST_ID;
+  constructor(public payload: number) { }
+}
+
 
 
 /**
@@ -460,5 +469,9 @@ export type Actions
   // update schedule request use comp time
   | UpdateSRUseCompTimeAction
   | UpdateSRUseCompTimeSuccessAction
-  | UpdateSRUseCompTimeFailAction;
+  | UpdateSRUseCompTimeFailAction
+
+  // OTHER
+  | SetSelectedScheduleRequestIdAction
+  ;
 

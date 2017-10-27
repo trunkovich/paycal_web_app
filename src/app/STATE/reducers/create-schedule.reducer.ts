@@ -26,14 +26,19 @@ export function createScheduleReducer(
   action: createScheduleActions.Actions
 ): CreateScheduleState {
   switch (action.type) {
-    case createScheduleActions.ActionTypes.LOAD_ALL_SCHEDULE_REQUESTS: {
+    case createScheduleActions.ActionTypes.LOAD_ALL_SCHEDULE_REQUESTS:
+    case createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST: {
       return setLoadingHandler(state, true);
     }
-    case createScheduleActions.ActionTypes.LOAD_ALL_SCHEDULE_REQUESTS_FAIL: {
+    case createScheduleActions.ActionTypes.LOAD_ALL_SCHEDULE_REQUESTS_FAIL:
+    case createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST_FAIL: {
       return setLoadingHandler(state, false);
     }
     case createScheduleActions.ActionTypes.LOAD_ALL_SCHEDULE_REQUESTS_SUCCESS: {
-      return setLoadAllRequestsHandler(state, (action as createScheduleActions.LoadAllScheduleRequestsSuccessAction));
+      return loadAllRequestsHandler(state, (action as createScheduleActions.LoadAllScheduleRequestsSuccessAction));
+    }
+    case createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST_SUCCESS: {
+      return loadRequestHandler(state, (action as createScheduleActions.LoadScheduleRequestSuccessAction));
     }
     default: {
       return state;
@@ -49,12 +54,22 @@ function setLoadingHandler(state: CreateScheduleState, status): CreateScheduleSt
   });
 }
 
-function setLoadAllRequestsHandler(
+function loadAllRequestsHandler(
   state: CreateScheduleState,
   action: createScheduleActions.LoadAllScheduleRequestsSuccessAction
 ): CreateScheduleState {
   return _.assign({}, state, {
     allScheduleRequests: _.cloneDeep(action.payload),
+    loading: false
+  });
+}
+
+function loadRequestHandler(
+  state: CreateScheduleState,
+  action: createScheduleActions.LoadScheduleRequestSuccessAction
+): CreateScheduleState {
+  return _.assign({}, state, {
+    selectedScheduleRequestDetails: _.cloneDeep(action.payload),
     loading: false
   });
 }

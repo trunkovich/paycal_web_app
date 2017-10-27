@@ -7,7 +7,7 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as createScheduleActions from '../actions/create-schedule.actions';
 import { CreateScheduleService } from '../../core/services/create-schedule.service';
-import { CreateScheduleModel } from '../models/create-schedule.model';
+import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 
 @Injectable()
 export class CreateScheduleEffects {
@@ -30,5 +30,15 @@ export class CreateScheduleEffects {
       return this.createScheduleService.getAllScheduleRequests()
         .map((requests: CreateScheduleModel[]) => new createScheduleActions.LoadAllScheduleRequestsSuccessAction(requests))
         .catch(error => Observable.of(new createScheduleActions.LoadAllScheduleRequestsFailAction(error)));
+    });
+
+  @Effect()
+  getScheduleRequest: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST)
+    .map((action: createScheduleActions.LoadScheduleRequestAction) => action.payload)
+    .switchMap((scheduleRequestID: number) => {
+      return this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
+        .map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request))
+        .catch(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)));
     });
 }
