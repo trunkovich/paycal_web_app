@@ -13,7 +13,7 @@ export interface DayEntry {
   disabled: boolean;
 }
 
-export type VacationDays = number[];
+export type VacationDays = moment.Moment[];
 
 export class RequestCalendar {
   month: number;
@@ -28,7 +28,7 @@ export class RequestCalendar {
 
     this.vacationDays = _.map(
       request.VacationWindowList,
-      (vacation: requestModels.VacationWindowModel) => moment(vacation.StartDate).date()
+      (vacation: requestModels.VacationWindowModel) => moment(vacation.StartDate)
     );
   }
 

@@ -1,0 +1,33 @@
+@import '../../../../../../colors';
+@import '../../../../../../mixins';
+@import '../../../../../../helpers';
+
+
+
+:host /deep/ {
+  display: block;
+
+  .date-selector-container {
+    .main-block {
+      position: relative;
+      height: 18px;
+      padding: 7px 0;
+
+      .placeholder {
+        font-size: 16px;
+        text-align: left;
+        color: $bluish-grey;
+      }
+
+      md-icon {
+        position: absolute;
+        right: 0;
+        top: 4px;
+      }
+    }
+    .bottom-line {
+      height: 1px;
+      background-color: $bluish-grey;
+    }
+  }
+}

@@ -12,4 +12,8 @@ export class ScheduleStep1Component {
 
   constructor() { }
 
+  onDateChange(date: number) {
+    console.log(date);
+  }
+
 }

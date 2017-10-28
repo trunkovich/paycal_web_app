@@ -22,7 +22,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   scheduleMonth = moment().add(5, 'month');
   deadline = moment().startOf('month').date(15);
-  introductionShown = false;
+  introductionShown = true;
   selectedIndex = 0;
 
   sub: Subscription;

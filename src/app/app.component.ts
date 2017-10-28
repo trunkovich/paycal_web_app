@@ -131,6 +131,10 @@ export class AppComponent {
       'dots-vertical',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/dots-vertical.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'calendar',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/calendar.svg')
+    );
 
   }
 }
