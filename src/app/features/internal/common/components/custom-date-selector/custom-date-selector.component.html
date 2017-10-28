@@ -1,7 +1,9 @@
 <div class="date-selector-container"
-     (click)="openCalendar()">
+     [class.active]="active"
+     (click)="openCalendar($event)">
   <div class="main-block">
-    <div class="placeholder">{{placeholder}}</div>
+    <div class="placeholder" [class.top]="!!date || active">{{placeholder}}</div>
+    <div class="value" *ngIf="!!date">{{date | amDateFormat:'L'}}</div>
     <md-icon [svgIcon]="'calendar'"></md-icon>
   </div>
   <div class="bottom-line"></div>

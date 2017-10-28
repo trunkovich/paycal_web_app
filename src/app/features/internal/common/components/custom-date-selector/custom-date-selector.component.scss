@@ -8,6 +8,21 @@
   display: block;
 
   .date-selector-container {
+    margin-top: 16px;
+
+    &.active {
+      .main-block {
+        .placeholder {
+          color: $tealish;
+        }
+        md-icon {
+          fill: $tealish;
+        }
+      }
+      .bottom-line {
+        background-color: $tealish;
+      }
+    }
     .main-block {
       position: relative;
       height: 18px;
@@ -17,6 +32,20 @@
         font-size: 16px;
         text-align: left;
         color: $bluish-grey;
+        line-height: 18px;
+        transform-origin: 0 0;
+        transition: transform .4s cubic-bezier(.25,.8,.25,1),color .4s cubic-bezier(.25,.8,.25,1),width .4s cubic-bezier(.25,.8,.25,1);
+        position: absolute;
+        left: 0;
+
+        &.top {
+          transform: translateY(-1.28125em) scale(.75) perspective(100px) translateZ(.001px);
+          width: 133.3333333%;
+        }
+      }
+      .value {
+        font-size: 16px;
+        line-height: 18px;
       }
 
       md-icon {
