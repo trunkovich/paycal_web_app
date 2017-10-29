@@ -1,3 +1,5 @@
 <div *ngFor="let vacationDay of vacationDays">
-  <pcl-custom-date-selector (onDateChange)="onDateChange($event)"></pcl-custom-date-selector>
+  <pcl-custom-date-selector (onDateChange)="onDateChange($event)"
+                            [date]="vacationDay"
+                            [calendar]="calendar"></pcl-custom-date-selector>
 </div>

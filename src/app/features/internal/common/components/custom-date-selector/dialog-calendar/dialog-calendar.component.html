@@ -1,1 +1,36 @@
-YES
+<div class="calendar-wrapper">
+
+  <div class="calendar-title">
+    <span class="month">{{header}}</span>&nbsp;&nbsp;
+  </div>
+
+  <div class="calendar-header">
+    <div class="week-header-entry">S</div>
+    <div class="week-header-entry">M</div>
+    <div class="week-header-entry">T</div>
+    <div class="week-header-entry">W</div>
+    <div class="week-header-entry">T</div>
+    <div class="week-header-entry">F</div>
+    <div class="week-header-entry">S</div>
+  </div>
+
+  <div class="calendar-content-wrapper">
+    <div class="calendar-view-type">
+      <div class="calendar-content day">
+
+        <div class="calendar-entry-wrapper day-entry"
+             *ngFor="let day of days; let j = index">
+          <div class="calendar-entry"
+               [class.disabled]="day.disabled"
+               [class.selected]="day.date === selectedDay"
+               (click)="!day.disabled && onDayClick(day)">
+            {{day.date || ''}}
+            <div class="event-day"
+                 *ngIf="day.event" [style.backgroundColor]="day.event"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

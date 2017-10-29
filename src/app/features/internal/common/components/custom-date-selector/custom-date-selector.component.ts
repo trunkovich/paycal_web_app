@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
+import { RequestCalendar } from '../../../create-schedule/schedule-request-calendar.class';
 
 @Component({
   selector: 'pcl-custom-date-selector',
@@ -11,6 +12,7 @@ import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.compo
 export class CustomDateSelectorComponent implements OnChanges {
   @Input() date: moment.Moment;
   @Input() placeholder = 'Select a Date';
+  @Input() calendar: RequestCalendar;
   @Output() onDateChange = new EventEmitter<number>();
 
   active = false;
@@ -33,7 +35,13 @@ export class CustomDateSelectorComponent implements OnChanges {
       position: {
         top: box.top + box.height + 'px',
         left: box.left + 'px'
-      }
+      },
+      data: {
+        days: this.calendar.days,
+        header: moment({year: this.calendar.year, month: this.calendar.month}).format('MMMM YYYY'),
+        selectedDay: this.date ? this.date.date() : null
+      },
+      panelClass: 'dialog-calendar'
     });
 
     dialogRef.afterClosed().subscribe(result => {
