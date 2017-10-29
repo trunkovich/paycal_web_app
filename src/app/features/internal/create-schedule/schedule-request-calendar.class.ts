@@ -62,8 +62,8 @@ export class RequestCalendar {
     let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
     newData.VacationWindowList = _.map(days, day => {
       return {
-        StartDate: day.format('L'),
-        EndDate: day.format('L'),
+        StartDate: day.toISOString(),
+        EndDate: day.toISOString(),
         ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
         EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
         GroupID: this.initialData.ScheduleRequest.GroupID,

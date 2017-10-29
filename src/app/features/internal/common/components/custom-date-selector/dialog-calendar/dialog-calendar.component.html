@@ -22,7 +22,7 @@
              *ngFor="let day of days; let j = index">
           <div class="calendar-entry"
                [class.disabled]="day.disabled"
-               [class.selected]="day.date === selectedDay"
+               [class.selected]="selectedDay && day.date === selectedDay"
                (click)="!day.disabled && onDayClick(day)">
             {{day.date || ''}}
             <div class="event-day"

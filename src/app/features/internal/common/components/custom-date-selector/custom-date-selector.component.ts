@@ -39,13 +39,12 @@ export class CustomDateSelectorComponent {
       },
       panelClass: 'dialog-calendar'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.beforeClose().subscribe(result => {
       this.active = false;
       if (result) {
         this.onDateChange.emit(result.date);
       }
-    });
+    })
   }
 
 }

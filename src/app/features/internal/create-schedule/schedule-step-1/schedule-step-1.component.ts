@@ -17,12 +17,16 @@ export class ScheduleStep1Component {
   constructor() { }
 
   onDateChange(newDay: number, listIndex: number) {
-    this.onVacationDaysUpdate.emit(_.map(this.vacationDays, (vacationDay, index) => {
-      if (index === listIndex) {
-        return moment({year: this.calendar.year, month: this.calendar.month, date: newDay});
-      }
-      return vacationDay;
-    }));
+    if (!this.vacationDays || !this.vacationDays.length) {
+      this.onVacationDaysUpdate.emit([moment({year: this.calendar.year, month: this.calendar.month, date: newDay})]);
+    } else {
+      this.onVacationDaysUpdate.emit(_.map(this.vacationDays, (vacationDay, index) => {
+        if (index === listIndex) {
+          return moment({year: this.calendar.year, month: this.calendar.month, date: newDay});
+        }
+        return vacationDay;
+      }));
+    }
   }
 
 }
