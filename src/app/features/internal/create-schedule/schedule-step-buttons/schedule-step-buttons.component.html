@@ -1,0 +1,20 @@
+<pcl-button *ngIf="showAddBtn"
+            class="small-btn outline-btn"
+            [title]="addBtnTitle"
+            (buttonClick)="onAddBtnClick.emit()"></pcl-button>
+
+<div [class.two-buttons]="showSkipBtn" class="bottom-buttons">
+  <div class="button-wrapper skip-btn-wrapper">
+    <pcl-button *ngIf="showSkipBtn"
+                [disabled]="disableSkipBtn"
+                class="small-btn gray-btn"
+                [title]="'SKIP'"
+                (buttonClick)="onSkipBtnClick.emit()"></pcl-button>
+  </div>
+  <div class="button-wrapper next-btn-wrapper">
+    <pcl-button [title]="'NEXT'"
+                [disabled]="disableNextBtn"
+                class="small-btn"
+                (buttonClick)="onNextBtnClick.emit()"></pcl-button>
+  </div>
+</div>

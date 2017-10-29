@@ -48,6 +48,7 @@ import { ScheduleStep11Component } from './create-schedule/schedule-step-11/sche
 import { SelectMonthForSchedulingComponent } from './select-month-for-scheduling/select-month-for-scheduling.component';
 import { CustomDateSelectorComponent } from './common/components/custom-date-selector/custom-date-selector.component';
 import { DialogCalendarComponent } from './common/components/custom-date-selector/dialog-calendar/dialog-calendar.component';
+import { ScheduleStepButtonsComponent } from './create-schedule/schedule-step-buttons/schedule-step-buttons.component';
 
 @NgModule({
   imports: [
@@ -111,7 +112,8 @@ import { DialogCalendarComponent } from './common/components/custom-date-selecto
     ScheduleStep11Component,
     SelectMonthForSchedulingComponent,
     CustomDateSelectorComponent,
-    DialogCalendarComponent
+    DialogCalendarComponent,
+    ScheduleStepButtonsComponent
   ],
   entryComponents: [DialogCalendarComponent]
 })

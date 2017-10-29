@@ -1,0 +1,29 @@
+@import '../../../../../colors';
+@import '../../../../../mixins';
+@import '../../../../../helpers';
+
+:host {
+  display: block;
+
+  .outline-btn {
+    margin-top: 15px;
+  }
+
+  .bottom-buttons {
+    margin-top: 15px;
+
+    &.two-buttons {
+      @include clearfix();
+      .button-wrapper {
+        @extend .float-left;
+        width: calc(50% - 9.5px);
+        &.skip-btn-wrapper {
+          padding-right: 9.5px;
+        }
+        &.next-btn-wrapper {
+          padding-left: 9.5px;
+        }
+      }
+    }
+  }
+}
