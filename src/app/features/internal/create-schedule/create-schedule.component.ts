@@ -64,4 +64,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
     this.selectedIndex = data.selectedIndex;
   }
 
+  vacationDateChange(dates: moment.Moment[]) {
+    this.requestCalendar = this.requestCalendar.setVacationDays(dates);
+  }
+
 }

@@ -22,10 +22,11 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">VACATION DAYS REQUEST (VL)</div>
-        <button md-button *ngIf="selectedIndex === 0">Clear</button>
+        <button md-button *ngIf="selectedIndex === 0" (click)="vacationDateChange([])">Clear</button>
       </div>
     </ng-template>
     <pcl-schedule-step-1 [vacationDays]="requestCalendar?.vacationDays"
+                         (onVacationDaysUpdate)="vacationDateChange($event)"
                          [calendar]="requestCalendar"></pcl-schedule-step-1>
   </md-step>
 

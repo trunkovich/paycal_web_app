@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { DayEntry } from '../../../../create-schedule/schedule-request-calendar.class';
 
 @Component({
@@ -12,14 +12,17 @@ export class DialogCalendarComponent {
   header: string;
   selectedDay: number;
 
-  constructor(@Inject(MD_DIALOG_DATA) public data: any) {
+  constructor(
+    public dialogRef: MdDialogRef<DialogCalendarComponent>,
+    @Inject(MD_DIALOG_DATA) public data: any
+  ) {
     this.days = data.days;
     this.header = data.header;
     this.selectedDay = data.selectedDay;
   }
 
   onDayClick(day) {
-    console.log(day);
+    this.dialogRef.close(day);
   }
 
 }

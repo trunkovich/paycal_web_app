@@ -22,8 +22,10 @@ export class RequestCalendar {
   vacationDays: VacationDays;
   days: DayEntry[];
   events = {};
+  private initialData: requestModels.CreateScheduleDetailsModel;
 
   constructor(request: requestModels.CreateScheduleDetailsModel) {
+    this.initialData = request;
     this.month = request.ScheduleRequest.ScheduleMonth - 1;
     this.year = request.ScheduleRequest.ScheduleYear;
 
@@ -54,5 +56,21 @@ export class RequestCalendar {
       currentDay.add(1, 'day');
     }
     return days;
+  }
+
+  setVacationDays(days: moment.Moment[]): RequestCalendar {
+    let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
+    newData.VacationWindowList = _.map(days, day => {
+      return {
+        StartDate: day.format('L'),
+        EndDate: day.format('L'),
+        ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
+        EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
+        GroupID: this.initialData.ScheduleRequest.GroupID,
+        VacationWindowID: null,
+        VacationWindowTypeID: days.length > 1 ? 2 : 1,
+      }
+    });
+    return new RequestCalendar(newData);
   }
 }

@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { RequestCalendar } from '../../../create-schedule/schedule-request-calendar.class';
@@ -9,7 +9,7 @@ import { RequestCalendar } from '../../../create-schedule/schedule-request-calen
   templateUrl: './custom-date-selector.component.html',
   styleUrls: ['./custom-date-selector.component.scss']
 })
-export class CustomDateSelectorComponent implements OnChanges {
+export class CustomDateSelectorComponent {
   @Input() date: moment.Moment;
   @Input() placeholder = 'Select a Date';
   @Input() calendar: RequestCalendar;
@@ -18,10 +18,6 @@ export class CustomDateSelectorComponent implements OnChanges {
   active = false;
 
   constructor(private dialog: MdDialog) {}
-
-  ngOnChanges(changes) {
-
-  }
 
   openCalendar($event) {
     let elem = $event.target;
@@ -46,6 +42,9 @@ export class CustomDateSelectorComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       this.active = false;
+      if (result) {
+        this.onDateChange.emit(result.date);
+      }
     });
   }
 
