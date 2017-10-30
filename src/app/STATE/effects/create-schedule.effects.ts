@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
@@ -11,10 +11,11 @@ import * as createScheduleActions from '../actions/create-schedule.actions';
 import { CreateScheduleService } from '../../core/services/create-schedule.service';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import { SubmitVacationWindowRequest } from '../models/requests/create-schedule-request.model';
+import { AppState, createScheduleSelectors } from '../reducers/index';
 
 @Injectable()
 export class CreateScheduleEffects {
-  constructor(private actions$: Actions, private createScheduleService: CreateScheduleService) { }
+  constructor(private actions$: Actions, private createScheduleService: CreateScheduleService, private store: Store<AppState>) { }
 
   // @Effect()
   // initGetAllScheduleRequests: Observable<Action> = this.actions$
@@ -40,6 +41,16 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST)
     .map((action: createScheduleActions.LoadScheduleRequestAction) => action.payload)
     .switchMap((scheduleRequestID: number) => {
+      return this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
+        .map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request))
+        .catch(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)));
+    });
+
+  @Effect()
+  updateScheduleRequest: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS)
+    .withLatestFrom(this.store.select(createScheduleSelectors.getSelectedScheduleRequestId))
+    .switchMap(([_, scheduleRequestID]) => {
       return this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
         .map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request))
         .catch(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)));

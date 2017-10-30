@@ -10,7 +10,7 @@
                            [disableSkipBtn]="calendar?.isVacationWindowsChanged()"
                            [showAddBtn]="calendar?.isVacationWindowsValid()"
                            [addBtnTitle]="'ADD VACATION REQUEST'"
-                           [disableNextBtn]="!calendar?.isVacationWindowsValid()"
+                           [disableNextBtn]="!calendar?.isVacationWindowsChanged() || !calendar?.isVacationWindowsValid()"
                            (onSkipBtnClick)="skip()"
                            (onNextBtnClick)="submitVacationDays()"
                            (onAddBtnClick)="onAddBlankVacationDayClick()"></pcl-schedule-step-buttons>

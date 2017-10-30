@@ -5,17 +5,14 @@ import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 
 import { AppState, createScheduleSelectors } from '../../../STATE/reducers/index';
-import {
-  LoadScheduleRequestAction,
-  SetSelectedScheduleRequestIdAction,
-  SubmitVacationWindowAction
-} from '../../../STATE/actions/create-schedule.actions';
+import * as createScheduleActions from '../../../STATE/actions/create-schedule.actions';
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { RequestCalendar } from './schedule-request-calendar.class';
 import { MdVerticalStepper } from '@angular/material';
 import { SubmitVacationWindowRequest } from '../../../STATE/models/requests/create-schedule-request.model';
+import { Actions } from '@ngrx/effects';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -34,15 +31,21 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') stepper: MdVerticalStepper;
 
   sub: Subscription;
+  sub2: Subscription;
 
-  constructor(private router: Router, private store: Store<AppState>, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private route: ActivatedRoute,
+    private actions$: Actions
+  ) {}
 
   ngOnInit() {
     this.sub = this.route.params
       .map(params => params.scheduleRequestID)
       .switchMap((scheduleRequestID: number) => {
-        this.store.dispatch(new SetSelectedScheduleRequestIdAction(scheduleRequestID));
-        this.store.dispatch(new LoadScheduleRequestAction(scheduleRequestID));
+        this.store.dispatch(new createScheduleActions.SetSelectedScheduleRequestIdAction(scheduleRequestID));
+        this.store.dispatch(new createScheduleActions.LoadScheduleRequestAction(scheduleRequestID));
 
         this.loading$ = this.store.select(createScheduleSelectors.getLoading);
         return this.store.select(createScheduleSelectors.getSelectedScheduleRequest);
@@ -52,11 +55,18 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
         this.requestDetails = _.cloneDeep(requestDetails);
         this.requestCalendar = new RequestCalendar(this.requestDetails);
       });
+
+    this.sub2 = this.actions$
+      .ofType(createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS)
+      .subscribe(() => this.nextStep());
   }
 
   ngOnDestroy() {
     if (this.sub) {
       this.sub.unsubscribe();
+    }
+    if (this.sub2) {
+      this.sub2.unsubscribe();
     }
   }
 
@@ -85,7 +95,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
       dates: _.map(this.requestCalendar.vacationDays, (day) => day.format('L'))
     };
-    this.store.dispatch(new SubmitVacationWindowAction(data));
+    this.store.dispatch(new createScheduleActions.SubmitVacationWindowAction(data));
   }
 
 }

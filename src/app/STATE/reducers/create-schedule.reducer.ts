@@ -40,6 +40,9 @@ export function createScheduleReducer(
     case createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST_SUCCESS: {
       return loadRequestHandler(state, (action as createScheduleActions.LoadScheduleRequestSuccessAction));
     }
+    case createScheduleActions.ActionTypes.SET_SELECTED_SCHEDULE_REQUEST_ID: {
+      return setSelectedIdHandler(state, (action as createScheduleActions.SetSelectedScheduleRequestIdAction));
+    }
     default: {
       return state;
     }
@@ -71,6 +74,15 @@ function loadRequestHandler(
   return _.assign({}, state, {
     selectedScheduleRequestDetails: _.cloneDeep(action.payload),
     loading: false
+  });
+}
+
+function setSelectedIdHandler(
+  state: CreateScheduleState,
+  action: createScheduleActions.SetSelectedScheduleRequestIdAction
+): CreateScheduleState {
+  return _.assign<CreateScheduleState>({}, state, {
+    selectedScheduleRequestId: action.payload,
   });
 }
 
