@@ -5,12 +5,17 @@ import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 
 import { AppState, createScheduleSelectors } from '../../../STATE/reducers/index';
-import { LoadScheduleRequestAction, SetSelectedScheduleRequestIdAction } from '../../../STATE/actions/create-schedule.actions';
+import {
+  LoadScheduleRequestAction,
+  SetSelectedScheduleRequestIdAction,
+  SubmitVacationWindowAction
+} from '../../../STATE/actions/create-schedule.actions';
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { RequestCalendar } from './schedule-request-calendar.class';
 import { MdVerticalStepper } from '@angular/material';
+import { SubmitVacationWindowRequest } from '../../../STATE/models/requests/create-schedule-request.model';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -73,6 +78,14 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
 
   nextStep() {
     this.stepper.next();
+  }
+
+  onSubmitVacationDays() {
+    let data: SubmitVacationWindowRequest = {
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      dates: _.map(this.requestCalendar.vacationDays, (day) => day.format('L'))
+    };
+    this.store.dispatch(new SubmitVacationWindowAction(data));
   }
 
 }

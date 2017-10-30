@@ -28,6 +28,8 @@
     <pcl-schedule-step-1 [vacationDays]="requestCalendar?.vacationDays"
                          (onVacationDaysUpdate)="vacationDateChange($event)"
                          (skipStep)="nextStep()"
+                         (addBlankVacationDay)="requestCalendar?.addBlankVacationDay()"
+                         (onSubmitVacationDays)="onSubmitVacationDays()"
                          [calendar]="requestCalendar"></pcl-schedule-step-1>
   </md-step>
 

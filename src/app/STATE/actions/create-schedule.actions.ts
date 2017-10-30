@@ -11,8 +11,8 @@ import {
   CreateHospitalRoundingRequest,
   CreatePreferredCallNightRequest,
   CreatePreferredOffWeekendRequest,
-  CreateVacationWindowRequest,
   CreateVolunteerShiftRequest,
+  SubmitVacationWindowRequest,
   UpdateScheduleRequestEmployeeNotesRequest,
   UpdateScheduleRequestUseCompTimeRequest
 } from '../models/requests/create-schedule-request.model';
@@ -62,11 +62,6 @@ export const ActionTypes = {
   DELETE_PREFERRED_OFF_WEEKENDS_SUCCESS: type('[Create Schedule] delete preferred off weekends success'),
   DELETE_PREFERRED_OFF_WEEKENDS_FAIL: type('[Create Schedule] delete preferred off weekends fail'),
 
-  // delete vacation windows
-  DELETE_VACATION_WINDOWS: type('[Create Schedule] delete vacation windows'),
-  DELETE_VACATION_WINDOWS_SUCCESS: type('[Create Schedule] delete vacation windows success'),
-  DELETE_VACATION_WINDOWS_FAIL: type('[Create Schedule] delete vacation windows fail'),
-
   // delete volunteer shifts
   DELETE_VOLUNTEER_SHIFTS: type('[Create Schedule] delete volunteer shifts'),
   DELETE_VOLUNTEER_SHIFTS_SUCCESS: type('[Create Schedule] delete volunteer shifts success'),
@@ -97,10 +92,10 @@ export const ActionTypes = {
   CREATE_PREFERRED_OFF_WEEKEND_SUCCESS: type('[Create Schedule] create preferred off weekend success'),
   CREATE_PREFERRED_OFF_WEEKEND_FAIL: type('[Create Schedule] create preferred off weekend fail'),
 
-  // create vacation window
-  CREATE_VACATION_WINDOW: type('[Create Schedule] create vacation window'),
-  CREATE_VACATION_WINDOW_SUCCESS: type('[Create Schedule] create vacation window success'),
-  CREATE_VACATION_WINDOW_FAIL: type('[Create Schedule] create vacation window fail'),
+  // submit vacation window
+  SUBMIT_VACATION_WINDOW: type('[Create Schedule] submit vacation window'),
+  SUBMIT_VACATION_WINDOW_SUCCESS: type('[Create Schedule] submit vacation window success'),
+  SUBMIT_VACATION_WINDOW_FAIL: type('[Create Schedule] submit vacation window fail'),
 
   // create volunteer shift
   CREATE_VOLUNTEER_SHIFT: type('[Create Schedule] create volunteer shift'),
@@ -223,19 +218,6 @@ export class DeletePreferreOffWeekendsFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // delete vacation windows
-export class DeleteVacationWindowsAction implements Action {
-  type = ActionTypes.DELETE_VACATION_WINDOWS;
-  constructor(public payload: number) { }
-}
-export class DeleteVacationWindowsSuccessAction implements Action {
-  type = ActionTypes.DELETE_VACATION_WINDOWS_SUCCESS;
-}
-export class DeleteVacationWindowsFailAction implements Action {
-  type = ActionTypes.DELETE_VACATION_WINDOWS_FAIL;
-  constructor(public payload: string) { }
-}
-
   // delete volunteer shifts
 export class DeleteVolunteerShiftsAction implements Action {
   type = ActionTypes.DELETE_VOLUNTEER_SHIFTS;
@@ -314,16 +296,16 @@ export class CreatePreferredOffWeekendFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // create vacation window
-export class CreateVacationWindowAction implements Action {
-  type = ActionTypes.CREATE_VACATION_WINDOW;
-  constructor(public payload: CreateVacationWindowRequest) { }
+  // submit vacation window
+export class SubmitVacationWindowAction implements Action {
+  type = ActionTypes.SUBMIT_VACATION_WINDOW;
+  constructor(public payload: SubmitVacationWindowRequest) { }
 }
-export class CreateVacationWindowSuccessAction implements Action {
-  type = ActionTypes.CREATE_VACATION_WINDOW_SUCCESS;
+export class SubmitVacationWindowSuccessAction implements Action {
+  type = ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS;
 }
-export class CreateVacationWindowFailAction implements Action {
-  type = ActionTypes.CREATE_VACATION_WINDOW_FAIL;
+export class SubmitVacationWindowFailAction implements Action {
+  type = ActionTypes.SUBMIT_VACATION_WINDOW_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -416,11 +398,6 @@ export type Actions
   | DeletePreferreOffWeekendsSuccessAction
   | DeletePreferreOffWeekendsFailAction
 
-  // delete vacation windows
-  | DeleteVacationWindowsAction
-  | DeleteVacationWindowsSuccessAction
-  | DeleteVacationWindowsFailAction
-
   // delete volunteer shifts
   | DeleteVolunteerShiftsAction
   | DeleteVolunteerShiftsSuccessAction
@@ -451,10 +428,10 @@ export type Actions
   | CreatePreferredOffWeekendSuccessAction
   | CreatePreferredOffWeekendFailAction
 
-  // create vacation window
-  | CreateVacationWindowAction
-  | CreateVacationWindowSuccessAction
-  | CreateVacationWindowFailAction
+  // submit vacation window
+  | SubmitVacationWindowAction
+  | SubmitVacationWindowSuccessAction
+  | SubmitVacationWindowFailAction
 
   // create volunteer shift
   | CreateVolunteerShiftAction

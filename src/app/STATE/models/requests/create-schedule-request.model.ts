@@ -2,6 +2,10 @@ export interface ScheduleRequestIDRequest {
   scheduleRequestId: number;
 }
 
+export interface SubmitVacationWindowRequest extends ScheduleRequestIDRequest {
+  dates: string[];
+}
+
 export interface CreateVacationWindowRequest extends ScheduleRequestIDRequest {
   vacationWindowTypeID: number;
   startDate: string;

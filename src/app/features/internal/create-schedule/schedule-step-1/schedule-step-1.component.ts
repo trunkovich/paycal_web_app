@@ -14,6 +14,8 @@ export class ScheduleStep1Component {
   @Input() calendar: RequestCalendar;
   @Output() onVacationDaysUpdate = new EventEmitter<moment.Moment[]>();
   @Output() skipStep = new EventEmitter();
+  @Output() addBlankVacationDay = new EventEmitter();
+  @Output() onSubmitVacationDays = new EventEmitter();
 
   constructor() { }
 
@@ -32,6 +34,14 @@ export class ScheduleStep1Component {
 
   skip() {
     this.skipStep.emit();
+  }
+
+  onAddBlankVacationDayClick() {
+    this.addBlankVacationDay.emit();
+  }
+
+  submitVacationDays() {
+    this.onSubmitVacationDays.emit();
   }
 
 }

@@ -6,13 +6,11 @@
                             [calendar]="calendar"></pcl-custom-date-selector>
 </div>
 
-<div *ngIf="vacationDays && !vacationDays.length">
-  <pcl-custom-date-selector (onDateChange)="onDateChange($event, 0)"
-                            [calendar]="calendar"></pcl-custom-date-selector>
-</div>
-
 <pcl-schedule-step-buttons [showSkipBtn]="true"
                            [disableSkipBtn]="calendar?.isVacationWindowsChanged()"
+                           [showAddBtn]="calendar?.isVacationWindowsValid()"
+                           [addBtnTitle]="'ADD VACATION REQUEST'"
+                           [disableNextBtn]="!calendar?.isVacationWindowsValid()"
                            (onSkipBtnClick)="skip()"
-                           [showAddBtn]="true"
-                           [addBtnTitle]="'ADD VACATION REQUEST'"></pcl-schedule-step-buttons>
+                           (onNextBtnClick)="submitVacationDays()"
+                           (onAddBtnClick)="onAddBlankVacationDayClick()"></pcl-schedule-step-buttons>
