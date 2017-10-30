@@ -13,6 +13,7 @@ export class ScheduleStep1Component {
   @Input() vacationDays: VacationDays | null;
   @Input() calendar: RequestCalendar;
   @Output() onVacationDaysUpdate = new EventEmitter<moment.Moment[]>();
+  @Output() skipStep = new EventEmitter();
 
   constructor() { }
 
@@ -27,6 +28,10 @@ export class ScheduleStep1Component {
         return vacationDay;
       }));
     }
+  }
+
+  skip() {
+    this.skipStep.emit();
   }
 
 }

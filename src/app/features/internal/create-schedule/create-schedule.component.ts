@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -10,6 +10,7 @@ import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedul
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { RequestCalendar } from './schedule-request-calendar.class';
+import { MdVerticalStepper } from '@angular/material';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -24,6 +25,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   deadline = moment().startOf('month').date(15);
   introductionShown = true;
   selectedIndex = 0;
+
+  @ViewChild('stepper') stepper: MdVerticalStepper;
 
   sub: Subscription;
 
@@ -66,6 +69,10 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
 
   vacationDateChange(dates: moment.Moment[]) {
     this.requestCalendar = this.requestCalendar.setVacationDays(dates);
+  }
+
+  nextStep() {
+    this.stepper.next();
   }
 
 }

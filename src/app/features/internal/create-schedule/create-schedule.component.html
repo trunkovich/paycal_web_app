@@ -13,7 +13,7 @@
 
 <pcl-loader [show]="loading$ | async"></pcl-loader>
 
-<md-vertical-stepper icon="number"
+<md-vertical-stepper icon="number" #stepper
                      [ngClass]="'step-' + selectedIndex + '-active'"
                      (selectionChange)="selectionChange($event)"
                      *ngIf="introductionShown">
@@ -27,6 +27,7 @@
     </ng-template>
     <pcl-schedule-step-1 [vacationDays]="requestCalendar?.vacationDays"
                          (onVacationDaysUpdate)="vacationDateChange($event)"
+                         (skipStep)="nextStep()"
                          [calendar]="requestCalendar"></pcl-schedule-step-1>
   </md-step>
 

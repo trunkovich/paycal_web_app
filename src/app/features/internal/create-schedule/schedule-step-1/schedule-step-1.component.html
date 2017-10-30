@@ -1,9 +1,18 @@
+<p class="note">If you don't need any vacation day skip this section</p>
+
 <div *ngFor="let vacationDay of vacationDays; let i = index">
   <pcl-custom-date-selector (onDateChange)="onDateChange($event, i)"
                             [date]="vacationDay"
                             [calendar]="calendar"></pcl-custom-date-selector>
 </div>
+
 <div *ngIf="vacationDays && !vacationDays.length">
   <pcl-custom-date-selector (onDateChange)="onDateChange($event, 0)"
                             [calendar]="calendar"></pcl-custom-date-selector>
 </div>
+
+<pcl-schedule-step-buttons [showSkipBtn]="true"
+                           [disableSkipBtn]="calendar?.isVacationWindowsChanged()"
+                           (onSkipBtnClick)="skip()"
+                           [showAddBtn]="true"
+                           [addBtnTitle]="'ADD VACATION REQUEST'"></pcl-schedule-step-buttons>

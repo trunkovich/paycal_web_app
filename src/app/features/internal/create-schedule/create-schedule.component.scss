@@ -26,9 +26,14 @@ $tealish: #2ab0c9;
 
     .mat-step-header {
       padding-right: 0;
+      padding-bottom: 2px;
       &:hover {
         background-color: inherit;
       }
+    }
+
+    .mat-stepper-vertical-line::before {
+      top: 7px;
     }
 
     .mat-step {

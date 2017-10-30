@@ -73,4 +73,8 @@ export class RequestCalendar {
     });
     return new RequestCalendar(newData);
   }
+
+  isVacationWindowsChanged(): boolean {
+    return _.some(this.initialData.VacationWindowList, vacation => !vacation.VacationWindowID);
+  }
 }
