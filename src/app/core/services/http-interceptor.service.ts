@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {HttpInterceptorService, getHttpOptions} from 'ng-http-interceptor';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { getHttpOptions, HttpInterceptorService } from 'ng-http-interceptor';
 
-import {APP_CONFIG} from '../../../environments/environment';
-import {Response as AppResponse} from '../../STATE/models/responses/response.model';
-import {Response, URLSearchParams} from '@angular/http';
-import {LogoutAction} from '../../STATE/actions/auth.actions';
-import {AppState, authSelectors} from '../../STATE/reducers/index';
+import { APP_CONFIG } from '../../../environments/environment';
+import { Response as AppResponse } from '../../STATE/models/responses/response.model';
+import { Response, URLSearchParams } from '@angular/http';
+import { LogoutAction } from '../../STATE/actions/auth.actions';
+import { AppState, authSelectors } from '../../STATE/reducers/index';
 
 @Injectable()
 export class PaycalHttpInterceptor {
@@ -39,7 +39,7 @@ export class PaycalHttpInterceptor {
       });
 
       this.httpInterceptor.response().addInterceptor((res, method) => {
-        res.subscribe((response: Response) => {
+        res.do((response: Response) => {
           if (PaycalHttpInterceptor.isApiUrl(response.url)) {
             let body: AppResponse = response.json();
             if (!body.IsSuccess && body.ErrorCode === '403') {
