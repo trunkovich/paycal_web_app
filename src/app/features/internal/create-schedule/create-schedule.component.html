@@ -37,10 +37,16 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">CALL/BACKUPS UNAVAILABILITY</div>
-        <button md-button *ngIf="selectedIndex === 1">Clear</button>
+        <button md-button *ngIf="selectedIndex === 1" (click)="callUnavailabilityDateChange([])">Clear</button>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-2 [callUnavailabilityTypes]="callUnavailabilityTypes$ | async"
+                         [callUnavailabilityDays]="requestCalendar?.callUnavailabilityDates"
+                         (onCallUnavailabilityDaysUpdate)="callUnavailabilityDateChange($event)"
+                         (skipStep)="nextStep()"
+                         (addBlankCallUnavailabilityDay)="requestCalendar?.addBlankCallUnavailabilityDay()"
+                         (onSubmitCallUnavailabilityDays)="onSubmitCallUnavailabilityDays()"
+                         [calendar]="requestCalendar"></pcl-schedule-step-2>
   </md-step>
 
   <md-step>

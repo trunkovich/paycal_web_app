@@ -48,11 +48,6 @@ import { CustomMaterialModule } from './custom-material.module';
 import { CreateScheduleService } from './core/services/create-schedule.service';
 import { CreateScheduleEffects } from './STATE/effects/create-schedule.effects';
 
-
-Raven
-  .config('https://b37d34c761234570a1a223eacc7c0d88@sentry.io/189282')
-  .install();
-
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
@@ -61,6 +56,9 @@ export class RavenErrorHandler implements ErrorHandler {
 
 export function provideErrorHandler() {
   if (environment.production) {
+    Raven
+      .config('https://b37d34c761234570a1a223eacc7c0d88@sentry.io/189282')
+      .install();
     return new RavenErrorHandler();
   } else {
     return new ErrorHandler();

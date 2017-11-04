@@ -1,0 +1,23 @@
+<p class="note">If you don't need any vacation day skip this section</p>
+
+<div *ngFor="let callUnavailabilityDay of callUnavailabilityDays; let i = index">
+    <md-select placeholder="I'll not be available for"
+               (change)="onTypeChange(callUnavailabilityDay, i, $event)"
+               [value]="callUnavailabilityDay.type">
+      <md-option *ngFor="let type of callUnavailabilityTypes" [value]="type.CallUnavailabilityTypeID">
+        {{ type.Description }}
+      </md-option>
+    </md-select>
+  <pcl-custom-date-selector (onDateChange)="onDateChange($event, i, callUnavailabilityDay.type)"
+                            [date]="callUnavailabilityDay?.date"
+                            [calendar]="calendar"></pcl-custom-date-selector>
+</div>
+
+<pcl-schedule-step-buttons [showSkipBtn]="true"
+                           [disableSkipBtn]="calendar?.isCallUnavailabilityWindowsChanged()"
+                           [showAddBtn]="calendar?.isCallUnavailabilityWindowsValid()"
+                           [addBtnTitle]="'ADD VACATION REQUEST'"
+                           [disableNextBtn]="!calendar?.isCallUnavailabilityWindowsChanged() || !calendar?.isCallUnavailabilityWindowsValid()"
+                           (onSkipBtnClick)="skip()"
+                           (onNextBtnClick)="submit()"
+                           (onAddBtnClick)="onAddBlankCallUnavailabilityDayClick()"></pcl-schedule-step-buttons>

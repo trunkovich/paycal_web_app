@@ -15,11 +15,14 @@ export interface DayEntry {
 }
 
 export type VacationDays = Array<moment.Moment | null>;
+export type CallUnavailabilityDay = { date: moment.Moment; type: number; };
+export type CallUnavailabilityDays = Array<CallUnavailabilityDay | null>;
 
 export class RequestCalendar {
   month: number;
   year: number;
   vacationDays: VacationDays;
+  callUnavailabilityDates: CallUnavailabilityDays;
   days: DayEntry[];
   events = {};
   private initialData: requestModels.CreateScheduleDetailsModel;
@@ -30,6 +33,7 @@ export class RequestCalendar {
     this.year = request.ScheduleRequest.ScheduleYear;
 
     this.fillVacationDays(request.VacationWindowList);
+    this.fillCallUnavailabilityDays(request.CallUnavailabilityWindowList);
 
 
     this.days = this.fillDays(request);
@@ -88,10 +92,57 @@ export class RequestCalendar {
   }
 
   isVacationWindowsValid(): boolean {
-    return _.every(this.vacationDays, vacationDay => !!vacationDay);
+    return _.every(this.vacationDays, vacationDay => {
+      return !!vacationDay && vacationDay.isValid();
+    });
   }
 
   addBlankVacationDay() {
     this.vacationDays.push(null);
+  }
+
+  fillCallUnavailabilityDays(callUnavailabilityWindowList: requestModels.CallUnavailabilityWindowModel[]) {
+    if (callUnavailabilityWindowList.length) {
+      this.callUnavailabilityDates = _.map(
+        callUnavailabilityWindowList,
+        (day: requestModels.CallUnavailabilityWindowModel) => {
+          return {
+            date: moment(day.Date),
+            type: day.CallUnavailabilityTypeID
+          }
+        });
+      _.each(this.callUnavailabilityDates, (day: CallUnavailabilityDay) => this.events[day.date.date()] = '#5dcf5e');
+    } else {
+      this.callUnavailabilityDates = [{date: null, type: 1}];
+    }
+  }
+
+  setCallUnavailabilityDays(days: CallUnavailabilityDays): RequestCalendar {
+    let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
+    newData.CallUnavailabilityWindowList = _.map(days, day => {
+      return {
+        CallUnavailabilityWindowID: null,
+        CallUnavailabilityTypeID: day.type,
+        Date: day.date ? day.date.toISOString() : null,
+        ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
+        EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
+        GroupID: this.initialData.ScheduleRequest.GroupID,
+      }
+    });
+    return new RequestCalendar(newData);
+  }
+
+  isCallUnavailabilityWindowsChanged(): boolean {
+    return _.some(this.initialData.CallUnavailabilityWindowList, day => !day.CallUnavailabilityWindowID);
+  }
+
+  isCallUnavailabilityWindowsValid(): boolean {
+    return _.every(this.callUnavailabilityDates, day => {
+      return !!day && day.date && day.date.isValid();
+    });
+  }
+
+  addBlankCallUnavailabilityDay() {
+    this.callUnavailabilityDates.push({date: null, type: 1});
   }
 }

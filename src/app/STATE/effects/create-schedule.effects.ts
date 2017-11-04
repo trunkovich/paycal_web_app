@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 import * as createScheduleActions from '../actions/create-schedule.actions';
 import { CreateScheduleService } from '../../core/services/create-schedule.service';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
-import { SubmitVacationWindowRequest } from '../models/requests/create-schedule-request.model';
+import { SubmitCallUnavailabilityWindowRequest, SubmitVacationWindowRequest } from '../models/requests/create-schedule-request.model';
 import { AppState, createScheduleSelectors } from '../reducers/index';
 
 @Injectable()
@@ -48,7 +48,10 @@ export class CreateScheduleEffects {
 
   @Effect()
   updateScheduleRequest: Observable<Action> = this.actions$
-    .ofType(createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS)
+    .ofType(
+      createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS,
+      createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS
+    )
     .withLatestFrom(this.store.select(createScheduleSelectors.getSelectedScheduleRequestId))
     .switchMap(([_, scheduleRequestID]) => {
       return this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
@@ -73,6 +76,25 @@ export class CreateScheduleEffects {
           }))
         })
         .map(() => new createScheduleActions.SubmitVacationWindowSuccessAction())
-        .catch(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)));
+        .catch(error => Observable.of(new createScheduleActions.SubmitVacationWindowFailAction(error)));
+    });
+
+  @Effect()
+  submiCallUnavailabilityWindows: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW)
+    .map((action: createScheduleActions.SubmitCallUnavailabilityWindowAction) => action.payload)
+    .switchMap(({scheduleRequestId, dates}: SubmitCallUnavailabilityWindowRequest) => {
+      return this.createScheduleService.deleteCallUnavailabilityWindows(scheduleRequestId)
+        .switchMap(() => {
+          return Observable.forkJoin(_.map(dates, (day) => {
+            return this.createScheduleService.createCallUnavailabilityWindow({
+              scheduleRequestId: scheduleRequestId,
+              callUnavailabilityTypeID: day.type,
+              date: day.date
+            })
+          }))
+        })
+        .map(() => new createScheduleActions.SubmitCallUnavailabilityWindowSuccessAction())
+        .catch(error => Observable.of(new createScheduleActions.SubmitCallUnavailabilityWindowFailAction(error)));
     });
 }

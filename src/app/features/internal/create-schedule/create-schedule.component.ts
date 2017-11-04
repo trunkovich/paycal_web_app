@@ -4,15 +4,20 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Store } from '@ngrx/store';
 
-import { AppState, createScheduleSelectors } from '../../../STATE/reducers/index';
+import { AppState, createScheduleSelectors, referenceSelectors } from '../../../STATE/reducers/index';
 import * as createScheduleActions from '../../../STATE/actions/create-schedule.actions';
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { RequestCalendar } from './schedule-request-calendar.class';
+import { CallUnavailabilityDays, RequestCalendar } from './schedule-request-calendar.class';
 import { MdVerticalStepper } from '@angular/material';
-import { SubmitVacationWindowRequest } from '../../../STATE/models/requests/create-schedule-request.model';
+import {
+  SubmitCallUnavailabilityWindowRequest,
+  SubmitVacationWindowRequest
+} from '../../../STATE/models/requests/create-schedule-request.model';
 import { Actions } from '@ngrx/effects';
+import { CallUnavailabilityType } from '../../../STATE/models/call-unavailability-type.model';
+import { LoadCallUnavailabilityTypesAction } from '../../../STATE/actions/references.actions';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -27,6 +32,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   deadline = moment().startOf('month').date(15);
   introductionShown = true;
   selectedIndex = 0;
+  callUnavailabilityTypes$: Observable<CallUnavailabilityType[]>;
 
   @ViewChild('stepper') stepper: MdVerticalStepper;
 
@@ -41,6 +47,9 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.callUnavailabilityTypes$ = this.store.select(referenceSelectors.getCallUnavailabilityTypes);
+    this.store.dispatch(new LoadCallUnavailabilityTypesAction());
+
     this.sub = this.route.params
       .map(params => params.scheduleRequestID)
       .switchMap((scheduleRequestID: number) => {
@@ -57,7 +66,10 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       });
 
     this.sub2 = this.actions$
-      .ofType(createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS)
+      .ofType(
+        createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS,
+        createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS
+      )
       .subscribe(() => this.nextStep());
   }
 
@@ -82,12 +94,12 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
     this.selectedIndex = data.selectedIndex;
   }
 
-  vacationDateChange(dates: moment.Moment[]) {
-    this.requestCalendar = this.requestCalendar.setVacationDays(dates);
-  }
-
   nextStep() {
     this.stepper.next();
+  }
+
+  vacationDateChange(dates: moment.Moment[]) {
+    this.requestCalendar = this.requestCalendar.setVacationDays(dates);
   }
 
   onSubmitVacationDays() {
@@ -96,6 +108,20 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       dates: _.map(this.requestCalendar.vacationDays, (day) => day.format('L'))
     };
     this.store.dispatch(new createScheduleActions.SubmitVacationWindowAction(data));
+  }
+
+  callUnavailabilityDateChange(dates: CallUnavailabilityDays) {
+    this.requestCalendar = this.requestCalendar.setCallUnavailabilityDays(dates);
+  }
+
+  onSubmitCallUnavailabilityDays() {
+    let data: SubmitCallUnavailabilityWindowRequest = {
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      dates: _.map(this.requestCalendar.callUnavailabilityDates, (day) => {
+        return { date: day.date.format('L'), type: day.type };
+      })
+    };
+    this.store.dispatch(new createScheduleActions.SubmitCallUnavailabilityWindowAction(data));
   }
 
 }

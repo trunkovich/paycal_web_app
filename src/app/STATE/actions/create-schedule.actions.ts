@@ -6,12 +6,12 @@ import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import {
-  CreateCallUnavailabilityWindowRequest,
   CreateEducationalLeaveRequest,
   CreateHospitalRoundingRequest,
   CreatePreferredCallNightRequest,
   CreatePreferredOffWeekendRequest,
   CreateVolunteerShiftRequest,
+  SubmitCallUnavailabilityWindowRequest,
   SubmitVacationWindowRequest,
   UpdateScheduleRequestEmployeeNotesRequest,
   UpdateScheduleRequestUseCompTimeRequest
@@ -36,11 +36,6 @@ export const ActionTypes = {
   LOAD_SCHEDULE_REQUEST: type('[Create Schedule] load schedule request'),
   LOAD_SCHEDULE_REQUEST_SUCCESS: type('[Create Schedule] load schedule request success'),
   LOAD_SCHEDULE_REQUEST_FAIL: type('[Create Schedule] load schedule request fail'),
-
-  // delete call unavailability windows
-  DELETE_CALL_UNAVAILABILITY_WINDOWS: type('[Create Schedule] delete call unavailability windows'),
-  DELETE_CALL_UNAVAILABILITY_WINDOWS_SUCCESS: type('[Create Schedule] delete call unavailability windows success'),
-  DELETE_CALL_UNAVAILABILITY_WINDOWS_FAIL: type('[Create Schedule] delete call unavailability windows fail'),
 
   // delete preferred call nights
   DELETE_PREFERRED_CALL_NIGHTS: type('[Create Schedule] delete preferred call nights'),
@@ -67,11 +62,6 @@ export const ActionTypes = {
   DELETE_VOLUNTEER_SHIFTS_SUCCESS: type('[Create Schedule] delete volunteer shifts success'),
   DELETE_VOLUNTEER_SHIFTS_FAIL: type('[Create Schedule] delete volunteer shifts fail'),
 
-  // create call unavailability window
-  CREATE_CALL_UNAVAILABILITY_WINDOW: type('[Create Schedule] create call unavailability window'),
-  CREATE_CALL_UNAVAILABILITY_WINDOW_SUCCESS: type('[Create Schedule] create call unavailability window success'),
-  CREATE_CALL_UNAVAILABILITY_WINDOW_FAIL: type('[Create Schedule] create call unavailability window fail'),
-
   // create educational leave
   CREATE_EDUCATIONAL_LEAVE: type('[Create Schedule] create educational leave'),
   CREATE_EDUCATIONAL_LEAVE_SUCCESS: type('[Create Schedule] create educational leave success'),
@@ -96,6 +86,11 @@ export const ActionTypes = {
   SUBMIT_VACATION_WINDOW: type('[Create Schedule] submit vacation window'),
   SUBMIT_VACATION_WINDOW_SUCCESS: type('[Create Schedule] submit vacation window success'),
   SUBMIT_VACATION_WINDOW_FAIL: type('[Create Schedule] submit vacation window fail'),
+
+  // submit call unavailability window
+  SUBMIT_CALL_UNAVAILABILITY_WINDOW: type('[Create Schedule] submit call unavailability window'),
+  SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS: type('[Create Schedule] submit call unavailability window success'),
+  SUBMIT_CALL_UNAVAILABILITY_WINDOW_FAIL: type('[Create Schedule] submit call unavailability window fail'),
 
   // create volunteer shift
   CREATE_VOLUNTEER_SHIFT: type('[Create Schedule] create volunteer shift'),
@@ -150,19 +145,6 @@ export class LoadScheduleRequestSuccessAction implements Action {
 }
 export class LoadScheduleRequestFailAction implements Action {
   type = ActionTypes.LOAD_SCHEDULE_REQUEST_FAIL;
-  constructor(public payload: string) { }
-}
-
-  // delete call unavailability windows
-export class DeleteCallUnavailabilityWindowsAction implements Action {
-  type = ActionTypes.DELETE_CALL_UNAVAILABILITY_WINDOWS;
-  constructor(public payload: number) { }
-}
-export class DeleteCallUnavailabilityWindowsSuccessAction implements Action {
-  type = ActionTypes.DELETE_CALL_UNAVAILABILITY_WINDOWS_SUCCESS;
-}
-export class DeleteCallUnavailabilityWindowsFailAction implements Action {
-  type = ActionTypes.DELETE_CALL_UNAVAILABILITY_WINDOWS_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -231,19 +213,6 @@ export class DeleteVolunteerShiftsFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // create call unavailability window
-export class CreateCallUnavailabilityWindowAction implements Action {
-  type = ActionTypes.CREATE_CALL_UNAVAILABILITY_WINDOW;
-  constructor(public payload: CreateCallUnavailabilityWindowRequest) { }
-}
-export class CreateCallUnavailabilityWindowSuccessAction implements Action {
-  type = ActionTypes.CREATE_CALL_UNAVAILABILITY_WINDOW_SUCCESS;
-}
-export class CreateCallUnavailabilityWindowFailAction implements Action {
-  type = ActionTypes.CREATE_CALL_UNAVAILABILITY_WINDOW_FAIL;
-  constructor(public payload: string) { }
-}
-
   // create educational leave
 export class CreateEducationalLeaveAction implements Action {
   type = ActionTypes.CREATE_EDUCATIONAL_LEAVE;
@@ -306,6 +275,19 @@ export class SubmitVacationWindowSuccessAction implements Action {
 }
 export class SubmitVacationWindowFailAction implements Action {
   type = ActionTypes.SUBMIT_VACATION_WINDOW_FAIL;
+  constructor(public payload: string) { }
+}
+
+// submit call unavailability window
+export class SubmitCallUnavailabilityWindowAction implements Action {
+  type = ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW;
+  constructor(public payload: SubmitCallUnavailabilityWindowRequest) { }
+}
+export class SubmitCallUnavailabilityWindowSuccessAction implements Action {
+  type = ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS;
+}
+export class SubmitCallUnavailabilityWindowFailAction implements Action {
+  type = ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -373,11 +355,6 @@ export type Actions
   | LoadScheduleRequestSuccessAction
   | LoadScheduleRequestFailAction
 
-  // delete call unavailability windows
-  | DeleteCallUnavailabilityWindowsAction
-  | DeleteCallUnavailabilityWindowsSuccessAction
-  | DeleteCallUnavailabilityWindowsFailAction
-
   // delete preferred call nights
   | DeletePreferredCallNightsAction
   | DeletePreferredCallNightsSuccessAction
@@ -403,11 +380,6 @@ export type Actions
   | DeleteVolunteerShiftsSuccessAction
   | DeleteVolunteerShiftsFailAction
 
-  // create call unavailability window
-  | CreateCallUnavailabilityWindowAction
-  | CreateCallUnavailabilityWindowSuccessAction
-  | CreateCallUnavailabilityWindowFailAction
-
   // create educational leave
   | CreateEducationalLeaveAction
   | CreateEducationalLeaveSuccessAction
@@ -432,6 +404,11 @@ export type Actions
   | SubmitVacationWindowAction
   | SubmitVacationWindowSuccessAction
   | SubmitVacationWindowFailAction
+
+  // submit call unavailability window
+  | SubmitCallUnavailabilityWindowAction
+  | SubmitCallUnavailabilityWindowSuccessAction
+  | SubmitCallUnavailabilityWindowFailAction
 
   // create volunteer shift
   | CreateVolunteerShiftAction
