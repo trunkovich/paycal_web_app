@@ -1,6 +1,7 @@
 <p class="note">If you don't need any vacation day skip this section</p>
 
-<div *ngFor="let callUnavailabilityDay of callUnavailabilityDays; let i = index">
+<div *ngFor="let callUnavailabilityDay of callUnavailabilityDays; let i = index"
+     [class.margin-bottom]="callUnavailabilityDays.length > 1 && i < (callUnavailabilityDays.length - 1)">
     <md-select placeholder="I'll not be available for"
                (change)="onTypeChange(callUnavailabilityDay, i, $event)"
                [value]="callUnavailabilityDay.type">
