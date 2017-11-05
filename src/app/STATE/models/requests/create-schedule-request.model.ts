@@ -14,6 +14,10 @@ export interface SubmitEducationLeavesRequest extends ScheduleRequestIDRequest {
   dates: Array<{date: string; name: string; description: string; }>;
 }
 
+export interface SubmitCallNightsRequest extends ScheduleRequestIDRequest {
+  dates: {[key: string]: string};
+}
+
 export interface CreateVacationWindowRequest extends ScheduleRequestIDRequest {
   vacationWindowTypeID: number;
   startDate: string;

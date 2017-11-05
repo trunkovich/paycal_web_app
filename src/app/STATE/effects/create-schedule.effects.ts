@@ -11,6 +11,7 @@ import * as createScheduleActions from '../actions/create-schedule.actions';
 import { CreateScheduleService } from '../../core/services/create-schedule.service';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import {
+  SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
   SubmitVacationWindowRequest
@@ -55,7 +56,8 @@ export class CreateScheduleEffects {
     .ofType(
       createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS,
       createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS,
-      createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS
+      createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS,
+      createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
     )
     .withLatestFrom(this.store.select(createScheduleSelectors.getSelectedScheduleRequestId))
     .switchMap(([_, scheduleRequestID]) => {
@@ -121,5 +123,24 @@ export class CreateScheduleEffects {
         })
         .map(() => new createScheduleActions.SubmitEducationLeavesSuccessAction())
         .catch(error => Observable.of(new createScheduleActions.SubmitEducationLeavesFailAction(error)));
+    });
+
+  @Effect()
+  submiCallNights: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS)
+    .map((action: createScheduleActions.SubmitCallNightsAction) => action.payload)
+    .switchMap(({scheduleRequestId, dates}: SubmitCallNightsRequest) => {
+      return this.createScheduleService.deletePreferredCallNights(scheduleRequestId)
+        .switchMap(() => {
+          return Observable.forkJoin(_.map(dates, (day, key) => {
+            return this.createScheduleService.createPreferredCallNight({
+              scheduleRequestId: scheduleRequestId,
+              date: day,
+              callNightTypeID: +key
+            })
+          }))
+        })
+        .map(() => new createScheduleActions.SubmitCallNightsSuccessAction())
+        .catch(error => Observable.of(new createScheduleActions.SubmitCallNightsFailAction(error)));
     });
 }

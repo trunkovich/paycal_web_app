@@ -15,6 +15,8 @@ export type CallUnavailabilityDay = { date: moment.Moment; type: number; };
 export type CallUnavailabilityDays = Array<CallUnavailabilityDay | null>;
 export type EducationLeave = { date: moment.Moment; name: string; description: string; };
 export type EducationLeaves = Array<EducationLeave | null>;
+export type CallNight = moment.Moment;
+export type CallNights = {[key: string ]: CallNight };
 
 export class RequestCalendar {
   month: number;
@@ -22,6 +24,7 @@ export class RequestCalendar {
   vacationDays: VacationDays;
   callUnavailabilityDates: CallUnavailabilityDays;
   educationLeaves: EducationLeaves;
+  callNights: CallNights;
   days: DayEntry[];
   events = {};
   private initialData: requestModels.CreateScheduleDetailsModel;
@@ -34,6 +37,7 @@ export class RequestCalendar {
     this.fillVacationDays(request.VacationWindowList);
     this.fillCallUnavailabilityDays(request.CallUnavailabilityWindowList);
     this.fillEducationLeaves(request.EducationalLeaveList);
+    this.fillCallNights(request.PreferredCallNightList);
 
 
     this.days = this.fillDays(request);
@@ -70,7 +74,6 @@ export class RequestCalendar {
       this.vacationDays = [null];
     }
   }
-
   setVacationDays(days: moment.Moment[]): RequestCalendar {
     let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
     newData.VacationWindowList = _.map(days, day => {
@@ -86,17 +89,14 @@ export class RequestCalendar {
     });
     return new RequestCalendar(newData);
   }
-
   isVacationWindowsChanged(): boolean {
     return _.some(this.initialData.VacationWindowList, vacation => !vacation.VacationWindowID);
   }
-
   isVacationWindowsValid(): boolean {
     return _.every(this.vacationDays, vacationDay => {
       return !!vacationDay && vacationDay.isValid();
     });
   }
-
   addBlankVacationDay() {
     this.vacationDays.push(null);
   }
@@ -119,7 +119,6 @@ export class RequestCalendar {
       this.callUnavailabilityDates = [{date: null, type: 1}];
     }
   }
-
   setCallUnavailabilityDays(days: CallUnavailabilityDays): RequestCalendar {
     let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
     newData.CallUnavailabilityWindowList = _.map(days, day => {
@@ -134,17 +133,14 @@ export class RequestCalendar {
     });
     return new RequestCalendar(newData);
   }
-
   isCallUnavailabilityWindowsChanged(): boolean {
     return _.some(this.initialData.CallUnavailabilityWindowList, day => !day.CallUnavailabilityWindowID);
   }
-
   isCallUnavailabilityWindowsValid(): boolean {
     return _.every(this.callUnavailabilityDates, day => {
       return !!day && day.date && day.date.isValid();
     });
   }
-
   addBlankCallUnavailabilityDay() {
     this.callUnavailabilityDates.push({date: null, type: 1});
   }
@@ -168,7 +164,6 @@ export class RequestCalendar {
       this.educationLeaves = [{date: null, name: '', description: ''}];
     }
   }
-
   setEducationLeaves(days: EducationLeaves): RequestCalendar {
     let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
     newData.EducationalLeaveList = _.map(days, day => {
@@ -184,18 +179,62 @@ export class RequestCalendar {
     });
     return new RequestCalendar(newData);
   }
-
   isEducationLeavesChanged(): boolean {
     return _.some(this.initialData.EducationalLeaveList, day => !day.EducationalLeaveID);
   }
-
   isEducationLeavesValid(): boolean {
     return _.every(this.educationLeaves, day => {
       return !!day && day.date && day.date.isValid() && day.name && day.description;
     });
   }
-
   addBlankEducationLeave() {
     this.educationLeaves.push({date: null, name: '', description: ''});
+  }
+
+
+
+
+  fillCallNights(callNights: requestModels.PreferredCallNightModel[]) {
+    this.callNights = {1: null, 2: null, 3: null, 4: null, 5: null};
+    if (callNights.length) {
+      let nights = _.map(
+        callNights,
+        (day: requestModels.PreferredCallNightModel) => day.Date ? moment(day.Date) : null);
+      _.each(nights, (day: CallNight, index) => {
+        this.callNights[index + 1] = day;
+        if (day && day.isValid()) {
+          this.events[day.date()] = '#f978a7';
+        }
+      });
+    }
+  }
+  setCallNights(days: CallNights): RequestCalendar {
+    let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
+    newData.PreferredCallNightList = _.map(days, (day, key) => {
+      if (!day) {
+        return null;
+      }
+      return {
+        PreferredCallNightID: null,
+        CallNightTypeID: +key,
+        Date: day ? day.toISOString() : null,
+        ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
+        EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
+        GroupID: this.initialData.ScheduleRequest.GroupID,
+      }
+    });
+    newData.PreferredCallNightList = _.filter(newData.PreferredCallNightList, night => !!night);
+    return new RequestCalendar(newData);
+  }
+  isCallNightsChanged(): boolean {
+    return _.some(this.initialData.PreferredCallNightList, day => !day.PreferredCallNightID);
+  }
+  isCallNightsValid(): boolean {
+    return _.every(this.callNights, (day, key) => {
+      if (key && (+key > 2)) {
+        return !!day && day.isValid() || !day;
+      }
+      return !!day && day.isValid();
+    });
   }
 }

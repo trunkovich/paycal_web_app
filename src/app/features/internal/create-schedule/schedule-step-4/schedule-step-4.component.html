@@ -1,0 +1,16 @@
+<p class="note"> </p>
+
+<div *ngIf="callNights">
+  <div *ngFor="let index of [1,2,3,4,5]">
+    <pcl-custom-date-selector (onDateChange)="onDateChange($event, index)"
+                              [date]="callNights[index]"
+                              [placeholder]="'Select ' + index + ' call night' + (index > 2 ? ' (optional)' : '*')"
+                              [calendar]="calendar"></pcl-custom-date-selector>
+  </div>
+</div>
+
+<pcl-schedule-step-buttons [showSkipBtn]="true"
+                           [disableSkipBtn]="calendar?.isCallNightsChanged() || !calendar?.isCallNightsValid()"
+                           [disableNextBtn]="!calendar?.isCallNightsChanged() || !calendar?.isCallNightsValid()"
+                           (onSkipBtnClick)="skip()"
+                           (onNextBtnClick)="submit()"></pcl-schedule-step-buttons>

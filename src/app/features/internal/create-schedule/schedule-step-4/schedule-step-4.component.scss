@@ -3,5 +3,14 @@
 @import '../../../../../helpers';
 
 :host {
+  display: block;
+  .note {
+    font-size: 14px;
+    line-height: 22px;
+    color: $bluish-grey;
+  }
 
+  pcl-custom-date-selector {
+    margin-top: 32px;
+  }
 }

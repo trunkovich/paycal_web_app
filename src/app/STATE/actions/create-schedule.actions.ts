@@ -7,9 +7,9 @@ import { type } from '../utils';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import {
   CreateHospitalRoundingRequest,
-  CreatePreferredCallNightRequest,
   CreatePreferredOffWeekendRequest,
   CreateVolunteerShiftRequest,
+  SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
   SubmitVacationWindowRequest,
@@ -37,11 +37,6 @@ export const ActionTypes = {
   LOAD_SCHEDULE_REQUEST_SUCCESS: type('[Create Schedule] load schedule request success'),
   LOAD_SCHEDULE_REQUEST_FAIL: type('[Create Schedule] load schedule request fail'),
 
-  // delete preferred call nights
-  DELETE_PREFERRED_CALL_NIGHTS: type('[Create Schedule] delete preferred call nights'),
-  DELETE_PREFERRED_CALL_NIGHTS_SUCCESS: type('[Create Schedule] delete preferred call nights success'),
-  DELETE_PREFERRED_CALL_NIGHTS_FAIL: type('[Create Schedule] delete preferred call nights fail'),
-
   // delete hospital roundings
   DELETE_HOSPITAL_ROUNDINGS: type('[Create Schedule] delete hospital roundings'),
   DELETE_HOSPITAL_ROUNDINGS_SUCCESS: type('[Create Schedule] delete hospital roundings success'),
@@ -62,11 +57,6 @@ export const ActionTypes = {
   CREATE_HOSPITAL_ROUNDING_SUCCESS: type('[Create Schedule] create hospital rounding success'),
   CREATE_HOSPITAL_ROUNDING_FAIL: type('[Create Schedule] create hospital rounding fail'),
 
-  // create preferred call night
-  CREATE_PREFERRED_CALL_NIGHT: type('[Create Schedule] create preferred call night'),
-  CREATE_PREFERRED_CALL_NIGHT_SUCCESS: type('[Create Schedule] create preferred call night success'),
-  CREATE_PREFERRED_CALL_NIGHT_FAIL: type('[Create Schedule] create preferred call night fail'),
-
   // create preferred off weekend
   CREATE_PREFERRED_OFF_WEEKEND: type('[Create Schedule] create preferred off weekend'),
   CREATE_PREFERRED_OFF_WEEKEND_SUCCESS: type('[Create Schedule] create preferred off weekend success'),
@@ -86,6 +76,11 @@ export const ActionTypes = {
   SUBMIT_EDUCATION_LEAVES: type('[Create Schedule] submit education leaves'),
   SUBMIT_EDUCATION_LEAVES_SUCCESS: type('[Create Schedule] submit education leaves success'),
   SUBMIT_EDUCATION_LEAVES_FAIL: type('[Create Schedule] submit education leaves fail'),
+
+  // submit call nights
+  SUBMIT_CALL_NIGHTS: type('[Create Schedule] submit call nights'),
+  SUBMIT_CALL_NIGHTS_SUCCESS: type('[Create Schedule] submit call nights success'),
+  SUBMIT_CALL_NIGHTS_FAIL: type('[Create Schedule] submit call nights fail'),
 
   // create volunteer shift
   CREATE_VOLUNTEER_SHIFT: type('[Create Schedule] create volunteer shift'),
@@ -143,19 +138,6 @@ export class LoadScheduleRequestFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // delete preferred call nights
-export class DeletePreferredCallNightsAction implements Action {
-  type = ActionTypes.DELETE_PREFERRED_CALL_NIGHTS;
-  constructor(public payload: number) { }
-}
-export class DeletePreferredCallNightsSuccessAction implements Action {
-  type = ActionTypes.DELETE_PREFERRED_CALL_NIGHTS_SUCCESS;
-}
-export class DeletePreferredCallNightsFailAction implements Action {
-  type = ActionTypes.DELETE_PREFERRED_CALL_NIGHTS_FAIL;
-  constructor(public payload: string) { }
-}
-
   // delete hospital roundings
 export class DeleteHospitalRoundingsAction implements Action {
   type = ActionTypes.DELETE_HOSPITAL_ROUNDINGS;
@@ -208,19 +190,6 @@ export class CreateHospitalRoundingFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // create preferred call night
-export class CreatePreferredCallNightAction implements Action {
-  type = ActionTypes.CREATE_PREFERRED_CALL_NIGHT;
-  constructor(public payload: CreatePreferredCallNightRequest) { }
-}
-export class CreatePreferredCallNightSuccessAction implements Action {
-  type = ActionTypes.CREATE_PREFERRED_CALL_NIGHT_SUCCESS;
-}
-export class CreatePreferredCallNightFailAction implements Action {
-  type = ActionTypes.CREATE_PREFERRED_CALL_NIGHT_FAIL;
-  constructor(public payload: string) { }
-}
-
   // create preferred off weekend
 export class CreatePreferredOffWeekendAction implements Action {
   type = ActionTypes.CREATE_PREFERRED_OFF_WEEKEND;
@@ -270,6 +239,19 @@ export class SubmitEducationLeavesSuccessAction implements Action {
 }
 export class SubmitEducationLeavesFailAction implements Action {
   type = ActionTypes.SUBMIT_EDUCATION_LEAVES_FAIL;
+  constructor(public payload: string) { }
+}
+
+// submit call nights
+export class SubmitCallNightsAction implements Action {
+  type = ActionTypes.SUBMIT_CALL_NIGHTS;
+  constructor(public payload: SubmitCallNightsRequest) { }
+}
+export class SubmitCallNightsSuccessAction implements Action {
+  type = ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS;
+}
+export class SubmitCallNightsFailAction implements Action {
+  type = ActionTypes.SUBMIT_CALL_NIGHTS_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -337,11 +319,6 @@ export type Actions
   | LoadScheduleRequestSuccessAction
   | LoadScheduleRequestFailAction
 
-  // delete preferred call nights
-  | DeletePreferredCallNightsAction
-  | DeletePreferredCallNightsSuccessAction
-  | DeletePreferredCallNightsFailAction
-
   // delete hospital roundings
   | DeleteHospitalRoundingsAction
   | DeleteHospitalRoundingsSuccessAction
@@ -362,11 +339,6 @@ export type Actions
   | CreateHospitalRoundingSuccessAction
   | CreateHospitalRoundingFailAction
 
-  // create preferred call night
-  | CreatePreferredCallNightAction
-  | CreatePreferredCallNightSuccessAction
-  | CreatePreferredCallNightFailAction
-
   // create preferred off weekend
   | CreatePreferredOffWeekendAction
   | CreatePreferredOffWeekendSuccessAction
@@ -386,6 +358,11 @@ export type Actions
   | SubmitEducationLeavesAction
   | SubmitEducationLeavesSuccessAction
   | SubmitEducationLeavesFailAction
+
+  // submit call nights
+  | SubmitCallNightsAction
+  | SubmitCallNightsSuccessAction
+  | SubmitCallNightsFailAction
 
   // create volunteer shift
   | CreateVolunteerShiftAction

@@ -9,9 +9,10 @@ import * as createScheduleActions from '../../../STATE/actions/create-schedule.a
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { CallUnavailabilityDays, EducationLeaves, RequestCalendar } from './schedule-request-calendar.class';
+import { CallNights, CallUnavailabilityDays, EducationLeaves, RequestCalendar } from './schedule-request-calendar.class';
 import { MdVerticalStepper } from '@angular/material';
 import {
+  SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
   SubmitVacationWindowRequest
@@ -69,7 +70,9 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
     this.sub2 = this.actions$
       .ofType(
         createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS,
-        createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS
+        createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS,
+        createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS,
+        createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
       )
       .subscribe(() => this.nextStep());
   }
@@ -137,6 +140,24 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       })
     };
     this.store.dispatch(new createScheduleActions.SubmitEducationLeavesAction(data));
+  }
+
+  callNightsChange(dates: CallNights) {
+    this.requestCalendar = this.requestCalendar.setCallNights(dates);
+  }
+
+  onSubmitCallNights() {
+    let nights = {};
+    _.each(this.requestCalendar.callNights, (day, key) => {
+      if (day) {
+        nights[key] = day ? day.format('L') : null;
+      }
+    });
+    let data: SubmitCallNightsRequest = {
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      dates: nights
+    };
+    this.store.dispatch(new createScheduleActions.SubmitCallNightsAction(data));
   }
 
 }

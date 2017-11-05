@@ -68,16 +68,20 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">PREFERRED CALL NIGHTS*</div>
-        <button md-button *ngIf="selectedIndex === 3">Clear</button>
+        <button md-button *ngIf="selectedIndex === 3" (click)="callNightsChange()">Clear</button>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-4 [callNights]="requestCalendar?.callNights"
+                         (onUpdate)="callNightsChange($event)"
+                         (skipStep)="nextStep()"
+                         (onSubmit)="onSubmitCallNights()"
+                         [calendar]="requestCalendar"></pcl-schedule-step-4>
   </md-step>
 
   <md-step>
     <ng-template mdStepLabel>
       <div class="stepper-label">
-        <div class="label">OTHER PREFERRED CALL NIGHTS</div>
+        <div class="label">PREFERRED ON-WEEKEND*</div>
         <button md-button *ngIf="selectedIndex === 4">Clear</button>
       </div>
     </ng-template>
@@ -87,7 +91,7 @@
   <md-step>
     <ng-template mdStepLabel>
       <div class="stepper-label">
-        <div class="label">PREFERRED ON-WEEKEND*</div>
+        <div class="label">HOSPITALISTS ONLY</div>
         <button md-button *ngIf="selectedIndex === 5">Clear</button>
       </div>
     </ng-template>
@@ -97,18 +101,8 @@
   <md-step>
     <ng-template mdStepLabel>
       <div class="stepper-label">
-        <div class="label">HOSPITALISTS ONLY</div>
-        <button md-button *ngIf="selectedIndex === 6">Clear</button>
-      </div>
-    </ng-template>
-    Content 1
-  </md-step>
-
-  <md-step>
-    <ng-template mdStepLabel>
-      <div class="stepper-label">
         <div class="label">VOLUNTEER SHIFT</div>
-        <button md-button *ngIf="selectedIndex === 7">Clear</button>
+        <button md-button *ngIf="selectedIndex === 6">Clear</button>
       </div>
     </ng-template>
     Content 1
