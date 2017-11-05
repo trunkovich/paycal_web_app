@@ -6,12 +6,12 @@ import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import {
-  CreateEducationalLeaveRequest,
   CreateHospitalRoundingRequest,
   CreatePreferredCallNightRequest,
   CreatePreferredOffWeekendRequest,
   CreateVolunteerShiftRequest,
   SubmitCallUnavailabilityWindowRequest,
+  SubmitEducationLeavesRequest,
   SubmitVacationWindowRequest,
   UpdateScheduleRequestEmployeeNotesRequest,
   UpdateScheduleRequestUseCompTimeRequest
@@ -42,11 +42,6 @@ export const ActionTypes = {
   DELETE_PREFERRED_CALL_NIGHTS_SUCCESS: type('[Create Schedule] delete preferred call nights success'),
   DELETE_PREFERRED_CALL_NIGHTS_FAIL: type('[Create Schedule] delete preferred call nights fail'),
 
-  // delete education leaves
-  DELETE_EDUCATION_LEAVES: type('[Create Schedule] delete education leaves'),
-  DELETE_EDUCATION_LEAVES_SUCCESS: type('[Create Schedule] delete education leaves success'),
-  DELETE_EDUCATION_LEAVES_FAIL: type('[Create Schedule] delete education leaves fail'),
-
   // delete hospital roundings
   DELETE_HOSPITAL_ROUNDINGS: type('[Create Schedule] delete hospital roundings'),
   DELETE_HOSPITAL_ROUNDINGS_SUCCESS: type('[Create Schedule] delete hospital roundings success'),
@@ -61,11 +56,6 @@ export const ActionTypes = {
   DELETE_VOLUNTEER_SHIFTS: type('[Create Schedule] delete volunteer shifts'),
   DELETE_VOLUNTEER_SHIFTS_SUCCESS: type('[Create Schedule] delete volunteer shifts success'),
   DELETE_VOLUNTEER_SHIFTS_FAIL: type('[Create Schedule] delete volunteer shifts fail'),
-
-  // create educational leave
-  CREATE_EDUCATIONAL_LEAVE: type('[Create Schedule] create educational leave'),
-  CREATE_EDUCATIONAL_LEAVE_SUCCESS: type('[Create Schedule] create educational leave success'),
-  CREATE_EDUCATIONAL_LEAVE_FAIL: type('[Create Schedule] create educational leave fail'),
 
   // create hospital rounding
   CREATE_HOSPITAL_ROUNDING: type('[Create Schedule] create hospital rounding'),
@@ -91,6 +81,11 @@ export const ActionTypes = {
   SUBMIT_CALL_UNAVAILABILITY_WINDOW: type('[Create Schedule] submit call unavailability window'),
   SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS: type('[Create Schedule] submit call unavailability window success'),
   SUBMIT_CALL_UNAVAILABILITY_WINDOW_FAIL: type('[Create Schedule] submit call unavailability window fail'),
+
+  // submit education leaves
+  SUBMIT_EDUCATION_LEAVES: type('[Create Schedule] submit education leaves'),
+  SUBMIT_EDUCATION_LEAVES_SUCCESS: type('[Create Schedule] submit education leaves success'),
+  SUBMIT_EDUCATION_LEAVES_FAIL: type('[Create Schedule] submit education leaves fail'),
 
   // create volunteer shift
   CREATE_VOLUNTEER_SHIFT: type('[Create Schedule] create volunteer shift'),
@@ -161,19 +156,6 @@ export class DeletePreferredCallNightsFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // delete education leaves
-export class DeleteEducationLeavesAction implements Action {
-  type = ActionTypes.DELETE_EDUCATION_LEAVES;
-  constructor(public payload: number) { }
-}
-export class DeleteEducationLeavesSuccessAction implements Action {
-  type = ActionTypes.DELETE_EDUCATION_LEAVES_SUCCESS;
-}
-export class DeleteEducationLeavesFailAction implements Action {
-  type = ActionTypes.DELETE_EDUCATION_LEAVES_FAIL;
-  constructor(public payload: string) { }
-}
-
   // delete hospital roundings
 export class DeleteHospitalRoundingsAction implements Action {
   type = ActionTypes.DELETE_HOSPITAL_ROUNDINGS;
@@ -210,19 +192,6 @@ export class DeleteVolunteerShiftsSuccessAction implements Action {
 }
 export class DeleteVolunteerShiftsFailAction implements Action {
   type = ActionTypes.DELETE_VOLUNTEER_SHIFTS_FAIL;
-  constructor(public payload: string) { }
-}
-
-  // create educational leave
-export class CreateEducationalLeaveAction implements Action {
-  type = ActionTypes.CREATE_EDUCATIONAL_LEAVE;
-  constructor(public payload: CreateEducationalLeaveRequest) { }
-}
-export class CreateEducationalLeaveSuccessAction implements Action {
-  type = ActionTypes.CREATE_EDUCATIONAL_LEAVE_SUCCESS;
-}
-export class CreateEducationalLeaveFailAction implements Action {
-  type = ActionTypes.CREATE_EDUCATIONAL_LEAVE_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -288,6 +257,19 @@ export class SubmitCallUnavailabilityWindowSuccessAction implements Action {
 }
 export class SubmitCallUnavailabilityWindowFailAction implements Action {
   type = ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_FAIL;
+  constructor(public payload: string) { }
+}
+
+// submit education leaves
+export class SubmitEducationLeavesAction implements Action {
+  type = ActionTypes.SUBMIT_EDUCATION_LEAVES;
+  constructor(public payload: SubmitEducationLeavesRequest) { }
+}
+export class SubmitEducationLeavesSuccessAction implements Action {
+  type = ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS;
+}
+export class SubmitEducationLeavesFailAction implements Action {
+  type = ActionTypes.SUBMIT_EDUCATION_LEAVES_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -360,11 +342,6 @@ export type Actions
   | DeletePreferredCallNightsSuccessAction
   | DeletePreferredCallNightsFailAction
 
-  // delete education leaves
-  | DeleteEducationLeavesAction
-  | DeleteEducationLeavesSuccessAction
-  | DeleteEducationLeavesFailAction
-
   // delete hospital roundings
   | DeleteHospitalRoundingsAction
   | DeleteHospitalRoundingsSuccessAction
@@ -379,11 +356,6 @@ export type Actions
   | DeleteVolunteerShiftsAction
   | DeleteVolunteerShiftsSuccessAction
   | DeleteVolunteerShiftsFailAction
-
-  // create educational leave
-  | CreateEducationalLeaveAction
-  | CreateEducationalLeaveSuccessAction
-  | CreateEducationalLeaveFailAction
 
   // create hospital rounding
   | CreateHospitalRoundingAction
@@ -409,6 +381,11 @@ export type Actions
   | SubmitCallUnavailabilityWindowAction
   | SubmitCallUnavailabilityWindowSuccessAction
   | SubmitCallUnavailabilityWindowFailAction
+
+  // submit education leaves
+  | SubmitEducationLeavesAction
+  | SubmitEducationLeavesSuccessAction
+  | SubmitEducationLeavesFailAction
 
   // create volunteer shift
   | CreateVolunteerShiftAction

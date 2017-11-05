@@ -10,7 +10,11 @@ import * as _ from 'lodash';
 import * as createScheduleActions from '../actions/create-schedule.actions';
 import { CreateScheduleService } from '../../core/services/create-schedule.service';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
-import { SubmitCallUnavailabilityWindowRequest, SubmitVacationWindowRequest } from '../models/requests/create-schedule-request.model';
+import {
+  SubmitCallUnavailabilityWindowRequest,
+  SubmitEducationLeavesRequest,
+  SubmitVacationWindowRequest
+} from '../models/requests/create-schedule-request.model';
 import { AppState, createScheduleSelectors } from '../reducers/index';
 
 @Injectable()
@@ -50,7 +54,8 @@ export class CreateScheduleEffects {
   updateScheduleRequest: Observable<Action> = this.actions$
     .ofType(
       createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW_SUCCESS,
-      createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS
+      createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS,
+      createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS
     )
     .withLatestFrom(this.store.select(createScheduleSelectors.getSelectedScheduleRequestId))
     .switchMap(([_, scheduleRequestID]) => {
@@ -96,5 +101,25 @@ export class CreateScheduleEffects {
         })
         .map(() => new createScheduleActions.SubmitCallUnavailabilityWindowSuccessAction())
         .catch(error => Observable.of(new createScheduleActions.SubmitCallUnavailabilityWindowFailAction(error)));
+    });
+
+  @Effect()
+  submiEducationLeaves: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES)
+    .map((action: createScheduleActions.SubmitEducationLeavesAction) => action.payload)
+    .switchMap(({scheduleRequestId, dates}: SubmitEducationLeavesRequest) => {
+      return this.createScheduleService.deleteEducationalLeaves(scheduleRequestId)
+        .switchMap(() => {
+          return Observable.forkJoin(_.map(dates, (day) => {
+            return this.createScheduleService.createEducationalLeave({
+              scheduleRequestId: scheduleRequestId,
+              date: day.date,
+              activityName: day.name,
+              activityDescription: day.description
+            })
+          }))
+        })
+        .map(() => new createScheduleActions.SubmitEducationLeavesSuccessAction())
+        .catch(error => Observable.of(new createScheduleActions.SubmitEducationLeavesFailAction(error)));
     });
 }

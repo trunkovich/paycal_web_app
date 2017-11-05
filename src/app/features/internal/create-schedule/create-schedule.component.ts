@@ -9,10 +9,11 @@ import * as createScheduleActions from '../../../STATE/actions/create-schedule.a
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { CallUnavailabilityDays, RequestCalendar } from './schedule-request-calendar.class';
+import { CallUnavailabilityDays, EducationLeaves, RequestCalendar } from './schedule-request-calendar.class';
 import { MdVerticalStepper } from '@angular/material';
 import {
   SubmitCallUnavailabilityWindowRequest,
+  SubmitEducationLeavesRequest,
   SubmitVacationWindowRequest
 } from '../../../STATE/models/requests/create-schedule-request.model';
 import { Actions } from '@ngrx/effects';
@@ -122,6 +123,20 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       })
     };
     this.store.dispatch(new createScheduleActions.SubmitCallUnavailabilityWindowAction(data));
+  }
+
+  educationLeavesChange(dates: EducationLeaves) {
+    this.requestCalendar = this.requestCalendar.setEducationLeaves(dates);
+  }
+
+  onSubmitEducationLeaves() {
+    let data: SubmitEducationLeavesRequest = {
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      dates: _.map(this.requestCalendar.educationLeaves, (day) => {
+        return { date: day.date.format('L'), name: day.name, description: day.description };
+      })
+    };
+    this.store.dispatch(new createScheduleActions.SubmitEducationLeavesAction(data));
   }
 
 }

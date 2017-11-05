@@ -3,10 +3,6 @@ import * as moment from 'moment';
 
 import * as requestModels from '../../../STATE/models/create-schedule.model';
 
-export interface WeekEntry {
-  days: DayEntry[];
-}
-
 export interface DayEntry {
   date: number | null;
   blank: boolean;
@@ -17,12 +13,15 @@ export interface DayEntry {
 export type VacationDays = Array<moment.Moment | null>;
 export type CallUnavailabilityDay = { date: moment.Moment; type: number; };
 export type CallUnavailabilityDays = Array<CallUnavailabilityDay | null>;
+export type EducationLeave = { date: moment.Moment; name: string; description: string; };
+export type EducationLeaves = Array<EducationLeave | null>;
 
 export class RequestCalendar {
   month: number;
   year: number;
   vacationDays: VacationDays;
   callUnavailabilityDates: CallUnavailabilityDays;
+  educationLeaves: EducationLeaves;
   days: DayEntry[];
   events = {};
   private initialData: requestModels.CreateScheduleDetailsModel;
@@ -34,6 +33,7 @@ export class RequestCalendar {
 
     this.fillVacationDays(request.VacationWindowList);
     this.fillCallUnavailabilityDays(request.CallUnavailabilityWindowList);
+    this.fillEducationLeaves(request.EducationalLeaveList);
 
 
     this.days = this.fillDays(request);
@@ -101,6 +101,9 @@ export class RequestCalendar {
     this.vacationDays.push(null);
   }
 
+
+
+
   fillCallUnavailabilityDays(callUnavailabilityWindowList: requestModels.CallUnavailabilityWindowModel[]) {
     if (callUnavailabilityWindowList.length) {
       this.callUnavailabilityDates = _.map(
@@ -144,5 +147,55 @@ export class RequestCalendar {
 
   addBlankCallUnavailabilityDay() {
     this.callUnavailabilityDates.push({date: null, type: 1});
+  }
+
+
+
+
+  fillEducationLeaves(educationLeaves: requestModels.EducationalLeaveModel[]) {
+    if (educationLeaves.length) {
+      this.educationLeaves = _.map(
+        educationLeaves,
+        (day: requestModels.EducationalLeaveModel) => {
+          return {
+            date: moment(day.Date),
+            name: day.ActivityName,
+            description: day.ActivityDescription
+          }
+        });
+      _.each(this.educationLeaves, (day: EducationLeave) => this.events[day.date.date()] = '#4a90e2');
+    } else {
+      this.educationLeaves = [{date: null, name: '', description: ''}];
+    }
+  }
+
+  setEducationLeaves(days: EducationLeaves): RequestCalendar {
+    let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
+    newData.EducationalLeaveList = _.map(days, day => {
+      return {
+        EducationalLeaveID: null,
+        ActivityName: day.name,
+        ActivityDescription: day.description,
+        Date: day.date ? day.date.toISOString() : null,
+        ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
+        EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
+        GroupID: this.initialData.ScheduleRequest.GroupID,
+      }
+    });
+    return new RequestCalendar(newData);
+  }
+
+  isEducationLeavesChanged(): boolean {
+    return _.some(this.initialData.EducationalLeaveList, day => !day.EducationalLeaveID);
+  }
+
+  isEducationLeavesValid(): boolean {
+    return _.every(this.educationLeaves, day => {
+      return !!day && day.date && day.date.isValid() && day.name && day.description;
+    });
+  }
+
+  addBlankEducationLeave() {
+    this.educationLeaves.push({date: null, name: '', description: ''});
   }
 }

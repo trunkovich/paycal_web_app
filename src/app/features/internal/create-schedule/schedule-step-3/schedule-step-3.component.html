@@ -1,0 +1,33 @@
+<p class="note"> If you don't need any education leave day skip this section</p>
+
+<div *ngFor="let educationLeave of educationLeaves; let i = index"
+     [class.margin-bottom]="educationLeaves.length > 1 && i < (educationLeaves.length - 1)">
+
+  <md-form-field>
+    <input mdInput
+           placeholder="Activity Name"
+           [value]="educationLeave.name"
+           (change)="onNameChange(educationLeave, i, $event)">
+  </md-form-field>
+
+  <md-form-field>
+    <input mdInput
+           placeholder="Activity Description"
+           [value]="educationLeave.description"
+           (change)="onDescriptionChange(educationLeave, i, $event)">
+  </md-form-field>
+
+
+  <pcl-custom-date-selector (onDateChange)="onDateChange($event, i, educationLeave.name, educationLeave.description)"
+                            [date]="educationLeave?.date"
+                            [calendar]="calendar"></pcl-custom-date-selector>
+</div>
+
+<pcl-schedule-step-buttons [showSkipBtn]="true"
+                           [disableSkipBtn]="calendar?.isEducationLeavesChanged()"
+                           [showAddBtn]="calendar?.isEducationLeavesValid()"
+                           [addBtnTitle]="'ADD EDUCATIONAL LEAVE'"
+                           [disableNextBtn]="!calendar?.isEducationLeavesChanged() || !calendar?.isEducationLeavesValid()"
+                           (onSkipBtnClick)="skip()"
+                           (onNextBtnClick)="submit()"
+                           (onAddBtnClick)="onAddBlankEntry()"></pcl-schedule-step-buttons>

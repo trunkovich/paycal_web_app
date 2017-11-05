@@ -53,10 +53,15 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">EDUCATIONAL LEAVE REQUEST (EL)</div>
-        <button md-button *ngIf="selectedIndex === 2">Clear</button>
+        <button md-button *ngIf="selectedIndex === 2" (click)="educationLeavesChange([])">Clear</button>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-3 [educationLeaves]="requestCalendar?.educationLeaves"
+                         (onEducationLeavesUpdate)="educationLeavesChange($event)"
+                         (skipStep)="nextStep()"
+                         (addBlankEducationLeave)="requestCalendar?.addBlankEducationLeave()"
+                         (onSubmitEducationLeaves)="onSubmitEducationLeaves()"
+                         [calendar]="requestCalendar"></pcl-schedule-step-3>
   </md-step>
 
   <md-step>

@@ -1,4 +1,4 @@
-<p class="note">If you don't need any vacation day skip this section</p>
+<p class="note">Select dates where you are not available for calls or backups</p>
 
 <div *ngFor="let callUnavailabilityDay of callUnavailabilityDays; let i = index"
      [class.margin-bottom]="callUnavailabilityDays.length > 1 && i < (callUnavailabilityDays.length - 1)">
@@ -17,7 +17,7 @@
 <pcl-schedule-step-buttons [showSkipBtn]="true"
                            [disableSkipBtn]="calendar?.isCallUnavailabilityWindowsChanged()"
                            [showAddBtn]="calendar?.isCallUnavailabilityWindowsValid()"
-                           [addBtnTitle]="'ADD VACATION REQUEST'"
+                           [addBtnTitle]="'ADD UNAVAILABILITY'"
                            [disableNextBtn]="!calendar?.isCallUnavailabilityWindowsChanged() || !calendar?.isCallUnavailabilityWindowsValid()"
                            (onSkipBtnClick)="skip()"
                            (onNextBtnClick)="submit()"
