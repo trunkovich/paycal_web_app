@@ -82,10 +82,12 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">PREFERRED ON-WEEKEND*</div>
-        <button md-button *ngIf="selectedIndex === 4">Clear</button>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-5 [weekend]="requestCalendar?.offWeekend"
+                         [calendar]="requestCalendar"
+                         (onUpdate)="offWeekendChange($event)"
+                         (onSubmit)="offWeekendSubmit()"></pcl-schedule-step-5>
   </md-step>
 
   <md-step>

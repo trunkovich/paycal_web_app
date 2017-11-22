@@ -7,6 +7,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatOptionModule,
+  MatRadioModule,
   MatRippleModule,
   MatSelectModule,
   MatStepperModule
@@ -30,7 +31,7 @@ import {
     // MatLineModule,
     // MatListModule,
     // MatMenuModule,
-    // MatRadioModule,
+    MatRadioModule,
     // MatSelectionModule,
     // MatSidenavModule,
     // MatSliderModule,
@@ -61,7 +62,7 @@ import {
     // MatLineModule,
     // MatListModule,
     // MatMenuModule,
-    // MatRadioModule,
+    MatRadioModule,
     // MatSelectionModule,
     // MatSidenavModule,
     // MatSliderModule,
@@ -75,5 +76,8 @@ import {
     // MatSlideToggleModule,
     // MatSnackBarModule,
   ],
+  // providers: [
+  //   {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true}
+  // ]
 })
 export class CustomMaterialModule { }

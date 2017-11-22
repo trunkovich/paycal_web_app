@@ -53,7 +53,7 @@ export interface CreateEducationalLeaveRequest extends ScheduleRequestIDRequest 
 }
 
 export interface CreatePreferredOffWeekendRequest extends ScheduleRequestIDRequest {
-  label: number;
+  label: string;
   startDate: string;
   endDate: string;
 }

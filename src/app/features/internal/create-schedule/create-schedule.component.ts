@@ -9,9 +9,10 @@ import * as createScheduleActions from '../../../STATE/actions/create-schedule.a
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { CallNights, CallUnavailabilityDays, EducationLeaves, RequestCalendar } from './schedule-request-calendar.class';
+import { CallNights, CallUnavailabilityDays, EducationLeaves, RequestCalendar, Weekend } from './schedule-request-calendar.class';
 import { MdVerticalStepper } from '@angular/material';
 import {
+  CreatePreferredOffWeekendRequest,
   SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
@@ -73,6 +74,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
         createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
+        createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS,
       )
       .subscribe(() => this.nextStep());
   }
@@ -158,6 +160,21 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       dates: nights
     };
     this.store.dispatch(new createScheduleActions.SubmitCallNightsAction(data));
+  }
+
+  offWeekendChange(weekend: Weekend) {
+    this.requestCalendar = this.requestCalendar.setOffWeekends(weekend);
+  }
+
+  offWeekendSubmit() {
+    let weekend = this.requestCalendar.offWeekend;
+    let data: CreatePreferredOffWeekendRequest = {
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      label: weekend.label,
+      startDate: weekend.start.format('L'),
+      endDate: weekend.end.format('L')
+    };
+    this.store.dispatch(new createScheduleActions.SubmitOffWeekendsAction(data));
   }
 
 }

@@ -11,6 +11,7 @@ import * as createScheduleActions from '../actions/create-schedule.actions';
 import { CreateScheduleService } from '../../core/services/create-schedule.service';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import {
+  CreatePreferredOffWeekendRequest,
   SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
@@ -142,5 +143,16 @@ export class CreateScheduleEffects {
         })
         .map(() => new createScheduleActions.SubmitCallNightsSuccessAction())
         .catch(error => Observable.of(new createScheduleActions.SubmitCallNightsFailAction(error)));
+    });
+
+  @Effect()
+  submiOffWeekends: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS)
+    .map((action: createScheduleActions.SubmitOffWeekendsAction) => action.payload)
+    .switchMap((data: CreatePreferredOffWeekendRequest) => {
+      return this.createScheduleService.deletePreferredOffWeekends(data.scheduleRequestId)
+        .switchMap(() => this.createScheduleService.createPreferredOffWeekend(data))
+        .map(() => new createScheduleActions.SubmitOffWeekendsSuccessAction())
+        .catch(error => Observable.of(new createScheduleActions.SubmitOffWeekendsFailAction(error)));
     });
 }

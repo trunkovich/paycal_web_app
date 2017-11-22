@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 
 import * as requestModels from '../../../STATE/models/create-schedule.model';
+import { getOrdinal } from '../../../core/utils/utils';
 
 export interface DayEntry {
   date: number | null;
@@ -17,6 +18,7 @@ export type EducationLeave = { date: moment.Moment; name: string; description: s
 export type EducationLeaves = Array<EducationLeave | null>;
 export type CallNight = moment.Moment;
 export type CallNights = {[key: string ]: CallNight };
+export type Weekend = {label: string; start: moment.Moment; end: moment.Moment; num: number; disabled: boolean; };
 
 export class RequestCalendar {
   month: number;
@@ -25,6 +27,8 @@ export class RequestCalendar {
   callUnavailabilityDates: CallUnavailabilityDays;
   educationLeaves: EducationLeaves;
   callNights: CallNights;
+  offWeekend: Weekend | null;
+  weekends: Weekend[];
   days: DayEntry[];
   events = {};
   private initialData: requestModels.CreateScheduleDetailsModel;
@@ -39,6 +43,9 @@ export class RequestCalendar {
     this.fillEducationLeaves(request.EducationalLeaveList);
     this.fillCallNights(request.PreferredCallNightList);
 
+
+    this.weekends = this.getWeekends(moment({year: this.year, month: this.month}));
+    this.fillOffWeekend(request.PreferredOffWeekendList);
 
     this.days = this.fillDays(request);
   }
@@ -237,4 +244,78 @@ export class RequestCalendar {
       return !!day && day.isValid();
     });
   }
+
+
+
+
+  fillOffWeekend(offWeekend: requestModels.PreferredOffWeekendModel[]) {
+    if (!offWeekend || !offWeekend.length) {
+      this.offWeekend = null;
+    } else {
+      let weekends = this.getWeekends(moment(offWeekend[0].StartDate));
+      this.offWeekend = _.find(weekends, (weekend) => weekend.start.isSame(moment(offWeekend[0].StartDate), 'day'));
+      this.events[this.offWeekend.start.date()] = '#ab78f9';
+    }
+  }
+  setOffWeekends(weekend: Weekend): RequestCalendar {
+    let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
+    newData.PreferredOffWeekendList = [{
+      StartDate: weekend.start.toISOString(),
+      EndDate: weekend.end.toISOString(),
+      ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
+      EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
+      GroupID: this.initialData.ScheduleRequest.GroupID,
+      PreferredOffWeekendID: null,
+      Label: weekend.label
+    }];
+    return new RequestCalendar(newData);
+  }
+  getWeekends(month: moment.Moment): Weekend[] {
+    let weekends: Weekend[] = [];
+    let date = moment(month).startOf('month').isoWeekday(5);
+    let num = 1;
+    while (date.isSame(month, 'month')) {
+      let weekend = {
+        start: moment(date),
+        end: moment(date).add(2, 'day'),
+        label: '',
+        num,
+        disabled: false
+      };
+      let label = `${getOrdinal(weekend.num)} Weekend (${weekend.start.format('MMM D')}`;
+      if (weekend.end.isSame(weekend.start, 'month')) {
+        label += `-${weekend.end.format('Do')})`;
+      } else {
+        label += ` - ${weekend.end.format('MMM D')})`;
+      }
+      weekend.label = label;
+      weekends.push(weekend);
+      date.add(1, 'week');
+      num++;
+    }
+    _.each(weekends, weekend => {
+      let dates: any[] = [
+        moment(weekend.start),
+        moment(weekend.start).add(1, 'day'),
+        moment(weekend.start).add(2, 'day')
+      ];
+      dates = _.filter(dates, day => day.isSame(month, 'month'));
+      dates = _.map(dates, day => day.date());
+      if (_.some(dates, d => !!this.events[d])) {
+        weekend.disabled = true;
+      }
+    });
+    return weekends;
+  }
+  // isCallNightsChanged(): boolean {
+  //   return _.some(this.initialData.PreferredCallNightList, day => !day.PreferredCallNightID);
+  // }
+  // isCallNightsValid(): boolean {
+  //   return _.every(this.callNights, (day, key) => {
+  //     if (key && (+key > 2)) {
+  //       return !!day && day.isValid() || !day;
+  //     }
+  //     return !!day && day.isValid();
+  //   });
+  // }
 }

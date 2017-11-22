@@ -42,11 +42,6 @@ export const ActionTypes = {
   DELETE_HOSPITAL_ROUNDINGS_SUCCESS: type('[Create Schedule] delete hospital roundings success'),
   DELETE_HOSPITAL_ROUNDINGS_FAIL: type('[Create Schedule] delete hospital roundings fail'),
 
-  // delete preferred off weekends
-  DELETE_PREFERRED_OFF_WEEKENDS: type('[Create Schedule] delete preferred off weekends'),
-  DELETE_PREFERRED_OFF_WEEKENDS_SUCCESS: type('[Create Schedule] delete preferred off weekends success'),
-  DELETE_PREFERRED_OFF_WEEKENDS_FAIL: type('[Create Schedule] delete preferred off weekends fail'),
-
   // delete volunteer shifts
   DELETE_VOLUNTEER_SHIFTS: type('[Create Schedule] delete volunteer shifts'),
   DELETE_VOLUNTEER_SHIFTS_SUCCESS: type('[Create Schedule] delete volunteer shifts success'),
@@ -56,11 +51,6 @@ export const ActionTypes = {
   CREATE_HOSPITAL_ROUNDING: type('[Create Schedule] create hospital rounding'),
   CREATE_HOSPITAL_ROUNDING_SUCCESS: type('[Create Schedule] create hospital rounding success'),
   CREATE_HOSPITAL_ROUNDING_FAIL: type('[Create Schedule] create hospital rounding fail'),
-
-  // create preferred off weekend
-  CREATE_PREFERRED_OFF_WEEKEND: type('[Create Schedule] create preferred off weekend'),
-  CREATE_PREFERRED_OFF_WEEKEND_SUCCESS: type('[Create Schedule] create preferred off weekend success'),
-  CREATE_PREFERRED_OFF_WEEKEND_FAIL: type('[Create Schedule] create preferred off weekend fail'),
 
   // submit vacation window
   SUBMIT_VACATION_WINDOW: type('[Create Schedule] submit vacation window'),
@@ -81,6 +71,11 @@ export const ActionTypes = {
   SUBMIT_CALL_NIGHTS: type('[Create Schedule] submit call nights'),
   SUBMIT_CALL_NIGHTS_SUCCESS: type('[Create Schedule] submit call nights success'),
   SUBMIT_CALL_NIGHTS_FAIL: type('[Create Schedule] submit call nights fail'),
+
+  // submit off weekends
+  SUBMIT_OFF_WEEKENDS: type('[Create Schedule] submit off weekends'),
+  SUBMIT_OFF_WEEKENDS_SUCCESS: type('[Create Schedule] submit off weekends success'),
+  SUBMIT_OFF_WEEKENDS_FAIL: type('[Create Schedule] submit off weekends fail'),
 
   // create volunteer shift
   CREATE_VOLUNTEER_SHIFT: type('[Create Schedule] create volunteer shift'),
@@ -151,19 +146,6 @@ export class DeleteHospitalRoundingsFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // delete preferred off weekends
-export class DeletePreferreOffWeekendsAction implements Action {
-  type = ActionTypes.DELETE_PREFERRED_OFF_WEEKENDS;
-  constructor(public payload: number) { }
-}
-export class DeletePreferreOffWeekendsSuccessAction implements Action {
-  type = ActionTypes.DELETE_PREFERRED_OFF_WEEKENDS_SUCCESS;
-}
-export class DeletePreferreOffWeekendsFailAction implements Action {
-  type = ActionTypes.DELETE_PREFERRED_OFF_WEEKENDS_FAIL;
-  constructor(public payload: string) { }
-}
-
   // delete volunteer shifts
 export class DeleteVolunteerShiftsAction implements Action {
   type = ActionTypes.DELETE_VOLUNTEER_SHIFTS;
@@ -189,20 +171,6 @@ export class CreateHospitalRoundingFailAction implements Action {
   type = ActionTypes.CREATE_HOSPITAL_ROUNDING_FAIL;
   constructor(public payload: string) { }
 }
-
-  // create preferred off weekend
-export class CreatePreferredOffWeekendAction implements Action {
-  type = ActionTypes.CREATE_PREFERRED_OFF_WEEKEND;
-  constructor(public payload: CreatePreferredOffWeekendRequest) { }
-}
-export class CreatePreferredOffWeekendSuccessAction implements Action {
-  type = ActionTypes.CREATE_PREFERRED_OFF_WEEKEND_SUCCESS;
-}
-export class CreatePreferredOffWeekendFailAction implements Action {
-  type = ActionTypes.CREATE_PREFERRED_OFF_WEEKEND_FAIL;
-  constructor(public payload: string) { }
-}
-
   // submit vacation window
 export class SubmitVacationWindowAction implements Action {
   type = ActionTypes.SUBMIT_VACATION_WINDOW;
@@ -252,6 +220,19 @@ export class SubmitCallNightsSuccessAction implements Action {
 }
 export class SubmitCallNightsFailAction implements Action {
   type = ActionTypes.SUBMIT_CALL_NIGHTS_FAIL;
+  constructor(public payload: string) { }
+}
+
+// submit off weekends
+export class SubmitOffWeekendsAction implements Action {
+  type = ActionTypes.SUBMIT_OFF_WEEKENDS;
+  constructor(public payload: CreatePreferredOffWeekendRequest) { }
+}
+export class SubmitOffWeekendsSuccessAction implements Action {
+  type = ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS;
+}
+export class SubmitOffWeekendsFailAction implements Action {
+  type = ActionTypes.SUBMIT_OFF_WEEKENDS_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -324,11 +305,6 @@ export type Actions
   | DeleteHospitalRoundingsSuccessAction
   | DeleteHospitalRoundingsFailAction
 
-  // delete preferred off weekends
-  | DeletePreferreOffWeekendsAction
-  | DeletePreferreOffWeekendsSuccessAction
-  | DeletePreferreOffWeekendsFailAction
-
   // delete volunteer shifts
   | DeleteVolunteerShiftsAction
   | DeleteVolunteerShiftsSuccessAction
@@ -338,11 +314,6 @@ export type Actions
   | CreateHospitalRoundingAction
   | CreateHospitalRoundingSuccessAction
   | CreateHospitalRoundingFailAction
-
-  // create preferred off weekend
-  | CreatePreferredOffWeekendAction
-  | CreatePreferredOffWeekendSuccessAction
-  | CreatePreferredOffWeekendFailAction
 
   // submit vacation window
   | SubmitVacationWindowAction
@@ -363,6 +334,11 @@ export type Actions
   | SubmitCallNightsAction
   | SubmitCallNightsSuccessAction
   | SubmitCallNightsFailAction
+
+  // submit off weekends
+  | SubmitOffWeekendsAction
+  | SubmitOffWeekendsSuccessAction
+  | SubmitOffWeekendsFailAction
 
   // create volunteer shift
   | CreateVolunteerShiftAction

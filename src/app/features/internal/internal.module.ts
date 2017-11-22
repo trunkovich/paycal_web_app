@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { MomentModule } from 'angular2-moment';
 import { TextMaskModule } from 'angular2-text-mask';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { internalRoutes } from './internal.routes';
 import { InternalComponent } from './internal.component';
 import { PclCommonModule } from '../../common/pcl-common.module';
@@ -58,6 +58,7 @@ import { ScheduleStepButtonsComponent } from './create-schedule/schedule-step-bu
     RouterModule.forChild(internalRoutes),
     ReactiveFormsModule,
     TextMaskModule,
+    FormsModule,
 
     BottomSheetModule,
     PclCommonModule,
