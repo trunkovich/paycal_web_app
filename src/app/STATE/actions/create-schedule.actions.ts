@@ -6,12 +6,12 @@ import { Action } from '@ngrx/store';
 import { type } from '../utils';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import {
-  CreateHospitalRoundingRequest,
   CreatePreferredOffWeekendRequest,
   CreateVolunteerShiftRequest,
   SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
+  SubmitHospiralistRoundingRequest,
   SubmitVacationWindowRequest,
   UpdateScheduleRequestEmployeeNotesRequest,
   UpdateScheduleRequestUseCompTimeRequest
@@ -37,20 +37,10 @@ export const ActionTypes = {
   LOAD_SCHEDULE_REQUEST_SUCCESS: type('[Create Schedule] load schedule request success'),
   LOAD_SCHEDULE_REQUEST_FAIL: type('[Create Schedule] load schedule request fail'),
 
-  // delete hospital roundings
-  DELETE_HOSPITAL_ROUNDINGS: type('[Create Schedule] delete hospital roundings'),
-  DELETE_HOSPITAL_ROUNDINGS_SUCCESS: type('[Create Schedule] delete hospital roundings success'),
-  DELETE_HOSPITAL_ROUNDINGS_FAIL: type('[Create Schedule] delete hospital roundings fail'),
-
   // delete volunteer shifts
   DELETE_VOLUNTEER_SHIFTS: type('[Create Schedule] delete volunteer shifts'),
   DELETE_VOLUNTEER_SHIFTS_SUCCESS: type('[Create Schedule] delete volunteer shifts success'),
   DELETE_VOLUNTEER_SHIFTS_FAIL: type('[Create Schedule] delete volunteer shifts fail'),
-
-  // create hospital rounding
-  CREATE_HOSPITAL_ROUNDING: type('[Create Schedule] create hospital rounding'),
-  CREATE_HOSPITAL_ROUNDING_SUCCESS: type('[Create Schedule] create hospital rounding success'),
-  CREATE_HOSPITAL_ROUNDING_FAIL: type('[Create Schedule] create hospital rounding fail'),
 
   // submit vacation window
   SUBMIT_VACATION_WINDOW: type('[Create Schedule] submit vacation window'),
@@ -76,6 +66,11 @@ export const ActionTypes = {
   SUBMIT_OFF_WEEKENDS: type('[Create Schedule] submit off weekends'),
   SUBMIT_OFF_WEEKENDS_SUCCESS: type('[Create Schedule] submit off weekends success'),
   SUBMIT_OFF_WEEKENDS_FAIL: type('[Create Schedule] submit off weekends fail'),
+
+  // submit hospital roundings
+  SUBMIT_HOSPITALIST_ROUNDINGS: type('[Create Schedule] submit hospital roundings'),
+  SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS: type('[Create Schedule] submit hospital roundings success'),
+  SUBMIT_HOSPITALIST_ROUNDINGS_FAIL: type('[Create Schedule] submit hospital roundings fail'),
 
   // create volunteer shift
   CREATE_VOLUNTEER_SHIFT: type('[Create Schedule] create volunteer shift'),
@@ -133,19 +128,6 @@ export class LoadScheduleRequestFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // delete hospital roundings
-export class DeleteHospitalRoundingsAction implements Action {
-  type = ActionTypes.DELETE_HOSPITAL_ROUNDINGS;
-  constructor(public payload: number) { }
-}
-export class DeleteHospitalRoundingsSuccessAction implements Action {
-  type = ActionTypes.DELETE_HOSPITAL_ROUNDINGS_SUCCESS;
-}
-export class DeleteHospitalRoundingsFailAction implements Action {
-  type = ActionTypes.DELETE_HOSPITAL_ROUNDINGS_FAIL;
-  constructor(public payload: string) { }
-}
-
   // delete volunteer shifts
 export class DeleteVolunteerShiftsAction implements Action {
   type = ActionTypes.DELETE_VOLUNTEER_SHIFTS;
@@ -159,18 +141,6 @@ export class DeleteVolunteerShiftsFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // create hospital rounding
-export class CreateHospitalRoundingAction implements Action {
-  type = ActionTypes.CREATE_HOSPITAL_ROUNDING;
-  constructor(public payload: CreateHospitalRoundingRequest) { }
-}
-export class CreateHospitalRoundingSuccessAction implements Action {
-  type = ActionTypes.CREATE_HOSPITAL_ROUNDING_SUCCESS;
-}
-export class CreateHospitalRoundingFailAction implements Action {
-  type = ActionTypes.CREATE_HOSPITAL_ROUNDING_FAIL;
-  constructor(public payload: string) { }
-}
   // submit vacation window
 export class SubmitVacationWindowAction implements Action {
   type = ActionTypes.SUBMIT_VACATION_WINDOW;
@@ -233,6 +203,19 @@ export class SubmitOffWeekendsSuccessAction implements Action {
 }
 export class SubmitOffWeekendsFailAction implements Action {
   type = ActionTypes.SUBMIT_OFF_WEEKENDS_FAIL;
+  constructor(public payload: string) { }
+}
+
+// submit hospital roundings
+export class SubmitHospitalistRoundingsAction implements Action {
+  type = ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS;
+  constructor(public payload: SubmitHospiralistRoundingRequest) { }
+}
+export class SubmitHospitalistRoundingsSuccessAction implements Action {
+  type = ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS;
+}
+export class SubmitHospitalistRoundingsFailAction implements Action {
+  type = ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -300,20 +283,10 @@ export type Actions
   | LoadScheduleRequestSuccessAction
   | LoadScheduleRequestFailAction
 
-  // delete hospital roundings
-  | DeleteHospitalRoundingsAction
-  | DeleteHospitalRoundingsSuccessAction
-  | DeleteHospitalRoundingsFailAction
-
   // delete volunteer shifts
   | DeleteVolunteerShiftsAction
   | DeleteVolunteerShiftsSuccessAction
   | DeleteVolunteerShiftsFailAction
-
-  // create hospital rounding
-  | CreateHospitalRoundingAction
-  | CreateHospitalRoundingSuccessAction
-  | CreateHospitalRoundingFailAction
 
   // submit vacation window
   | SubmitVacationWindowAction
@@ -339,6 +312,11 @@ export type Actions
   | SubmitOffWeekendsAction
   | SubmitOffWeekendsSuccessAction
   | SubmitOffWeekendsFailAction
+
+  // submit hospital roundings
+  | SubmitHospitalistRoundingsAction
+  | SubmitHospitalistRoundingsSuccessAction
+  | SubmitHospitalistRoundingsFailAction
 
   // create volunteer shift
   | CreateVolunteerShiftAction

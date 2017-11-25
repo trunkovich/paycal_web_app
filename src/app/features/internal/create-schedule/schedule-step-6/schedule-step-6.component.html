@@ -1,0 +1,18 @@
+<p class="note">Please give us at least 2 different weeks to choose from for rounding</p>
+
+<div>
+  <pcl-custom-date-selector (onDateChange)="onDateChange($event, 0)"
+                            [weekMode]="true"
+                            [placeholder]="'Select 1st week rounding'"
+                            [calendar]="calendar"></pcl-custom-date-selector>
+  <pcl-custom-date-selector (onDateChange)="onDateChange($event, 1)"
+                            [weekMode]="true"
+                            [placeholder]="'Select 2nd week rounding'"
+                            [calendar]="calendar"></pcl-custom-date-selector>
+</div>
+
+<pcl-schedule-step-buttons [showSkipBtn]="true"
+                           [disableSkipBtn]="calendar?.isHospitalistRoundingsChanged()"
+                           [disableNextBtn]="!calendar?.isHospitalistRoundingsChanged()"
+                           (onSkipBtnClick)="skip()"
+                           (onNextBtnClick)="submit()"></pcl-schedule-step-buttons>

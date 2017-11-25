@@ -19,6 +19,7 @@ export type EducationLeaves = Array<EducationLeave | null>;
 export type CallNight = moment.Moment;
 export type CallNights = {[key: string ]: CallNight };
 export type Weekend = {label: string; start: moment.Moment; end: moment.Moment; num: number; disabled: boolean; };
+export type HospitalistRoundings = Array<moment.Moment | null>;
 
 export class RequestCalendar {
   month: number;
@@ -29,8 +30,10 @@ export class RequestCalendar {
   callNights: CallNights;
   offWeekend: Weekend | null;
   weekends: Weekend[];
+  hospitalistRoundings: HospitalistRoundings;
   days: DayEntry[];
   events = {};
+  selectedWeeks = {};
   private initialData: requestModels.CreateScheduleDetailsModel;
 
   constructor(request: requestModels.CreateScheduleDetailsModel) {
@@ -42,6 +45,7 @@ export class RequestCalendar {
     this.fillCallUnavailabilityDays(request.CallUnavailabilityWindowList);
     this.fillEducationLeaves(request.EducationalLeaveList);
     this.fillCallNights(request.PreferredCallNightList);
+    this.fillHospitalistRoundings(request.HospitalistRoundingList);
 
 
     this.weekends = this.getWeekends(moment({year: this.year, month: this.month}));
@@ -56,14 +60,19 @@ export class RequestCalendar {
     let year = request.ScheduleRequest.ScheduleYear;
     let currentDay = moment({year, month}).startOf('week');
     let endDay = moment({year, month}).endOf('month').endOf('week');
+    let weekDays;
     while (!currentDay.isSame(endDay, 'day')) {
       let otherMonth = currentDay.month() !== month;
       let haveEvent = !!this.events[currentDay.date()];
+      if (this.selectedWeeks[currentDay.date()]) {
+        weekDays = 7;
+      }
       days.push({
         date: otherMonth ? null : currentDay.date(),
         blank: otherMonth,
         disabled: haveEvent,
-        event: !otherMonth && haveEvent ? this.events[currentDay.date()] : null
+        event: !otherMonth && haveEvent ? this.events[currentDay.date()] : null,
+        weekSelected: weekDays-- ? true : null
       });
       currentDay.add(1, 'day');
     }
@@ -307,15 +316,50 @@ export class RequestCalendar {
     });
     return weekends;
   }
-  // isCallNightsChanged(): boolean {
-  //   return _.some(this.initialData.PreferredCallNightList, day => !day.PreferredCallNightID);
-  // }
-  // isCallNightsValid(): boolean {
-  //   return _.every(this.callNights, (day, key) => {
-  //     if (key && (+key > 2)) {
-  //       return !!day && day.isValid() || !day;
-  //     }
-  //     return !!day && day.isValid();
-  //   });
-  // }
+
+
+  fillHospitalistRoundings(hospitalistRoundings: requestModels.HospitalistRoundingModel[]) {
+    if (hospitalistRoundings.length) {
+      let firstWeek = _.find(
+        hospitalistRoundings,
+        (rounding: requestModels.HospitalistRoundingModel) => rounding.RoundingTypeID === 1
+      );
+      let secondWeek = _.find(
+        hospitalistRoundings,
+        (rounding: requestModels.HospitalistRoundingModel) => rounding.RoundingTypeID === 2
+      );
+      this.hospitalistRoundings = [
+        firstWeek ? moment(firstWeek.StartDate) : null,
+        secondWeek ? moment(secondWeek.StartDate) : null
+      ];
+      _.each(this.hospitalistRoundings, (day: moment.Moment) => {
+        if (day) {
+          this.selectedWeeks[day.date()] = true;
+        }
+      });
+    } else {
+      this.hospitalistRoundings = [null, null];
+    }
+  }
+  setHospitalistRoundings(days: moment.Moment[]): RequestCalendar {
+    let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
+    newData.HospitalistRoundingList = [];
+    _.each(days, (day, i) => {
+      if (day) {
+        newData.HospitalistRoundingList.push({
+          StartDate: day.toISOString(),
+          EndDate: day.endOf('week').toISOString(),
+          ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
+          EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
+          GroupID: this.initialData.ScheduleRequest.GroupID,
+          HospitalRoundingID: null,
+          RoundingTypeID: i + 1
+        })
+      }
+    });
+    return new RequestCalendar(newData);
+  }
+  isHospitalistRoundingsChanged(): boolean {
+    return _.some(this.initialData.HospitalistRoundingList, rounding => !rounding.HospitalRoundingID);
+  }
 }

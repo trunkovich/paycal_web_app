@@ -11,6 +11,7 @@ export class DialogCalendarComponent {
   days: DayEntry[];
   header: string;
   selectedDay: number;
+  weekMode: boolean;
 
   constructor(
     public dialogRef: MdDialogRef<DialogCalendarComponent>,
@@ -19,6 +20,7 @@ export class DialogCalendarComponent {
     this.days = data.days;
     this.header = data.header;
     this.selectedDay = data.selectedDay;
+    this.weekMode = data.weekMode;
   }
 
   onDayClick(day) {

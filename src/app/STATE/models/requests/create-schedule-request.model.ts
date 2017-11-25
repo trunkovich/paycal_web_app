@@ -18,6 +18,10 @@ export interface SubmitCallNightsRequest extends ScheduleRequestIDRequest {
   dates: {[key: string]: string};
 }
 
+export interface SubmitHospiralistRoundingRequest extends ScheduleRequestIDRequest {
+  dates: Array<{start: string; end: string;}>;
+}
+
 export interface CreateVacationWindowRequest extends ScheduleRequestIDRequest {
   vacationWindowTypeID: number;
   startDate: string;

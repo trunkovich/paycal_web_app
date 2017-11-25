@@ -23,7 +23,7 @@
           <div class="calendar-entry"
                [class.disabled]="day.disabled"
                [class.selected]="selectedDay && day.date === selectedDay"
-               (click)="!day.disabled && onDayClick(day)">
+               (click)="(!day.disabled || weekMode) && onDayClick(day)">
             {{day.date || ''}}
             <div class="event-day"
                  *ngIf="day.event" [style.backgroundColor]="day.event"></div>

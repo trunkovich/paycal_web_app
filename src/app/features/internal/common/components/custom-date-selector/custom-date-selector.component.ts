@@ -13,6 +13,7 @@ export class CustomDateSelectorComponent {
   @Input() date: moment.Moment;
   @Input() placeholder = 'Select a Date';
   @Input() calendar: RequestCalendar;
+  @Input() weekMode: boolean;
   @Output() onDateChange = new EventEmitter<number>();
 
   active = false;
@@ -35,7 +36,8 @@ export class CustomDateSelectorComponent {
       data: {
         days: this.calendar.days,
         header: moment({year: this.calendar.year, month: this.calendar.month}).format('MMMM YYYY'),
-        selectedDay: this.date ? this.date.date() : null
+        selectedDay: this.date ? this.date.date() : null,
+        weekMode: this.weekMode
       },
       panelClass: 'dialog-calendar'
     });

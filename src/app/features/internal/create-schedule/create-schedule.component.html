@@ -97,7 +97,11 @@
         <button md-button *ngIf="selectedIndex === 5">Clear</button>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-6 [calendar]="requestCalendar"
+                         [hospitalistRoundings]="requestCalendar?.hospitalistRoundings"
+                         (skipStep)="nextStep()"
+                         (onUpdate)="hospitalistRoundingsChange($event)"
+                         (onSubmit)="hospitalistRoundingsSubmit()"></pcl-schedule-step-6>
   </md-step>
 
   <md-step>

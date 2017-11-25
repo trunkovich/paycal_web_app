@@ -15,6 +15,7 @@ import {
   SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
+  SubmitHospiralistRoundingRequest,
   SubmitVacationWindowRequest
 } from '../models/requests/create-schedule-request.model';
 import { AppState, createScheduleSelectors } from '../reducers/index';
@@ -146,12 +147,36 @@ export class CreateScheduleEffects {
     });
 
   @Effect()
-  submiOffWeekends: Observable<Action> = this.actions$
+  submitOffWeekends: Observable<Action> = this.actions$
     .ofType(createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS)
     .map((action: createScheduleActions.SubmitOffWeekendsAction) => action.payload)
     .switchMap((data: CreatePreferredOffWeekendRequest) => {
       return this.createScheduleService.deletePreferredOffWeekends(data.scheduleRequestId)
         .switchMap(() => this.createScheduleService.createPreferredOffWeekend(data))
+        .map(() => new createScheduleActions.SubmitOffWeekendsSuccessAction())
+        .catch(error => Observable.of(new createScheduleActions.SubmitOffWeekendsFailAction(error)));
+    });
+
+  @Effect()
+  submitHospitalistRounding: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS)
+    .map((action: createScheduleActions.SubmitHospitalistRoundingsAction) => action.payload)
+    .switchMap(({dates, scheduleRequestId}: SubmitHospiralistRoundingRequest) => {
+      return this.createScheduleService.deleteHospitalRoundings(scheduleRequestId)
+        .switchMap(() => {
+          return Observable.forkJoin(_.map(dates, (data, index) => {
+            if (data) {
+              return this.createScheduleService.createHospitalRounding({
+                scheduleRequestId: scheduleRequestId,
+                roundingTypeID: index + 1,
+                startDate: data.start,
+                endDate: data.end
+              });
+            } else {
+              return Observable.of(true);
+            }
+          }))
+        })
         .map(() => new createScheduleActions.SubmitOffWeekendsSuccessAction())
         .catch(error => Observable.of(new createScheduleActions.SubmitOffWeekendsFailAction(error)));
     });

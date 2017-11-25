@@ -16,6 +16,7 @@ import {
   SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
+  SubmitHospiralistRoundingRequest,
   SubmitVacationWindowRequest
 } from '../../../STATE/models/requests/create-schedule-request.model';
 import { Actions } from '@ngrx/effects';
@@ -175,6 +176,23 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       endDate: weekend.end.format('L')
     };
     this.store.dispatch(new createScheduleActions.SubmitOffWeekendsAction(data));
+  }
+
+  hospitalistRoundingsChange(weeks: moment.Moment[]) {
+    this.requestCalendar = this.requestCalendar.setHospitalistRoundings(weeks);
+  }
+
+  hospitalistRoundingsSubmit() {
+    let data: SubmitHospiralistRoundingRequest = {
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      dates: _.map(this.requestCalendar.hospitalistRoundings, (day) => {
+        return !day ? null : {
+          start: day.format('L'),
+          end: moment(day).endOf('week').format('L')
+        }
+      })
+    };
+    this.store.dispatch(new createScheduleActions.SubmitHospitalistRoundingsAction(data));
   }
 
 }
