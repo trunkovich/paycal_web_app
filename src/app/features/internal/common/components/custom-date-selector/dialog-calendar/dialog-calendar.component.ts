@@ -23,7 +23,6 @@ export class DialogCalendarComponent {
     this.header = data.header;
     this.selectedDay = data.selectedDay;
     this.weekMode = data.weekMode;
-    console.log(data.days);
   }
 
   isArray(array): boolean {
