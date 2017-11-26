@@ -5,10 +5,11 @@ import * as requestModels from '../../../STATE/models/create-schedule.model';
 import { getOrdinal } from '../../../core/utils/utils';
 
 export interface DayEntry {
-  date: number | null;
+  date: moment.Moment | null;
   blank: boolean;
   disabled: boolean;
   event: string;
+  weekSelected: number | null;
 }
 
 export type VacationDays = Array<moment.Moment | null>;
@@ -59,24 +60,55 @@ export class RequestCalendar {
     let month = request.ScheduleRequest.ScheduleMonth - 1;
     let year = request.ScheduleRequest.ScheduleYear;
     let currentDay = moment({year, month}).startOf('week');
-    let endDay = moment({year, month}).endOf('month').endOf('week');
+    let endDay = moment({year, month}).endOf('month').endOf('week').add(1, 'day');
     let weekDays;
     while (!currentDay.isSame(endDay, 'day')) {
       let otherMonth = currentDay.month() !== month;
-      let haveEvent = !!this.events[currentDay.date()];
-      if (this.selectedWeeks[currentDay.date()]) {
+      let haveEvent = !!this.events[currentDay.format('MM.DD')];
+      if (this.selectedWeeks[currentDay.format('MM.DD')]) {
         weekDays = 7;
       }
+      let events = this.getEvents(currentDay, weekDays ? '#fd995d' : null);
       days.push({
-        date: otherMonth ? null : currentDay.date(),
+        date: moment(currentDay),
         blank: otherMonth,
-        disabled: haveEvent,
-        event: !otherMonth && haveEvent ? this.events[currentDay.date()] : null,
-        weekSelected: weekDays-- ? true : null
+        disabled: haveEvent || otherMonth,
+        event: events,
+        weekSelected: weekDays ? weekDays-- : null
       });
       currentDay.add(1, 'day');
     }
     return days;
+  }
+
+  addEvent(day: moment.Moment, color: string) {
+    if (!this.events[day.format('MM.DD')]) {
+      this.events[day.format('MM.DD')] = color;
+    } else {
+      if (!this.events[day.format('MM.DD')].length) {
+        this.events[day.format('MM.DD')] = [this.events[day.format('MM.DD')]];
+      }
+      this.events[day.format('MM.DD')].push(color);
+    }
+  }
+
+  getEvents(day: moment.Moment, additionalEvent: string | null): string | Array<string> | null {
+    let eventsEntry = this.events[day.format('MM.DD')];
+    if (!eventsEntry && !additionalEvent) {
+      return null;
+    }
+    let events: Array<string> = [];
+    if (eventsEntry) {
+      if (Array.isArray(eventsEntry)) {
+        events = _.clone(eventsEntry);
+      } else {
+        events.push(eventsEntry);
+      }
+    }
+    if (additionalEvent) {
+      events.unshift(additionalEvent);
+    }
+    return events.length === 1 ? events[0] : events;
   }
 
   fillVacationDays(vacationWindowList: requestModels.VacationWindowModel[]) {
@@ -85,7 +117,7 @@ export class RequestCalendar {
         vacationWindowList,
         (vacation: requestModels.VacationWindowModel) => moment(vacation.StartDate)
       );
-      _.each(this.vacationDays, (day: moment.Moment) => this.events[day.date()] = '#ffd300');
+      _.each(this.vacationDays, (day: moment.Moment) => this.addEvent(day, '#ffd300'));
     } else {
       this.vacationDays = [null];
     }
@@ -130,7 +162,7 @@ export class RequestCalendar {
             type: day.CallUnavailabilityTypeID
           }
         });
-      _.each(this.callUnavailabilityDates, (day: CallUnavailabilityDay) => this.events[day.date.date()] = '#5dcf5e');
+      _.each(this.callUnavailabilityDates, (day: CallUnavailabilityDay) => this.addEvent(day.date, '#5dcf5e'));
     } else {
       this.callUnavailabilityDates = [{date: null, type: 1}];
     }
@@ -175,7 +207,7 @@ export class RequestCalendar {
             description: day.ActivityDescription
           }
         });
-      _.each(this.educationLeaves, (day: EducationLeave) => this.events[day.date.date()] = '#4a90e2');
+      _.each(this.educationLeaves, (day: EducationLeave) => this.addEvent(day.date, '#4a90e2'));
     } else {
       this.educationLeaves = [{date: null, name: '', description: ''}];
     }
@@ -219,7 +251,7 @@ export class RequestCalendar {
       _.each(nights, (day: CallNight, index) => {
         this.callNights[index + 1] = day;
         if (day && day.isValid()) {
-          this.events[day.date()] = '#f978a7';
+          this.addEvent(day, '#f978a7');
         }
       });
     }
@@ -263,7 +295,10 @@ export class RequestCalendar {
     } else {
       let weekends = this.getWeekends(moment(offWeekend[0].StartDate));
       this.offWeekend = _.find(weekends, (weekend) => weekend.start.isSame(moment(offWeekend[0].StartDate), 'day'));
-      this.events[this.offWeekend.start.date()] = '#ab78f9';
+      let start = moment(this.offWeekend.start);
+      this.addEvent(start, '#ab78f9');
+      this.addEvent(start.add(1, 'day'), '#ab78f9');
+      this.addEvent(start.add(1, 'day'), '#ab78f9');
     }
   }
   setOffWeekends(weekend: Weekend): RequestCalendar {
@@ -308,9 +343,7 @@ export class RequestCalendar {
         moment(weekend.start).add(1, 'day'),
         moment(weekend.start).add(2, 'day')
       ];
-      dates = _.filter(dates, day => day.isSame(month, 'month'));
-      dates = _.map(dates, day => day.date());
-      if (_.some(dates, d => !!this.events[d])) {
+      if (_.some(dates, day => !!this.events[day.format('MM.DD')])) {
         weekend.disabled = true;
       }
     });
@@ -334,7 +367,7 @@ export class RequestCalendar {
       ];
       _.each(this.hospitalistRoundings, (day: moment.Moment) => {
         if (day) {
-          this.selectedWeeks[day.date()] = true;
+          this.selectedWeeks[day.format('MM.DD')] = true;
         }
       });
     } else {

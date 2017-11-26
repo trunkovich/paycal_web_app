@@ -18,9 +18,9 @@ export class ScheduleStep4Component {
 
   constructor() { }
 
-  onDateChange(newDay: number, key: number) {
+  onDateChange(newDay: moment.Moment, key: number) {
     let nights = _.cloneDeep(this.callNights);
-    nights[key] = moment({year: this.calendar.year, month: this.calendar.month, date: newDay});
+    nights[key] = moment(newDay);
     this.onUpdate.emit(nights);
   }
 

@@ -74,6 +74,9 @@
                 height: 36px;
                 border-radius: 50%;
                 background-color: $tealish;
+                &.selected2 {
+                  background-color: #d3deea;
+                }
               }
 
               .event-day {
@@ -85,6 +88,21 @@
                 border-radius: 50%;
                 border: 1px solid white;
               }
+              .events-container {
+                height: 10px;
+                position: absolute;
+                left: 50%;
+                bottom: 2px;
+                transform: translateX(-50%);
+                .event-day2 {
+                  @include size(8px);
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  border-radius: 50%;
+                  border: 1px solid white
+                }
+              }
             }
             &.day-entry {
               width: calc(100%/7);
@@ -95,6 +113,33 @@
                   width: 36px;
                   height: 36px;
                   border-radius: 50%;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.week-type {
+        .calendar-view-type {
+          .calendar-content {
+            .calendar-entry-wrapper {
+              .calendar-entry {
+                margin: 0;
+                &.selected {
+                  height: initial;
+                  width: initial;
+                  border-radius: 0;
+
+                  &.week-first {
+                    border-bottom-left-radius: 50%;
+                    border-top-left-radius: 50%;
+                  }
+                  &.week-last {
+                    border-bottom-right-radius: 50%;
+                    border-top-right-radius: 50%;
+
+                  }
                 }
               }
             }

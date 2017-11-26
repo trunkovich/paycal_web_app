@@ -20,10 +20,10 @@ export class ScheduleStep3Component {
 
   constructor() { }
 
-  onDateChange(newDay: number, listIndex: number, name: string, description: string) {
+  onDateChange(newDay: moment.Moment, listIndex: number, name: string, description: string) {
     if (!this.educationLeaves || !this.educationLeaves.length) {
       this.onEducationLeavesUpdate.emit([{
-        date: newDay ? moment({year: this.calendar.year, month: this.calendar.month, date: newDay}) : null,
+        date: newDay ? moment(newDay) : null,
         name: name,
         description: description
       }]);
@@ -31,7 +31,7 @@ export class ScheduleStep3Component {
       this.onEducationLeavesUpdate.emit(_.map(this.educationLeaves, (day, index) => {
         if (index === listIndex) {
           return {
-            date: newDay ? moment({ year: this.calendar.year, month: this.calendar.month, date: newDay }) : null,
+            date: newDay ? moment(newDay) : null,
             name: name,
             description: description
           };

@@ -22,11 +22,11 @@ export class ScheduleStep2Component {
 
   constructor() { }
 
-  onDateChange(newDay: number, listIndex: number, type: number) {
+  onDateChange(newDay: moment.Moment, listIndex: number, type: number) {
     if (!this.callUnavailabilityDays || !this.callUnavailabilityDays.length) {
       this.onCallUnavailabilityDaysUpdate.emit([
         {
-          date: newDay ? moment({year: this.calendar.year, month: this.calendar.month, date: newDay}) : null,
+          date: newDay ? moment(newDay) : null,
           type: type
         }
       ]);
@@ -34,7 +34,7 @@ export class ScheduleStep2Component {
       this.onCallUnavailabilityDaysUpdate.emit(_.map(this.callUnavailabilityDays, (day, index) => {
         if (index === listIndex) {
           return {
-            date: newDay ? moment({ year: this.calendar.year, month: this.calendar.month, date: newDay }) : null,
+            date: newDay ? moment(newDay) : null,
             type: type
           };
         }

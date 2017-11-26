@@ -18,9 +18,9 @@ export class ScheduleStep6Component {
 
   constructor() { }
 
-  onDateChange(newDay: number, listIndex: number) {
+  onDateChange(newDay: moment.Moment, listIndex: number) {
     let roundings = _.cloneDeep(this.hospitalistRoundings);
-    roundings[listIndex] = moment({year: this.calendar.year, month: this.calendar.month, date: newDay}).startOf('week');
+    roundings[listIndex] = moment(newDay).startOf('week');
     this.onUpdate.emit(roundings);
   }
 

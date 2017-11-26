@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { RequestCalendar } from '../../../create-schedule/schedule-request-calendar.class';
@@ -9,12 +9,14 @@ import { RequestCalendar } from '../../../create-schedule/schedule-request-calen
   templateUrl: './custom-date-selector.component.html',
   styleUrls: ['./custom-date-selector.component.scss']
 })
-export class CustomDateSelectorComponent {
+export class CustomDateSelectorComponent implements OnChanges {
   @Input() date: moment.Moment;
   @Input() placeholder = 'Select a Date';
   @Input() calendar: RequestCalendar;
   @Input() weekMode: boolean;
-  @Output() onDateChange = new EventEmitter<number>();
+  @Output() onDateChange = new EventEmitter<moment.Moment>();
+
+  weekModeValue: string;
 
   active = false;
 
@@ -36,7 +38,7 @@ export class CustomDateSelectorComponent {
       data: {
         days: this.calendar.days,
         header: moment({year: this.calendar.year, month: this.calendar.month}).format('MMMM YYYY'),
-        selectedDay: this.date ? this.date.date() : null,
+        selectedDay: this.date ? this.date : null,
         weekMode: this.weekMode
       },
       panelClass: 'dialog-calendar'
@@ -47,6 +49,20 @@ export class CustomDateSelectorComponent {
         this.onDateChange.emit(result.date);
       }
     })
+  }
+
+  ngOnChanges() {
+    if (this.weekMode && this.date) {
+      let from = moment(this.date);
+      let to = moment(from).endOf('week');
+      let str = `from ${from.format('MMM. Do')} to `;
+      if (from.isSame(to, 'month')) {
+        str += to.format('Do');
+      } else {
+        str += to.format('MMM. Do');
+      }
+      this.weekModeValue = str;
+    }
   }
 
 }

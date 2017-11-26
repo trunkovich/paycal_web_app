@@ -3,7 +3,8 @@
      (click)="openCalendar($event)">
   <div class="main-block">
     <div class="placeholder" [class.top]="!!date || active">{{placeholder}}</div>
-    <div class="value" *ngIf="!!date">{{date | amDateFormat:'L'}}</div>
+    <div class="value" *ngIf="!weekMode && !!date">{{date | amDateFormat:'L'}}</div>
+    <div class="value" *ngIf="weekMode && !!date">{{weekModeValue}}</div>
     <md-icon [svgIcon]="'calendar'"></md-icon>
   </div>
   <div class="bottom-line"></div>

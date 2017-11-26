@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import * as moment from 'moment';
+
 import { DayEntry } from '../../../../create-schedule/schedule-request-calendar.class';
 
 @Component({
@@ -10,7 +12,7 @@ import { DayEntry } from '../../../../create-schedule/schedule-request-calendar.
 export class DialogCalendarComponent {
   days: DayEntry[];
   header: string;
-  selectedDay: number;
+  selectedDay: moment.Moment;
   weekMode: boolean;
 
   constructor(
@@ -21,10 +23,23 @@ export class DialogCalendarComponent {
     this.header = data.header;
     this.selectedDay = data.selectedDay;
     this.weekMode = data.weekMode;
+    console.log(data.days);
+  }
+
+  isArray(array): boolean {
+    return Array.isArray(array);
   }
 
   onDayClick(day) {
-    this.dialogRef.close(day);
+    if (this.weekMode) {
+      if (!day.weekSelected) {
+        this.dialogRef.close(day);
+      }
+    } else {
+      if (!day.disabled) {
+        this.dialogRef.close(day);
+      }
+    }
   }
 
 }

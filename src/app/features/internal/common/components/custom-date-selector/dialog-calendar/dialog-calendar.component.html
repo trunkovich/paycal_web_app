@@ -14,7 +14,7 @@
     <div class="week-header-entry">S</div>
   </div>
 
-  <div class="calendar-content-wrapper">
+  <div class="calendar-content-wrapper" [class.week-type]="weekMode">
     <div class="calendar-view-type">
       <div class="calendar-content day">
 
@@ -22,11 +22,23 @@
              *ngFor="let day of days; let j = index">
           <div class="calendar-entry"
                [class.disabled]="day.disabled"
-               [class.selected]="selectedDay && day.date === selectedDay"
-               (click)="(!day.disabled || weekMode) && onDayClick(day)">
-            {{day.date || ''}}
+               [class.selected2]="day.weekSelected && (day.date.isBefore(selectedDay) || day.date.isAfter(selectedDay, 'week'))"
+               [class.selected]="selectedDay && day.date.isSame(selectedDay, 'day') || weekMode && day.weekSelected"
+               [class.week-first]="day.weekSelected === 7"
+               [class.week-last]="day.weekSelected === 1"
+               (click)="(!day.disabled || (weekMode && !day.weekSelected)) && onDayClick(day)">
+            {{day.date | amDateFormat:'D'}}
             <div class="event-day"
-                 *ngIf="day.event" [style.backgroundColor]="day.event"></div>
+                 *ngIf="day.event && !isArray(day.event)"
+                 [style.backgroundColor]="day.event"></div>
+            <div class="events-container"
+                 [style.width]="10 + 5 * (day.event.length - 1) + 'px'"
+                 *ngIf="day.event && isArray(day.event)">
+              <div class="event-day2"
+                   *ngFor="let event of day.event; let i = index;"
+                   [style.transform]="'translateX(' + 50 * i + '%)'"
+                   [style.backgroundColor]="event"></div>
+            </div>
           </div>
         </div>
 
