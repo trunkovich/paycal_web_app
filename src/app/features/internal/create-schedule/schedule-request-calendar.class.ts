@@ -393,6 +393,10 @@ export class RequestCalendar {
     return new RequestCalendar(newData);
   }
   isHospitalistRoundingsChanged(): boolean {
-    return _.some(this.initialData.HospitalistRoundingList, rounding => !rounding.HospitalRoundingID);
+    return !this.initialData.HospitalistRoundingList.length ||
+      _.some(this.initialData.HospitalistRoundingList, rounding => !rounding.HospitalRoundingID);
+  }
+  isHospitalRoundingsBlank(): boolean {
+    return !this.initialData.HospitalistRoundingList.length;
   }
 }

@@ -94,7 +94,7 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">HOSPITALISTS ONLY</div>
-        <button md-button *ngIf="selectedIndex === 5">Clear</button>
+        <button md-button *ngIf="selectedIndex === 5" (click)="hospitalistRoundingsChange([null, null])">Clear</button>
       </div>
     </ng-template>
     <pcl-schedule-step-6 [calendar]="requestCalendar"

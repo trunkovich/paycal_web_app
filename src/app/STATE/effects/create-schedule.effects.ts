@@ -60,6 +60,8 @@ export class CreateScheduleEffects {
       createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW_SUCCESS,
       createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS,
       createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
+      createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS,
+      createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS,
     )
     .withLatestFrom(this.store.select(createScheduleSelectors.getSelectedScheduleRequestId))
     .switchMap(([_, scheduleRequestID]) => {
@@ -177,7 +179,7 @@ export class CreateScheduleEffects {
             }
           }))
         })
-        .map(() => new createScheduleActions.SubmitOffWeekendsSuccessAction())
-        .catch(error => Observable.of(new createScheduleActions.SubmitOffWeekendsFailAction(error)));
+        .map(() => new createScheduleActions.SubmitHospitalistRoundingsSuccessAction())
+        .catch(error => Observable.of(new createScheduleActions.SubmitHospitalistRoundingsFailAction(error)));
     });
 }

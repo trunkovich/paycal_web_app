@@ -15,7 +15,7 @@
 </div>
 
 <pcl-schedule-step-buttons [showSkipBtn]="true"
-                           [disableSkipBtn]="calendar?.isHospitalistRoundingsChanged()"
+                           [disableSkipBtn]="!calendar?.isHospitalRoundingsBlank() && calendar?.isHospitalistRoundingsChanged()"
                            [disableNextBtn]="!calendar?.isHospitalistRoundingsChanged()"
                            (onSkipBtnClick)="skip()"
                            (onNextBtnClick)="submit()"></pcl-schedule-step-buttons>

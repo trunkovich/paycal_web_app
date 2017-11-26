@@ -76,6 +76,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
         createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS,
+        createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS
       )
       .subscribe(() => this.nextStep());
   }
