@@ -9,7 +9,14 @@ import * as createScheduleActions from '../../../STATE/actions/create-schedule.a
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { CallNights, CallUnavailabilityDays, EducationLeaves, RequestCalendar, Weekend } from './schedule-request-calendar.class';
+import {
+  CallNights,
+  CallUnavailabilityDays,
+  EducationLeaves,
+  RequestCalendar,
+  VolunteerShift,
+  Weekend
+} from './schedule-request-calendar.class';
 import { MdVerticalStepper } from '@angular/material';
 import {
   CreatePreferredOffWeekendRequest,
@@ -21,7 +28,9 @@ import {
 } from '../../../STATE/models/requests/create-schedule-request.model';
 import { Actions } from '@ngrx/effects';
 import { CallUnavailabilityType } from '../../../STATE/models/call-unavailability-type.model';
-import { LoadCallUnavailabilityTypesAction } from '../../../STATE/actions/references.actions';
+import { LoadCallUnavailabilityTypesAction, LoadHospitalsAction, LoadShiftTypesAction } from '../../../STATE/actions/references.actions';
+import { Hospital } from '../../../STATE/models/hospital.model';
+import { ShiftType } from '../../../STATE/models/shift-type.model';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -37,6 +46,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   introductionShown = true;
   selectedIndex = 0;
   callUnavailabilityTypes$: Observable<CallUnavailabilityType[]>;
+  hospitals$: Observable<Hospital[]>;
+  shifts$: Observable<ShiftType[]>;
 
   @ViewChild('stepper') stepper: MdVerticalStepper;
 
@@ -52,7 +63,11 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.callUnavailabilityTypes$ = this.store.select(referenceSelectors.getCallUnavailabilityTypes);
+    this.hospitals$ = this.store.select(referenceSelectors.getHospitals);
+    this.shifts$ = this.store.select(referenceSelectors.getShiftTypes);
     this.store.dispatch(new LoadCallUnavailabilityTypesAction());
+    this.store.dispatch(new LoadHospitalsAction());
+    this.store.dispatch(new LoadShiftTypesAction());
 
     this.sub = this.route.params
       .map(params => params.scheduleRequestID)
@@ -194,6 +209,23 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       })
     };
     this.store.dispatch(new createScheduleActions.SubmitHospitalistRoundingsAction(data));
+  }
+
+  volunteerShiftChange(shift: VolunteerShift) {
+    this.requestCalendar = this.requestCalendar.setVolunteerShift(shift);
+  }
+
+  volunteerShiftSubmit() {
+    // let data: SubmitHospiralistRoundingRequest = {
+    //   scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+    //   dates: _.map(this.requestCalendar.hospitalistRoundings, (day) => {
+    //     return !day ? null : {
+    //       start: day.format('L'),
+    //       end: moment(day).endOf('week').format('L')
+    //     }
+    //   })
+    // };
+    // this.store.dispatch(new createScheduleActions.SubmitHospitalistRoundingsAction(data));
   }
 
 }

@@ -1,0 +1,32 @@
+<p class="note">If interested, choose a Saturday</p>
+
+<div>
+
+  <pcl-custom-date-selector (onDateChange)="onDateChange($event, volunteerShift.hospitalId, volunteerShift.shiftId)"
+                            [placeholder]="'Choose a Saturday'"
+                            [date]="volunteerShift?.date"
+                            [calendar]="calendar"></pcl-custom-date-selector>
+
+  <md-select placeholder="Select hospital"
+             (change)="onHospitalChange($event)"
+             [value]="volunteerShift?.hospitalId">
+    <md-option *ngFor="let hospital of hospitals" [value]="hospital.HospitalID">
+      {{ hospital.Abbreviation}}
+    </md-option>
+  </md-select>
+
+  <md-select placeholder="Select shift"
+             (change)="onShiftChange($event)"
+             [value]="volunteerShift?.shiftId">
+    <md-option *ngFor="let shift of shifts" [value]="shift.ShiftID">
+      {{ shift.Description }}
+    </md-option>
+  </md-select>
+
+</div>
+
+<pcl-schedule-step-buttons [showSkipBtn]="true"
+                           [disableSkipBtn]="calendar?.isVolunteerShiftChanged()"
+                           [disableNextBtn]="!calendar?.isVolunteerShiftChanged() || !calendar?.isVolunteerShiftValid()"
+                           (onSkipBtnClick)="skip()"
+                           (onNextBtnClick)="submit()"></pcl-schedule-step-buttons>

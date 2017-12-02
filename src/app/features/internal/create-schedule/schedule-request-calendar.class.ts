@@ -21,6 +21,7 @@ export type CallNight = moment.Moment;
 export type CallNights = {[key: string ]: CallNight };
 export type Weekend = {label: string; start: moment.Moment; end: moment.Moment; num: number; disabled: boolean; };
 export type HospitalistRoundings = Array<moment.Moment | null>;
+export type VolunteerShift = { date: moment.Moment; hospitalId: number; shiftId: number; };
 
 export class RequestCalendar {
   month: number;
@@ -32,6 +33,7 @@ export class RequestCalendar {
   offWeekend: Weekend | null;
   weekends: Weekend[];
   hospitalistRoundings: HospitalistRoundings;
+  volunteerShift: VolunteerShift;
   days: DayEntry[];
   events = {};
   selectedWeeks = {};
@@ -47,6 +49,7 @@ export class RequestCalendar {
     this.fillEducationLeaves(request.EducationalLeaveList);
     this.fillCallNights(request.PreferredCallNightList);
     this.fillHospitalistRoundings(request.HospitalistRoundingList);
+    this.fillVolunteerShift(request.VolunteerShiftList);
 
 
     this.weekends = this.getWeekends(moment({year: this.year, month: this.month}));
@@ -351,6 +354,8 @@ export class RequestCalendar {
   }
 
 
+
+
   fillHospitalistRoundings(hospitalistRoundings: requestModels.HospitalistRoundingModel[]) {
     if (hospitalistRoundings.length) {
       let firstWeek = _.find(
@@ -398,5 +403,44 @@ export class RequestCalendar {
   }
   isHospitalRoundingsBlank(): boolean {
     return !this.initialData.HospitalistRoundingList.length;
+  }
+
+
+
+
+  fillVolunteerShift(volunteerShifts: requestModels.VolunteerShiftModel[]) {
+    if (volunteerShifts.length) {
+      this.volunteerShift = {
+        date: moment(volunteerShifts[0].Date),
+        hospitalId: volunteerShifts[0].HospitalID,
+        shiftId: volunteerShifts[0].ShiftID
+      };
+      this.addEvent(this.volunteerShift.date, '#f14437');
+    } else {
+      this.volunteerShift = {date: null, hospitalId: null, shiftId: null};
+    }
+  }
+  setVolunteerShift(day: VolunteerShift): RequestCalendar {
+    let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
+    newData.VolunteerShiftList = [];
+    if (day && day.date && day.hospitalId && day.shiftId) {
+      newData.VolunteerShiftList.push({
+        VolunteerShiftID: null,
+        HospitalID: day.hospitalId,
+        ShiftID: day.shiftId,
+        Date: day.date ? day.date.toISOString() : null,
+        ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
+        EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
+        GroupID: this.initialData.ScheduleRequest.GroupID,
+      })
+    }
+    return new RequestCalendar(newData);
+  }
+  isVolunteerShiftChanged(): boolean {
+    return this.initialData.VolunteerShiftList && !this.initialData.VolunteerShiftList[0].VolunteerShiftID
+  }
+  isVolunteerShiftValid(): boolean {
+    let shift: VolunteerShift = this.volunteerShift;
+    return shift && shift.date && shift.date.isValid() && shift.hospitalId && !!shift.shiftId;
   }
 }

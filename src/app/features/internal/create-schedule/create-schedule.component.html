@@ -108,10 +108,16 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">VOLUNTEER SHIFT</div>
-        <button md-button *ngIf="selectedIndex === 6">Clear</button>
+        <button md-button *ngIf="selectedIndex === 6" (click)="volunteerShiftChange({})">Clear</button>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-7 [volunteerShift]="requestCalendar?.volunteerShift"
+                         [hospitals]="hospitals$ | async"
+                         [shifts]="shifts$ | async"
+                         (onUpdate)="volunteerShiftChange($event)"
+                         (skipStep)="nextStep()"
+                         (onSubmit)="volunteerShiftSubmit()"
+                         [calendar]="requestCalendar"></pcl-schedule-step-7>
   </md-step>
 
   <md-step>
