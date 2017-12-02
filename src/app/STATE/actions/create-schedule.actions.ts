@@ -37,11 +37,6 @@ export const ActionTypes = {
   LOAD_SCHEDULE_REQUEST_SUCCESS: type('[Create Schedule] load schedule request success'),
   LOAD_SCHEDULE_REQUEST_FAIL: type('[Create Schedule] load schedule request fail'),
 
-  // delete volunteer shifts
-  DELETE_VOLUNTEER_SHIFTS: type('[Create Schedule] delete volunteer shifts'),
-  DELETE_VOLUNTEER_SHIFTS_SUCCESS: type('[Create Schedule] delete volunteer shifts success'),
-  DELETE_VOLUNTEER_SHIFTS_FAIL: type('[Create Schedule] delete volunteer shifts fail'),
-
   // submit vacation window
   SUBMIT_VACATION_WINDOW: type('[Create Schedule] submit vacation window'),
   SUBMIT_VACATION_WINDOW_SUCCESS: type('[Create Schedule] submit vacation window success'),
@@ -72,10 +67,10 @@ export const ActionTypes = {
   SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS: type('[Create Schedule] submit hospital roundings success'),
   SUBMIT_HOSPITALIST_ROUNDINGS_FAIL: type('[Create Schedule] submit hospital roundings fail'),
 
-  // create volunteer shift
-  CREATE_VOLUNTEER_SHIFT: type('[Create Schedule] create volunteer shift'),
-  CREATE_VOLUNTEER_SHIFT_SUCCESS: type('[Create Schedule] create volunteer shift success'),
-  CREATE_VOLUNTEER_SHIFT_FAIL: type('[Create Schedule] create volunteer shift fail'),
+  // submit volunteer shift
+  SUBMIT_VOLUNTEER_SHIFT: type('[Create Schedule] submit volunteer shift'),
+  SUBMIT_VOLUNTEER_SHIFT_SUCCESS: type('[Create Schedule] submit volunteer shift success'),
+  SUBMIT_VOLUNTEER_SHIFT_FAIL: type('[Create Schedule] submit volunteer shift fail'),
 
   // update schedule request employee notes
   UPDATE_SR_EMPLOYEE_NOTES: type('[Create Schedule] update schedule request employee notes'),
@@ -125,19 +120,6 @@ export class LoadScheduleRequestSuccessAction implements Action {
 }
 export class LoadScheduleRequestFailAction implements Action {
   type = ActionTypes.LOAD_SCHEDULE_REQUEST_FAIL;
-  constructor(public payload: string) { }
-}
-
-  // delete volunteer shifts
-export class DeleteVolunteerShiftsAction implements Action {
-  type = ActionTypes.DELETE_VOLUNTEER_SHIFTS;
-  constructor(public payload: number) { }
-}
-export class DeleteVolunteerShiftsSuccessAction implements Action {
-  type = ActionTypes.DELETE_VOLUNTEER_SHIFTS_SUCCESS;
-}
-export class DeleteVolunteerShiftsFailAction implements Action {
-  type = ActionTypes.DELETE_VOLUNTEER_SHIFTS_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -219,16 +201,16 @@ export class SubmitHospitalistRoundingsFailAction implements Action {
   constructor(public payload: string) { }
 }
 
-  // create volunteer shift
-export class CreateVolunteerShiftAction implements Action {
-  type = ActionTypes.CREATE_VOLUNTEER_SHIFT;
+// submit volunteer shift
+export class SubmitVolunteerShiftAction implements Action {
+  type = ActionTypes.SUBMIT_VOLUNTEER_SHIFT;
   constructor(public payload: CreateVolunteerShiftRequest) { }
 }
-export class CreateVolunteerShiftSuccessAction implements Action {
-  type = ActionTypes.CREATE_VOLUNTEER_SHIFT_SUCCESS;
+export class SubmitVolunteerShiftSuccessAction implements Action {
+  type = ActionTypes.SUBMIT_VOLUNTEER_SHIFT_SUCCESS;
 }
-export class CreateVolunteerShiftFailAction implements Action {
-  type = ActionTypes.CREATE_VOLUNTEER_SHIFT_FAIL;
+export class SubmitVolunteerShiftFailAction implements Action {
+  type = ActionTypes.SUBMIT_VOLUNTEER_SHIFT_FAIL;
   constructor(public payload: string) { }
 }
 
@@ -283,11 +265,6 @@ export type Actions
   | LoadScheduleRequestSuccessAction
   | LoadScheduleRequestFailAction
 
-  // delete volunteer shifts
-  | DeleteVolunteerShiftsAction
-  | DeleteVolunteerShiftsSuccessAction
-  | DeleteVolunteerShiftsFailAction
-
   // submit vacation window
   | SubmitVacationWindowAction
   | SubmitVacationWindowSuccessAction
@@ -318,10 +295,10 @@ export type Actions
   | SubmitHospitalistRoundingsSuccessAction
   | SubmitHospitalistRoundingsFailAction
 
-  // create volunteer shift
-  | CreateVolunteerShiftAction
-  | CreateVolunteerShiftSuccessAction
-  | CreateVolunteerShiftFailAction
+  // submit volunteer shift
+  | SubmitVolunteerShiftAction
+  | SubmitVolunteerShiftSuccessAction
+  | SubmitVolunteerShiftFailAction
 
   // update schedule request employee notes
   | UpdateSREmployeeNotesAction

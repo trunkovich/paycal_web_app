@@ -20,6 +20,7 @@ import {
 import { MdVerticalStepper } from '@angular/material';
 import {
   CreatePreferredOffWeekendRequest,
+  CreateVolunteerShiftRequest,
   SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
@@ -91,7 +92,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
         createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS,
-        createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS
+        createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS,
+        createScheduleActions.ActionTypes.SUBMIT_VOLUNTEER_SHIFT_SUCCESS
       )
       .subscribe(() => this.nextStep());
   }
@@ -216,16 +218,13 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   }
 
   volunteerShiftSubmit() {
-    // let data: SubmitHospiralistRoundingRequest = {
-    //   scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
-    //   dates: _.map(this.requestCalendar.hospitalistRoundings, (day) => {
-    //     return !day ? null : {
-    //       start: day.format('L'),
-    //       end: moment(day).endOf('week').format('L')
-    //     }
-    //   })
-    // };
-    // this.store.dispatch(new createScheduleActions.SubmitHospitalistRoundingsAction(data));
+    let data: CreateVolunteerShiftRequest = {
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      date: this.requestCalendar.volunteerShift.date && this.requestCalendar.volunteerShift.date.format('L'),
+      hospitalID: this.requestCalendar.volunteerShift.hospitalId,
+      shiftID: this.requestCalendar.volunteerShift.shiftId
+    };
+    this.store.dispatch(new createScheduleActions.SubmitVolunteerShiftAction(data));
   }
 
 }

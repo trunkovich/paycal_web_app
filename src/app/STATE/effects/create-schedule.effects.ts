@@ -12,6 +12,7 @@ import { CreateScheduleService } from '../../core/services/create-schedule.servi
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
 import {
   CreatePreferredOffWeekendRequest,
+  CreateVolunteerShiftRequest,
   SubmitCallNightsRequest,
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
@@ -62,6 +63,7 @@ export class CreateScheduleEffects {
       createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
       createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS,
       createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS,
+      createScheduleActions.ActionTypes.SUBMIT_VOLUNTEER_SHIFT_SUCCESS,
     )
     .withLatestFrom(this.store.select(createScheduleSelectors.getSelectedScheduleRequestId))
     .switchMap(([_, scheduleRequestID]) => {
@@ -181,5 +183,22 @@ export class CreateScheduleEffects {
         })
         .map(() => new createScheduleActions.SubmitHospitalistRoundingsSuccessAction())
         .catch(error => Observable.of(new createScheduleActions.SubmitHospitalistRoundingsFailAction(error)));
+    });
+
+  @Effect()
+  submitVolunteerShift: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.SUBMIT_VOLUNTEER_SHIFT)
+    .map((action: createScheduleActions.SubmitVolunteerShiftAction) => action.payload)
+    .switchMap((data: CreateVolunteerShiftRequest) => {
+      return this.createScheduleService.deleteVolunteerShifts(data.scheduleRequestId)
+        .switchMap(() => {
+          if (data.date) {
+            return this.createScheduleService.createVolunteerShift(data);
+          } else {
+            return Observable.of(true);
+          }
+        })
+        .map(() => new createScheduleActions.SubmitVolunteerShiftSuccessAction())
+        .catch(error => Observable.of(new createScheduleActions.SubmitVolunteerShiftFailAction(error)));
     });
 }

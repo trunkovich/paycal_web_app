@@ -28,11 +28,6 @@ export class ScheduleStep7Component {
       hospitalId,
       shiftId
     });
-    console.log({
-      date: moment(newDay),
-      hospitalId,
-      shiftId
-    });
   }
 
   skip() {

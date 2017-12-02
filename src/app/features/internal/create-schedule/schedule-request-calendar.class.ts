@@ -437,10 +437,12 @@ export class RequestCalendar {
     return new RequestCalendar(newData);
   }
   isVolunteerShiftChanged(): boolean {
-    return this.initialData.VolunteerShiftList && !this.initialData.VolunteerShiftList[0].VolunteerShiftID
+    return this.initialData.VolunteerShiftList &&
+      (!this.initialData.VolunteerShiftList.length || !this.initialData.VolunteerShiftList[0].VolunteerShiftID);
   }
   isVolunteerShiftValid(): boolean {
     let shift: VolunteerShift = this.volunteerShift;
-    return shift && shift.date && shift.date.isValid() && shift.hospitalId && !!shift.shiftId;
+    return shift && shift.date && shift.date.isValid() && shift.hospitalId && !!shift.shiftId ||
+      !shift.date && !shift.hospitalId && !shift.shiftId;
   }
 }
