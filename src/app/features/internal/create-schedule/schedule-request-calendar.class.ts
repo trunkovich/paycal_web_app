@@ -34,6 +34,8 @@ export class RequestCalendar {
   weekends: Weekend[];
   hospitalistRoundings: HospitalistRoundings;
   volunteerShift: VolunteerShift;
+  compTime: boolean;
+  details: string;
   days: DayEntry[];
   events = {};
   selectedWeeks = {};
@@ -50,6 +52,8 @@ export class RequestCalendar {
     this.fillCallNights(request.PreferredCallNightList);
     this.fillHospitalistRoundings(request.HospitalistRoundingList);
     this.fillVolunteerShift(request.VolunteerShiftList);
+    this.compTime = request.ScheduleRequest.UseCompTime;
+    this.details = request.ScheduleRequest.EmployeeNotes;
 
 
     this.weekends = this.getWeekends(moment({year: this.year, month: this.month}));
@@ -444,5 +448,9 @@ export class RequestCalendar {
     let shift: VolunteerShift = this.volunteerShift;
     return shift && shift.date && shift.date.isValid() && shift.hospitalId && !!shift.shiftId ||
       !shift.date && !shift.hospitalId && !shift.shiftId;
+  }
+
+  isCompTimeSet(): boolean {
+    return this.compTime === true || this.compTime === false;
   }
 }

@@ -126,7 +126,10 @@
         <div class="label">COMP TIME*</div>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-8 [compTime]="requestCalendar?.compTime"
+                         [disableNextBtn]="!requestCalendar?.isCompTimeSet()"
+                         (onUpdate)="submitCompTime($event)"
+                         (onNextBtnClick)="nextStep()"></pcl-schedule-step-8>
   </md-step>
 
   <md-step>
@@ -135,7 +138,8 @@
         <div class="label">ADDITIONAL DETAILS</div>
       </div>
     </ng-template>
-    Content 1
+    <pcl-schedule-step-9 [details]="requestCalendar?.details"
+                         (onUpdate)="submitDetails($event)"></pcl-schedule-step-9>
   </md-step>
 
   <md-step>

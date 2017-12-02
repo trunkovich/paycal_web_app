@@ -217,7 +217,7 @@ export class SubmitVolunteerShiftFailAction implements Action {
   // update schedule request employee notes
 export class UpdateSREmployeeNotesAction implements Action {
   type = ActionTypes.UPDATE_SR_EMPLOYEE_NOTES;
-  constructor(public payload: UpdateScheduleRequestUseCompTimeRequest) { }
+  constructor(public payload: UpdateScheduleRequestEmployeeNotesRequest) { }
 }
 export class UpdateSREmployeeNotesSuccessAction implements Action {
   type = ActionTypes.UPDATE_SR_EMPLOYEE_NOTES_SUCCESS;
@@ -230,7 +230,7 @@ export class UpdateSREmployeeNotesFailAction implements Action {
   // update schedule request use comp time
 export class UpdateSRUseCompTimeAction implements Action {
   type = ActionTypes.UPDATE_SR_USE_COMP_TIME;
-  constructor(public payload: UpdateScheduleRequestEmployeeNotesRequest) { }
+  constructor(public payload: UpdateScheduleRequestUseCompTimeRequest) { }
 }
 export class UpdateSRUseCompTimeSuccessAction implements Action {
   type = ActionTypes.UPDATE_SR_USE_COMP_TIME_SUCCESS;

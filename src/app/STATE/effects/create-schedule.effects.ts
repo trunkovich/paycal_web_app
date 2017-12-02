@@ -17,7 +17,8 @@ import {
   SubmitCallUnavailabilityWindowRequest,
   SubmitEducationLeavesRequest,
   SubmitHospiralistRoundingRequest,
-  SubmitVacationWindowRequest
+  SubmitVacationWindowRequest,
+  UpdateScheduleRequestUseCompTimeRequest
 } from '../models/requests/create-schedule-request.model';
 import { AppState, createScheduleSelectors } from '../reducers/index';
 
@@ -201,4 +202,14 @@ export class CreateScheduleEffects {
         .map(() => new createScheduleActions.SubmitVolunteerShiftSuccessAction())
         .catch(error => Observable.of(new createScheduleActions.SubmitVolunteerShiftFailAction(error)));
     });
+
+  @Effect()
+  updateCompTime: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.UPDATE_SR_USE_COMP_TIME)
+    .map((action: createScheduleActions.UpdateSRUseCompTimeAction) => action.payload)
+    .switchMap((data: UpdateScheduleRequestUseCompTimeRequest) => {
+      return this.createScheduleService.updateScheduleRequestUseCompTime(data);
+    })
+    .map(() => new createScheduleActions.UpdateSRUseCompTimeSuccessAction())
+    .catch(error => Observable.of(new createScheduleActions.UpdateSRUseCompTimeFailAction(error)));
 }

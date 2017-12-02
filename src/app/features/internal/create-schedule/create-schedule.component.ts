@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState, createScheduleSelectors, referenceSelectors } from '../../../STATE/reducers/index';
 import * as createScheduleActions from '../../../STATE/actions/create-schedule.actions';
+import { UpdateSRUseCompTimeAction } from '../../../STATE/actions/create-schedule.actions';
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -93,7 +94,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
         createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS,
         createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS,
-        createScheduleActions.ActionTypes.SUBMIT_VOLUNTEER_SHIFT_SUCCESS
+        createScheduleActions.ActionTypes.SUBMIT_VOLUNTEER_SHIFT_SUCCESS,
       )
       .subscribe(() => this.nextStep());
   }
@@ -225,6 +226,17 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       shiftID: this.requestCalendar.volunteerShift.shiftId
     };
     this.store.dispatch(new createScheduleActions.SubmitVolunteerShiftAction(data));
+  }
+
+  submitCompTime(value: boolean) {
+    this.store.dispatch(new UpdateSRUseCompTimeAction({
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      useCompTime: value
+    }));
+  }
+
+  submitDetails() {
+    console.log('submitDetails');
   }
 
 }
