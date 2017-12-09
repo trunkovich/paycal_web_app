@@ -139,7 +139,9 @@
       </div>
     </ng-template>
     <pcl-schedule-step-9 [details]="requestCalendar?.details"
-                         (onUpdate)="submitDetails($event)"></pcl-schedule-step-9>
+                         (onUpdate)="submitDetails($event)"
+                         (onNext)="nextStep()"
+                         (onSkip)="nextStep()"></pcl-schedule-step-9>
   </md-step>
 
   <md-step>

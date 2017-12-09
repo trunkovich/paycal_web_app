@@ -3,5 +3,12 @@
 @import '../../../../../helpers';
 
 :host {
+  display: block;
+  .note {
+    font-size: 14px;
+    line-height: 22px;
+    color: $bluish-grey;
+    margin-bottom: 24px;
+  }
 
 }

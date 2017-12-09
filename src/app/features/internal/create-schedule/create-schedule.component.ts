@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState, createScheduleSelectors, referenceSelectors } from '../../../STATE/reducers/index';
 import * as createScheduleActions from '../../../STATE/actions/create-schedule.actions';
-import { UpdateSRUseCompTimeAction } from '../../../STATE/actions/create-schedule.actions';
+import { UpdateSREmployeeNotesAction, UpdateSRUseCompTimeAction } from '../../../STATE/actions/create-schedule.actions';
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -235,8 +235,11 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
     }));
   }
 
-  submitDetails() {
-    console.log('submitDetails');
+  submitDetails(employeeNotes: string) {
+    this.store.dispatch(new UpdateSREmployeeNotesAction({
+      scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
+      employeeNotes
+    }));
   }
 
 }

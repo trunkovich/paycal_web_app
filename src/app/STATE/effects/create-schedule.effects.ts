@@ -18,6 +18,7 @@ import {
   SubmitEducationLeavesRequest,
   SubmitHospiralistRoundingRequest,
   SubmitVacationWindowRequest,
+  UpdateScheduleRequestEmployeeNotesRequest,
   UpdateScheduleRequestUseCompTimeRequest
 } from '../models/requests/create-schedule-request.model';
 import { AppState, createScheduleSelectors } from '../reducers/index';
@@ -212,4 +213,14 @@ export class CreateScheduleEffects {
     })
     .map(() => new createScheduleActions.UpdateSRUseCompTimeSuccessAction())
     .catch(error => Observable.of(new createScheduleActions.UpdateSRUseCompTimeFailAction(error)));
+
+  @Effect()
+  updateEmployeeNotes: Observable<Action> = this.actions$
+    .ofType(createScheduleActions.ActionTypes.UPDATE_SR_EMPLOYEE_NOTES)
+    .map((action: createScheduleActions.UpdateSREmployeeNotesAction) => action.payload)
+    .switchMap((data: UpdateScheduleRequestEmployeeNotesRequest) => {
+      return this.createScheduleService.updateScheduleRequestEmployeeNotes(data);
+    })
+    .map(() => new createScheduleActions.UpdateSREmployeeNotesSuccessAction())
+    .catch(error => Observable.of(new createScheduleActions.UpdateSREmployeeNotesFailAction(error)));
 }
