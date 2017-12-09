@@ -9,4 +9,10 @@
     line-height: 22px;
     color: $bluish-grey;
   }
+
+  md-radio-group {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-around;
+  }
 }
