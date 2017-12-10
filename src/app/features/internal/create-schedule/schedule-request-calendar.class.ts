@@ -429,7 +429,7 @@ export class RequestCalendar {
   setVolunteerShift(day: VolunteerShift): RequestCalendar {
     let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
     newData.VolunteerShiftList = [];
-    if (day && day.date && day.hospitalId && day.shiftId) {
+    if (day && day.date) {
       newData.VolunteerShiftList.push({
         VolunteerShiftID: null,
         HospitalID: day.hospitalId,

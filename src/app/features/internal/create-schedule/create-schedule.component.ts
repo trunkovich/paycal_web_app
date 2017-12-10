@@ -215,6 +215,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   }
 
   volunteerShiftChange(shift: VolunteerShift) {
+    console.log('volunteerShiftChange', shift);
     this.requestCalendar = this.requestCalendar.setVolunteerShift(shift);
   }
 

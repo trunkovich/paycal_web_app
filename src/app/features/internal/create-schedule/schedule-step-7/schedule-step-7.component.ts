@@ -23,6 +23,7 @@ export class ScheduleStep7Component {
   constructor() { }
 
   onDateChange(newDay: moment.Moment, hospitalId: number, shiftId: number) {
+    console.log('onDateChange', newDay);
     this.onUpdate.emit({
       date: moment(newDay),
       hospitalId,
