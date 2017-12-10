@@ -113,22 +113,13 @@ $tealish: #2ab0c9;
   #mat-step-label-0-4 {
     .mat-step-icon {
       background-color: transparent;
-      border-color: $calendar-pink;
-    }
-    .mat-icon {
-      color: $calendar-pink;
-    }
-  }
-  #mat-step-label-0-5 {
-    .mat-step-icon {
-      background-color: transparent;
       border-color: $light-purple;
     }
     .mat-icon {
       color: $light-purple;
     }
   }
-  #mat-step-label-0-6 {
+  #mat-step-label-0-5 {
     .mat-step-icon {
       background-color: transparent;
       border-color: $pastel-orange;
@@ -137,7 +128,7 @@ $tealish: #2ab0c9;
       color: $pastel-orange;
     }
   }
-  #mat-step-label-0-7 {
+  #mat-step-label-0-6 {
     .mat-step-icon {
       background-color: transparent;
       border-color: $calendar-red;
@@ -146,7 +137,7 @@ $tealish: #2ab0c9;
       color: $calendar-red;
     }
   }
-  #mat-step-label-0-8 {
+  #mat-step-label-0-7 {
     .mat-step-icon {
       background-color: transparent;
       border-color: $yellowish-green;
@@ -155,7 +146,7 @@ $tealish: #2ab0c9;
       color: $yellowish-green;
     }
   }
-  #mat-step-label-0-9 {
+  #mat-step-label-0-8 {
     .mat-step-icon {
       background-color: transparent;
       border-color: $tealish;
@@ -164,7 +155,7 @@ $tealish: #2ab0c9;
       color: $tealish;
     }
   }
-  #mat-step-label-0-10 {
+  #mat-step-label-0-9 {
     .mat-step-icon {
       background-color: transparent;
       border-color: $tealish;
@@ -205,47 +196,40 @@ $tealish: #2ab0c9;
   .step-4-active {
     #mat-step-label-0-4 {
       .mat-step-icon {
-        background-color: $calendar-pink;
+        background-color: $light-purple;
       }
     }
   }
   .step-5-active {
     #mat-step-label-0-5 {
       .mat-step-icon {
-        background-color: $light-purple;
+        background-color: $pastel-orange;
       }
     }
   }
   .step-6-active {
     #mat-step-label-0-6 {
       .mat-step-icon {
-        background-color: $pastel-orange;
+        background-color: $calendar-red;
       }
     }
   }
   .step-7-active {
     #mat-step-label-0-7 {
       .mat-step-icon {
-        background-color: $calendar-red;
+        background-color: $yellowish-green;
       }
     }
   }
   .step-8-active {
     #mat-step-label-0-8 {
       .mat-step-icon {
-        background-color: $yellowish-green;
+        background-color: $tealish;
       }
     }
   }
   .step-9-active {
     #mat-step-label-0-9 {
-      .mat-step-icon {
-        background-color: $tealish;
-      }
-    }
-  }
-  .step-10-active {
-    #mat-step-label-0-10 {
       .mat-step-icon {
         background-color: $tealish;
       }
