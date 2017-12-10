@@ -2,6 +2,34 @@
 @import '../../../../../mixins';
 @import '../../../../../helpers';
 
-:host {
+:host /deep/ {
+  display: block;
+  .note {
+    font-size: 14px;
+    line-height: 22px;
+    color: $bluish-grey;
+    margin-bottom: 24px;
+  }
 
+  .mat-tab-label, .mat-tab-ink {
+    width: 50%;
+  }
+
+  .info-blocks-wrapper {
+    .info-block {
+      border-bottom: solid 1px #d3deea;
+      .header {
+        margin: 17px 0 12px 0;
+        color: $tealish;
+      }
+      .info-line {
+        margin-bottom: 15px;
+        color: $bluish-grey;
+        .dark-text {
+          color: #4a525a;
+          font-weight: bold;
+        }
+      }
+    }
+  }
 }

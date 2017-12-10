@@ -10,7 +10,8 @@ import {
   MatRadioModule,
   MatRippleModule,
   MatSelectModule,
-  MatStepperModule
+  MatStepperModule,
+  MatTabsModule
 } from '@angular/material';
 
 @NgModule({
@@ -35,7 +36,7 @@ import {
     // MatSelectionModule,
     // MatSidenavModule,
     // MatSliderModule,
-    // MatTabsModule,
+    MatTabsModule,
     // MatToolbarModule,
     // MatTooltipModule,
     // MatButtonToggleModule,
@@ -66,7 +67,7 @@ import {
     // MatSelectionModule,
     // MatSidenavModule,
     // MatSliderModule,
-    // MatTabsModule,
+    MatTabsModule,
     // MatToolbarModule,
     // MatTooltipModule,
     // MatButtonToggleModule,

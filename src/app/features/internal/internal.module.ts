@@ -48,6 +48,7 @@ import { SelectMonthForSchedulingComponent } from './select-month-for-scheduling
 import { CustomDateSelectorComponent } from './common/components/custom-date-selector/custom-date-selector.component';
 import { DialogCalendarComponent } from './common/components/custom-date-selector/dialog-calendar/dialog-calendar.component';
 import { ScheduleStepButtonsComponent } from './create-schedule/schedule-step-buttons/schedule-step-buttons.component';
+import { CallUnavailabilityTypePipe, HospitalPipe, ShiftTypePipe } from './create-schedule/create-schedule.pipes';
 
 @NgModule({
   imports: [
@@ -112,7 +113,10 @@ import { ScheduleStepButtonsComponent } from './create-schedule/schedule-step-bu
     SelectMonthForSchedulingComponent,
     CustomDateSelectorComponent,
     DialogCalendarComponent,
-    ScheduleStepButtonsComponent
+    ScheduleStepButtonsComponent,
+    CallUnavailabilityTypePipe,
+    ShiftTypePipe,
+    HospitalPipe
   ],
   entryComponents: [DialogCalendarComponent]
 })

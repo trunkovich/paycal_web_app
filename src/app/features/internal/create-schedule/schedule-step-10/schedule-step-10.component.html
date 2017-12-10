@@ -1,0 +1,76 @@
+<p class="note">Review carefully the information below. The scheduler will be automatically submitted after the deadline</p>
+
+<md-tab-group>
+  <md-tab label="Calendar">
+
+  </md-tab>
+  <md-tab label="List">
+    <div class="info-blocks-wrapper" *ngIf="calendar">
+      <div class="info-block" *ngIf="calendar.vacationDays && calendar.vacationDays.length">
+        <h5 class="header">VACATION DAYS REQUEST</h5>
+        <p class="info-line" *ngFor="let vacation of calendar.vacationDays">
+          On <span class="dark-text">{{vacation | amDateFormat:'M/DD/YYYY'}}</span>
+        </p>
+      </div>
+      <div class="info-block" *ngIf="calendar.callUnavailabilityDates && calendar.callUnavailabilityDates.length">
+        <h5 class="header">CALL/BACKUPS UNAVAILABILITY</h5>
+        <p class="info-line" *ngFor="let day of calendar.callUnavailabilityDates">
+          I'll not available for <span class="dark-text">{{day.type | callUnavailabilityType}}</span> on
+          <span class="dark-text">{{day.date | amDateFormat:'M/DD/YYYY'}}</span>
+        </p>
+      </div>
+      <div class="info-block" *ngIf="calendar.educationLeaves && calendar.educationLeaves.length">
+        <h5 class="header">EDUCATIONAL LEAVE REQUEST</h5>
+        <div *ngFor="let day of calendar.educationLeaves; let i = index">
+          <p class="info-line">Activity Name #{{i+1}}: <span class="dark-text">{{day.name}}</span></p>
+          <p class="info-line">Description #{{i+1}}: <span class="dark-text">{{day.description}}</span></p>
+          <p class="info-line">Date #{{i+1}}: <span class="dark-text">{{day.date | amDateFormat:'M/DD/YYYY'}}</span></p>
+        </div>
+      </div>
+      <div class="info-block" *ngIf="calendar.callNights">
+        <h5 class="header">PREFERRED CALL NIGHT</h5>
+        <div *ngFor="let index of [1, 2, 3, 4, 5]">
+          <p class="info-line" *ngIf="calendar.callNights[index]">
+            {{index}} call night: <span class="dark-text">{{calendar.callNights[index] | amDateFormat:'M/DD/YYYY'}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="info-block" *ngIf="calendar.offWeekend">
+        <h5 class="header">PREFERRED OFF-WEEKEND</h5>
+        <p class="info-line">
+          <span class="dark-text">{{calendar.offWeekend.label}}</span>
+        </p>
+      </div>
+      <div class="info-block" *ngIf="hospitalRoundings.length">
+        <h5 class="header">HOSPITALISTS ONLY</h5>
+        <p class="info-line" *ngIf="hospitalRoundings[0]">
+          1st week for rounding: <span class="dark-text">{{hospitalRoundings[0]}}</span>
+        </p>
+        <p class="info-line" *ngIf="hospitalRoundings[1]">
+          2nd week for rounding: <span class="dark-text">{{hospitalRoundings[1]}}</span>
+        </p>
+      </div>
+      <div class="info-block" *ngIf="calendar.volunteerShift">
+        <h5 class="header">VOLUNTEER SHIFT</h5>
+        <p class="info-line">
+          I'll be available on
+          <span class="dark-text">{{calendar.volunteerShift.date | amDateFormat:'dddd Do'}}</span>
+          for
+          <span class="dark-text">{{calendar.volunteerShift.shiftId | shiftType}}</span>
+          volunteer shift at
+          <span class="dark-text">{{calendar.volunteerShift.hospitalId | hospital}}</span>
+        </p>
+      </div>
+      <div class="info-block">
+        <h5 class="header">COMP TIME</h5>
+        <p class="info-line">
+          Comp-time preferred: <span class="dark-text">{{calendar.compTime ? 'YES' : 'NO'}}</span>
+        </p>
+      </div>
+      <div class="info-block" *ngIf="calendar.details">
+        <h5 class="header">ADDITIONAL DETAILS</h5>
+        <p class="info-line"><span class="dark-text">{{calendar.details}}</span></p>
+      </div>
+    </div>
+  </md-tab>
+</md-tab-group>
