@@ -43,9 +43,9 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   requestDetails: CreateScheduleDetailsModel;
   requestCalendar: RequestCalendar;
   loading$: Observable<boolean>;
-  scheduleMonth = moment().add(5, 'month');
-  deadline = moment().startOf('month').date(15);
-  introductionShown = true;
+  scheduleMonth: moment.Moment;
+  deadline: moment.Moment;
+  introductionShown = false;
   selectedIndex = 0;
   callUnavailabilityTypes$: Observable<CallUnavailabilityType[]>;
   hospitals$: Observable<Hospital[]>;
@@ -84,6 +84,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
       .subscribe((requestDetails: CreateScheduleDetailsModel) => {
         this.requestDetails = _.cloneDeep(requestDetails);
         this.requestCalendar = new RequestCalendar(this.requestDetails);
+        this.scheduleMonth = moment({month: this.requestCalendar.month, year: this.requestCalendar.year});
+        this.deadline = moment(requestDetails.ScheduleRequest.RequestDeadline);
       });
 
     this.sub2 = this.actions$
