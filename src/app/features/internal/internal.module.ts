@@ -120,6 +120,7 @@ import { ScheduleCalendarComponent } from './common/components/schedule-calendar
     ShiftTypePipe,
     HospitalPipe
   ],
-  entryComponents: [DialogCalendarComponent]
+  entryComponents: [DialogCalendarComponent],
+  providers: [{ provide: 'Window', useValue: window }]
 })
 export class InternalModule { }

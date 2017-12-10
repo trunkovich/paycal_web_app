@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { RequestCalendar } from '../../../create-schedule/schedule-request-calendar.class';
@@ -20,19 +20,24 @@ export class CustomDateSelectorComponent implements OnChanges {
 
   active = false;
 
-  constructor(private dialog: MdDialog) {}
+  constructor(private dialog: MdDialog, @Inject('Window') private window: Window) {}
 
   openCalendar($event) {
+    const dialogHeight = 250;
     let elem = $event.target;
     while (!elem.classList.contains('date-selector-container')) {
       elem = elem.parentElement;
     }
     let box = elem.getBoundingClientRect();
+    let top = box.top + box.height;
+    if (top + dialogHeight > this.window.innerHeight) {
+      top = this.window.innerHeight - dialogHeight;
+    }
     this.active = true;
     let dialogRef = this.dialog.open(DialogCalendarComponent, {
       width: box.width + 'px',
       position: {
-        top: box.top + box.height + 'px',
+        top: top + 'px',
         left: box.left + 'px'
       },
       data: {
