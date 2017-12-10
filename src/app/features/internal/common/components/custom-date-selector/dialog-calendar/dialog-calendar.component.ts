@@ -30,7 +30,6 @@ export class DialogCalendarComponent {
   }
 
   onDayClick(day) {
-    console.log('onDayClick', day);
     if (this.weekMode) {
       if (!day.weekSelected) {
         this.dialogRef.close(day);
