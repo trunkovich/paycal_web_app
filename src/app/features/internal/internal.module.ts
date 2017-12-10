@@ -44,7 +44,6 @@ import { ScheduleStep7Component } from './create-schedule/schedule-step-7/schedu
 import { ScheduleStep8Component } from './create-schedule/schedule-step-8/schedule-step-8.component';
 import { ScheduleStep9Component } from './create-schedule/schedule-step-9/schedule-step-9.component';
 import { ScheduleStep10Component } from './create-schedule/schedule-step-10/schedule-step-10.component';
-import { ScheduleStep11Component } from './create-schedule/schedule-step-11/schedule-step-11.component';
 import { SelectMonthForSchedulingComponent } from './select-month-for-scheduling/select-month-for-scheduling.component';
 import { CustomDateSelectorComponent } from './common/components/custom-date-selector/custom-date-selector.component';
 import { DialogCalendarComponent } from './common/components/custom-date-selector/dialog-calendar/dialog-calendar.component';
@@ -110,7 +109,6 @@ import { ScheduleStepButtonsComponent } from './create-schedule/schedule-step-bu
     ScheduleStep8Component,
     ScheduleStep9Component,
     ScheduleStep10Component,
-    ScheduleStep11Component,
     SelectMonthForSchedulingComponent,
     CustomDateSelectorComponent,
     DialogCalendarComponent,
