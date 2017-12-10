@@ -11,6 +11,31 @@
     margin-bottom: 24px;
   }
 
+  pcl-schedule-calendar {
+    margin-top: 30px;
+  }
+
+  .legend-block {
+    h5 {
+      color: #808e9c;
+    }
+    .legend-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 12px;
+      .legend-circle {
+        width: 8px;
+        height: 8px;
+        margin-right: 6px;
+        border-radius: 50%;
+      }
+      .legend-title {
+
+      }
+    }
+  }
+
   .mat-tab-label, .mat-tab-ink {
     width: 50%;
   }

@@ -10,6 +10,7 @@ export interface DayEntry {
   disabled: boolean;
   event: string;
   weekSelected: number | null;
+  otherMonth: boolean;
 }
 
 export type VacationDays = Array<moment.Moment | null>;
@@ -81,7 +82,8 @@ export class RequestCalendar {
         blank: otherMonth,
         disabled: haveEvent || otherMonth,
         event: events,
-        weekSelected: weekDays ? weekDays-- : null
+        weekSelected: weekDays ? weekDays-- : null,
+        otherMonth
       });
       currentDay.add(1, 'day');
     }

@@ -2,7 +2,40 @@
 
 <md-tab-group>
   <md-tab label="Calendar">
-
+    <pcl-schedule-calendar [days]="days"
+                           [header]="header"
+                           [readOnlyMode]="true"></pcl-schedule-calendar>
+    <div class="legend-block">
+      <h5>Legend</h5>
+      <div class="legend-item">
+        <div class="legend-circle" [style.backgroundColor]="'#ffd300'"></div>
+        <div class="legend-title">Vacation Requests</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle" [style.backgroundColor]="'#5dcf5e'"></div>
+        <div class="legend-title">Calls/Backups Unavailability</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle" [style.backgroundColor]="'#4a90e2'"></div>
+        <div class="legend-title">Educational Leave Requests (LV)</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle" [style.backgroundColor]="'#f978a7'"></div>
+        <div class="legend-title">Preferred Call Nights</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle" [style.backgroundColor]="'#ab78f9'"></div>
+        <div class="legend-title">Preferred ON-Weekend</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle" [style.backgroundColor]="'#fd995d'"></div>
+        <div class="legend-title">Hospitality only</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-circle" [style.backgroundColor]="'#f14437'"></div>
+        <div class="legend-title">Volunteer Shift</div>
+      </div>
+    </div>
   </md-tab>
   <md-tab label="List">
     <div class="info-blocks-wrapper" *ngIf="calendar">
