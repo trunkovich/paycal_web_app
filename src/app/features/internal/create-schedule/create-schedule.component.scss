@@ -17,7 +17,7 @@ $tealish: #2ab0c9;
 
 :host /deep/ {
   display: block;
-  @extend .full-height;
+  min-height: 100%;
   background-color: $pale-grey;
 
   .mat-stepper-vertical {

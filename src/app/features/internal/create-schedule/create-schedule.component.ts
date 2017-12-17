@@ -51,6 +51,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   callUnavailabilityTypes$: Observable<CallUnavailabilityType[]>;
   hospitals$: Observable<Hospital[]>;
   shifts$: Observable<ShiftType[]>;
+  isDeadlinePassed: boolean = false;
 
   @ViewChild('stepper') stepper: MdVerticalStepper;
 
@@ -90,6 +91,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
         this.requestCalendar = new RequestCalendar(this.requestDetails);
         this.scheduleMonth = moment({month: this.requestCalendar.month, year: this.requestCalendar.year});
         this.deadline = moment(requestDetails.ScheduleRequest.RequestDeadline);
+        this.isDeadlinePassed = moment().isAfter(this.deadline);
       });
 
     this.sub2 = this.actions$

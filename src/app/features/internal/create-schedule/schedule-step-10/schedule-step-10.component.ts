@@ -11,6 +11,7 @@ import { DayEntry, RequestCalendar } from '../schedule-request-calendar.class';
 })
 export class ScheduleStep10Component implements OnChanges {
   @Input() calendar: RequestCalendar;
+  @Input() stepperMode: boolean;
 
   days: DayEntry[];
   header: string;

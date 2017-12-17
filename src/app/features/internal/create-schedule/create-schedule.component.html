@@ -16,7 +16,7 @@
 <md-vertical-stepper icon="number" #stepper
                      [ngClass]="'step-' + selectedIndex + '-active'"
                      (selectionChange)="selectionChange($event)"
-                     *ngIf="introductionShown">
+                     *ngIf="introductionShown && !isDeadlinePassed">
 
   <md-step>
     <ng-template mdStepLabel>
@@ -150,7 +150,9 @@
         <div class="label">REVIEW & SUBMIT</div>
       </div>
     </ng-template>
-    <pcl-schedule-step-10 [calendar]="requestCalendar"></pcl-schedule-step-10>
+    <pcl-schedule-step-10 [calendar]="requestCalendar" [stepperMode]="true"></pcl-schedule-step-10>
   </md-step>
 
 </md-vertical-stepper>
+
+<pcl-schedule-step-10 [calendar]="requestCalendar" *ngIf="introductionShown && isDeadlinePassed"></pcl-schedule-step-10>
