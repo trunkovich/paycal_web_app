@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./select-month-for-scheduling.component.scss']
 })
 export class SelectMonthForSchedulingComponent implements OnInit {
-  scheduleRequests$: Observable<CreateScheduleModel[]>;
+  openedScheduleRequests$: Observable<CreateScheduleModel[]>;
+  closedScheduleRequests$: Observable<CreateScheduleModel[]>;
   loading$: Observable<boolean>;
 
   constructor(private store: Store<AppState>, private router: Router) { }
@@ -21,7 +22,8 @@ export class SelectMonthForSchedulingComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new LoadAllScheduleRequestsAction());
 
-    this.scheduleRequests$ = this.store.select(createScheduleSelectors.getAllScheduleRequests);
+    this.openedScheduleRequests$ = this.store.select(createScheduleSelectors.getOpenedScheduleRequests);
+    this.closedScheduleRequests$ = this.store.select(createScheduleSelectors.getClosedScheduleRequests);
     this.loading$ = this.store.select(createScheduleSelectors.getLoading);
   }
 

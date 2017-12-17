@@ -1,0 +1,32 @@
+@import '../../../../../colors';
+@import '../../../../../mixins';
+@import '../../../../../helpers';
+
+:host {
+  display: block;
+  height: 60px;
+  border-bottom: 1px solid #d3deea;
+  padding: 10px 5px 10px 25px;
+  font-family: OpenSans;
+  font-size: 16px;
+
+  .month-entry-wrapper {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .deadline {
+      font-size: 12px;
+      font-weight: 600;
+      color: $bluish-grey;
+    }
+
+    button {
+      color: $tealish;
+      font-weight: bold;
+      padding: 0;
+    }
+  }
+}

@@ -2,10 +2,29 @@
             [showBackBtn]="true"
             (backBtnClick)="back()"></pcl-header>
 
-<div class="container">
-  <pcl-button *ngFor="let request of (scheduleRequests$ | async)"
-              [title]="'request - ' + request.ScheduleRequestID"
-              (buttonClick)="goToCreateRequest(request.ScheduleRequestID)"></pcl-button>
+<div>
+
+  <md-tab-group>
+
+    <md-tab label="OPENED">
+      <div class="request-list">
+        <pcl-month-entry *ngFor="let request of (openedScheduleRequests$ | async)"
+                         [scheduleRequest]="request"
+                         [deadlinePassed]="false"
+                         (onButtonClick)="goToCreateRequest(request.ScheduleRequestID)"></pcl-month-entry>
+      </div>
+    </md-tab>
+
+    <md-tab label="CLOSED">
+      <div class="request-list">
+        <pcl-month-entry *ngFor="let request of (closedScheduleRequests$ | async)"
+                         [scheduleRequest]="request"
+                         [deadlinePassed]="true"
+                         (onButtonClick)="goToCreateRequest(request.ScheduleRequestID)"></pcl-month-entry>
+      </div>
+    </md-tab>
+
+  </md-tab-group>
 
 </div>
 

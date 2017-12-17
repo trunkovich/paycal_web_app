@@ -2,6 +2,8 @@
  * Created by TrUnK on 12.02.2017.
  */
 import * as _ from 'lodash';
+import * as moment from 'moment';
+import { createSelector } from 'reselect';
 
 import * as createScheduleActions from '../actions/create-schedule.actions';
 import { CreateScheduleDetailsModel, CreateScheduleModel } from '../models/create-schedule.model';
@@ -93,3 +95,19 @@ export const getLoading = (state: CreateScheduleState) => state.loading;
 export const getAllScheduleRequests = (state: CreateScheduleState) => state.allScheduleRequests;
 export const getSelectedScheduleRequest = (state: CreateScheduleState) => state.selectedScheduleRequestDetails;
 export const getSelectedScheduleRequestId = (state: CreateScheduleState) => state.selectedScheduleRequestId;
+
+export const getClosedScheduleRequests = createSelector(
+  getAllScheduleRequests,
+  (requests: CreateScheduleModel[] | null): CreateScheduleModel[] | null => {
+    const today = moment();
+    return _.filter(requests, (request: CreateScheduleModel) => today.isAfter(request.RequestDeadline, 'day'));
+  }
+);
+
+export const getOpenedScheduleRequests = createSelector(
+  getAllScheduleRequests,
+  (requests: CreateScheduleModel[] | null): CreateScheduleModel[] | null => {
+    const today = moment();
+    return _.filter(requests, (request: CreateScheduleModel) => today.isSameOrBefore(request.RequestDeadline, 'day'));
+  }
+);

@@ -1,0 +1,14 @@
+<div class="month-entry-wrapper">
+  <div>
+    <div>
+      {{date | amDateFormat:'MMMM YYYY'}}
+    </div>
+    <div class="deadline">
+      <span *ngIf="deadlinePassed">Deadline</span>
+      <span *ngIf="!deadlinePassed">Past due</span>
+      on: {{scheduleRequest?.RequestDeadline | amDateFormat:'MMM Do, YYYY'}}
+    </div>
+  </div>
+  <button md-button *ngIf="deadlinePassed" (click)="onButtonClick.emit()">VIEW</button>
+  <button md-button *ngIf="!deadlinePassed" (click)="onButtonClick.emit()">EDIT</button>
+</div>

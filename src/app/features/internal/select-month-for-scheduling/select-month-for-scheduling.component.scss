@@ -2,13 +2,10 @@
 @import '../../../../mixins';
 @import '../../../../helpers';
 
-:host {
-  @extend .full-height;
+:host /deep/ {
   display: block;
 
-  pcl-button {
-    margin-top: 10px;
+  .mat-tab-label, .mat-tab-ink {
+    width: 50%;
   }
 }
-
-
