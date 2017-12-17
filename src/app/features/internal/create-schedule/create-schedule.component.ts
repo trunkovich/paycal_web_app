@@ -33,6 +33,7 @@ import { CallUnavailabilityType } from '../../../STATE/models/call-unavailabilit
 import { LoadCallUnavailabilityTypesAction, LoadHospitalsAction, LoadShiftTypesAction } from '../../../STATE/actions/references.actions';
 import { Hospital } from '../../../STATE/models/hospital.model';
 import { ShiftType } from '../../../STATE/models/shift-type.model';
+import { LocalStorageService } from 'ngx-localstorage';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -45,7 +46,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   scheduleMonth: moment.Moment;
   deadline: moment.Moment;
-  introductionShown = false;
+  introductionShown;
   selectedIndex = 0;
   callUnavailabilityTypes$: Observable<CallUnavailabilityType[]>;
   hospitals$: Observable<Hospital[]>;
@@ -60,7 +61,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private actions$: Actions
+    private actions$: Actions,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
@@ -74,6 +76,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
     this.sub = this.route.params
       .map(params => params.scheduleRequestID)
       .switchMap((scheduleRequestID: number) => {
+        this.manageIntroductionShown(scheduleRequestID);
+
         this.store.dispatch(new createScheduleActions.SetSelectedScheduleRequestIdAction(scheduleRequestID));
         this.store.dispatch(new createScheduleActions.LoadScheduleRequestAction(scheduleRequestID));
 
@@ -112,6 +116,27 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
 
   back() {
     this.router.navigate(['/', 'select-schedule']);
+  }
+
+  manageIntroductionShown(scheduleRequestID: number) {
+    let introductionShownStr = this.localStorageService.get('pc_cs_introduction');
+    if (!introductionShownStr) {
+      let tempObj = {};
+      tempObj[scheduleRequestID] = true;
+      this.localStorageService.set('pc_cs_introduction', JSON.stringify(tempObj));
+      this.introductionShown = false;
+    } else {
+      let introductionShownObj;
+      try {
+        introductionShownObj = JSON.parse(introductionShownStr);
+      } catch (e) {}
+      if (!introductionShownObj) {
+        introductionShownObj = {};
+      }
+      this.introductionShown = !!introductionShownObj[scheduleRequestID];
+      introductionShownObj[scheduleRequestID] = true;
+      this.localStorageService.set('pc_cs_introduction', JSON.stringify(introductionShownObj));
+    }
   }
 
   start() {

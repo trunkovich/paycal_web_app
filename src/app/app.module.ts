@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { HttpInterceptorModule } from 'ng-http-interceptor';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as Raven from 'raven-js';
+import { NgxLocalStorageModule } from 'ngx-localstorage';
 
 import { AuthModule } from './features/auth/auth.module';
 import { PclCommonModule } from './common/pcl-common.module';
@@ -93,6 +94,7 @@ export function provideErrorHandler() {
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
     Angulartics2Module.forRoot([ Angulartics2Mixpanel ]),
     BrowserAnimationsModule,
+    NgxLocalStorageModule.forRoot(),
 
     CustomMaterialModule,
     AuthModule,
