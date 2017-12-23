@@ -135,6 +135,10 @@ export class AppComponent {
       'calendar',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/calendar.svg')
     );
+    mdIconRegistry.addSvgIcon(
+      'check',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/check.svg')
+    );
 
   }
 }

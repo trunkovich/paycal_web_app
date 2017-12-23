@@ -157,6 +157,13 @@ export class RequestCalendar {
   addBlankVacationDay() {
     this.vacationDays.push(null);
   }
+  isVacationWindowsReady(): boolean {
+    return !!(
+      this.initialData.VacationWindowList &&
+      this.initialData.VacationWindowList.length &&
+      _.some(this.initialData.VacationWindowList, (vacation) => !!vacation.VacationWindowID)
+    );
+  }
 
 
 
@@ -200,6 +207,13 @@ export class RequestCalendar {
   }
   addBlankCallUnavailabilityDay() {
     this.callUnavailabilityDates.push({date: null, type: 1});
+  }
+  isCallUnavailabilityReady(): boolean {
+    return !!(
+      this.initialData.CallUnavailabilityWindowList &&
+      this.initialData.CallUnavailabilityWindowList.length &&
+      _.some(this.initialData.CallUnavailabilityWindowList, (window) => !!window.CallUnavailabilityWindowID)
+    );
   }
 
 
@@ -247,6 +261,13 @@ export class RequestCalendar {
   addBlankEducationLeave() {
     this.educationLeaves.push({date: null, name: '', description: ''});
   }
+  isEducationLeaveReady(): boolean {
+    return !!(
+      this.initialData.EducationalLeaveList &&
+      this.initialData.EducationalLeaveList.length &&
+      _.some(this.initialData.EducationalLeaveList, (leave) => !!leave.EducationalLeaveID)
+    );
+  }
 
 
 
@@ -293,6 +314,15 @@ export class RequestCalendar {
       }
       return !!day && day.isValid();
     });
+  }
+  isCallNightsReady(): boolean {
+    return !!(
+      this.initialData.PreferredCallNightList &&
+      this.initialData.PreferredCallNightList.length &&
+      _.filter(this.initialData.PreferredCallNightList, (callNight) =>
+        callNight.CallNightTypeID > 0 && callNight.CallNightTypeID < 3 && callNight.PreferredCallNightID
+      ).length === 2
+    );
   }
 
 
@@ -358,6 +388,13 @@ export class RequestCalendar {
     });
     return weekends;
   }
+  isOffWeekendReady(): boolean {
+    return !!(
+      this.initialData.PreferredOffWeekendList &&
+      this.initialData.PreferredOffWeekendList.length &&
+      _.some(this.initialData.PreferredOffWeekendList, (offWeekend) => !!offWeekend.PreferredOffWeekendID)
+    );
+  }
 
 
 
@@ -410,6 +447,13 @@ export class RequestCalendar {
   isHospitalRoundingsBlank(): boolean {
     return !this.initialData.HospitalistRoundingList.length;
   }
+  isHospitalRoundingsReady(): boolean {
+    return !!(
+      this.initialData.HospitalistRoundingList &&
+      this.initialData.HospitalistRoundingList.length &&
+      _.some(this.initialData.HospitalistRoundingList, (hospitalistRounding) => !!hospitalistRounding.HospitalRoundingID)
+    );
+  }
 
 
 
@@ -450,6 +494,13 @@ export class RequestCalendar {
     let shift: VolunteerShift = this.volunteerShift;
     return shift && shift.date && shift.date.isValid() && shift.hospitalId && !!shift.shiftId ||
       !shift.date && !shift.hospitalId && !shift.shiftId;
+  }
+  isVolunteerShiftReady(): boolean {
+    return !!(
+      this.initialData.VolunteerShiftList &&
+      this.initialData.VolunteerShiftList.length &&
+      _.some(this.initialData.VolunteerShiftList, (volunteerShift) => !!volunteerShift.VolunteerShiftID)
+    );
   }
 
   isCompTimeSet(): boolean {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -40,7 +40,7 @@ import { LocalStorageService } from 'ngx-localstorage';
   templateUrl: './create-schedule.component.html',
   styleUrls: ['./create-schedule.component.scss']
 })
-export class CreateScheduleComponent implements OnInit, OnDestroy {
+export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit {
   requestDetails: CreateScheduleDetailsModel;
   requestCalendar: RequestCalendar;
   loading$: Observable<boolean>;
@@ -51,7 +51,8 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
   callUnavailabilityTypes$: Observable<CallUnavailabilityType[]>;
   hospitals$: Observable<Hospital[]>;
   shifts$: Observable<ShiftType[]>;
-  isDeadlinePassed: boolean = false;
+  isDeadlinePassed = false;
+  actualStepFound = false;
 
   @ViewChild('stepper') stepper: MdVerticalStepper;
 
@@ -92,6 +93,9 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
         this.scheduleMonth = moment({month: this.requestCalendar.month, year: this.requestCalendar.year});
         this.deadline = moment(requestDetails.ScheduleRequest.RequestDeadline);
         this.isDeadlinePassed = moment().isAfter(this.deadline);
+        if (!this.actualStepFound) {
+          this.openActualStep(this.stepper, this.requestCalendar);
+        }
       });
 
     this.sub2 = this.actions$
@@ -113,6 +117,51 @@ export class CreateScheduleComponent implements OnInit, OnDestroy {
     }
     if (this.sub2) {
       this.sub2.unsubscribe();
+    }
+  }
+
+  ngAfterViewInit() {
+    if (!this.actualStepFound) {
+      this.openActualStep(this.stepper, this.requestCalendar);
+    }
+  }
+
+  openActualStep(stepper: MdVerticalStepper, calendar: RequestCalendar) {
+    if (!stepper || !calendar) {
+      return false;
+    }
+    this.actualStepFound = true;
+    let stepsToMove = 0;
+    if (calendar.isVacationWindowsValid()) {
+      stepsToMove = 1;
+    }
+    if (calendar.isCallUnavailabilityWindowsValid()) {
+      stepsToMove = 2;
+    }
+    if (calendar.isEducationLeavesValid()) {
+      stepsToMove = 3;
+    }
+    if (calendar.isCallNightsValid()) {
+      stepsToMove = 4;
+    }
+    if (!!calendar.offWeekend) {
+      stepsToMove = 5;
+    }
+    if (calendar.hospitalistRoundings && _.every(calendar.hospitalistRoundings, rounding => !!rounding)) {
+      stepsToMove = 6;
+    }
+    if (calendar.volunteerShift.date && calendar.volunteerShift.hospitalId && calendar.volunteerShift.shiftId) {
+      stepsToMove = 7;
+    }
+    if (!calendar.offWeekend && stepsToMove > 4) {
+      stepsToMove = 4;
+    }
+    if (!calendar.isCallNightsValid() && stepsToMove > 3) {
+      stepsToMove = 3;
+    }
+    while (stepsToMove > 0) {
+      this.stepper.next();
+      stepsToMove--;
     }
   }
 

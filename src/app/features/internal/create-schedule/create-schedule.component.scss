@@ -59,6 +59,11 @@ $tealish: #2ab0c9;
             padding: 0 12px;
             min-width: 0;
           }
+          md-icon {
+            @extend .float-right;
+            color: $tealish;
+            margin-right: 24px;
+          }
         }
       }
     }

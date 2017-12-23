@@ -23,6 +23,7 @@
       <div class="stepper-label">
         <div class="label">VACATION DAYS REQUEST (VL)</div>
         <button md-button *ngIf="selectedIndex === 0" (click)="vacationDateChange([])">Clear</button>
+        <md-icon svgIcon="check" *ngIf="selectedIndex !== 0 && requestCalendar?.isVacationWindowsReady()"></md-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-1 [vacationDays]="requestCalendar?.vacationDays"
@@ -38,6 +39,7 @@
       <div class="stepper-label">
         <div class="label">CALL/BACKUPS UNAVAILABILITY</div>
         <button md-button *ngIf="selectedIndex === 1" (click)="callUnavailabilityDateChange([])">Clear</button>
+        <md-icon svgIcon="check" *ngIf="selectedIndex !== 1 && requestCalendar?.isCallUnavailabilityReady()"></md-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-2 [callUnavailabilityTypes]="callUnavailabilityTypes$ | async"
@@ -54,6 +56,7 @@
       <div class="stepper-label">
         <div class="label">EDUCATIONAL LEAVE REQUEST (EL)</div>
         <button md-button *ngIf="selectedIndex === 2" (click)="educationLeavesChange([])">Clear</button>
+        <md-icon svgIcon="check" *ngIf="selectedIndex !== 2 && requestCalendar?.isEducationLeaveReady()"></md-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-3 [educationLeaves]="requestCalendar?.educationLeaves"
@@ -69,6 +72,7 @@
       <div class="stepper-label">
         <div class="label">PREFERRED CALL NIGHTS*</div>
         <button md-button *ngIf="selectedIndex === 3" (click)="callNightsChange()">Clear</button>
+        <md-icon svgIcon="check" *ngIf="selectedIndex !== 3 && requestCalendar?.isCallNightsReady()"></md-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-4 [callNights]="requestCalendar?.callNights"
@@ -82,6 +86,7 @@
     <ng-template mdStepLabel>
       <div class="stepper-label">
         <div class="label">PREFERRED ON-WEEKEND*</div>
+        <md-icon svgIcon="check" *ngIf="selectedIndex !== 4 && requestCalendar?.isOffWeekendReady()"></md-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-5 [weekend]="requestCalendar?.offWeekend"
@@ -95,6 +100,7 @@
       <div class="stepper-label">
         <div class="label">HOSPITALISTS ONLY</div>
         <button md-button *ngIf="selectedIndex === 5" (click)="hospitalistRoundingsChange([null, null])">Clear</button>
+        <md-icon svgIcon="check" *ngIf="selectedIndex !== 5 && requestCalendar?.isHospitalRoundingsReady()"></md-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-6 [calendar]="requestCalendar"
@@ -109,6 +115,7 @@
       <div class="stepper-label">
         <div class="label">VOLUNTEER SHIFT</div>
         <button md-button *ngIf="selectedIndex === 6" (click)="volunteerShiftChange({})">Clear</button>
+        <md-icon svgIcon="check" *ngIf="selectedIndex !== 6 && requestCalendar?.isVolunteerShiftReady()"></md-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-7 [volunteerShift]="requestCalendar?.volunteerShift"
