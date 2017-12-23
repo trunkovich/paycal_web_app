@@ -1,4 +1,4 @@
-<pcl-header [title]="'Select schedule request'"
+<pcl-header [title]="'Schedule Requests'"
             [showBackBtn]="true"
             (backBtnClick)="back()"></pcl-header>
 
@@ -6,7 +6,7 @@
 
   <md-tab-group>
 
-    <md-tab label="OPENED">
+    <md-tab label="OPEN">
       <div class="request-list">
         <pcl-month-entry *ngFor="let request of (openedScheduleRequests$ | async)"
                          [scheduleRequest]="request"
