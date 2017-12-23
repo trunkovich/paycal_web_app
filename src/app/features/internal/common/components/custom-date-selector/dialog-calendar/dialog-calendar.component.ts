@@ -14,6 +14,8 @@ export class DialogCalendarComponent {
   header: string;
   selectedDay: moment.Moment;
   weekMode: boolean;
+  until: moment.Moment | null;
+  from: moment.Moment | null;
 
   constructor(
     public dialogRef: MdDialogRef<DialogCalendarComponent>,
@@ -23,6 +25,8 @@ export class DialogCalendarComponent {
     this.header = data.header;
     this.selectedDay = data.selectedDay;
     this.weekMode = data.weekMode;
+    this.from = data.from;
+    this.until = data.until;
   }
 
   isArray(array): boolean {

@@ -3,7 +3,7 @@ export interface ScheduleRequestIDRequest {
 }
 
 export interface SubmitVacationWindowRequest extends ScheduleRequestIDRequest {
-  dates: string[];
+  dates: Array<{type: number; start: string; end: string}>;
 }
 
 export interface SubmitCallUnavailabilityWindowRequest extends ScheduleRequestIDRequest {

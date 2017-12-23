@@ -13,7 +13,8 @@ export interface DayEntry {
   otherMonth: boolean;
 }
 
-export type VacationDays = Array<moment.Moment | null>;
+export type VacationDay = {type: number; start: moment.Moment; end?: moment.Moment; };
+export type VacationDays = Array<VacationDay | null>;
 export type CallUnavailabilityDay = { date: moment.Moment; type: number; };
 export type CallUnavailabilityDays = Array<CallUnavailabilityDay | null>;
 export type EducationLeave = { date: moment.Moment; name: string; description: string; };
@@ -94,7 +95,7 @@ export class RequestCalendar {
     if (!this.events[day.format('MM.DD')]) {
       this.events[day.format('MM.DD')] = color;
     } else {
-      if (!this.events[day.format('MM.DD')].length) {
+      if (!Array.isArray(this.events[day.format('MM.DD')])) {
         this.events[day.format('MM.DD')] = [this.events[day.format('MM.DD')]];
       }
       this.events[day.format('MM.DD')].push(color);
@@ -124,24 +125,40 @@ export class RequestCalendar {
     if (vacationWindowList.length) {
       this.vacationDays = _.map(
         vacationWindowList,
-        (vacation: requestModels.VacationWindowModel) => moment(vacation.StartDate)
+        (vacation: requestModels.VacationWindowModel) => {
+          return {
+            type: vacation.VacationWindowTypeID,
+            start: moment(vacation.StartDate),
+            end: vacation.VacationWindowTypeID === 2 ? moment(vacation.EndDate) : null
+          }
+        }
       );
-      _.each(this.vacationDays, (day: moment.Moment) => this.addEvent(day, '#ffd300'));
+      _.each(this.vacationDays, (day: VacationDay) => {
+        if (day.type === 1) {
+          this.addEvent(day.start, '#ffd300');
+        } else {
+          let date = moment(day.start);
+          while (date.isSameOrBefore(day.end)) {
+            this.addEvent(date, '#ffd300');
+            date.add(1, 'day');
+          }
+        }
+      });
     } else {
-      this.vacationDays = [null];
+      this.vacationDays = [{type: 1, start: null}];
     }
   }
-  setVacationDays(days: moment.Moment[]): RequestCalendar {
+  setVacationDays(vacationDays: VacationDays): RequestCalendar {
     let newData = _.cloneDeep<requestModels.CreateScheduleDetailsModel>(this.initialData);
-    newData.VacationWindowList = _.map(days, day => {
+    newData.VacationWindowList = _.map(vacationDays, (vacationDay: VacationDay) => {
       return {
-        StartDate: day.toISOString(),
-        EndDate: day.toISOString(),
+        StartDate: vacationDay.start.toISOString(),
+        EndDate: vacationDay.type === 2 ? (!!vacationDay.end ? vacationDay.end.toISOString() : null) : vacationDay.start.toISOString(),
         ScheduleRequestID: this.initialData.ScheduleRequest.ScheduleRequestID,
         EmployeeID: this.initialData.ScheduleRequest.EmployeeID,
         GroupID: this.initialData.ScheduleRequest.GroupID,
         VacationWindowID: null,
-        VacationWindowTypeID: days.length > 1 ? 2 : 1,
+        VacationWindowTypeID: vacationDay.type,
       }
     });
     return new RequestCalendar(newData);
@@ -150,12 +167,21 @@ export class RequestCalendar {
     return _.some(this.initialData.VacationWindowList, vacation => !vacation.VacationWindowID);
   }
   isVacationWindowsValid(): boolean {
-    return _.every(this.vacationDays, vacationDay => {
-      return !!vacationDay && vacationDay.isValid();
+    return _.every(this.vacationDays, (vacationDay: VacationDay) => {
+      if (!vacationDay) {
+        return false;
+      }
+      if (vacationDay.type === 1) {
+        return !!vacationDay.start && vacationDay.start.isValid();
+      } else {
+        return !!vacationDay.start && vacationDay.start.isValid() &&
+               !!vacationDay.end && vacationDay.end.isValid() &&
+               vacationDay.start.isBefore(vacationDay.end);
+      }
     });
   }
   addBlankVacationDay() {
-    this.vacationDays.push(null);
+    this.vacationDays.push({type: 1, start: null});
   }
   isVacationWindowsReady(): boolean {
     return !!(

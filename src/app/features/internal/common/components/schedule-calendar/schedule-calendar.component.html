@@ -21,7 +21,7 @@
              *ngFor="let day of days">
           <div class="calendar-entry"
                *ngIf="!readOnlyMode || !day.otherMonth"
-               [class.disabled]="day.disabled && !readOnlyMode"
+               [class.disabled]="!readOnlyMode && (day.disabled || from && day.date.isSameOrBefore(from) || until && day.date.isSameOrAfter(until))"
                [class.selected2]="day.weekSelected && (day.date.isBefore(selectedDay) || day.date.isAfter(selectedDay, 'week'))"
                [class.selected]="selectedDay && day.date.isSame(selectedDay, 'day') || weekMode && day.weekSelected"
                [class.week-first]="day.weekSelected === 7"

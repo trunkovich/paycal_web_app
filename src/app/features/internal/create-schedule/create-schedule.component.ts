@@ -15,6 +15,7 @@ import {
   CallUnavailabilityDays,
   EducationLeaves,
   RequestCalendar,
+  VacationDays,
   VolunteerShift,
   Weekend
 } from './schedule-request-calendar.class';
@@ -202,14 +203,20 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
     this.stepper.next();
   }
 
-  vacationDateChange(dates: moment.Moment[]) {
-    this.requestCalendar = this.requestCalendar.setVacationDays(dates);
+  vacationDateChange(vacationDays: VacationDays) {
+    this.requestCalendar = this.requestCalendar.setVacationDays(vacationDays);
   }
 
   onSubmitVacationDays() {
     let data: SubmitVacationWindowRequest = {
       scheduleRequestId: this.requestDetails.ScheduleRequest.ScheduleRequestID,
-      dates: _.map(this.requestCalendar.vacationDays, (day) => day.format('L'))
+      dates: _.map(this.requestCalendar.vacationDays, ({type, start, end}) => {
+        return {
+          type,
+          start: start.format('L'),
+          end: type === 2 ? end.format('L') : start.format('L')
+        };
+      })
     };
     this.store.dispatch(new createScheduleActions.SubmitVacationWindowAction(data));
   }

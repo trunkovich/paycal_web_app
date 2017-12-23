@@ -10,7 +10,17 @@
     color: $bluish-grey;
   }
 
-  pcl-custom-date-selector {
-    margin-top: 32px;
+  .vacation-container {
+    margin-top: 16px;
+    md-radio-group {
+      md-radio-button {
+        margin-right: 20px;
+        font-size: 16px;
+      }
+    }
+
+    pcl-custom-date-selector {
+      margin-top: 32px;
+    }
   }
 }

@@ -14,6 +14,8 @@ export class ScheduleCalendarComponent {
   @Input() selectedDay: moment.Moment;
   @Input() weekMode: boolean;
   @Input() readOnlyMode: boolean;
+  @Input() from: moment.Moment | null;
+  @Input() until: moment.Moment | null;
   @Output() onDayClick = new EventEmitter<DayEntry>();
 
   constructor() {}

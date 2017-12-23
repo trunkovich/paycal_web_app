@@ -1,8 +1,20 @@
 <p class="note">If you don't need any vacation day skip this section</p>
 
-<div *ngFor="let vacationDay of vacationDays; let i = index">
-  <pcl-custom-date-selector (onDateChange)="onDateChange($event, i)"
-                            [date]="vacationDay"
+<div *ngFor="let vacationDay of vacationDays; let i = index" class="vacation-container">
+  <md-radio-group (change)="onVacationTypeChange($event, vacationDay.start, vacationDay.end, i)" [(ngModel)]="vacationDay.type">
+    <md-radio-button [value]="1">Single Day</md-radio-button>
+    <md-radio-button [value]="2">From-To</md-radio-button>
+  </md-radio-group>
+  <pcl-custom-date-selector (onDateChange)="onStartDateChange($event, vacationDay.type, vacationDay.end, i)"
+                            [placeholder]="vacationDay.type === 2 ? 'FROM' : 'Select a Date'"
+                            [date]="vacationDay.start"
+                            [until]="vacationDay.end"
+                            [calendar]="calendar"></pcl-custom-date-selector>
+  <pcl-custom-date-selector (onDateChange)="onEndDateChange($event, vacationDay.type, vacationDay.start, i)"
+                            *ngIf="vacationDay.type === 2"
+                            [placeholder]="'TO'"
+                            [date]="vacationDay.end"
+                            [from]="vacationDay.start"
                             [calendar]="calendar"></pcl-custom-date-selector>
 </div>
 

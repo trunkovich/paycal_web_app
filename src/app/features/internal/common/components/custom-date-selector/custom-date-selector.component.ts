@@ -14,6 +14,8 @@ export class CustomDateSelectorComponent implements OnChanges {
   @Input() placeholder = 'Select a Date';
   @Input() calendar: RequestCalendar;
   @Input() weekMode: boolean;
+  @Input() until: moment.Moment | null;
+  @Input() from: moment.Moment | null;
   @Output() onDateChange = new EventEmitter<moment.Moment>();
 
   weekModeValue: string;
@@ -44,7 +46,9 @@ export class CustomDateSelectorComponent implements OnChanges {
         days: this.calendar.days,
         header: moment({year: this.calendar.year, month: this.calendar.month}).format('MMMM YYYY'),
         selectedDay: this.date ? this.date : null,
-        weekMode: this.weekMode
+        weekMode: this.weekMode,
+        until: this.until,
+        from: this.from
       },
       panelClass: 'dialog-calendar'
     });

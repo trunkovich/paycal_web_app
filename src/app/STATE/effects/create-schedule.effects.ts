@@ -84,9 +84,9 @@ export class CreateScheduleEffects {
           return Observable.forkJoin(_.map(dates, (date) => {
             return this.createScheduleService.createVacationWindow({
               scheduleRequestId: scheduleRequestId,
-              vacationWindowTypeID: dates.length > 1 ? 2 : 1,
-              startDate: date,
-              endDate: date
+              vacationWindowTypeID: date.type,
+              startDate: date.start,
+              endDate: date.end
             })
           }))
         })
