@@ -51,6 +51,7 @@ import { ScheduleStepButtonsComponent } from './create-schedule/schedule-step-bu
 import { CallUnavailabilityTypePipe, HospitalPipe, ShiftTypePipe } from './create-schedule/create-schedule.pipes';
 import { ScheduleCalendarComponent } from './common/components/schedule-calendar/schedule-calendar.component';
 import { MonthEntryComponent } from './select-month-for-scheduling/month-entry/month-entry.component';
+import { getWindow, WindowWrapper } from '../../STATE/utils';
 
 @NgModule({
   imports: [
@@ -123,6 +124,6 @@ import { MonthEntryComponent } from './select-month-for-scheduling/month-entry/m
     MonthEntryComponent
   ],
   entryComponents: [DialogCalendarComponent],
-  providers: [{ provide: 'Window', useValue: window }]
+  providers: [{ provide: WindowWrapper, useFactory: getWindow }]
 })
-export class InternalModule { }
+export class InternalModule {}

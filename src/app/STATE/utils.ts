@@ -5,6 +5,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
+import { Injectable } from '@angular/core';
 
 /**
  * This function coerces a string into a string literal type.
@@ -57,3 +58,10 @@ export function markInvalidFieldsAsTouched(form: FormGroup): void {
     }
   });
 };
+
+@Injectable()
+export class WindowWrapper extends Window {
+
+}
+
+export function getWindow() { return window; }
