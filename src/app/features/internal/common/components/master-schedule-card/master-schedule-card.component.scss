@@ -57,7 +57,7 @@
       button {
         @include centerer();
 
-        md-icon {
+        mat-icon {
           fill: $tealish;
         }
       }

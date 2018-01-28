@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import { SignInAction, SignInClearErrorAction } from '../../../STATE/actions/auth.actions';
 import { Credentials } from '../../../STATE/models/credentials.model';
@@ -26,7 +26,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   constructor(
     private _fb: FormBuilder,
     private store: Store<AppState>,
-    public dialog: MdDialog
+    public dialog: MatDialog
   ) {
     this.disableTerms = !!localStorage.getItem('terms-signed');
   }

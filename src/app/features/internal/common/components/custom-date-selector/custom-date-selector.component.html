@@ -5,7 +5,7 @@
     <div class="placeholder" [class.top]="!!date || active">{{placeholder}}</div>
     <div class="value" *ngIf="!weekMode && !!date">{{date | amDateFormat:'L'}}</div>
     <div class="value" *ngIf="weekMode && !!date">{{weekModeValue}}</div>
-    <md-icon [svgIcon]="'calendar'"></md-icon>
+    <mat-icon [svgIcon]="'calendar'"></mat-icon>
   </div>
   <div class="bottom-line"></div>
 </div>

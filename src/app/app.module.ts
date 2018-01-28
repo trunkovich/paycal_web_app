@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { HttpInterceptorModule } from 'ng-http-interceptor';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as Raven from 'raven-js';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
@@ -48,6 +46,8 @@ import { InitEffects } from './STATE/effects/init.effects';
 import { CustomMaterialModule } from './custom-material.module';
 import { CreateScheduleService } from './core/services/create-schedule.service';
 import { CreateScheduleEffects } from './STATE/effects/create-schedule.effects';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
@@ -74,8 +74,8 @@ export function provideErrorHandler() {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     HttpModule,
-    HttpInterceptorModule,
     RouterModule.forRoot(AppRoutes),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
@@ -104,11 +104,11 @@ export function provideErrorHandler() {
   ],
   providers: [
     { provide: ErrorHandler, useFactory: provideErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: PaycalHttpInterceptor, multi: true },
     Api,
     AuthService,
     ReferencesService,
     ScheduleService,
-    PaycalHttpInterceptor,
     AvatarService,
     CreateScheduleService,
 

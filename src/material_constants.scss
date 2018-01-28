@@ -1,7 +1,7 @@
 @import "~@angular/material/theming";
 
 /* For use in src/lib/core/theming/_palette.scss */
-$md-primary: (
+$mat-primary: (
   50 : #e5f4f7,
   100 : #bee4eb,
   200 : #93d2de,
@@ -34,7 +34,7 @@ $md-primary: (
   )
 );
 
-$md-warn: (
+$mat-warn: (
   50 : #feefee,
   100 : #fbd7d5,
   200 : #f9bdb9,
@@ -68,6 +68,6 @@ $md-warn: (
 );
 
 // Define a theme.
-$primary: mat-palette($md-primary);
-$accent:  mat-palette($md-primary);
-$warn:  mat-palette($md-warn);
+$primary: mat-palette($mat-primary);
+$accent:  mat-palette($mat-primary);
+$warn:  mat-palette($mat-warn);

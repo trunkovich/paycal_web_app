@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 import { CallUnavailabilityDays, RequestCalendar } from '../schedule-request-calendar.class';
 import { CallUnavailabilityType } from '../../../../STATE/models/call-unavailability-type.model';
-import { MdSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'pcl-schedule-step-2',
@@ -55,7 +55,7 @@ export class ScheduleStep2Component {
     this.onSubmitCallUnavailabilityDays.emit();
   }
 
-  onTypeChange(day, index, $event: MdSelectChange) {
+  onTypeChange(day, index, $event: MatSelectChange) {
     this.onDateChange(day.date ? day.date.date() : null, index, $event.value);
   }
 

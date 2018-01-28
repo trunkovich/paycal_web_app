@@ -9,7 +9,7 @@
   .icon {
     @include size(120px);
     @include center-block();
-    md-icon {
+    mat-icon {
       @include size(120px);
     }
   }

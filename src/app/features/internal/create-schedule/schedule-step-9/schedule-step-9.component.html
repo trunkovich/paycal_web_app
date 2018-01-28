@@ -1,9 +1,9 @@
 <p class="note">Use this field to add extra notes</p>
 
-<md-form-field>
-  <textarea mdInput
+<mat-form-field>
+  <textarea matInput
             placeholder="Add notes here"
             [formControl]="notesField"></textarea>
-</md-form-field>
+</mat-form-field>
 
 <pcl-schedule-step-buttons (onNextBtnClick)="onNext.emit()"></pcl-schedule-step-buttons>

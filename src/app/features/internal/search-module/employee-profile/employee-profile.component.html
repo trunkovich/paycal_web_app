@@ -17,13 +17,13 @@
 <div class="info-line">
   <div class="label">{{profile?.MobilePhone | phone}}</div>
   <div class="contact-buttons">
-    <a md-icon-button
+    <a mat-icon-button
        href="tel:{{profile?.MobilePhone}}">
-      <md-icon svgIcon="phone"></md-icon>
+      <mat-icon svgIcon="phone"></mat-icon>
     </a>
-    <a md-icon-button
+    <a mat-icon-button
        [href]="('sms:' + profile?.MobilePhone) | safeUrl">
-      <md-icon svgIcon="message-text"></md-icon>
+      <mat-icon svgIcon="message-text"></mat-icon>
     </a>
   </div>
 </div>
@@ -31,9 +31,9 @@
 <div class="info-line last">
   <div class="label">{{profile?.Email}}</div>
   <div class="contact-buttons">
-    <a md-icon-button
+    <a mat-icon-button
        href="mailto:{{profile?.Email}}">
-      <md-icon svgIcon="email"></md-icon>
+      <mat-icon svgIcon="email"></mat-icon>
     </a>
   </div>
 </div>
@@ -51,6 +51,6 @@
 
 <button class="info-line last margin-top"
         (click)="goToFullSchedule()"
-        md-ripple>
+        mat-ripple>
   <span class="label">Full schedule</span>
 </button>

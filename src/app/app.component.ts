@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PaycalHttpInterceptor } from './core/services/http-interceptor.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MdIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -45,8 +45,7 @@ export class AppComponent {
     return animation['value'] || null;
   }
 
-  constructor(private paycalHttpInterceptor: PaycalHttpInterceptor, mdIconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
-    paycalHttpInterceptor.initInterceptors();
+  constructor(mdIconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     mdIconRegistry.addSvgIcon(
       'reload',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/reload.svg')

@@ -15,7 +15,7 @@
     box-shadow: none;
     color: white;
 
-    md-icon {
+    mat-icon {
       fill: white !important;
     }
 
@@ -84,12 +84,12 @@
       padding: 4px;
 
       .email-button {
-        md-icon {
+        mat-icon {
           transform: translateY(-2px);
         }
       }
 
-      md-icon {
+      mat-icon {
         fill: $tealish;
       }
     }

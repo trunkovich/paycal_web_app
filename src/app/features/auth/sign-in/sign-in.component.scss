@@ -22,7 +22,7 @@
       @include center-block();
       margin-bottom: 18px;
     }
-    md-form-field {
+    mat-form-field {
       margin-bottom: 5px;
     }
     .password-switcher {
@@ -31,7 +31,7 @@
       @include absolute(right 0);
       padding: 10px;
     }
-    md-checkbox {
+    mat-checkbox {
       display: block;
       margin-bottom: 16px;
 

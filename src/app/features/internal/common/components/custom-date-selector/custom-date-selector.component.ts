@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { RequestCalendar } from '../../../create-schedule/schedule-request-calendar.class';
 import { WindowWrapper } from '../../../../../STATE/utils';
@@ -22,7 +22,7 @@ export class CustomDateSelectorComponent implements OnChanges {
   weekModeValue: string;
   active = false;
 
-  constructor(private dialog: MdDialog, private window: WindowWrapper) {}
+  constructor(private dialog: MatDialog, private window: WindowWrapper) {}
 
   openCalendar($event) {
     const dialogHeight = 250;

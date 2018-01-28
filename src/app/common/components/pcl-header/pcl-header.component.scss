@@ -20,7 +20,7 @@
       @include absolute(top 0 left 0);
       padding: 11px 16px 10px 16px;
 
-      md-icon {
+      mat-icon {
         @include size(24px);
         fill: $tealish;
       }

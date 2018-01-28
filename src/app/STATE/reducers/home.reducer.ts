@@ -299,7 +299,7 @@ const SORT_ORDER = {
   '24': 5,
 };
 const sortByShiftCode = (entries: EmployeeScheduleEntry[]): EmployeeScheduleEntry[] => {
-  return _.sortBy(entries, entry => SORT_ORDER[entry.ShiftCode] || 10);
+  return _.sortBy<EmployeeScheduleEntry>(entries, entry => SORT_ORDER[entry.ShiftCode] || 10);
 };
 
 export const getSortedSelectedDateSchedule = createSelector(

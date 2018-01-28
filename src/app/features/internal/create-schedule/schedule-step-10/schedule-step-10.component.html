@@ -1,8 +1,8 @@
 <p class="note" *ngIf="stepperMode">Review carefully the information below. The scheduler will be automatically submitted after the deadline</p>
 
 
-<md-tab-group>
-  <md-tab label="Calendar">
+<mat-tab-group>
+  <mat-tab label="Calendar">
     <div [class.padding-container]="!stepperMode">
       <pcl-schedule-calendar [days]="days"
                              [header]="header"
@@ -39,8 +39,8 @@
         </div>
       </div>
     </div>
-  </md-tab>
-  <md-tab label="List">
+  </mat-tab>
+  <mat-tab label="List">
     <div class="info-blocks-wrapper" *ngIf="calendar" [class.padding-container]="!stepperMode">
       <div class="info-block" *ngIf="calendar.vacationDays && calendar.vacationDays.length">
         <h5 class="header">VACATION DAYS REQUEST</h5>
@@ -108,5 +108,5 @@
         <p class="info-line"><span class="dark-text">{{calendar.details}}</span></p>
       </div>
     </div>
-  </md-tab>
-</md-tab-group>
+  </mat-tab>
+</mat-tab-group>

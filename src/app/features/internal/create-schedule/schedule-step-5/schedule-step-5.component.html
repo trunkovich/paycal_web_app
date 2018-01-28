@@ -1,14 +1,14 @@
 <p class="note">Select the Weekend you prefer to take call</p>
 
-<md-radio-group class="weekends-container" (change)="onWeekendChange($event)" [(ngModel)]="weekendNum">
-  <md-radio-button class="weekend"
+<mat-radio-group class="weekends-container" (change)="onWeekendChange($event)" [(ngModel)]="weekendNum">
+  <mat-radio-button class="weekend"
                    [class.last]="last"
                    *ngFor="let weekendOption of weekends; let last = last"
                    [value]="weekendOption.num"
                    [disabled]="weekendOption.disabled">
     {{weekendOption.label}}
-  </md-radio-button>
-</md-radio-group>
+  </mat-radio-button>
+</mat-radio-group>
 
 <pcl-schedule-step-buttons [disableNextBtn]="!weekendNum"
                            (onNextBtnClick)="onSubmit.emit()"></pcl-schedule-step-buttons>

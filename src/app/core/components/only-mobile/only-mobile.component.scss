@@ -39,7 +39,7 @@
       .error {
         @include centerer();
 
-        md-icon {
+        mat-icon {
           @include size(104px, 91px);
           @include center-block();
           margin-bottom: 24px;

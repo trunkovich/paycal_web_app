@@ -17,7 +17,7 @@
            [style.backgroundImage]="getPhotoUrl(profile)"></div>
       <div class="avatar-default"
            *ngIf="!profile?.PhotoUrl">
-        <md-icon [svgIcon]="'no-image'"></md-icon>
+        <mat-icon [svgIcon]="'no-image'"></mat-icon>
       </div>
       <p>TAP TO UPLOAD/CHANGE</p>
       <p>PROFILE PICTURE</p>
@@ -29,48 +29,48 @@
 
     <pcl-multiline-error-msg [errorMsg]="errorMsg$ | async"></pcl-multiline-error-msg>
 
-    <md-form-field>
-      <input mdInput
+    <mat-form-field>
+      <input matInput
              placeholder="FIRST NAME"
              type="text"
              formControlName="FirstName"
              name="firstName">
-    </md-form-field>
+    </mat-form-field>
 
-    <md-form-field>
-      <input mdInput
+    <mat-form-field>
+      <input matInput
              placeholder="LAST NAME"
              type="text"
              formControlName="LastName"
              name="lastName">
-    </md-form-field>
+    </mat-form-field>
 
-    <md-form-field>
-      <input mdInput
+    <mat-form-field>
+      <input matInput
              placeholder="EMAIL"
              [textMask]="{mask: emailMask}"
              type="text"
              formControlName="Email"
              name="email">
-    </md-form-field>
+    </mat-form-field>
 
-    <md-form-field>
-      <input mdInput
+    <mat-form-field>
+      <input matInput
              placeholder="MOBILE"
              [textMask]="{mask: phoneMask}"
              type="tel"
              formControlName="MobilePhone"
              name="phone">
-    </md-form-field>
+    </mat-form-field>
 
-    <md-form-field>
-      <input mdInput
+    <mat-form-field>
+      <input matInput
              placeholder="WORK UNIT VALUE"
              [textMask]="{mask: currencyMask}"
              type="tel"
              formControlName="WorkUnitValue"
              name="workUnitValue">
-    </md-form-field>
+    </mat-form-field>
 
   </section>
 

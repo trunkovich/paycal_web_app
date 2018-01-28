@@ -6,7 +6,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 <button [type]="type || 'button'" [disabled]="disabled || loading" [class.loading]="loading" (click)="onClick($event);">
   <span *ngIf="!loading">{{title}}</span>
   <span *ngIf="loading" class="spinner">
-    <md-icon svgIcon="reload"></md-icon>
+    <mat-icon svgIcon="reload"></mat-icon>
   </span>
 </button>
   `,

@@ -19,7 +19,7 @@ import {
   VolunteerShift,
   Weekend
 } from './schedule-request-calendar.class';
-import { MdVerticalStepper } from '@angular/material';
+import { MatVerticalStepper } from '@angular/material';
 import {
   CreatePreferredOffWeekendRequest,
   CreateVolunteerShiftRequest,
@@ -55,7 +55,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
   isDeadlinePassed = false;
   actualStepFound = false;
 
-  @ViewChild('stepper') stepper: MdVerticalStepper;
+  @ViewChild('stepper') stepper: MatVerticalStepper;
 
   sub: Subscription;
   sub2: Subscription;
@@ -127,7 +127,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
     }
   }
 
-  openActualStep(stepper: MdVerticalStepper, calendar: RequestCalendar) {
+  openActualStep(stepper: MatVerticalStepper, calendar: RequestCalendar) {
     if (!stepper || !calendar) {
       return false;
     }

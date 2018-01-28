@@ -4,27 +4,27 @@
 
 <div>
 
-  <md-tab-group>
+  <mat-tab-group>
 
-    <md-tab label="OPEN">
+    <mat-tab label="OPEN">
       <div class="request-list">
         <pcl-month-entry *ngFor="let request of (openedScheduleRequests$ | async)"
                          [scheduleRequest]="request"
                          [deadlinePassed]="false"
                          (onButtonClick)="goToCreateRequest(request.ScheduleRequestID)"></pcl-month-entry>
       </div>
-    </md-tab>
+    </mat-tab>
 
-    <md-tab label="CLOSED">
+    <mat-tab label="CLOSED">
       <div class="request-list">
         <pcl-month-entry *ngFor="let request of (closedScheduleRequests$ | async)"
                          [scheduleRequest]="request"
                          [deadlinePassed]="true"
                          (onButtonClick)="goToCreateRequest(request.ScheduleRequestID)"></pcl-month-entry>
       </div>
-    </md-tab>
+    </mat-tab>
 
-  </md-tab-group>
+  </mat-tab-group>
 
 </div>
 

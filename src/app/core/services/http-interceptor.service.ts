@@ -1,61 +1,52 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { getHttpOptions, HttpInterceptorService } from 'ng-http-interceptor';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse }
+  from '@angular/common/http';
 
-import { APP_CONFIG } from '../../../environments/environment';
-import { Response as AppResponse } from '../../STATE/models/responses/response.model';
-import { Response, URLSearchParams } from '@angular/http';
-import { LogoutAction } from '../../STATE/actions/auth.actions';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
+import { Store } from '@ngrx/store';
 import { AppState, authSelectors } from '../../STATE/reducers/index';
+import { APP_CONFIG } from '../../../environments/environment';
+import { Response } from '../../STATE/models/responses/response.model';
+import { LogoutAction } from '../../STATE/actions/auth.actions';
 
 @Injectable()
-export class PaycalHttpInterceptor {
+export class PaycalHttpInterceptor implements HttpInterceptor {
+  token: string;
 
-    constructor(
-      private httpInterceptor: HttpInterceptorService,
-      private store: Store<AppState>
-    ) {}
-
-    initInterceptors() {
-      let token = '';
-      this.store.select(authSelectors.getToken)
-        .subscribe((actualToken) => {
-          token = actualToken;
-        });
-
-      this.httpInterceptor.request().addInterceptor((data, method) => {
-        if (!PaycalHttpInterceptor.isApiUrl(data[0])) {
-          return data;
-        }
-        let options = getHttpOptions(data, method);
-
-        if (!options.search) {
-          options.search = new URLSearchParams();
-        }
-        if (options.search && options.search.append) {
-          options.search.append('loginToken', token);
-        }
-        return data;
+  constructor(
+    private store: Store<AppState>
+  ) {
+    this.store.select(authSelectors.getToken)
+      .subscribe((actualToken) => {
+        this.token = actualToken;
       });
+  }
 
-      this.httpInterceptor.response().addInterceptor((res, method) => {
-        res.do((response: Response) => {
-          if (PaycalHttpInterceptor.isApiUrl(response.url)) {
-            let body: AppResponse = response.json();
-            if (!body.IsSuccess && body.ErrorCode === '403') {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+
+    if (PaycalHttpInterceptor.isApiUrl(req.url)) {
+      const reqClone = req.clone({params: req.params.set('loginToken', this.token)});
+      return next.handle(reqClone)
+        .do(event => {
+          if (event instanceof HttpResponse) {
+            const response: Response = event.body;
+            if (!response.IsSuccess && response.ErrorCode === '403') {
               this.store.dispatch(new LogoutAction());
             }
           }
         });
-        return res;
-      });
     }
+    return next.handle(req);
+  }
 
-    static isApiUrl(url: string): boolean {
-      if (url.split('//').length <= 1) {
-        return false;
-      }
-      return url.split('//')[1].startsWith(APP_CONFIG.API_BASE_URL.split('//')[1]);
+  static isApiUrl(url: string): boolean {
+    if (url.split('//').length <= 1) {
+      return false;
     }
-
+    return url.split('//')[1].startsWith(APP_CONFIG.API_BASE_URL.split('//')[1]);
+  }
 }

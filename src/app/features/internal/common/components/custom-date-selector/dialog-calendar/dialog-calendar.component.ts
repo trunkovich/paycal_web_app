@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 
 import { DayEntry } from '../../../../create-schedule/schedule-request-calendar.class';
@@ -18,8 +18,8 @@ export class DialogCalendarComponent {
   from: moment.Moment | null;
 
   constructor(
-    public dialogRef: MdDialogRef<DialogCalendarComponent>,
-    @Inject(MD_DIALOG_DATA) public data: any
+    public dialogRef: MatDialogRef<DialogCalendarComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.days = data.days;
     this.header = data.header;

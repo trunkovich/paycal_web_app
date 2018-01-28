@@ -57,7 +57,7 @@ button {
   @extend .reset-button-styles;
   @include size(18px);
   color: $bluish-grey;
-  md-icon {
+  mat-icon {
     @include size(18px);
   }
 }

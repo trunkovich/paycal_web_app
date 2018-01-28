@@ -4,7 +4,7 @@ import {Component, Input} from '@angular/core';
   selector: 'pcl-no-entries-fallback',
   template: `
 <div class="icon">
-  <md-icon [svgIcon]="icon"></md-icon>
+  <mat-icon [svgIcon]="icon"></mat-icon>
 </div>
 <div class="no-entries-text">
   {{text}}

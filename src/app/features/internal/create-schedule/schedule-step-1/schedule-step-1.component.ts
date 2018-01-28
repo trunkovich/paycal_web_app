@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import { RequestCalendar, VacationDay, VacationDays } from '../schedule-request-calendar.class';
-import { MdRadioChange } from '@angular/material';
+import { MatRadioChange } from '@angular/material';
 
 @Component({
   selector: 'pcl-schedule-step-1',
@@ -33,7 +33,7 @@ export class ScheduleStep1Component {
     }
   }
 
-  onVacationTypeChange($event: MdRadioChange, start: moment.Moment, end: moment.Moment | null, listIndex: number) {
+  onVacationTypeChange($event: MatRadioChange, start: moment.Moment, end: moment.Moment | null, listIndex: number) {
     this.onDateChange({
       type: $event.value,
       start: moment(start),

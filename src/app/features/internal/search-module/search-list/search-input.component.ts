@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs';
   template: `
 <form  novalidate [formGroup]="searchForm">
   <div class="icon">
-    <md-icon [svgIcon]="'nav-search'"></md-icon>
+    <mat-icon [svgIcon]="'nav-search'"></mat-icon>
   </div>
   <input type="text" 
           placeholder="Search"

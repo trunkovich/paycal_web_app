@@ -46,7 +46,7 @@
       z-index: 5;
       border-left: 1px solid $light-blue-grey;
 
-      md-icon {
+      mat-icon {
         @include centerer();
       }
     }

@@ -7,21 +7,21 @@
                             [date]="volunteerShift?.date"
                             [calendar]="calendar"></pcl-custom-date-selector>
 
-  <md-select placeholder="Select hospital"
+  <mat-select placeholder="Select hospital"
              (change)="onHospitalChange($event)"
              [value]="volunteerShift?.hospitalId">
-    <md-option *ngFor="let hospital of hospitals" [value]="hospital.HospitalID">
+    <mat-option *ngFor="let hospital of hospitals" [value]="hospital.HospitalID">
       {{ hospital.Abbreviation}}
-    </md-option>
-  </md-select>
+    </mat-option>
+  </mat-select>
 
-  <md-select placeholder="Select shift"
+  <mat-select placeholder="Select shift"
              (change)="onShiftChange($event)"
              [value]="volunteerShift?.shiftId">
-    <md-option *ngFor="let shift of shifts" [value]="shift.ShiftID">
+    <mat-option *ngFor="let shift of shifts" [value]="shift.ShiftID">
       {{ shift.Description }}
-    </md-option>
-  </md-select>
+    </mat-option>
+  </mat-select>
 
 </div>
 

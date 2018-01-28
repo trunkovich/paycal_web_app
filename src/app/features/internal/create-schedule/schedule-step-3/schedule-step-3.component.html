@@ -3,19 +3,19 @@
 <div *ngFor="let educationLeave of educationLeaves; let i = index"
      [class.margin-bottom]="educationLeaves.length > 1 && i < (educationLeaves.length - 1)">
 
-  <md-form-field>
-    <input mdInput
+  <mat-form-field>
+    <input matInput
            placeholder="Activity Name"
            [value]="educationLeave.name"
            (change)="onNameChange(educationLeave, i, $event)">
-  </md-form-field>
+  </mat-form-field>
 
-  <md-form-field>
-    <input mdInput
+  <mat-form-field>
+    <input matInput
            placeholder="Activity Description"
            [value]="educationLeave.description"
            (change)="onDescriptionChange(educationLeave, i, $event)">
-  </md-form-field>
+  </mat-form-field>
 
 
   <pcl-custom-date-selector (onDateChange)="onDateChange($event, i, educationLeave.name, educationLeave.description)"

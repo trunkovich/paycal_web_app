@@ -32,7 +32,7 @@
         @include size(25%, 100%);
         position: relative;
 
-        md-icon {
+        mat-icon {
           @include centerer();
           &.nav-profile-icon,
           &.nav-home-icon,
@@ -44,7 +44,7 @@
         }
 
         &.active {
-          md-icon {
+          mat-icon {
             &.nav-profile-icon,
             &.nav-home-icon,
             &.nav-contact-icon,

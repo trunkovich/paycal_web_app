@@ -24,7 +24,7 @@
       @include size(16px);
       padding: 14px;
 
-      md-icon {
+      mat-icon {
         @include size(16px);
         fill: $bluish-grey;
       }
@@ -82,12 +82,12 @@
             padding: 4px;
 
             .email-button {
-              md-icon {
+              mat-icon {
                 transform: translateY(-2px);
               }
             }
 
-            md-icon {
+            mat-icon {
               fill: $tealish;
             }
           }

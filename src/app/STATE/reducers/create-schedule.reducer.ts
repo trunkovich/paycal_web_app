@@ -83,7 +83,7 @@ function setSelectedIdHandler(
   state: CreateScheduleState,
   action: createScheduleActions.SetSelectedScheduleRequestIdAction
 ): CreateScheduleState {
-  return _.assign<CreateScheduleState>({}, state, {
+  return _.assign({}, state, {
     selectedScheduleRequestId: action.payload,
   });
 }

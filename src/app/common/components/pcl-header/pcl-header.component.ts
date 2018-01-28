@@ -5,17 +5,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   template: `
 <header>
   <button *ngIf="showBackBtn"
-          md-ripple
-          mdRippleCentered="true"
+          mat-ripple
           type="button"
           class="icon-button back-button"
           (click)="onBackBtnClick($event)">
-    <md-icon [svgIcon]="'back'"></md-icon>
+    <mat-icon [svgIcon]="'back'"></mat-icon>
   </button>
   <div class="title">{{title}}</div>
   <button *ngIf="showNextBtn"
-          md-ripple
-          mdRippleCentered="true"
+          mat-ripple
           [type]="nextBtnType || 'button'"
           class="next-button"
           [disabled]="disabledNextBtn"

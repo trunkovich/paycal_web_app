@@ -6,7 +6,7 @@ import {Component, Input, HostBinding, OnChanges} from '@angular/core';
 <div class="container">
   <section>
     <span class="spinner">
-      <md-icon svgIcon="reload"></md-icon>
+      <mat-icon svgIcon="reload"></mat-icon>
     </span>
   </section>
 </div>

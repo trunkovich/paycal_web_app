@@ -13,17 +13,17 @@
 
 <pcl-loader [show]="loading$ | async"></pcl-loader>
 
-<md-vertical-stepper icon="number" #stepper
+<mat-vertical-stepper icon="number" #stepper
                      [ngClass]="'step-' + selectedIndex + '-active'"
                      (selectionChange)="selectionChange($event)"
                      *ngIf="introductionShown && !isDeadlinePassed">
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">VACATION DAYS REQUEST (VL)</div>
-        <button md-button *ngIf="selectedIndex === 0" (click)="vacationDateChange([])">Clear</button>
-        <md-icon svgIcon="check" *ngIf="selectedIndex !== 0 && requestCalendar?.isVacationWindowsReady()"></md-icon>
+        <button mat-button *ngIf="selectedIndex === 0" (click)="vacationDateChange([])">Clear</button>
+        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 0 && requestCalendar?.isVacationWindowsReady()"></mat-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-1 [vacationDays]="requestCalendar?.vacationDays"
@@ -32,14 +32,14 @@
                          (addBlankVacationDay)="requestCalendar?.addBlankVacationDay()"
                          (onSubmitVacationDays)="onSubmitVacationDays()"
                          [calendar]="requestCalendar"></pcl-schedule-step-1>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">CALL/BACKUPS UNAVAILABILITY</div>
-        <button md-button *ngIf="selectedIndex === 1" (click)="callUnavailabilityDateChange([])">Clear</button>
-        <md-icon svgIcon="check" *ngIf="selectedIndex !== 1 && requestCalendar?.isCallUnavailabilityReady()"></md-icon>
+        <button mat-button *ngIf="selectedIndex === 1" (click)="callUnavailabilityDateChange([])">Clear</button>
+        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 1 && requestCalendar?.isCallUnavailabilityReady()"></mat-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-2 [callUnavailabilityTypes]="callUnavailabilityTypes$ | async"
@@ -49,14 +49,14 @@
                          (addBlankCallUnavailabilityDay)="requestCalendar?.addBlankCallUnavailabilityDay()"
                          (onSubmitCallUnavailabilityDays)="onSubmitCallUnavailabilityDays()"
                          [calendar]="requestCalendar"></pcl-schedule-step-2>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">EDUCATIONAL LEAVE REQUEST (EL)</div>
-        <button md-button *ngIf="selectedIndex === 2" (click)="educationLeavesChange([])">Clear</button>
-        <md-icon svgIcon="check" *ngIf="selectedIndex !== 2 && requestCalendar?.isEducationLeaveReady()"></md-icon>
+        <button mat-button *ngIf="selectedIndex === 2" (click)="educationLeavesChange([])">Clear</button>
+        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 2 && requestCalendar?.isEducationLeaveReady()"></mat-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-3 [educationLeaves]="requestCalendar?.educationLeaves"
@@ -65,14 +65,14 @@
                          (addBlankEducationLeave)="requestCalendar?.addBlankEducationLeave()"
                          (onSubmitEducationLeaves)="onSubmitEducationLeaves()"
                          [calendar]="requestCalendar"></pcl-schedule-step-3>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">PREFERRED CALL NIGHTS*</div>
-        <button md-button *ngIf="selectedIndex === 3" (click)="callNightsChange()">Clear</button>
-        <md-icon svgIcon="check" *ngIf="selectedIndex !== 3 && requestCalendar?.isCallNightsReady()"></md-icon>
+        <button mat-button *ngIf="selectedIndex === 3" (click)="callNightsChange()">Clear</button>
+        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 3 && requestCalendar?.isCallNightsReady()"></mat-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-4 [callNights]="requestCalendar?.callNights"
@@ -80,27 +80,27 @@
                          (skipStep)="nextStep()"
                          (onSubmit)="onSubmitCallNights()"
                          [calendar]="requestCalendar"></pcl-schedule-step-4>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">PREFERRED ON-WEEKEND*</div>
-        <md-icon svgIcon="check" *ngIf="selectedIndex !== 4 && requestCalendar?.isOffWeekendReady()"></md-icon>
+        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 4 && requestCalendar?.isOffWeekendReady()"></mat-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-5 [weekend]="requestCalendar?.offWeekend"
                          [calendar]="requestCalendar"
                          (onUpdate)="offWeekendChange($event)"
                          (onSubmit)="offWeekendSubmit()"></pcl-schedule-step-5>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">HOSPITALISTS ONLY</div>
-        <button md-button *ngIf="selectedIndex === 5" (click)="hospitalistRoundingsChange([null, null])">Clear</button>
-        <md-icon svgIcon="check" *ngIf="selectedIndex !== 5 && requestCalendar?.isHospitalRoundingsReady()"></md-icon>
+        <button mat-button *ngIf="selectedIndex === 5" (click)="hospitalistRoundingsChange([null, null])">Clear</button>
+        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 5 && requestCalendar?.isHospitalRoundingsReady()"></mat-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-6 [calendar]="requestCalendar"
@@ -108,14 +108,14 @@
                          (skipStep)="nextStep()"
                          (onUpdate)="hospitalistRoundingsChange($event)"
                          (onSubmit)="hospitalistRoundingsSubmit()"></pcl-schedule-step-6>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">VOLUNTEER SHIFT</div>
-        <button md-button *ngIf="selectedIndex === 6" (click)="volunteerShiftChange({})">Clear</button>
-        <md-icon svgIcon="check" *ngIf="selectedIndex !== 6 && requestCalendar?.isVolunteerShiftReady()"></md-icon>
+        <button mat-button *ngIf="selectedIndex === 6" (click)="volunteerShiftChange({})">Clear</button>
+        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 6 && requestCalendar?.isVolunteerShiftReady()"></mat-icon>
       </div>
     </ng-template>
     <pcl-schedule-step-7 [volunteerShift]="requestCalendar?.volunteerShift"
@@ -125,10 +125,10 @@
                          (skipStep)="nextStep()"
                          (onSubmit)="volunteerShiftSubmit()"
                          [calendar]="requestCalendar"></pcl-schedule-step-7>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">COMP TIME*</div>
       </div>
@@ -137,10 +137,10 @@
                          [disableNextBtn]="!requestCalendar?.isCompTimeSet()"
                          (onUpdate)="submitCompTime($event)"
                          (onNextBtnClick)="nextStep()"></pcl-schedule-step-8>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">ADDITIONAL DETAILS</div>
       </div>
@@ -149,17 +149,17 @@
                          (onUpdate)="submitDetails($event)"
                          (onNext)="nextStep()"
                          (onSkip)="nextStep()"></pcl-schedule-step-9>
-  </md-step>
+  </mat-step>
 
-  <md-step>
-    <ng-template mdStepLabel>
+  <mat-step>
+    <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">REVIEW & SUBMIT</div>
       </div>
     </ng-template>
     <pcl-schedule-step-10 [calendar]="requestCalendar" [stepperMode]="true"></pcl-schedule-step-10>
-  </md-step>
+  </mat-step>
 
-</md-vertical-stepper>
+</mat-vertical-stepper>
 
 <pcl-schedule-step-10 [calendar]="requestCalendar" *ngIf="introductionShown && isDeadlinePassed"></pcl-schedule-step-10>

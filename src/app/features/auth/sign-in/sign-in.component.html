@@ -7,17 +7,17 @@
           [formGroup]="loginForm"
           (ngSubmit)="onSubmit(loginForm)">
 
-      <md-form-field>
-        <input mdInput
+      <mat-form-field>
+        <input matInput
                placeholder="phone"
                [textMask]="{mask: mask}"
                type="tel"
                formControlName="phone"
                name="login">
-      </md-form-field>
+      </mat-form-field>
 
-      <md-form-field>
-        <input mdInput
+      <mat-form-field>
+        <input matInput
                #passwordInput1
                type="password"
                placeholder="password"
@@ -27,23 +27,23 @@
         <button type="button"
                 class="icon-button password-switcher"
                 (click)="togglePassword(passwordInput1)">
-          <md-icon [svgIcon]="showPassword ? 'eye-outline-off' : 'eye-outline'"></md-icon>
+          <mat-icon [svgIcon]="showPassword ? 'eye-outline-off' : 'eye-outline'"></mat-icon>
         </button>
 
-      </md-form-field>
+      </mat-form-field>
 
-      <md-checkbox formControlName="rememberMe"
+      <mat-checkbox formControlName="rememberMe"
                    color="primary"
                    class="weak-text">
         Remember me
-      </md-checkbox>
+      </mat-checkbox>
 
-      <md-checkbox formControlName="terms"
+      <mat-checkbox formControlName="terms"
                    color="primary"
                    class="weak-text">
         <!--I accept <a [routerLink]="['/','terms-and-conditions']">terms and conditions</a>-->
         I agree to terms of use of Kaiser Permanente's IT Policies and Procedures
-      </md-checkbox>
+      </mat-checkbox>
 
       <div class="error-msg">
         <span *ngIf="!(errorMsg$ | async) &&

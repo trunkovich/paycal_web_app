@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, URLSearchParams } from '@angular/http';
+import { Headers, URLSearchParams } from '@angular/http';
 import * as _ from 'lodash';
 
 import { APP_CONFIG } from '../../../environments/environment';
@@ -38,23 +38,23 @@ import {
   ScheduleRequestByEmployeeListResponse,
   ScheduleRequestDetailsResponse
 } from '../../STATE/models/responses/create-schedule-response.model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class Api {
-  private headers: Headers;
+  private headers: HttpHeaders;
 
-  constructor(private $http: Http) {
-    this.headers = new Headers();
+  constructor(private $http: HttpClient) {
+    this.headers = new HttpHeaders();
     this.headers.append('Content-Type', 'application/json');
   }
 
   request(method, url, data = {}) {
-    let params: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams();
     _.toPairs(data).forEach(function(dataEntry) {
-      params.set(dataEntry[0], dataEntry[1]);
+      params = params.set(dataEntry[0], (dataEntry[1] as string));
     });
-    return this.$http.request(`${APP_CONFIG.API_BASE_URL}${url}`, {method: method, search: params, headers: this.headers})
-      .map(res => res.json());
+    return this.$http.request(method, `${APP_CONFIG.API_BASE_URL}${url}`, {params: params, headers: this.headers});
   }
 
   signIn(data) {
