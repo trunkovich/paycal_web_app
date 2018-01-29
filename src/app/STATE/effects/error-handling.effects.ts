@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as authActions from '../actions/auth.actions';
 import { ReadTokenFailAction } from '../actions/auth.actions';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ErrorHandlingEffects {
@@ -16,8 +17,8 @@ export class ErrorHandlingEffects {
   @Effect({ dispatch: false })
   notAuthenticated$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.READ_TOKEN_FAIL)
-    .map((action: ReadTokenFailAction) => action.payload)
-    .do((err) => {
-      console.warn('Not authenticated: ', err);
-    });
+    .pipe(
+      map((action: ReadTokenFailAction) => action.payload),
+      tap((err) => console.warn('Not authenticated: ', err))
+    );
 }

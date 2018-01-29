@@ -8,14 +8,13 @@ import * as authActions from '../actions/auth.actions';
 import * as referencesActions from '../actions/references.actions';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
-import { defer } from 'rxjs/observable/defer';
 
 @Injectable()
 export class InitEffects {
   constructor() { }
 
   @Effect()
-  init$: Observable<Action> = defer(() => {
+  init$: Observable<Action> = Observable.defer(() => {
     return Observable.merge([
       new authActions.ReadTokenAction(),
       new referencesActions.LoadStatesAction(),

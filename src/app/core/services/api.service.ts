@@ -39,6 +39,8 @@ import {
   ScheduleRequestDetailsResponse
 } from '../../STATE/models/responses/create-schedule-response.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { EmployeeSignInResponse } from '../../STATE/models/responses/employee-sign-in-response.model';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 
 @Injectable()
 export class Api {
@@ -49,16 +51,16 @@ export class Api {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  request(method, url, data = {}) {
+  request<ResponseType>(method, url, data = {}): Observable<ResponseType> {
     let params: HttpParams = new HttpParams();
     _.toPairs(data).forEach(function(dataEntry) {
       params = params.set(dataEntry[0], (dataEntry[1] as string));
     });
-    return this.$http.request(method, `${APP_CONFIG.API_BASE_URL}${url}`, {params: params, headers: this.headers});
+    return this.$http.request<ResponseType>(method, `${APP_CONFIG.API_BASE_URL}${url}`, {params: params, headers: this.headers});
   }
 
   signIn(data) {
-    return this.request('get', 'EmployeeSignIn', data);
+    return this.request<EmployeeSignInResponse>('get', 'EmployeeSignIn', data);
   }
 
   saveLead(data: Lead) {

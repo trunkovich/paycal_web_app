@@ -35,6 +35,7 @@ import { LoadCallUnavailabilityTypesAction, LoadHospitalsAction, LoadShiftTypesA
 import { Hospital } from '../../../STATE/models/hospital.model';
 import { ShiftType } from '../../../STATE/models/shift-type.model';
 import { LocalStorageService } from 'ngx-localstorage';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'pcl-create-schedule',
@@ -77,17 +78,19 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
     this.store.dispatch(new LoadShiftTypesAction());
 
     this.sub = this.route.params
-      .map(params => params.scheduleRequestID)
-      .switchMap((scheduleRequestID: number) => {
-        this.manageIntroductionShown(scheduleRequestID);
+      .pipe(
+        map(params => params.scheduleRequestID),
+        switchMap((scheduleRequestID: number) => {
+          this.manageIntroductionShown(scheduleRequestID);
 
-        this.store.dispatch(new createScheduleActions.SetSelectedScheduleRequestIdAction(scheduleRequestID));
-        this.store.dispatch(new createScheduleActions.LoadScheduleRequestAction(scheduleRequestID));
+          this.store.dispatch(new createScheduleActions.SetSelectedScheduleRequestIdAction(scheduleRequestID));
+          this.store.dispatch(new createScheduleActions.LoadScheduleRequestAction(scheduleRequestID));
 
-        this.loading$ = this.store.select(createScheduleSelectors.getLoading);
-        return this.store.select(createScheduleSelectors.getSelectedScheduleRequest);
-      })
-      .filter((requestDetails: CreateScheduleDetailsModel) => !!requestDetails)
+          this.loading$ = this.store.select(createScheduleSelectors.getLoading);
+          return this.store.select(createScheduleSelectors.getSelectedScheduleRequest);
+        }),
+        filter((requestDetails: CreateScheduleDetailsModel) => !!requestDetails)
+      )
       .subscribe((requestDetails: CreateScheduleDetailsModel) => {
         this.requestDetails = _.cloneDeep(requestDetails);
         this.requestCalendar = new RequestCalendar(this.requestDetails);

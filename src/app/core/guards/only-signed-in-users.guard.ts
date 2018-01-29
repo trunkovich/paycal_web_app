@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 
 import { SaveRedirectUrl } from '../../STATE/actions/auth.actions';
 import { AppState, authSelectors } from '../../STATE/reducers/index';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class OnlySignedInUsers implements CanActivate {
@@ -15,11 +16,13 @@ export class OnlySignedInUsers implements CanActivate {
     stateSnapshot: RouterStateSnapshot
   ) {
     return this.store.select(authSelectors.getAuthStatus)
-      .do((authenticated) => {
-        if (!authenticated) {
-          this.store.dispatch(new SaveRedirectUrl(stateSnapshot.url));
-          this.router.navigate(['/', 'login']);
-        }
-      });
+      .pipe(
+        tap((authenticated) => {
+          if (!authenticated) {
+            this.store.dispatch(new SaveRedirectUrl(stateSnapshot.url));
+            this.router.navigate(['/', 'login']);
+          }
+        })
+      );
   }
 }

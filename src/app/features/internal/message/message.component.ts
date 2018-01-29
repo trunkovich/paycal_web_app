@@ -15,6 +15,7 @@ import {
   ToggleSelectionAction
 } from '../../../STATE/actions/home.actions';
 import { TrackMessageGeatureOpenedAction } from '../../../STATE/actions/mixpanel.actions';
+import { first, withLatestFrom } from 'rxjs/operators';
 
 
 @Component({
@@ -54,8 +55,10 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   send() {
     this.profile$
-      .withLatestFrom(this.scheduleEntry$, this.selectedEmployees$)
-      .take(1)
+      .pipe(
+        withLatestFrom(this.scheduleEntry$, this.selectedEmployees$),
+        first()
+      )
       .subscribe(([profile, scheduleEntry, selectedEmployees]) => {
         if (profile && scheduleEntry && selectedEmployees && selectedEmployees.length) {
           this.store.dispatch(new CreateCoverageRequestAction({

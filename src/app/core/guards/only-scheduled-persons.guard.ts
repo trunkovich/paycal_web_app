@@ -2,6 +2,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Injectable } from '@angular/core';
 import { AppState, profileSelectors } from '../../STATE/reducers/index';
 import { Store } from '@ngrx/store';
+import { filter, map, merge, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OnlyScheduledPersons implements CanActivate {
@@ -14,20 +15,27 @@ export class OnlyScheduledPersons implements CanActivate {
   ) {
     // WAITING FOR PROFILE RESOLVE OR ERROR.
     let profile$ = this.store.select(profileSelectors.getMyProfile)
-      .map((profile) => { return { profile: profile }; });
+      .pipe(
+        map((profile) => { return { profile: profile }; })
+      );
     let profileError$ = this.store.select(profileSelectors.getMyProfileErrorMsg)
-      .map((error) => { return { error: error }; });
-    return profile$.merge(profileError$)
-      .filter((data: any) => {
-        return data.profile || data.error;
-      })
-      .map((data: any) => {
-        return !data.error && data.profile.ScheduledPersonID !== null;
-      })
-      .do((result) => {
-        if (!result) {
-          this.router.navigate(['/', 'search']);
-        }
-      });
+      .pipe(
+        map((error) => { return { error: error }; })
+      );
+    return profile$
+      .pipe(
+        merge(profileError$),
+        filter((data: any) => {
+          return data.profile || data.error;
+        }),
+        map((data: any) => {
+          return !data.error && data.profile.ScheduledPersonID !== null;
+        }),
+        tap((result) => {
+          if (!result) {
+            this.router.navigate(['/', 'search']);
+          }
+        })
+      );
   }
 }

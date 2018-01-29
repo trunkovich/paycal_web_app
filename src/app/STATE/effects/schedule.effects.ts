@@ -11,6 +11,7 @@ import { ScheduleService } from '../../core/services/schedule.service';
 import { GroupSchedule } from '../models/group-schedule.model';
 import { AppState } from '../reducers/index';
 import * as authActions from '../actions/auth.actions';
+import { catchError, map, switchMap, delay } from 'rxjs/operators';
 
 @Injectable()
 export class ScheduleEffects {
@@ -27,20 +28,28 @@ export class ScheduleEffects {
       authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS,
       authActions.ActionTypes.READ_TOKEN_SUCCESS
     )
-    .map(() => new scheduleActions.LoadGroupScheduleMonthsAction())
-    .delay(1);
+    .pipe(
+      map(() => new scheduleActions.LoadGroupScheduleMonthsAction()),
+      delay(1)
+    );
 
   @Effect()
   getGroupScheduleMonths$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS)
-    .switchMap(() => {
-      return this.scheduleService.getGroupScheduleMonths()
-        .map((months: GroupSchedule[]) => new scheduleActions.LoadGroupScheduleMonthsSuccessAction(months))
-        .catch(error => Observable.of(new scheduleActions.LoadGroupScheduleMonthsFailAction(error)));
-    });
+    .pipe(
+      switchMap(() => {
+        return this.scheduleService.getGroupScheduleMonths()
+          .pipe(
+            map((months: GroupSchedule[]) => new scheduleActions.LoadGroupScheduleMonthsSuccessAction(months)),
+            catchError(error => Observable.of(new scheduleActions.LoadGroupScheduleMonthsFailAction(error)))
+          );
+      })
+    );
 
   @Effect()
   cleanScheduleAfterLogout$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.LOGOUT)
-    .map(() => new scheduleActions.CleanScheduleAction());
+    .pipe(
+      map(() => new scheduleActions.CleanScheduleAction())
+    );
 }

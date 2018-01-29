@@ -11,6 +11,7 @@ import * as authActions from '../actions/auth.actions';
 import * as profileActions from '../actions/profile.actions';
 import { AuthService } from '../../core/services/auth.service';
 import { EditEmployeeRequestData, Employee } from '../models/employee.model';
+import { catchError, map, switchMap, tap, delay } from 'rxjs/operators';
 
 @Injectable()
 export class ProfileEffects {
@@ -24,53 +25,61 @@ export class ProfileEffects {
       authActions.ActionTypes.READ_TOKEN_SUCCESS,
       profileActions.ActionTypes.SAVE_PROFILE_IMAGE_SUCCESS
     )
-    .map(() => new profileActions.GetUserProfileAction())
-    .delay(1);
+    .pipe(
+      map(() => new profileActions.GetUserProfileAction()),
+      delay(1)
+    );
 
   @Effect()
   getProfile$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.GET_USER_PROFILE)
-    .switchMap(() => {
-      return this.authService.getProfile()
-        .map((profile: Employee) => new profileActions.GetUserProfileSuccessAction(profile))
-        .catch(error => Observable.of(new profileActions.GetUserProfileFailAction(error)));
-    });
+    .pipe(
+      switchMap(() => this.authService.getProfile()),
+      map((profile: Employee) => new profileActions.GetUserProfileSuccessAction(profile)),
+      catchError(error => Observable.of(new profileActions.GetUserProfileFailAction(error)))
+    );
 
   @Effect()
   updateProfile$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.UPDATE_PROFILE)
-    .map((action: profileActions.UpdateProfileAction) => action.payload)
-    .switchMap((data: EditEmployeeRequestData) => {
-      return this.authService.updateProfile(data)
-        .map(() => new profileActions.UpdateProfileSuccessAction(data))
-        .catch(error => Observable.of(new profileActions.UpdateProfileFailAction(error.message)));
-    });
+    .pipe(
+      map((action: profileActions.UpdateProfileAction) => action.payload),
+      switchMap((data: EditEmployeeRequestData) => {
+        return this.authService.updateProfile(data)
+          .pipe(
+            map(() => new profileActions.UpdateProfileSuccessAction(data))
+          );
+      }),
+      catchError(error => Observable.of(new profileActions.UpdateProfileFailAction(error.message)))
+    );
 
   @Effect()
   uploadImage$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.UPLOAD_IMAGE)
-    .map((action: profileActions.UploadImageAction) => action.payload)
-    .switchMap((image: File) => {
-      return this.authService.uploadImage(image)
-        .map((url: string) => new profileActions.UploadImageSuccessAction(url))
-        .catch(error => Observable.of(new profileActions.UploadImageFailAction(error.message)));
-    });
+    .pipe(
+      map((action: profileActions.UploadImageAction) => action.payload),
+      switchMap((image: File) => this.authService.uploadImage(image)),
+      map((url: string) => new profileActions.UploadImageSuccessAction(url)),
+      catchError(error => Observable.of(new profileActions.UploadImageFailAction(error.message)))
+    );
 
   @Effect()
   saveProfileImage$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.SAVE_PROFILE_IMAGE)
-    .map((action: profileActions.SaveProfileImageAction) => action.payload)
-    .switchMap((url: string) => {
-      return this.authService.updateProfileImage(url)
-        .map(() => new profileActions.SaveProfileImageSuccessAction())
-        .catch(error => Observable.of(new profileActions.SaveProfileImageFailAction(error.message)));
-    });
+    .pipe(
+      map((action: profileActions.SaveProfileImageAction) => action.payload),
+      switchMap((url: string) => this.authService.updateProfileImage(url)),
+      map(() => new profileActions.SaveProfileImageSuccessAction()),
+      catchError(error => Observable.of(new profileActions.SaveProfileImageFailAction(error.message)))
+    );
 
   @Effect()
   afterImageUpload$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.UPLOAD_IMAGE_SUCCESS)
-    .map((action: profileActions.UploadImageSuccessAction) => action.payload)
-    .map((url: string) => new profileActions.SaveProfileImageAction(url));
+    .pipe(
+      map((action: profileActions.UploadImageSuccessAction) => action.payload),
+      map((url: string) => new profileActions.SaveProfileImageAction(url))
+    );
 
   @Effect({ dispatch: false })
   redirectToProfile$: Observable<Action> = this.actions$
@@ -78,12 +87,16 @@ export class ProfileEffects {
       profileActions.ActionTypes.UPDATE_PROFILE_SUCCESS,
       profileActions.ActionTypes.SAVE_PROFILE_IMAGE_SUCCESS
     )
-    .do(() => this.authService.redirectToProfile());
+    .pipe(
+      tap(() => this.authService.redirectToProfile())
+    );
 
   @Effect()
   clearUploadedImageData$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.SAVE_PROFILE_IMAGE_SUCCESS)
-    .map(() => new profileActions.ClearImageDataAction());
+    .pipe(
+      map(() => new profileActions.ClearImageDataAction())
+    );
 
   @Effect({ dispatch: false })
   redirectAfterAvatarUpload$: Observable<Action> = this.actions$
@@ -92,27 +105,35 @@ export class ProfileEffects {
       profileActions.ActionTypes.UPLOAD_IMAGE_FAIL,
       profileActions.ActionTypes.SAVE_PROFILE_IMAGE_FAIL
     )
-    .do(() => this.authService.redirectToCropAvatar());
+    .pipe(
+      tap(() => this.authService.redirectToCropAvatar())
+    );
 
   @Effect({ dispatch: false })
   redirectToCropLoading$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.UPLOAD_IMAGE)
-    .do(() => this.authService.redirectToCropLoading());
+    .pipe(
+      tap(() => this.authService.redirectToCropLoading())
+    );
 
   @Effect()
   cleanProfileAfterLogout$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.LOGOUT)
-    .map(() => new profileActions.CleanProfileAction());
+    .pipe(
+      map(() => new profileActions.CleanProfileAction())
+    );
 
   @Effect({dispatch: false})
   registerSentryContext$ = this.actions$
     .ofType(profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS)
-    .map((action: profileActions.GetUserProfileSuccessAction) => action.payload)
-    .do((user: Employee) =>
-      Raven.setUserContext({
-        username: user.MobilePhone,
-        email: user.Email,
-        id: user.EmployeeID.toString()
-      }))
-    .delay(1);
+    .pipe(
+      map((action: profileActions.GetUserProfileSuccessAction) => action.payload),
+      tap((user: Employee) =>
+        Raven.setUserContext({
+          username: user.MobilePhone,
+          email: user.Email,
+          id: user.EmployeeID.toString()
+        })),
+      delay(1)
+    );
 }

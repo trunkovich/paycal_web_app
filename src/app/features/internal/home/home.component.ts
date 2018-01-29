@@ -14,6 +14,7 @@ import { APP_CONFIG } from '../../../../environments/environment';
 import { SetHomeViewTypeAction, SetMySelectedDateAction } from '../../../STATE/actions/home.actions';
 import { SetCurrentSectionAction } from '../../../STATE/actions/schedule.actions';
 import { TrackHomeViewOpenedAction } from '../../../STATE/actions/mixpanel.actions';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'pcl-home',
@@ -67,7 +68,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.profile$ = this.store.select(profileSelectors.getMyProfile);
 
     this.homeViewType$
-      .first()
+      .pipe(
+        first()
+      )
       .subscribe(viewType => this.store.dispatch(new TrackHomeViewOpenedAction(viewType)));
   }
 

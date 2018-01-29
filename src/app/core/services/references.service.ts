@@ -34,6 +34,7 @@ import { ScheduleRequestStatusType } from '../../STATE/models/schedule-request-s
 import { ScheduleRequestStatusListListResponse } from '../../STATE/models/responses/schedule-request-status-list-response.model';
 import { VacationWindowType } from '../../STATE/models/vacation-window-type.model';
 import { VacationWindowTypesListResponse } from '../../STATE/models/responses/vacation-window-types-list-response.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ReferencesService {
@@ -42,156 +43,184 @@ export class ReferencesService {
 
   getGroupPositions(data: {groupId: number}): Observable<GroupPosition[] | string> {
     return this.api.getReference('GroupPositions', data)
-      .map((res: GroupPositionListResponse) => {
-        if (res.IsSuccess) {
-          return res.GroupPositionList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: GroupPositionListResponse) => {
+          if (res.IsSuccess) {
+            return res.GroupPositionList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getGroupSpecializations(data: {groupId: number}): Observable<GroupSpecialization[] | string> {
     return this.api.getReference('GroupSpecializations', data)
-      .map((res: GroupSpecializationListResponse) => {
-        if (res.IsSuccess) {
-          return res.GroupSpecializationList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: GroupSpecializationListResponse) => {
+          if (res.IsSuccess) {
+            return res.GroupSpecializationList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getRegions(): Observable<Region[] | string> {
     return this.api.getReference('Regions')
-      .map((res: RegionListResponse) => {
-        if (res.IsSuccess) {
-          return res.RegionList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: RegionListResponse) => {
+          if (res.IsSuccess) {
+            return res.RegionList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getStates(): Observable<State[] | string> {
     return this.api.getReference('States')
-      .map((res: StateListResponse) => {
-        if (res.IsSuccess) {
-          return res.StateList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: StateListResponse) => {
+          if (res.IsSuccess) {
+            return res.StateList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getTimeZones(): Observable<TimeZone[] | string> {
     return this.api.getReference('TimeZones')
-      .map((res: TimeZoneListResponse) => {
-        if (res.IsSuccess) {
-          return res.TimeZoneList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: TimeZoneListResponse) => {
+          if (res.IsSuccess) {
+            return res.TimeZoneList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getReferenceTypes(): Observable<ReferenceType[] | string> {
     return this.api.getReference('ReferenceTypes')
-      .map((res: ReferenceTypeListResponse) => {
-        if (res.IsSuccess) {
-          return res.ReferenceTypeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: ReferenceTypeListResponse) => {
+          if (res.IsSuccess) {
+            return res.ReferenceTypeList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getEmployeeStatuses(): Observable<EmployeeStatus[] | string> {
     return this.api.getReference('EmployeeStatuses')
-      .map((res: EmployeeStatusListResponse) => {
-        if (res.IsSuccess) {
-          return res.EmployeeStatusList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: EmployeeStatusListResponse) => {
+          if (res.IsSuccess) {
+            return res.EmployeeStatusList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getCallUnavailabilityTypes(groupID: number): Observable<CallUnavailabilityType[] | string> {
     return this.api.request('get', 'GetCallUnavailabilityTypes', {groupID})
-      .map((res: CallUnavailabilityTypesListResponse) => {
-        if (res.IsSuccess) {
-          return res.CallUnavailabilityTypeList;
-        } else {
-          throw Error(`Get Call Unavailability Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: CallUnavailabilityTypesListResponse) => {
+          if (res.IsSuccess) {
+            return res.CallUnavailabilityTypeList;
+          } else {
+            throw Error(`Get Call Unavailability Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getCallNightTypes(groupID: number): Observable<CallNightType[] | string> {
     return this.api.request('get', 'GetCallNightTypes', {groupID})
-      .map((res: CallNightTypesListResponse) => {
-        if (res.IsSuccess) {
-          return res.CallNightTypeList;
-        } else {
-          throw Error(`Get Call Night Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: CallNightTypesListResponse) => {
+          if (res.IsSuccess) {
+            return res.CallNightTypeList;
+          } else {
+            throw Error(`Get Call Night Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getHospitalistRoundingTypes(groupID: number): Observable<HospitalistRoundingType[] | string> {
     return this.api.request('get', 'GetHospitalistRoundingTypes', {groupID})
-      .map((res: HospitalistRoundingTypesListResponse) => {
-        if (res.IsSuccess) {
-          return res.RoundingTypeList;
-        } else {
-          throw Error(`Get Hospitalist Rounding Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: HospitalistRoundingTypesListResponse) => {
+          if (res.IsSuccess) {
+            return res.RoundingTypeList;
+          } else {
+            throw Error(`Get Hospitalist Rounding Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getHospitals(groupID: number): Observable<Hospital[] | string> {
     return this.api.request('get', 'GetHospitals', {groupID})
-      .map((res: HospitalsListResponse) => {
-        if (res.IsSuccess) {
-          return res.HospitalList;
-        } else {
-          throw Error(`Get Hospitals Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: HospitalsListResponse) => {
+          if (res.IsSuccess) {
+            return res.HospitalList;
+          } else {
+            throw Error(`Get Hospitals Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getShiftTypes(groupID: number): Observable<ShiftType[] | string> {
     return this.api.request('get', 'GetShiftTypes', {groupID})
-      .map((res: ShiftTypesListResponse) => {
-        if (res.IsSuccess) {
-          return res.ShiftList;
-        } else {
-          throw Error(`Get Shift Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: ShiftTypesListResponse) => {
+          if (res.IsSuccess) {
+            return res.ShiftList;
+          } else {
+            throw Error(`Get Shift Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getScheduleRequestStatusTypes(groupID: number): Observable<ScheduleRequestStatusType[] | string> {
     return this.api.request('get', 'GetScheduleRequestStatusTypes', {groupID})
-      .map((res: ScheduleRequestStatusListListResponse) => {
-        if (res.IsSuccess) {
-          return res.ScheduleRequestStatusList;
-        } else {
-          throw Error(`Get Schedule Request Status Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: ScheduleRequestStatusListListResponse) => {
+          if (res.IsSuccess) {
+            return res.ScheduleRequestStatusList;
+          } else {
+            throw Error(`Get Schedule Request Status Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getVacationWindowTypes(groupID: number): Observable<VacationWindowType[] | string> {
     return this.api.request('get', 'GetVacationWindowTypes', {groupID})
-      .map((res: VacationWindowTypesListResponse) => {
-        if (res.IsSuccess) {
-          return res.VacationWindowTypeList;
-        } else {
-          throw Error(`Get Vacation Window Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: VacationWindowTypesListResponse) => {
+          if (res.IsSuccess) {
+            return res.VacationWindowTypeList;
+          } else {
+            throw Error(`Get Vacation Window Types Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
 }

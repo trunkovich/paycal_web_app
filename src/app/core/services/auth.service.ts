@@ -20,6 +20,7 @@ import { CompleteRegistrationModel } from '../../STATE/models/complete-registrat
 import { Lead } from '../../STATE/models/lead.model';
 import { AppState, authSelectors } from '../../STATE/reducers/index';
 import { CloudinaryResponse } from '../../STATE/models/responses/cloudinary-response.model';
+import { first, map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -32,24 +33,28 @@ export class AuthService {
       'mobilePhone': credentials.phone,
       'password': credentials.password
     })
-      .map((res: EmployeeSignInResponse) => {
-        if (res.IsSuccess) {
-          return {token: res.LoginToken, rememberMe: credentials.rememberMe};
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: EmployeeSignInResponse) => {
+          if (res.IsSuccess) {
+            return {token: res.LoginToken, rememberMe: credentials.rememberMe};
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
   saveLead(data: Lead): Observable<boolean | string> {
     return this.api.saveLead(data)
-      .map((res: Response) => {
-        if (res.IsSuccess) {
-          return true;
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: Response) => {
+          if (res.IsSuccess) {
+            return true;
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
 
@@ -60,59 +65,69 @@ export class AuthService {
 
   continueRegistration(completeRegistrationData: CompleteRegistrationModel): Observable<TokenObject | string> {
     return this.api.completeRegistration(completeRegistrationData)
-      .map((res: EmployeeSignInResponse) => {
-        if (res.IsSuccess) {
-          return {token: res.LoginToken, rememberMe: true};
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: EmployeeSignInResponse) => {
+          if (res.IsSuccess) {
+            return {token: res.LoginToken, rememberMe: true};
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
   requestPasswordRecovery(phone): Observable<boolean | string> {
     return this.api.requestPasswordRecovery({
       'mobilePhone': phone
     })
-      .map((res: Response) => {
-        if (res.IsSuccess) {
-          return true;
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: Response) => {
+          if (res.IsSuccess) {
+            return true;
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
   resetPassword(resetPasswordData: ResetPasswordModel): Observable<boolean | string> {
     return this.api.resetPassword(resetPasswordData)
-      .map((res: Response) => {
-        if (res.IsSuccess) {
-          return true;
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: Response) => {
+          if (res.IsSuccess) {
+            return true;
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
   changePassword(password: string): Observable<boolean | string> {
     return this.api.changePassword({newPassword: password})
-      .map((res: Response) => {
-        if (res.IsSuccess) {
-          return true;
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: Response) => {
+          if (res.IsSuccess) {
+            return true;
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
   getProfile(): Observable<Employee> {
     return this.api.getProfile()
-      .map((res: EmployeeResponse) => {
-        if (res.IsSuccess) {
-          return res.Employee;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: EmployeeResponse) => {
+          if (res.IsSuccess) {
+            return res.Employee;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   updateProfile(data: EditEmployeeRequestData): Observable<boolean | string> {
@@ -124,35 +139,41 @@ export class AuthService {
       data.email = '';
     }
     return this.api.updateProfile(data)
-      .map((res: Response) => {
-        if (res.IsSuccess) {
-          return true;
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: Response) => {
+          if (res.IsSuccess) {
+            return true;
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
   updateProfileImage(url: string): Observable<boolean | string> {
     return this.api.updateProfileImage({pictureUrl: url})
-      .map((res: Response) => {
-        if (res.IsSuccess) {
-          return true;
-        } else {
-          throw Error(res.ErrorMessage);
-        }
-      });
+      .pipe(
+        map((res: Response) => {
+          if (res.IsSuccess) {
+            return true;
+          } else {
+            throw Error(res.ErrorMessage);
+          }
+        })
+      );
   }
 
   uploadImage(image: File): Observable<string> {
     return this.api.uploadImage(image)
-      .map((res: CloudinaryResponse) => {
-        if (!res.error) {
-          return res.url;
-        } else {
-          throw Error(res.error.message);
-        }
-      });
+      .pipe(
+        map((res: CloudinaryResponse) => {
+          if (!res.error) {
+            return res.url;
+          } else {
+            throw Error(res.error.message);
+          }
+        })
+      );
   }
 
   redirectAfterPasswordRecoveryRequest() {
@@ -192,7 +213,9 @@ export class AuthService {
 
   redirectAfterLogin() {
     this.store.select(authSelectors.getRedirectURL)
-      .first()
+      .pipe(
+        first()
+      )
       .subscribe((url) => {
         this.router.navigateByUrl(url || APP_CONFIG.DEFAULT_REDIRECT_URL);
       });

@@ -7,6 +7,7 @@ import { CalendarTypes } from '../../../../../STATE/models/calendar.types';
 import { AppState, homeSelectors, scheduleSelectors, searchSelectors } from '../../../../../STATE/reducers/index';
 import { SetHomeViewTypeAction } from '../../../../../STATE/actions/home.actions';
 import { SetSearchViewTypeAction } from '../../../../../STATE/actions/search.actions';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'pcl-view-type-bottom-sheet',
@@ -19,7 +20,9 @@ export class ViewTypeBottomSheetComponent {
 
   constructor(private bss: BottomSheetService, private store: Store<AppState>) {
     store.select(scheduleSelectors.getCurrentSection)
-      .first()
+      .pipe(
+        first()
+      )
       .subscribe((section) => {
         this.section = section;
         if (section === 'home') {

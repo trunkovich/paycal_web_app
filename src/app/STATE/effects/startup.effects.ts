@@ -6,6 +6,7 @@ import { Actions, Effect } from '@ngrx/effects';
 
 import * as authActions from '../actions/auth.actions';
 import * as profileActions from '../actions/profile.actions';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class StartupEffects {
@@ -18,6 +19,8 @@ export class StartupEffects {
       profileActions.ActionTypes.GET_USER_PROFILE_FAIL,
       authActions.ActionTypes.READ_TOKEN_FAIL,
     )
-    .do(() => document.getElementById('splash').classList.remove('show'));
+    .pipe(
+      tap(() => document.getElementById('splash').classList.remove('show'))
+    );
 
 }

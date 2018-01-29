@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { AppState, profileSelectors } from '../../../STATE/reducers/index';
 import { BottomSheetService } from '../../../bottom-sheet/bottom-sheet.service';
 import { ContactUsBottomSheetComponent } from '../../../features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
+import { map } from 'rxjs/operators';
+import { Employee } from '../../../STATE/models/employee.model';
 
 @Component({
   selector: 'pcl-navigation',
@@ -14,11 +16,13 @@ import { ContactUsBottomSheetComponent } from '../../../features/internal/contac
 export class NavigationComponent implements OnChanges {
   @Input() show: boolean;
   isHomeDisabled$: Observable<boolean>;
-  @HostBinding('class.show') someNav: boolean = false;
+  @HostBinding('class.show') someNav = false;
 
   constructor(private store: Store<AppState>, private bss: BottomSheetService) {
     this.isHomeDisabled$ = store.select(profileSelectors.getMyProfile)
-      .map((profile) => !profile || !profile.ScheduledPersonID);
+      .pipe(
+        map((profile: Employee) => !profile || !profile.ScheduledPersonID)
+      );
   }
 
   openContactUsDialog() {

@@ -20,6 +20,7 @@ import { Observable } from 'rxjs/Observable';
 import { EmployeeScheduleEntryGroupedByDay } from '../../../../STATE/models/employee-schedule-entry.model';
 import { CalendarTypes } from '../../../../STATE/models/calendar.types';
 import { SetCurrentSectionAction } from '../../../../STATE/actions/schedule.actions';
+import { filter, map, switchMap, take, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'pcl-employee-profile',
@@ -46,12 +47,16 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
     this.store.dispatch(new CleanSearchMonthsScheduleAction());
 
     this.route.params
-      .map(params => params.id)
+      .pipe(
+        map(params => params.id)
+      )
       .subscribe(id => {
         this.entryId = id;
 
         this.sub = this.store.select(scheduleSelectors.getScheduleMonths)
-          .filter((months) => months && !!months.length)
+          .pipe(
+            filter((months) => months && !!months.length)
+          )
           .subscribe(() => {
             setTimeout(() => {
               this.store.dispatch(new SetSearchType(this.type));
@@ -71,11 +76,13 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
 
     const today = moment();
     this.nextThreeDaysEntries$ = this.store.select(searchSelectors.getSelectedDateScheduleGroupedByDay)
-      .filter(entries => !!entries)
-      .switchMap(entries => Observable.from(entries))
-      .filter(entry => entry.date.isAfter(today))
-      .take(7)
-      .toArray();
+      .pipe(
+        filter(entries => !!entries),
+        switchMap(entries => Observable.from(entries)),
+        filter(entry => entry.date.isAfter(today)),
+        take(7),
+        toArray()
+      );
   }
 
   ngOnDestroy() {

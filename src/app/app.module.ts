@@ -7,6 +7,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as Raven from 'raven-js';
 import { NgxLocalStorageModule } from 'ngx-localstorage';
 
+// Observable imports:
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/defer';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/forkJoin';
+
 import { AuthModule } from './features/auth/auth.module';
 import { PclCommonModule } from './common/pcl-common.module';
 import { InternalModule } from './features/internal/internal.module';
@@ -28,7 +37,8 @@ import { ReferencesEffects } from './STATE/effects/references.effects';
 import { ScheduleEffects } from './STATE/effects/schedule.effects';
 import { metaReducers, reducers } from './STATE/reducers/index';
 import { BottomSheetContainerComponent } from './bottom-sheet/bottom-sheet-container/bottom-sheet-container.component';
-import { ViewTypeBottomSheetComponent } from './features/internal/common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
+import { ViewTypeBottomSheetComponent }
+  from './features/internal/common/components/view-type-bottom-sheet/view-type-bottom-sheet.component';
 import { StartupEffects } from './STATE/effects/startup.effects';
 import { OnlyScheduledPersons } from './core/guards/only-scheduled-persons.guard';
 import { AvatarService } from './core/services/avatar.service';
@@ -36,9 +46,8 @@ import { SearchModule } from './features/internal/search-module/search.module';
 import { HomeEffects } from './STATE/effects/home.effects';
 import { SearchEffects } from './STATE/effects/search.effects';
 import { ContactUsBottomSheetComponent } from './features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
-import { Angulartics2Mixpanel, Angulartics2Module } from 'angulartics2';
+import { Angulartics2Module } from 'angulartics2';
 import { MixpanelEffects } from './STATE/effects/mixpanel.effects';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactPersonBottomSheetComponent } from './features/internal/contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 import { environment } from '../environments/environment';
 import { LocalStorageAlertComponent } from './features/auth/local-storage-alert/local-storage-alert.component';
@@ -48,6 +57,8 @@ import { CreateScheduleService } from './core/services/create-schedule.service';
 import { CreateScheduleEffects } from './STATE/effects/create-schedule.effects';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {

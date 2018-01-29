@@ -13,6 +13,7 @@ import { AppState, homeSelectors } from '../reducers/index';
 import * as authActions from '../actions/auth.actions';
 import { Employee, QualifiedEmployee } from '../models/employee.model';
 import { GroupSchedule } from '../models/group-schedule.model';
+import { catchError, finalize, map, switchMap, tap, withLatestFrom, delay } from 'rxjs/operators';
 
 @Injectable()
 export class HomeEffects {
@@ -25,20 +26,26 @@ export class HomeEffects {
   @Effect()
   cleanSchedule$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.CLEAN_SCHEDULE)
-    .map(() => new homeActions.CleanScheduleAction())
-    .delay(1);
+    .pipe(
+      map(() => new homeActions.CleanScheduleAction()),
+      delay(1)
+    );
 
   @Effect()
   fillMyMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
-    .map((action: scheduleActions.LoadGroupScheduleMonthsSuccessAction) => action.payload)
-    .map((months: GroupSchedule[]) => new homeActions.FillMyMonthsScheduleAction(months))
-    .delay(1);
+    .pipe(
+      map((action: scheduleActions.LoadGroupScheduleMonthsSuccessAction) => action.payload),
+      map((months: GroupSchedule[]) => new homeActions.FillMyMonthsScheduleAction(months)),
+      delay(1)
+    );
 
   @Effect()
   startFullMonthScheduleLoading$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.FILL_MY_MONTH_SCHEDULE)
-    .map(() => new homeActions.LoadMyFullScheduleAction());
+    .pipe(
+      map(() => new homeActions.LoadMyFullScheduleAction())
+    );
 
   @Effect()
   getCurrentMonthScheduleAfterSignIn$: Observable<Action> = this.actions$
@@ -47,85 +54,99 @@ export class HomeEffects {
       authActions.ActionTypes.COMPLETE_REGISTRATION_SUCCESS,
       authActions.ActionTypes.READ_TOKEN_SUCCESS
     )
-    .map(() => new homeActions.LoadMyCurrentMonthScheduleAction())
-    .delay(1);
+    .pipe(
+      map(() => new homeActions.LoadMyCurrentMonthScheduleAction()),
+      delay(1)
+    );
 
   @Effect()
   loadCurrentMonthScheduleAfterSignIn$: Observable<Action> = this.actions$
     .ofType(
       homeActions.ActionTypes.LOAD_MY_CURRENT_MONTH_SCHEDULE
     )
-    .map(() => new homeActions.LoadMyMonthScheduleAction(new Date()))
-    .delay(1);
+    .pipe(
+      map(() => new homeActions.LoadMyMonthScheduleAction(new Date())),
+      delay(1)
+    );
 
   @Effect()
   createCoverageRequest$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.CREATE_COVERAGE_REQUEST)
-    .map((action: homeActions.CreateCoverageRequestAction) => action.payload)
-    .switchMap((request) => {
-      return this.scheduleService.createCoverageRequest(request)
-        .map(() => new homeActions.CreateCoverageRequestSuccessAction())
-        .catch(error => Observable.of(new homeActions.CreateCoverageRequestFailAction(error)));
-    });
+    .pipe(
+      map((action: homeActions.CreateCoverageRequestAction) => action.payload),
+      switchMap((request) => this.scheduleService.createCoverageRequest(request)),
+      map(() => new homeActions.CreateCoverageRequestSuccessAction()),
+      catchError(error => Observable.of(new homeActions.CreateCoverageRequestFailAction(error)))
+    );
 
   @Effect({dispatch: false})
   redirectBeforeCreatingCoverageRequest$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.CREATE_COVERAGE_REQUEST)
-    .do(() => this.scheduleService.redidrectBeforeCreatingRequest());
+    .pipe(
+      tap(() => this.scheduleService.redidrectBeforeCreatingRequest())
+    );
 
   @Effect({dispatch: false})
   redirectAfterCreatingCoverageRequest$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.CREATE_COVERAGE_REQUEST_SUCCESS)
-    .do(() => this.scheduleService.redidrectAfterCreatingRequest());
+    .pipe(
+      tap(() => this.scheduleService.redidrectAfterCreatingRequest())
+    );
 
   @Effect()
   initFullScheduleMonthLoading$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS_SUCCESS)
-    .map(() => new homeActions.LoadMyFullScheduleAction());
+    .pipe(
+      map(() => new homeActions.LoadMyFullScheduleAction())
+    );
 
   @Effect()
   getCurrentMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE)
-    .map((action: homeActions.LoadMyMonthScheduleAction) => action.payload)
-    .switchMap((date: Date) => {
-      return this.scheduleService.getMyMonthSchedule({month: date.getMonth() + 1, year: date.getFullYear()})
-        .map((entries: EmployeeScheduleEntry[]) => {
-          let loadedMonth: LoadedMonth = {
-            dateString: `${date.getFullYear()}.${date.getMonth() + 1}`,
-            entries: entries,
-            loaded: true,
-            month: date.getMonth() + 1,
-            year: date.getFullYear()
-          };
-          return new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth);
-        })
-        .catch(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error)))
-        .finally(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()));
-    });
+    .pipe(
+      map((action: homeActions.LoadMyMonthScheduleAction) => action.payload),
+      switchMap((date: Date) => {
+        return this.scheduleService.getMyMonthSchedule({month: date.getMonth() + 1, year: date.getFullYear()})
+          .pipe(
+            map((entries: EmployeeScheduleEntry[]) => {
+              let loadedMonth: LoadedMonth = {
+                dateString: `${date.getFullYear()}.${date.getMonth() + 1}`,
+                entries: entries,
+                loaded: true,
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+              };
+              return new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth);
+            }),
+            catchError(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error))),
+            finalize(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()))
+          );
+      })
+    );
 
   @Effect()
   getAllAvailableMonthsSchedule$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.LOAD_MY_FULL_SCHEDULE)
-    .withLatestFrom(this.store.select(homeSelectors.getHomeFullSchedule))
-    .switchMap(([, months]: [any, AvailableMonthsStructure]) => {
-      return this.scheduleService.loadMonths(months)
-        .map((loadedMonth: LoadedMonth) => new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth))
-        .catch(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error)))
-        .finally(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()));
-    });
+    .pipe(
+      withLatestFrom(this.store.select(homeSelectors.getHomeFullSchedule)),
+      switchMap(([, months]: [any, AvailableMonthsStructure]) => this.scheduleService.loadMonths(months)),
+      map((loadedMonth: LoadedMonth) => new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth)),
+      catchError(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error))),
+      finalize(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()))
+    );
 
   @Effect()
   findEmployeesToCoverMyShift$: Observable<Action> = this.actions$
     .ofType(homeActions.ActionTypes.LOAD_SHIFT_EMPLOYEES)
-    .map((action: homeActions.LoadShiftEmployeesAction) => action.payload)
-    .switchMap((employeeScheduleEntryID: number) => {
-      return this.scheduleService.findEmployeesToCoverMyShift(employeeScheduleEntryID)
-        .map((employees: Employee[]) => {
-          return employees.map((employee) => {
-            return {selected: false, employee};
-          });
-        })
-        .map((qualifiedEmployees: QualifiedEmployee[]) => new homeActions.LoadShiftEmployeesSuccessAction(qualifiedEmployees))
-        .catch(error => Observable.of(new homeActions.LoadShiftEmployeesFailAction(error)));
-    });
+    .pipe(
+      map((action: homeActions.LoadShiftEmployeesAction) => action.payload),
+      switchMap((employeeScheduleEntryID: number) => this.scheduleService.findEmployeesToCoverMyShift(employeeScheduleEntryID)),
+      map((employees: Employee[]) => {
+        return employees.map((employee) => {
+          return {selected: false, employee};
+        });
+      }),
+      map((qualifiedEmployees: QualifiedEmployee[]) => new homeActions.LoadShiftEmployeesSuccessAction(qualifiedEmployees)),
+      catchError(error => Observable.of(new homeActions.LoadShiftEmployeesFailAction(error)))
+    );
 }

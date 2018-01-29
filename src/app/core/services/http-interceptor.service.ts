@@ -3,12 +3,12 @@ import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse }
   from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
 import { Store } from '@ngrx/store';
 import { AppState, authSelectors } from '../../STATE/reducers/index';
 import { APP_CONFIG } from '../../../environments/environment';
 import { Response } from '../../STATE/models/responses/response.model';
 import { LogoutAction } from '../../STATE/actions/auth.actions';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class PaycalHttpInterceptor implements HttpInterceptor {
@@ -31,14 +31,16 @@ export class PaycalHttpInterceptor implements HttpInterceptor {
     if (PaycalHttpInterceptor.isApiUrl(req.url)) {
       const reqClone = req.clone({params: req.params.set('loginToken', this.token)});
       return next.handle(reqClone)
-        .do(event => {
-          if (event instanceof HttpResponse) {
-            const response: Response = event.body;
-            if (!response.IsSuccess && response.ErrorCode === '403') {
-              this.store.dispatch(new LogoutAction());
+        .pipe(
+          tap(event => {
+            if (event instanceof HttpResponse) {
+              const response: Response = event.body;
+              if (!response.IsSuccess && response.ErrorCode === '403') {
+                this.store.dispatch(new LogoutAction());
+              }
             }
-          }
-        });
+          })
+        );
     }
     return next.handle(req);
   }

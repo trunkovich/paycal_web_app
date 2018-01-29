@@ -23,6 +23,7 @@ import { EmployeeScheduleEntry, EmployeeScheduleEntryGroupedByDay } from '../../
 import { MasterCalendarEntry } from '../../../../STATE/models/master-calendar-entry.model';
 import { BottomSheetService } from '../../../../bottom-sheet/bottom-sheet.service';
 import { ContactPersonBottomSheetComponent } from '../../contact-person-bottom-sheet/contact-person-bottom-sheet.component';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'pcl-schedule',
@@ -59,7 +60,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.selectedDate$ = this.store.select(searchSelectors.getSelectedDate);
     this.subs.push(
       this.store.select(scheduleSelectors.getScheduleMonths)
-        .filter((months) => months && !!months.length)
+        .pipe(
+          filter((months: GroupSchedule[]) => months && !!months.length)
+        )
         .subscribe((months) => {
           this.activeMonths = months;
           setTimeout(() => {
@@ -98,7 +101,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     );
     if (this.type === 'physicians') {
       let employee$ = this.store.select(searchSelectors.getEmployeeFromGroupById(+id));
-      this.title$ = employee$.map((employee: Employee) => this.formattedTitle(employee));
+      this.title$ = employee$
+        .pipe(
+          map((employee: Employee) => this.formattedTitle(employee))
+        );
     } else {
       this.title$ = Observable.of(id);
     }

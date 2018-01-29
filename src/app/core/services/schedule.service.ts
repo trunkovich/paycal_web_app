@@ -19,6 +19,7 @@ import { LaborCodeListResponse } from '../../STATE/models/responses/labor-code-l
 import { MasterCalendarEntryListResponse } from '../../STATE/models/responses/master-calendar-entry-list-response.model';
 import { MasterCalendarEntry } from '../../STATE/models/master-calendar-entry.model';
 import { Router } from '@angular/router';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class ScheduleService {
@@ -30,13 +31,15 @@ export class ScheduleService {
       scheduleMonth: data.month,
       scheduleYear: data.year
     })
-      .map((res: EmployeeScheduleEntryListResponse) => {
-        if (res.IsSuccess) {
-          return res.EmployeeScheduleEntryList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: EmployeeScheduleEntryListResponse) => {
+          if (res.IsSuccess) {
+            return res.EmployeeScheduleEntryList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   private getUnloadedMonths(months: AvailableMonthsStructure): LoadedMonth[] {
@@ -51,64 +54,76 @@ export class ScheduleService {
 
   loadMonths(months: AvailableMonthsStructure): Observable<LoadedMonth> {
     return Observable.from(this.getUnloadedMonths(months))
-      .flatMap((unloadedMonth: LoadedMonth) => {
-        let unloaded = _.cloneDeep(unloadedMonth);
-        return this.getMyMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month})
-          .map((entries: EmployeeScheduleEntry[]) => {
-            unloaded.entries = entries;
-            unloaded.loaded = true;
-            return unloaded;
-          })
-          .catch((error) => {
-            console.error(error);
-            return Observable.of(unloaded);
-          });
-      });
+      .pipe(
+        mergeMap((unloadedMonth: LoadedMonth) => {
+          let unloaded = _.cloneDeep(unloadedMonth);
+          return this.getMyMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month})
+            .pipe(
+              map((entries: EmployeeScheduleEntry[]) => {
+                unloaded.entries = entries;
+                unloaded.loaded = true;
+                return unloaded;
+              }),
+              catchError((error) => {
+                console.error(error);
+                return Observable.of(unloaded);
+              })
+            );
+        })
+      );
   }
 
   loadSearchMonths(months: AvailableMonthsStructure, type: string, id: string): Observable<LoadedMonth> {
     return Observable.from(this.getUnloadedMonths(months))
-      .flatMap((unloadedMonth: LoadedMonth) => {
-        let unloaded = _.cloneDeep(unloadedMonth);
-        let obs;
-        if (type === 'physicians') {
-          obs = this.getGroupMemberMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month, id: id});
-        } else {
-          obs = this.getLaborCodeMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month, id: id});
-        }
-        return obs
-          .map((entries: EmployeeScheduleEntry[] | MasterCalendarEntry[]) => {
-            unloaded.entries = entries;
-            unloaded.loaded = true;
-            return unloaded;
-          })
-          .catch((error) => {
-            console.error(error);
-            return Observable.of(unloaded);
-          });
-      });
+      .pipe(
+        mergeMap((unloadedMonth: LoadedMonth) => {
+          let unloaded = _.cloneDeep(unloadedMonth);
+          let obs;
+          if (type === 'physicians') {
+            obs = this.getGroupMemberMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month, id: id});
+          } else {
+            obs = this.getLaborCodeMonthSchedule({year: unloadedMonth.year, month: unloadedMonth.month, id: id});
+          }
+          return obs
+            .pipe(
+              map((entries: EmployeeScheduleEntry[] | MasterCalendarEntry[]) => {
+                unloaded.entries = entries;
+                unloaded.loaded = true;
+                return unloaded;
+              }),
+              catchError((error) => {
+                console.error(error);
+                return Observable.of(unloaded);
+              })
+            );
+        })
+      );
   }
 
   findEmployeesToCoverMyShift(employeeScheduleEntryID): Observable<Employee[] | string> {
     return this.api.getEmployeesToCoverMyShift({employeeScheduleEntryID})
-      .map((res: EmployeeListResponse) => {
-        if (res.IsSuccess) {
-          return res.EmployeeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: EmployeeListResponse) => {
+          if (res.IsSuccess) {
+            return res.EmployeeList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getGroupScheduleMonths(): Observable<GroupSchedule[] | string> {
     return this.api.getGroupScheduleMonths()
-      .map((res: GroupScheduleListResponse) => {
-        if (res.IsSuccess) {
-          return res.GroupScheduleList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: GroupScheduleListResponse) => {
+          if (res.IsSuccess) {
+            return res.GroupScheduleList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   loadCallReference(date: Date): Observable<string[] | string> {
@@ -116,13 +131,15 @@ export class ScheduleService {
       scheduleYear: date.getFullYear(),
       scheduleMonth: date.getMonth() + 1
     })
-      .map((res: LaborCodeListResponse) => {
-        if (res.IsSuccess) {
-          return res.LaborCodeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: LaborCodeListResponse) => {
+          if (res.IsSuccess) {
+            return res.LaborCodeList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   loadOrReference(date: Date): Observable<string[] | string> {
@@ -130,35 +147,41 @@ export class ScheduleService {
       scheduleYear: date.getFullYear(),
       scheduleMonth: date.getMonth() + 1
     })
-      .map((res: LaborCodeListResponse) => {
-        if (res.IsSuccess) {
-          return res.LaborCodeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: LaborCodeListResponse) => {
+          if (res.IsSuccess) {
+            return res.LaborCodeList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   loadEmployeesInMyGroup(): Observable<Employee[] | string> {
     return this.api.getEmployeesInMyGroup()
-      .map((res: EmployeeListResponse) => {
-        if (res.IsSuccess) {
-          return res.EmployeeList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: EmployeeListResponse) => {
+          if (res.IsSuccess) {
+            return res.EmployeeList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   createCoverageRequest(data: CoverageRequest): Observable<boolean | string> {
     return this.api.createCoverageRequest(data)
-      .map((res: Response) => {
-        if (res.IsSuccess) {
-          return true;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: Response) => {
+          if (res.IsSuccess) {
+            return true;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getLaborCodeMonthSchedule(data: { month: number; year: number; id: string; }): Observable<MasterCalendarEntry[] | string> {
@@ -167,13 +190,15 @@ export class ScheduleService {
       scheduleYear: data.year,
       laborCode: data.id
     })
-      .map((res: MasterCalendarEntryListResponse) => {
-        if (res.IsSuccess) {
-          return res.MasterCalendarEntryList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: MasterCalendarEntryListResponse) => {
+          if (res.IsSuccess) {
+            return res.MasterCalendarEntryList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   getGroupMemberMonthSchedule(data: { month: number; year: number; id: string; }): Observable<EmployeeScheduleEntry[] | string> {
@@ -182,13 +207,15 @@ export class ScheduleService {
       scheduleYear: data.year,
       groupMemberEmployeeID: data.id
     })
-      .map((res: EmployeeScheduleEntryListResponse) => {
-        if (res.IsSuccess) {
-          return res.EmployeeScheduleEntryList;
-        } else {
-          throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
-        }
-      });
+      .pipe(
+        map((res: EmployeeScheduleEntryListResponse) => {
+          if (res.IsSuccess) {
+            return res.EmployeeScheduleEntryList;
+          } else {
+            throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
+          }
+        })
+      );
   }
 
   // getLaborCodeDaySchedule(data: {
