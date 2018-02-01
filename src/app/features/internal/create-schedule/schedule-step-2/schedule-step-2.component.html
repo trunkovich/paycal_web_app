@@ -2,13 +2,15 @@
 
 <div *ngFor="let callUnavailabilityDay of callUnavailabilityDays; let i = index"
      [class.margin-bottom]="callUnavailabilityDays.length > 1 && i < (callUnavailabilityDays.length - 1)">
+  <mat-form-field>
     <mat-select placeholder="I'll not be available for"
-               (change)="onTypeChange(callUnavailabilityDay, i, $event)"
-               [value]="callUnavailabilityDay.type">
+                (change)="onTypeChange(callUnavailabilityDay, i, $event)"
+                [value]="callUnavailabilityDay.type">
       <mat-option *ngFor="let type of callUnavailabilityTypes" [value]="type.CallUnavailabilityTypeID">
         {{ type.Description }}
       </mat-option>
     </mat-select>
+  </mat-form-field>
   <pcl-custom-date-selector (onDateChange)="onDateChange($event, i, callUnavailabilityDay.type)"
                             [date]="callUnavailabilityDay?.date"
                             [calendar]="calendar"></pcl-custom-date-selector>

@@ -16,4 +16,14 @@
   pcl-custom-date-selector {
     margin-top: 32px;
   }
+
+  mat-form-field /deep/ {
+    margin-top: 10px;
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+    .mat-form-field-underline {
+      bottom: 0;
+    }
+  }
 }
