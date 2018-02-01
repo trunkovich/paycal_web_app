@@ -82,7 +82,7 @@ $tealish: #2ab0c9;
   @each $stepper-id in $steppers {
     @each $step-color in $step-colors-list {
       $step-id: index($step-colors-list, $step-color) - 1;
-      #mat-step-label-#{$stepper-id}-#{$step-id} {
+      #cdk-step-label-#{$stepper-id}-#{$step-id} {
         .mat-step-icon {
           background-color: transparent;
           border-color: $step-color;
@@ -93,7 +93,7 @@ $tealish: #2ab0c9;
         }
       }
       .step-#{$step-id}-active {
-        #mat-step-label-#{$stepper-id}-#{$step-id} {
+        #cdk-step-label-#{$stepper-id}-#{$step-id} {
           .mat-step-icon {
             background-color: $step-color;
           }
