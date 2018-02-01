@@ -10,7 +10,7 @@ import { MatRadioChange } from '@angular/material';
   templateUrl: './schedule-step-1.component.html',
   styleUrls: ['./schedule-step-1.component.scss']
 })
-export class ScheduleStep1Component implements OnChanges {
+export class ScheduleStep1Component {
   @Input() vacationDays: VacationDays | null;
   @Input() calendar: RequestCalendar;
   @Output() onVacationDaysUpdate = new EventEmitter<VacationDay[]>();
@@ -19,10 +19,6 @@ export class ScheduleStep1Component implements OnChanges {
   @Output() onSubmitVacationDays = new EventEmitter();
 
   constructor() { }
-
-  ngOnChanges() {
-    console.log(this.vacationDays);
-  }
 
   onDateChange(vacationDay: VacationDay, listIndex: number) {
     if (!this.vacationDays || !this.vacationDays.length) {
