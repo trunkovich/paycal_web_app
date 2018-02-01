@@ -18,10 +18,14 @@ export class ScheduleStep5Component {
   }
   @Input('calendar')
   set calendar(value: RequestCalendar | null) {
-    if (!this.weekends) {
+    if (!this.valueUpdated) {
       this.weekends = value ? value.getWeekends(moment({month: value.month, year: value.year})) : null;
+    } else {
+      this.valueUpdated = false;
     }
   }
+
+  valueUpdated = false;
 
   weekendNum: number;
   weekends: Weekend[] | null;
@@ -29,6 +33,7 @@ export class ScheduleStep5Component {
   constructor() { }
 
   onWeekendChange($event) {
+    this.valueUpdated = true;
     this.onUpdate.emit(_.find(this.weekends, weekend => weekend.num === $event.value));
   }
 }
