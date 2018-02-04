@@ -20,6 +20,8 @@
       @include size(20px, 100%);
       background: $tealish;
       color: white;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
     }
 
     .text-block {
