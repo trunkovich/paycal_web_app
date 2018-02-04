@@ -44,9 +44,15 @@
     <div class="info-blocks-wrapper" *ngIf="calendar" [class.padding-container]="!stepperMode">
       <div class="info-block" *ngIf="calendar.vacationDays && calendar.vacationDays.length">
         <h5 class="header">VACATION DAYS REQUEST</h5>
-        <p class="info-line" *ngFor="let vacation of calendar.vacationDays">
-          On <span class="dark-text">{{vacation | amDateFormat:'M/DD/YYYY'}}</span>
-        </p>
+        <div *ngFor="let vacation of calendar.vacationDays">
+          <p class="info-line" *ngIf="vacation.type === 1">
+            On <span class="dark-text">{{vacation.start | amDateFormat:'M/DD/YYYY'}}</span>
+          </p>
+          <p class="info-line" *ngIf="vacation.type === 2">
+            On <span class="dark-text">{{vacation.start | amDateFormat:'M/DD/YYYY'}}</span> -
+            <span class="dark-text">{{vacation.end | amDateFormat:'M/DD/YYYY'}}</span>
+          </p>
+        </div>
       </div>
       <div class="info-block" *ngIf="calendar.callUnavailabilityDates && calendar.callUnavailabilityDates.length">
         <h5 class="header">CALL/BACKUPS UNAVAILABILITY</h5>
