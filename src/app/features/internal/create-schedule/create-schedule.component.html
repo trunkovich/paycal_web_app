@@ -14,6 +14,7 @@
 <pcl-loader [show]="true" *ngIf="loading$ | async"></pcl-loader>
 
 <mat-vertical-stepper icon="number" #stepper
+                      class="schedule-stepper"
                      [ngClass]="'step-' + selectedIndex + '-active'"
                      (selectionChange)="selectionChange($event)"
                      *ngIf="introductionShown && !isDeadlinePassed">

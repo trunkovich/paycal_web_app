@@ -302,15 +302,27 @@ input.mat-input-element:-webkit-autofill + .mat-input-placeholder,
 /* Material input */
 
 .narrow-device {
-  mat-step-header {
-    .stepper-label {
-      .label {
-        font-size: 12px;
+  .schedule-stepper{
+    mat-step-header {
+      padding-left: 4px !important;
+      .stepper-label {
+        .label {
+          font-size: 13px;
+        }
+        .clear-button {
+          padding: 0 5px !important;
+          font-size: 12px;
+        }
       }
-      .clear-button {
-        padding: 0 5px !important;
-        font-size: 12px;
+    }
+    .mat-vertical-content-container {
+      margin-left: 16px;
+      .mat-vertical-content {
+        padding: 0 17px 24px 17px;
       }
+    }
+    .mat-step-icon {
+      margin-right: 4px !important;
     }
   }
 }

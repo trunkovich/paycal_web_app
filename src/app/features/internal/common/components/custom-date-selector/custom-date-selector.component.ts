@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { RequestCalendar } from '../../../create-schedule/schedule-request-calendar.class';
 import { WindowWrapper } from '../../../../../STATE/utils';
@@ -33,10 +33,10 @@ export class CustomDateSelectorComponent implements OnChanges {
     let box = elem.getBoundingClientRect();
     let top = box.top + box.height;
     if (top + dialogHeight > this.window.innerHeight) {
-      top = this.window.innerHeight - dialogHeight;
+      top = this.window.innerHeight - dialogHeight - 64;
     }
     this.active = true;
-    let dialogRef = this.dialog.open(DialogCalendarComponent, {
+    let dialogConfig: MatDialogConfig = {
       width: box.width + 'px',
       position: {
         top: top + 'px',
@@ -51,7 +51,14 @@ export class CustomDateSelectorComponent implements OnChanges {
         from: this.from
       },
       panelClass: 'dialog-calendar'
-    });
+    };
+    if (box.width < 290) {
+      dialogConfig.width = '290px';
+      dialogConfig.maxWidth = '290px';
+      const left = box.left - ((290 - box.width) / 2);
+      dialogConfig.position.left = left + 'px';
+    }
+    let dialogRef = this.dialog.open(DialogCalendarComponent, dialogConfig);
     dialogRef.beforeClose().subscribe(result => {
       this.active = false;
       if (result) {
