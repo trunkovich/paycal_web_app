@@ -22,6 +22,7 @@ export class ScheduleStep10Component implements OnChanges {
 
   ngOnChanges() {
     if (this.calendar) {
+      this.hospitalRoundings = [];
       if (this.calendar.hospitalistRoundings) {
         _.each(this.calendar.hospitalistRoundings,
           (rounding) => {
