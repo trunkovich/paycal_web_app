@@ -25,9 +25,13 @@ export class AuthEffects {
     .ofType(authActions.ActionTypes.SIGN_IN)
     .pipe(
       map((action: authActions.SignInAction) => action.payload),
-      switchMap((credentials: Credentials) => this.authService.signIn(credentials)),
-      map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject)),
-      catchError(error => Observable.of(new authActions.SignInFailAction(error.message)))
+      switchMap((credentials: Credentials) =>
+        this.authService.signIn(credentials)
+          .pipe(
+            map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject)),
+            catchError(error => Observable.of(new authActions.SignInFailAction(error.message)))
+          )
+      )
     );
 
   @Effect()
@@ -35,9 +39,13 @@ export class AuthEffects {
     .ofType(authActions.ActionTypes.SAVE_LEAD)
     .pipe(
       map((action: authActions.SaveLeadAction) => action.payload),
-      switchMap((data: Lead) => this.authService.saveLead(data)),
-      map(() => new authActions.SaveLeadSuccessAction()),
-      catchError(error => Observable.of(new authActions.SaveLeadFailAction(error.message)))
+      switchMap((data: Lead) =>
+        this.authService.saveLead(data)
+          .pipe(
+            map(() => new authActions.SaveLeadSuccessAction()),
+            catchError(error => Observable.of(new authActions.SaveLeadFailAction(error.message)))
+          )
+      )
     );
 
   @Effect()
@@ -45,11 +53,13 @@ export class AuthEffects {
     .ofType(authActions.ActionTypes.COMPLETE_REGISTRATION)
     .pipe(
       map((action: authActions.CompleteRegistrationAction) => action.payload),
-      switchMap((completeRegistrationData: CompleteRegistrationModel) => {
-        return this.authService.continueRegistration(completeRegistrationData);
-      }),
-      map((tokenObject: TokenObject) => new authActions.CompleteRegistrationSuccessAction(tokenObject)),
-      catchError(error => Observable.of(new authActions.CompleteRegistrationFailAction(error.message)))
+      switchMap((completeRegistrationData: CompleteRegistrationModel) =>
+        this.authService.continueRegistration(completeRegistrationData)
+          .pipe(
+            map((tokenObject: TokenObject) => new authActions.CompleteRegistrationSuccessAction(tokenObject)),
+            catchError(error => Observable.of(new authActions.CompleteRegistrationFailAction(error.message)))
+          )
+      )
     );
 
   @Effect({ dispatch: false })
@@ -92,9 +102,13 @@ export class AuthEffects {
   getUserFromLS$: Observable<Action> = this.actions$
     .ofType(authActions.ActionTypes.READ_TOKEN)
     .pipe(
-      switchMap(() => AuthService.readToken()),
-      map((token) => new authActions.ReadTokenSuccessAction(token)),
-      catchError(error => Observable.of(new authActions.ReadTokenFailAction(error)))
+      switchMap(() =>
+        AuthService.readToken()
+          .pipe(
+            map((token) => new authActions.ReadTokenSuccessAction(token)),
+            catchError(error => Observable.of(new authActions.ReadTokenFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -102,9 +116,13 @@ export class AuthEffects {
     .ofType(authActions.ActionTypes.REQUEST_PASSWORD_RECOVERY)
     .pipe(
       map((action: authActions.RequestPasswordRecoveryAction) => action.payload),
-      switchMap((phone: string) => this.authService.requestPasswordRecovery(phone)),
-      map(() => new authActions.RequestPasswordRecoverySuccessAction()),
-      catchError(error => Observable.of(new authActions.RequestPasswordRecoveryFailAction(error.message)))
+      switchMap((phone: string) =>
+        this.authService.requestPasswordRecovery(phone)
+          .pipe(
+            map(() => new authActions.RequestPasswordRecoverySuccessAction()),
+            catchError(error => Observable.of(new authActions.RequestPasswordRecoveryFailAction(error.message)))
+          )
+      )
     );
 
   @Effect({ dispatch: false })
@@ -126,9 +144,13 @@ export class AuthEffects {
     .ofType(authActions.ActionTypes.RESET_PASSWORD)
     .pipe(
       map((action: authActions.ResetPasswordAction) => action.payload),
-      switchMap((resetPasswordData: ResetPasswordModel) => this.authService.resetPassword(resetPasswordData)),
-      map(() => new authActions.ResetPasswordSuccessAction()),
-      catchError(error => Observable.of(new authActions.ResetPasswordFailAction(error.message)))
+      switchMap((resetPasswordData: ResetPasswordModel) =>
+        this.authService.resetPassword(resetPasswordData)
+          .pipe(
+            map(() => new authActions.ResetPasswordSuccessAction()),
+            catchError(error => Observable.of(new authActions.ResetPasswordFailAction(error.message)))
+          )
+      )
     );
 
   @Effect()
@@ -136,9 +158,13 @@ export class AuthEffects {
     .ofType(authActions.ActionTypes.CHANGE_PASSWORD)
     .pipe(
       map((action: authActions.ChangePasswordAction) => action.payload),
-      switchMap((password: string) => this.authService.changePassword(password)),
-      map(() => new authActions.ChangePasswordSuccessAction()),
-      catchError(error => Observable.of(new authActions.ChangePasswordFailAction(error.message)))
+      switchMap((password: string) =>
+        this.authService.changePassword(password)
+          .pipe(
+            map(() => new authActions.ChangePasswordSuccessAction()),
+            catchError(error => Observable.of(new authActions.ChangePasswordFailAction(error.message)))
+          )
+      )
     );
 
   @Effect({ dispatch: false })

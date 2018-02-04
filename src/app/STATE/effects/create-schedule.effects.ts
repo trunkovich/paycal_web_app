@@ -22,7 +22,7 @@ import {
   UpdateScheduleRequestUseCompTimeRequest
 } from '../models/requests/create-schedule-request.model';
 import { AppState, createScheduleSelectors } from '../reducers/index';
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, finalize, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class CreateScheduleEffects {
@@ -32,9 +32,13 @@ export class CreateScheduleEffects {
   getAllScheduleRequests: Observable<Action> = this.actions$
     .ofType(createScheduleActions.ActionTypes.LOAD_ALL_SCHEDULE_REQUESTS)
     .pipe(
-      switchMap(() => this.createScheduleService.getAllScheduleRequests()),
-      map((requests: CreateScheduleModel[]) => new createScheduleActions.LoadAllScheduleRequestsSuccessAction(requests)),
-      catchError(error => Observable.of(new createScheduleActions.LoadAllScheduleRequestsFailAction(error)))
+      switchMap(() =>
+        this.createScheduleService.getAllScheduleRequests()
+          .pipe(
+            map((requests: CreateScheduleModel[]) => new createScheduleActions.LoadAllScheduleRequestsSuccessAction(requests)),
+            catchError(error => Observable.of(new createScheduleActions.LoadAllScheduleRequestsFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -42,9 +46,13 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST)
     .pipe(
       map((action: createScheduleActions.LoadScheduleRequestAction) => action.payload),
-      switchMap((scheduleRequestID: number) => this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)),
-      map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request)),
-      catchError(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)))
+      switchMap((scheduleRequestID: number) =>
+        this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
+          .pipe(
+            map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request)),
+            catchError(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -57,12 +65,18 @@ export class CreateScheduleEffects {
       createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS_SUCCESS,
       createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS_SUCCESS,
       createScheduleActions.ActionTypes.SUBMIT_VOLUNTEER_SHIFT_SUCCESS,
+      createScheduleActions.ActionTypes.UPDATE_SR_USE_COMP_TIME_SUCCESS,
+      createScheduleActions.ActionTypes.UPDATE_SR_EMPLOYEE_NOTES_SUCCESS
     )
     .pipe(
       withLatestFrom(this.store.select(createScheduleSelectors.getSelectedScheduleRequestId)),
-      switchMap(([__, scheduleRequestID]) => this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)),
-      map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request)),
-      catchError(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)))
+      switchMap(([__, scheduleRequestID]) =>
+        this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
+          .pipe(
+            map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request)),
+            catchError(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -70,23 +84,23 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.SUBMIT_VACATION_WINDOW)
     .pipe(
       map((action: createScheduleActions.SubmitVacationWindowAction) => action.payload),
-      switchMap(({scheduleRequestId, dates}: SubmitVacationWindowRequest) => {
-        return this.createScheduleService.deleteVacationWindows(scheduleRequestId)
+      switchMap(({scheduleRequestId, dates}: SubmitVacationWindowRequest) =>
+        this.createScheduleService.deleteVacationWindows(scheduleRequestId)
           .pipe(
-            switchMap(() => {
-              return Observable.forkJoin(_.map(dates, (date) => {
-                return this.createScheduleService.createVacationWindow({
+            switchMap(() =>
+              Observable.forkJoin(_.map(dates, (date) =>
+                this.createScheduleService.createVacationWindow({
                   scheduleRequestId: scheduleRequestId,
                   vacationWindowTypeID: date.type,
                   startDate: date.start,
                   endDate: date.end
                 })
-              }))
-            })
-          );
-      }),
-      map(() => new createScheduleActions.SubmitVacationWindowSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.SubmitVacationWindowFailAction(error)))
+              ))
+            ),
+            map(() => new createScheduleActions.SubmitVacationWindowSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.SubmitVacationWindowFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -94,22 +108,22 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.SUBMIT_CALL_UNAVAILABILITY_WINDOW)
     .pipe(
       map((action: createScheduleActions.SubmitCallUnavailabilityWindowAction) => action.payload),
-      switchMap(({scheduleRequestId, dates}: SubmitCallUnavailabilityWindowRequest) => {
-        return this.createScheduleService.deleteCallUnavailabilityWindows(scheduleRequestId)
+      switchMap(({scheduleRequestId, dates}: SubmitCallUnavailabilityWindowRequest) =>
+        this.createScheduleService.deleteCallUnavailabilityWindows(scheduleRequestId)
           .pipe(
-            mergeMap(() => {
-              return Observable.forkJoin(_.map(dates, (day) => {
-                return this.createScheduleService.createCallUnavailabilityWindow({
+            mergeMap(() =>
+              Observable.forkJoin(_.map(dates, (day) =>
+                this.createScheduleService.createCallUnavailabilityWindow({
                   scheduleRequestId: scheduleRequestId,
                   callUnavailabilityTypeID: day.type,
                   date: day.date
                 })
-              }))
-            })
-          );
-      }),
-      map(() => new createScheduleActions.SubmitCallUnavailabilityWindowSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.SubmitCallUnavailabilityWindowFailAction(error)))
+              ))
+            ),
+            map(() => new createScheduleActions.SubmitCallUnavailabilityWindowSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.SubmitCallUnavailabilityWindowFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -117,23 +131,23 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.SUBMIT_EDUCATION_LEAVES)
     .pipe(
       map((action: createScheduleActions.SubmitEducationLeavesAction) => action.payload),
-      switchMap(({scheduleRequestId, dates}: SubmitEducationLeavesRequest) => {
-        return this.createScheduleService.deleteEducationalLeaves(scheduleRequestId)
+      switchMap(({scheduleRequestId, dates}: SubmitEducationLeavesRequest) =>
+        this.createScheduleService.deleteEducationalLeaves(scheduleRequestId)
           .pipe(
-            switchMap(() => {
-              return Observable.forkJoin(_.map(dates, (day) => {
-                return this.createScheduleService.createEducationalLeave({
+            switchMap(() =>
+              Observable.forkJoin(_.map(dates, (day) =>
+                this.createScheduleService.createEducationalLeave({
                   scheduleRequestId: scheduleRequestId,
                   date: day.date,
                   activityName: day.name,
                   activityDescription: day.description
                 })
-              }))
-            })
-          );
-      }),
-      map(() => new createScheduleActions.SubmitEducationLeavesSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.SubmitEducationLeavesFailAction(error)))
+              ))
+            ),
+            map(() => new createScheduleActions.SubmitEducationLeavesSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.SubmitEducationLeavesFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -141,22 +155,22 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.SUBMIT_CALL_NIGHTS)
     .pipe(
       map((action: createScheduleActions.SubmitCallNightsAction) => action.payload),
-      switchMap(({scheduleRequestId, dates}: SubmitCallNightsRequest) => {
-        return this.createScheduleService.deletePreferredCallNights(scheduleRequestId)
+      switchMap(({scheduleRequestId, dates}: SubmitCallNightsRequest) =>
+        this.createScheduleService.deletePreferredCallNights(scheduleRequestId)
           .pipe(
-            switchMap(() => {
-              return Observable.forkJoin(_.map(dates, (day, key) => {
-                return this.createScheduleService.createPreferredCallNight({
+            switchMap(() =>
+              Observable.forkJoin(_.map(dates, (day, key) =>
+                this.createScheduleService.createPreferredCallNight({
                   scheduleRequestId: scheduleRequestId,
                   date: day,
                   callNightTypeID: +key
                 })
-              }))
-            })
-          );
-      }),
-      map(() => new createScheduleActions.SubmitCallNightsSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.SubmitCallNightsFailAction(error)))
+              ))
+            ),
+            map(() => new createScheduleActions.SubmitCallNightsSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.SubmitCallNightsFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -164,14 +178,14 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.SUBMIT_OFF_WEEKENDS)
     .pipe(
       map((action: createScheduleActions.SubmitOffWeekendsAction) => action.payload),
-      switchMap((data: CreatePreferredOffWeekendRequest) => {
-        return this.createScheduleService.deletePreferredOffWeekends(data.scheduleRequestId)
+      switchMap((data: CreatePreferredOffWeekendRequest) =>
+        this.createScheduleService.deletePreferredOffWeekends(data.scheduleRequestId)
           .pipe(
-            switchMap(() => this.createScheduleService.createPreferredOffWeekend(data))
-          );
-      }),
-      map(() => new createScheduleActions.SubmitOffWeekendsSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.SubmitOffWeekendsFailAction(error)))
+            switchMap(() => this.createScheduleService.createPreferredOffWeekend(data)),
+            map(() => new createScheduleActions.SubmitOffWeekendsSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.SubmitOffWeekendsFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -179,11 +193,11 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.SUBMIT_HOSPITALIST_ROUNDINGS)
     .pipe(
       map((action: createScheduleActions.SubmitHospitalistRoundingsAction) => action.payload),
-      switchMap(({dates, scheduleRequestId}: SubmitHospiralistRoundingRequest) => {
-        return this.createScheduleService.deleteHospitalRoundings(scheduleRequestId)
+      switchMap(({dates, scheduleRequestId}: SubmitHospiralistRoundingRequest) =>
+        this.createScheduleService.deleteHospitalRoundings(scheduleRequestId)
           .pipe(
-            switchMap(() => {
-              return Observable.forkJoin(_.map(dates, (data, index) => {
+            switchMap(() =>
+              Observable.forkJoin(_.map(dates, (data, index) => {
                 if (data) {
                   return this.createScheduleService.createHospitalRounding({
                     scheduleRequestId: scheduleRequestId,
@@ -195,11 +209,11 @@ export class CreateScheduleEffects {
                   return Observable.of(true);
                 }
               }))
-            })
-          );
-      }),
-      map(() => new createScheduleActions.SubmitHospitalistRoundingsSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.SubmitHospitalistRoundingsFailAction(error)))
+            ),
+            map(() => new createScheduleActions.SubmitHospitalistRoundingsSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.SubmitHospitalistRoundingsFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -207,8 +221,8 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.SUBMIT_VOLUNTEER_SHIFT)
     .pipe(
       map((action: createScheduleActions.SubmitVolunteerShiftAction) => action.payload),
-      switchMap((data: CreateVolunteerShiftRequest) => {
-        return this.createScheduleService.deleteVolunteerShifts(data.scheduleRequestId)
+      switchMap((data: CreateVolunteerShiftRequest) =>
+        this.createScheduleService.deleteVolunteerShifts(data.scheduleRequestId)
           .pipe(
             switchMap(() => {
               if (data.date) {
@@ -216,11 +230,11 @@ export class CreateScheduleEffects {
               } else {
                 return Observable.of(true);
               }
-            })
-          );
-      }),
-      map(() => new createScheduleActions.SubmitVolunteerShiftSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.SubmitVolunteerShiftFailAction(error)))
+            }),
+            map(() => new createScheduleActions.SubmitVolunteerShiftSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.SubmitVolunteerShiftFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -228,11 +242,13 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.UPDATE_SR_USE_COMP_TIME)
     .pipe(
       map((action: createScheduleActions.UpdateSRUseCompTimeAction) => action.payload),
-      switchMap((data: UpdateScheduleRequestUseCompTimeRequest) => {
-        return this.createScheduleService.updateScheduleRequestUseCompTime(data);
-      }),
-      map(() => new createScheduleActions.UpdateSRUseCompTimeSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.UpdateSRUseCompTimeFailAction(error)))
+      switchMap((data: UpdateScheduleRequestUseCompTimeRequest) =>
+        this.createScheduleService.updateScheduleRequestUseCompTime(data)
+          .pipe(
+            map(() => new createScheduleActions.UpdateSRUseCompTimeSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.UpdateSRUseCompTimeFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -240,10 +256,12 @@ export class CreateScheduleEffects {
     .ofType(createScheduleActions.ActionTypes.UPDATE_SR_EMPLOYEE_NOTES)
     .pipe(
       map((action: createScheduleActions.UpdateSREmployeeNotesAction) => action.payload),
-      switchMap((data: UpdateScheduleRequestEmployeeNotesRequest) => {
-        return this.createScheduleService.updateScheduleRequestEmployeeNotes(data);
-      }),
-      map(() => new createScheduleActions.UpdateSREmployeeNotesSuccessAction()),
-      catchError(error => Observable.of(new createScheduleActions.UpdateSREmployeeNotesFailAction(error)))
+      switchMap((data: UpdateScheduleRequestEmployeeNotesRequest) =>
+        this.createScheduleService.updateScheduleRequestEmployeeNotes(data)
+          .pipe(
+            map(() => new createScheduleActions.UpdateSREmployeeNotesSuccessAction()),
+            catchError(error => Observable.of(new createScheduleActions.UpdateSREmployeeNotesFailAction(error)))
+          )
+      )
     );
 }

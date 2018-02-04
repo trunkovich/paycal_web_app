@@ -64,9 +64,6 @@ export class MixpanelEffects {
       delay(1)
     );
 
-
-
-
   @Effect()
   initTracking$: Observable<Action> = this.actions$
     .ofType(mixpanelActions.ActionTypes.INIT_TRACKING)

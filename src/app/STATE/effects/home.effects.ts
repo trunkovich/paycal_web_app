@@ -74,9 +74,13 @@ export class HomeEffects {
     .ofType(homeActions.ActionTypes.CREATE_COVERAGE_REQUEST)
     .pipe(
       map((action: homeActions.CreateCoverageRequestAction) => action.payload),
-      switchMap((request) => this.scheduleService.createCoverageRequest(request)),
-      map(() => new homeActions.CreateCoverageRequestSuccessAction()),
-      catchError(error => Observable.of(new homeActions.CreateCoverageRequestFailAction(error)))
+      switchMap((request) =>
+        this.scheduleService.createCoverageRequest(request)
+          .pipe(
+            map(() => new homeActions.CreateCoverageRequestSuccessAction()),
+            catchError(error => Observable.of(new homeActions.CreateCoverageRequestFailAction(error)))
+          )
+      )
     );
 
   @Effect({dispatch: false})
@@ -105,8 +109,8 @@ export class HomeEffects {
     .ofType(homeActions.ActionTypes.LOAD_MY_MONTH_SCHEDULE)
     .pipe(
       map((action: homeActions.LoadMyMonthScheduleAction) => action.payload),
-      switchMap((date: Date) => {
-        return this.scheduleService.getMyMonthSchedule({month: date.getMonth() + 1, year: date.getFullYear()})
+      switchMap((date: Date) =>
+        this.scheduleService.getMyMonthSchedule({month: date.getMonth() + 1, year: date.getFullYear()})
           .pipe(
             map((entries: EmployeeScheduleEntry[]) => {
               let loadedMonth: LoadedMonth = {
@@ -120,8 +124,8 @@ export class HomeEffects {
             }),
             catchError(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error))),
             finalize(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()))
-          );
-      })
+          )
+      )
     );
 
   @Effect()
@@ -129,10 +133,14 @@ export class HomeEffects {
     .ofType(homeActions.ActionTypes.LOAD_MY_FULL_SCHEDULE)
     .pipe(
       withLatestFrom(this.store.select(homeSelectors.getHomeFullSchedule)),
-      switchMap(([, months]: [any, AvailableMonthsStructure]) => this.scheduleService.loadMonths(months)),
-      map((loadedMonth: LoadedMonth) => new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth)),
-      catchError(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error))),
-      finalize(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()))
+      switchMap(([, months]: [any, AvailableMonthsStructure]) =>
+        this.scheduleService.loadMonths(months)
+          .pipe(
+            map((loadedMonth: LoadedMonth) => new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth)),
+            catchError(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error))),
+            finalize(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()))
+          )
+      )
     );
 
   @Effect()
@@ -140,13 +148,17 @@ export class HomeEffects {
     .ofType(homeActions.ActionTypes.LOAD_SHIFT_EMPLOYEES)
     .pipe(
       map((action: homeActions.LoadShiftEmployeesAction) => action.payload),
-      switchMap((employeeScheduleEntryID: number) => this.scheduleService.findEmployeesToCoverMyShift(employeeScheduleEntryID)),
-      map((employees: Employee[]) => {
-        return employees.map((employee) => {
-          return {selected: false, employee};
-        });
-      }),
-      map((qualifiedEmployees: QualifiedEmployee[]) => new homeActions.LoadShiftEmployeesSuccessAction(qualifiedEmployees)),
-      catchError(error => Observable.of(new homeActions.LoadShiftEmployeesFailAction(error)))
+      switchMap((employeeScheduleEntryID: number) =>
+        this.scheduleService.findEmployeesToCoverMyShift(employeeScheduleEntryID)
+          .pipe(
+            map((employees: Employee[]) => {
+              return employees.map((employee) => {
+                return {selected: false, employee};
+              });
+            }),
+            map((qualifiedEmployees: QualifiedEmployee[]) => new homeActions.LoadShiftEmployeesSuccessAction(qualifiedEmployees)),
+            catchError(error => Observable.of(new homeActions.LoadShiftEmployeesFailAction(error)))
+          )
+      )
     );
 }

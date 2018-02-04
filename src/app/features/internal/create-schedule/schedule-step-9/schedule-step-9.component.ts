@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'pcl-schedule-step-9',
@@ -21,8 +21,11 @@ export class ScheduleStep9Component implements OnInit, OnChanges {
     this.notesField = new FormControl(this.details || '');
     this.notesField.valueChanges
       .pipe(
+        tap(console.log.bind(console)),
         distinctUntilChanged(),
-        debounceTime(500)
+        tap(console.log.bind(console)),
+        debounceTime(500),
+        tap(console.log.bind(console))
       )
       .subscribe(value => this.onUpdate.emit(value as string));
   }

@@ -34,9 +34,13 @@ export class ProfileEffects {
   getProfile$: Observable<Action> = this.actions$
     .ofType(profileActions.ActionTypes.GET_USER_PROFILE)
     .pipe(
-      switchMap(() => this.authService.getProfile()),
-      map((profile: Employee) => new profileActions.GetUserProfileSuccessAction(profile)),
-      catchError(error => Observable.of(new profileActions.GetUserProfileFailAction(error)))
+      switchMap(() =>
+        this.authService.getProfile()
+          .pipe(
+            map((profile: Employee) => new profileActions.GetUserProfileSuccessAction(profile)),
+            catchError(error => Observable.of(new profileActions.GetUserProfileFailAction(error)))
+          )
+      )
     );
 
   @Effect()
@@ -44,13 +48,13 @@ export class ProfileEffects {
     .ofType(profileActions.ActionTypes.UPDATE_PROFILE)
     .pipe(
       map((action: profileActions.UpdateProfileAction) => action.payload),
-      switchMap((data: EditEmployeeRequestData) => {
-        return this.authService.updateProfile(data)
+      switchMap((data: EditEmployeeRequestData) =>
+        this.authService.updateProfile(data)
           .pipe(
-            map(() => new profileActions.UpdateProfileSuccessAction(data))
-          );
-      }),
-      catchError(error => Observable.of(new profileActions.UpdateProfileFailAction(error.message)))
+            map(() => new profileActions.UpdateProfileSuccessAction(data)),
+            catchError(error => Observable.of(new profileActions.UpdateProfileFailAction(error.message)))
+          )
+      )
     );
 
   @Effect()
@@ -58,9 +62,13 @@ export class ProfileEffects {
     .ofType(profileActions.ActionTypes.UPLOAD_IMAGE)
     .pipe(
       map((action: profileActions.UploadImageAction) => action.payload),
-      switchMap((image: File) => this.authService.uploadImage(image)),
-      map((url: string) => new profileActions.UploadImageSuccessAction(url)),
-      catchError(error => Observable.of(new profileActions.UploadImageFailAction(error.message)))
+      switchMap((image: File) =>
+        this.authService.uploadImage(image)
+          .pipe(
+            map((url: string) => new profileActions.UploadImageSuccessAction(url)),
+            catchError(error => Observable.of(new profileActions.UploadImageFailAction(error.message)))
+          )
+      )
     );
 
   @Effect()
@@ -68,9 +76,13 @@ export class ProfileEffects {
     .ofType(profileActions.ActionTypes.SAVE_PROFILE_IMAGE)
     .pipe(
       map((action: profileActions.SaveProfileImageAction) => action.payload),
-      switchMap((url: string) => this.authService.updateProfileImage(url)),
-      map(() => new profileActions.SaveProfileImageSuccessAction()),
-      catchError(error => Observable.of(new profileActions.SaveProfileImageFailAction(error.message)))
+      switchMap((url: string) =>
+        this.authService.updateProfileImage(url)
+          .pipe(
+            map(() => new profileActions.SaveProfileImageSuccessAction()),
+            catchError(error => Observable.of(new profileActions.SaveProfileImageFailAction(error.message)))
+          )
+      )
     );
 
   @Effect()

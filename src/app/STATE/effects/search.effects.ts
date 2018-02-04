@@ -46,14 +46,14 @@ export class SearchEffects {
       delay(1),
       map((action: searchActions.LoadSearchFullScheduleAction) => action.payload),
       withLatestFrom(this.store.select(searchSelectors.getFullSchedule)),
-      switchMap(([payload, months]: [{type: string; id: string}, AvailableMonthsStructure]) => {
-        return this.scheduleService.loadSearchMonths(months, payload.type, payload.id)
+      switchMap(([payload, months]: [{type: string; id: string}, AvailableMonthsStructure]) =>
+        this.scheduleService.loadSearchMonths(months, payload.type, payload.id)
           .pipe(
             map((loadedMonth: LoadedMonth) => new searchActions.LoadSearchMonthScheduleSuccessAction(loadedMonth)),
             catchError(error => Observable.of(new searchActions.LoadSearchMonthScheduleFailAction(error))),
             finalize(() => this.store.dispatch(new searchActions.LoadSearchMonthScheduleFinishedAction()))
-          );
-      })
+          )
+      )
     );
 
   @Effect()
@@ -80,18 +80,26 @@ export class SearchEffects {
   loadCallReference$: Observable<Action> = this.actions$
     .ofType(searchActions.ActionTypes.LOAD_CALL_REFERENCE)
     .pipe(
-      switchMap(() => this.scheduleService.loadCallReference(new Date())),
-      map((codes: string[]) => new searchActions.LoadCallReferenceSuccessAction(codes)),
-      catchError(error => Observable.of(new searchActions.LoadCallReferenceFailAction(error)))
+      switchMap(() =>
+        this.scheduleService.loadCallReference(new Date())
+          .pipe(
+            map((codes: string[]) => new searchActions.LoadCallReferenceSuccessAction(codes)),
+            catchError(error => Observable.of(new searchActions.LoadCallReferenceFailAction(error)))
+          )
+      )
     );
 
   @Effect()
   loadOrReference$: Observable<Action> = this.actions$
     .ofType(searchActions.ActionTypes.LOAD_OR_REFERENCE)
     .pipe(
-      switchMap(() => this.scheduleService.loadOrReference(new Date())),
-      map((codes: string[]) => new searchActions.LoadOrReferenceSuccessAction(codes)),
-      catchError(error => Observable.of(new searchActions.LoadOrReferenceFailAction(error)))
+      switchMap(() =>
+        this.scheduleService.loadOrReference(new Date())
+          .pipe(
+            map((codes: string[]) => new searchActions.LoadOrReferenceSuccessAction(codes)),
+            catchError(error => Observable.of(new searchActions.LoadOrReferenceFailAction(error)))
+          )
+      )
     );
 
   @Effect()

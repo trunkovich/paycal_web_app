@@ -37,13 +37,13 @@ export class ScheduleEffects {
   getGroupScheduleMonths$: Observable<Action> = this.actions$
     .ofType(scheduleActions.ActionTypes.LOAD_GROUP_SCHEDULE_MONTHS)
     .pipe(
-      switchMap(() => {
-        return this.scheduleService.getGroupScheduleMonths()
+      switchMap(() =>
+        this.scheduleService.getGroupScheduleMonths()
           .pipe(
             map((months: GroupSchedule[]) => new scheduleActions.LoadGroupScheduleMonthsSuccessAction(months)),
             catchError(error => Observable.of(new scheduleActions.LoadGroupScheduleMonthsFailAction(error)))
-          );
-      })
+          )
+      )
     );
 
   @Effect()
