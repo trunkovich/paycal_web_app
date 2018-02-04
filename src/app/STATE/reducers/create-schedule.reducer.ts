@@ -27,7 +27,6 @@ export function createScheduleReducer(
   state: CreateScheduleState = initialCreateScheduleState,
   action: createScheduleActions.Actions
 ): CreateScheduleState {
-  console.info(action.type);
   switch (action.type) {
     case createScheduleActions.ActionTypes.LOAD_ALL_SCHEDULE_REQUESTS:
     case createScheduleActions.ActionTypes.LOAD_SCHEDULE_REQUEST: {
