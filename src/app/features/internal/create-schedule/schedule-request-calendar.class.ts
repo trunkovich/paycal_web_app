@@ -405,16 +405,16 @@ export class RequestCalendar {
       date.add(1, 'week');
       num++;
     }
-    _.each(weekends, weekend => {
-      let dates: any[] = [
-        moment(weekend.start),
-        moment(weekend.start).add(1, 'day'),
-        moment(weekend.start).add(2, 'day')
-      ];
-      if (_.some(dates, day => !!this.events[day.format('MM.DD')])) {
-        weekend.disabled = true;
-      }
-    });
+    // _.each(weekends, weekend => {
+    //   let dates: any[] = [
+    //     moment(weekend.start),
+    //     moment(weekend.start).add(1, 'day'),
+    //     moment(weekend.start).add(2, 'day')
+    //   ];
+    //   if (_.some(dates, day => !!this.events[day.format('MM.DD')])) {
+    //     weekend.disabled = true;
+    //   }
+    // });
     return weekends;
   }
   isOffWeekendReady(): boolean {
