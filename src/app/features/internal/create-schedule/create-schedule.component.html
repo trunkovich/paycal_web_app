@@ -22,8 +22,10 @@
     <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">VACATION DAYS REQUEST (VL)</div>
-        <button mat-button *ngIf="selectedIndex === 0" (click)="vacationDateChange([])">Clear</button>
-        <mat-icon svgIcon="check" *ngIf="selectedIndex !== 0 && requestCalendar?.isVacationWindowsReady()"></mat-icon>
+        <div class="right-side-label">
+          <button class="clear-button" mat-button *ngIf="selectedIndex === 0" (click)="vacationDateChange([])">Clear</button>
+          <mat-icon svgIcon="check" *ngIf="selectedIndex !== 0 && requestCalendar?.isVacationWindowsReady()"></mat-icon>
+        </div>
       </div>
     </ng-template>
     <pcl-schedule-step-1 [vacationDays]="requestCalendar?.vacationDays"
@@ -38,7 +40,7 @@
     <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">CALL/BACKUPS UNAVAILABILITY</div>
-        <button mat-button *ngIf="selectedIndex === 1" (click)="callUnavailabilityDateChange([])">Clear</button>
+        <button class="clear-button" mat-button *ngIf="selectedIndex === 1" (click)="callUnavailabilityDateChange([])">Clear</button>
         <mat-icon svgIcon="check" *ngIf="selectedIndex !== 1 && requestCalendar?.isCallUnavailabilityReady()"></mat-icon>
       </div>
     </ng-template>
@@ -55,7 +57,7 @@
     <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">EDUCATIONAL LEAVE REQUEST (EL)</div>
-        <button mat-button *ngIf="selectedIndex === 2" (click)="educationLeavesChange([])">Clear</button>
+        <button class="clear-button" mat-button *ngIf="selectedIndex === 2" (click)="educationLeavesChange([])">Clear</button>
         <mat-icon svgIcon="check" *ngIf="selectedIndex !== 2 && requestCalendar?.isEducationLeaveReady()"></mat-icon>
       </div>
     </ng-template>
@@ -71,7 +73,7 @@
     <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">PREFERRED CALL NIGHTS*</div>
-        <button mat-button *ngIf="selectedIndex === 3" (click)="callNightsChange()">Clear</button>
+        <button class="clear-button" mat-button *ngIf="selectedIndex === 3" (click)="callNightsChange()">Clear</button>
         <mat-icon svgIcon="check" *ngIf="selectedIndex !== 3 && requestCalendar?.isCallNightsReady()"></mat-icon>
       </div>
     </ng-template>
@@ -99,7 +101,7 @@
     <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">HOSPITALISTS ONLY</div>
-        <button mat-button *ngIf="selectedIndex === 5" (click)="hospitalistRoundingsChange([null, null])">Clear</button>
+        <button class="clear-button" mat-button *ngIf="selectedIndex === 5" (click)="hospitalistRoundingsChange([null, null])">Clear</button>
         <mat-icon svgIcon="check" *ngIf="selectedIndex !== 5 && requestCalendar?.isHospitalRoundingsReady()"></mat-icon>
       </div>
     </ng-template>
@@ -114,7 +116,7 @@
     <ng-template matStepLabel>
       <div class="stepper-label">
         <div class="label">VOLUNTEER SHIFT</div>
-        <button mat-button *ngIf="selectedIndex === 6" (click)="volunteerShiftChange({})">Clear</button>
+        <button class="clear-button" mat-button *ngIf="selectedIndex === 6" (click)="volunteerShiftChange({})">Clear</button>
         <mat-icon svgIcon="check" *ngIf="selectedIndex !== 6 && requestCalendar?.isVolunteerShiftReady()"></mat-icon>
       </div>
     </ng-template>

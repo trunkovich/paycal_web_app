@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { PaycalHttpInterceptor } from './core/services/http-interceptor.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import { WindowWrapper } from './STATE/utils';
 
 @Component({
   selector: 'pcl-root',
@@ -38,14 +39,15 @@ import { animate, group, query, style, transition, trigger } from '@angular/anim
   ]
 })
 export class AppComponent {
-  title = 'app works!';
+  @HostBinding('class.narrow-device') narrowDevice = false;
 
   prepareRouteTransition(outlet) {
     const animation = outlet.activatedRouteData['animation'] || {};
     return animation['value'] || null;
   }
 
-  constructor(mdIconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(mdIconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private window: WindowWrapper) {
+    this.narrowDevice = window.innerWidth < 375;
     mdIconRegistry.addSvgIcon(
       'reload',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/reload.svg')
