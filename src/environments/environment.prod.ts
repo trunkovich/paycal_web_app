@@ -64,5 +64,19 @@ export const CALENDAR_COLORS = Object.freeze({
     10: { 8: 'yellow', 13: 'green', 22: 'blue', 27: 'green' },
     11: { 5: 'yellow', 10: 'green', 19: 'blue', 23: 'red', 24: 'green' },
     12: { 3: 'yellow', 8: 'green', 17: 'blue', 22: 'green', 25: 'red', 31: 'yellow' }
+  },
+  2018: {
+    1: { 1: 'red', 5: 'green', 14: 'blue', 19: 'green', 28: 'yellow' },
+    2: { 2: 'green', 11: 'blue', 16: 'green', 25: 'yellow' },
+    3: { 2: 'green', 11: 'blue', 16: 'green', 25: 'pink', 30: 'green' },
+    4: { 8: 'yellow', 13: 'green', 22: 'blue', 27: 'green' },
+    5: { 6: 'yellow', 11: 'green', 20: 'blue', 25: 'green', 28: 'red' },
+    6: { 3: 'yellow', 8: 'green', 17: 'blue', 22: 'green' },
+    7: { 1: 'yellow', 4: 'red', 6: 'green', 15: 'blue', 20: 'green', 29: 'yellow' },
+    8: { 3: 'green', 12: 'blue', 17: 'green', 26: 'pink', 31: 'green'},
+    9: { 3: 'red', 9: 'yellow', 14: 'green', 23: 'blue', 28: 'green' },
+    10: { 7: 'yellow', 12: 'green', 21: 'blue', 26: 'green' },
+    11: { 4: 'yellow', 9: 'green', 18: 'blue', 22: 'red', 23: 'green' },
+    12: { 2: 'yellow', 7: 'green', 16: 'blue', 21: 'green', 25: 'red', 30: 'yellow' }
   }
 });
