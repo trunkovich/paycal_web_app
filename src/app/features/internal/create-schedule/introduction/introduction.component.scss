@@ -6,8 +6,18 @@
   .container {
     padding-top: 32px;
 
-    .headline {
+    &.bg-white {
+      background-color: white;
+    }
 
+    .headline {
+      font-size: 18px;
+      .red-text {
+        color: $blush;
+      }
+      p {
+        line-height: 25px;
+      }
     }
 
     .info {
@@ -16,15 +26,12 @@
 
       .remember-text {
         margin-bottom: 24px;
+        font-size: 20px;
       }
 
-      ul {
-        list-style-type: disc;
-        margin-left: 24px;
-      }
-
-      .thank-you-text {
-        margin-top: 24px;
+      .note {
+        margin-top: 16px;
+        font-size: 18px;
       }
     }
   }

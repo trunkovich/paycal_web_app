@@ -1,25 +1,20 @@
 <div class="container">
   <div  class="headline big-text blue-text">
-    <p>CREATE SCHEDULE FOR:
-      <span class="bold-text">{{scheduleMonth | amDateFormat:'MMMM YYYY' }}</span>
+    <p>Schedule requests for:
+      <span class="bold-text red-text">{{scheduleMonth | amDateFormat:'MMMM YYYY' }}</span>
     </p>
-    <p>DEADLINE:
-      <span class="bold-text">{{deadline | amDateFormat:'MMMM Do, YYYY' }}</span>
+    <p>Deadline:
+      <span class="bold-text red-text">{{deadline | amDateFormat:'MMMM Do, YYYY' }}</span>
     </p>
   </div>
 
   <div class="info big-text">
     <p class="bold-text remember-text">
-      Remember:
+      Reminder:
     </p>
-    <ul>
-      <li>the only accepted format for requests is this form;</li>
-      <li>Phone & fax requests will not be accepted;</li>
-      <li>Late requests will not be accepted</li>
-    </ul>
-    <p class="bold-text thank-you-text">
-      Thank you for your prompt reply
-    </p>
+    <p class="note">The system will automatically save entries once logged you close the window or log out</p>
+
+    <p class="note">Once the deadline has passed, any submission will not be allowed through the app.</p>
   </div>
 
   <pcl-button title="CREATE SCHEDULE REQUEST" (buttonClick)="start()"></pcl-button>
