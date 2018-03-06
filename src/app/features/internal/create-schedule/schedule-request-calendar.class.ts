@@ -381,9 +381,12 @@ export class RequestCalendar {
   }
   getWeekends(month: moment.Moment): Weekend[] {
     let weekends: Weekend[] = [];
-    let date = moment(month).startOf('month').isoWeekday(5);
-    if (!date.isSame(month, 'month')) {
-      date.add(1, 'week');
+    const firstDayOfMonth = moment(month).startOf('month');
+    let date: moment.Moment;
+    if (firstDayOfMonth.day() > 5) {
+      date = moment(firstDayOfMonth).add(1, 'week').isoWeekday(5);
+    } else {
+      date = moment(firstDayOfMonth).isoWeekday(5);
     }
     let num = 1;
     while (date.isSame(month, 'month')) {
