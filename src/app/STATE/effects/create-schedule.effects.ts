@@ -22,7 +22,7 @@ import {
   UpdateScheduleRequestUseCompTimeRequest
 } from '../models/requests/create-schedule-request.model';
 import { AppState, createScheduleSelectors } from '../reducers/index';
-import { catchError, finalize, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, combineAll, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class CreateScheduleEffects {
@@ -158,19 +158,21 @@ export class CreateScheduleEffects {
       switchMap(({scheduleRequestId, dates}: SubmitCallNightsRequest) =>
         this.createScheduleService.deletePreferredCallNights(scheduleRequestId)
           .pipe(
-            switchMap(() =>
-              Observable.forkJoin(_.map(dates, (day, key) =>
+            switchMap(() => {
+              const createCallNightRequests = _.map(dates, (day, key) =>
                 this.createScheduleService.createPreferredCallNight({
                   scheduleRequestId: scheduleRequestId,
                   date: day,
                   callNightTypeID: +key
                 })
-              ))
-            ),
-            map(() => new createScheduleActions.SubmitCallNightsSuccessAction()),
+              );
+              return Observable.concat(...createCallNightRequests);
+            }),
+            combineAll(),
             catchError(error => Observable.of(new createScheduleActions.SubmitCallNightsFailAction(error)))
           )
-      )
+      ),
+      map(() => new createScheduleActions.SubmitCallNightsSuccessAction())
     );
 
   @Effect()

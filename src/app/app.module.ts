@@ -15,6 +15,7 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/observable/concat';
 
 import { AuthModule } from './features/auth/auth.module';
 import { PclCommonModule } from './common/pcl-common.module';
