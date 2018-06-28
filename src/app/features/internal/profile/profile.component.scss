@@ -69,6 +69,7 @@
   }
 
   .info-line {
+    display: block;
     @include clearfix();
     line-height: 60px;
     background-color: #ffffff;
@@ -89,7 +90,7 @@
     }
   }
 
-  button {
+  button, a {
     @extend .reset-button-styles;
     @extend .reset-styles;
 

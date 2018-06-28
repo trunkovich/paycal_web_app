@@ -31,6 +31,12 @@
 
 <div class="header-line">SCHEDULE REQUESTS</div>
 
+<a [href]="'mailto://' + schedulersEmail"
+   class="info-line"
+   mat-ripple>
+  <span class="label">Email Scheduling Department</span>
+</a>
+
 <button class="info-line"
         [routerLink]="['../', 'select-schedule']"
         mat-ripple>

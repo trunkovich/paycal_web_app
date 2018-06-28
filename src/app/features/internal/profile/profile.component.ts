@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Employee } from '../../../STATE/models/employee.model';
 import { AppState, profileSelectors } from '../../../STATE/reducers/index';
 import { LogoutAction } from '../../../STATE/actions/auth.actions';
+import { APP_CONFIG } from '../../../../environments/environment';
 
 @Component({
   selector: 'pcl-profile',
@@ -15,6 +16,7 @@ import { LogoutAction } from '../../../STATE/actions/auth.actions';
 export class ProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
   sub: Subscription;
+  schedulersEmail = APP_CONFIG.SCHEDULERS_EMAIL;
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
