@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { AppState, createScheduleSelectors } from '../../../STATE/reducers/index';
 import { LoadAllScheduleRequestsAction } from '../../../STATE/actions/create-schedule.actions';

@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import * as _ from 'lodash';
 import * as profileActions from '../actions/profile.actions';

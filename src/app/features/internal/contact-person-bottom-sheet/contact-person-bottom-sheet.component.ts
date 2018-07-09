@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { Employee } from '../../../STATE/models/employee.model';
 import { AppState, searchSelectors } from '../../../STATE/reducers/index';

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription ,  Observable, from as observableFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -16,7 +16,6 @@ import {
   SetSearchType,
   SetSearchViewTypeAction
 } from '../../../../STATE/actions/search.actions';
-import { Observable } from 'rxjs/Observable';
 import { EmployeeScheduleEntryGroupedByDay } from '../../../../STATE/models/employee-schedule-entry.model';
 import { CalendarTypes } from '../../../../STATE/models/calendar.types';
 import { SetCurrentSectionAction } from '../../../../STATE/actions/schedule.actions';
@@ -78,7 +77,7 @@ export class EmployeeProfileComponent implements OnInit, OnDestroy {
     this.nextThreeDaysEntries$ = this.store.select(searchSelectors.getSelectedDateScheduleGroupedByDay)
       .pipe(
         filter(entries => !!entries),
-        switchMap(entries => Observable.from(entries)),
+        switchMap(entries => observableFrom(entries)),
         filter(entry => entry.date.isSameOrAfter(today, 'day')),
         take(7),
         toArray()

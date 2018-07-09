@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as observableOf } from 'rxjs';
 
 import * as referencesActions from '../actions/references.actions';
 import { ReferencesService } from '../../core/services/references.service';
@@ -38,7 +38,7 @@ export class ReferencesEffects {
         this.referencesService.getGroupPositions(data)
           .pipe(
             map((groupPositions: GroupPosition[]) => new referencesActions.LoadGroupPositionsSuccessAction(groupPositions)),
-            catchError(error => Observable.of(new referencesActions.LoadGroupPositionsFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadGroupPositionsFailAction(error)))
           )
       )
     );
@@ -54,7 +54,7 @@ export class ReferencesEffects {
             map((groupSpecializations: GroupSpecialization[]) =>
               new referencesActions.LoadGroupSpecializationsSuccessAction(groupSpecializations)
             ),
-            catchError(error => Observable.of(new referencesActions.LoadGroupSpecializationsFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadGroupSpecializationsFailAction(error)))
           )
       )
     );
@@ -68,7 +68,7 @@ export class ReferencesEffects {
           .pipe(
             map((regions: Region[]) => regions.sort((a, b) => a.DisplayOrder - b.DisplayOrder)),
             map((regions: Region[]) => new referencesActions.LoadRegionsSuccessAction(regions)),
-            catchError(error => Observable.of(new referencesActions.LoadRegionsFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadRegionsFailAction(error)))
           )
       )
     );
@@ -81,7 +81,7 @@ export class ReferencesEffects {
         this.referencesService.getStates()
           .pipe(
             map((states: State[]) => new referencesActions.LoadStatesSuccessAction(states)),
-            catchError(error => Observable.of(new referencesActions.LoadStatesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadStatesFailAction(error)))
           )
       )
     );
@@ -94,7 +94,7 @@ export class ReferencesEffects {
         this.referencesService.getTimeZones()
           .pipe(
             map((timeZones: TimeZone[]) => new referencesActions.LoadTimeZonesSuccessAction(timeZones)),
-            catchError(error => Observable.of(new referencesActions.LoadTimeZonesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadTimeZonesFailAction(error)))
           )
       )
     );
@@ -107,7 +107,7 @@ export class ReferencesEffects {
         this.referencesService.getReferenceTypes()
           .pipe(
             map((referencesTypes: ReferenceType[]) => new referencesActions.LoadReferencesTypesSuccessAction(referencesTypes)),
-            catchError(error => Observable.of(new referencesActions.LoadReferencesTypesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadReferencesTypesFailAction(error)))
           )
       )
     );
@@ -120,7 +120,7 @@ export class ReferencesEffects {
         this.referencesService.getEmployeeStatuses()
           .pipe(
             map((employeeStatuses: EmployeeStatus[]) => new referencesActions.LoadEmployeeStatusesSuccessAction(employeeStatuses)),
-            catchError(error => Observable.of(new referencesActions.LoadEmployeeStatusesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadEmployeeStatusesFailAction(error)))
           )
       )
     );
@@ -140,7 +140,7 @@ export class ReferencesEffects {
         this.referencesService.getCallUnavailabilityTypes(groupId)
           .pipe(
             map((types: CallUnavailabilityType[]) => new referencesActions.LoadCallUnavailabilityTypesSuccessAction(types)),
-            catchError(error => Observable.of(new referencesActions.LoadCallUnavailabilityTypesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadCallUnavailabilityTypesFailAction(error)))
           )
       )
     );
@@ -160,7 +160,7 @@ export class ReferencesEffects {
         this.referencesService.getCallNightTypes(groupId)
           .pipe(
             map((types: CallNightType[]) => new referencesActions.LoadCallNightTypesSuccessAction(types)),
-            catchError(error => Observable.of(new referencesActions.LoadCallNightTypesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadCallNightTypesFailAction(error)))
           )
       )
     );
@@ -180,7 +180,7 @@ export class ReferencesEffects {
         this.referencesService.getHospitalistRoundingTypes(groupId)
           .pipe(
             map((types: HospitalistRoundingType[]) => new referencesActions.LoadHospitalistRoundingTypesSuccessAction(types)),
-            catchError(error => Observable.of(new referencesActions.LoadHospitalistRoundingTypesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadHospitalistRoundingTypesFailAction(error)))
           )
       )
     );
@@ -200,7 +200,7 @@ export class ReferencesEffects {
         this.referencesService.getHospitals(groupId)
           .pipe(
             map((hospitals: Hospital[]) => new referencesActions.LoadHospitalsSuccessAction(hospitals)),
-            catchError(error => Observable.of(new referencesActions.LoadHospitalsFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadHospitalsFailAction(error)))
           )
       )
     );
@@ -220,7 +220,7 @@ export class ReferencesEffects {
         this.referencesService.getShiftTypes(groupId)
           .pipe(
             map((types: ShiftType[]) => new referencesActions.LoadShiftTypesSuccessAction(types)),
-            catchError(error => Observable.of(new referencesActions.LoadShiftTypesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadShiftTypesFailAction(error)))
           )
       )
     );
@@ -240,7 +240,7 @@ export class ReferencesEffects {
         this.referencesService.getScheduleRequestStatusTypes(groupId)
           .pipe(
             map((types: ScheduleRequestStatusType[]) => new referencesActions.LoadScheduleRequestStatusTypesSuccessAction(types)),
-            catchError(error => Observable.of(new referencesActions.LoadScheduleRequestStatusTypesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadScheduleRequestStatusTypesFailAction(error)))
           )
       )
     );
@@ -260,7 +260,7 @@ export class ReferencesEffects {
         this.referencesService.getVacationWindowTypes(groupId)
           .pipe(
             map((types: VacationWindowType[]) => new referencesActions.LoadVacationWindowTypesSuccessAction(types)),
-            catchError(error => Observable.of(new referencesActions.LoadVacationWindowTypesFailAction(error)))
+            catchError(error => observableOf(new referencesActions.LoadVacationWindowTypesFailAction(error)))
           )
       )
     );

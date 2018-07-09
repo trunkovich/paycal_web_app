@@ -1,8 +1,5 @@
-/**
- * Created by TrUnK on 06.01.2017.
- */
+import {throwError as observableThrowError,  Observable, of as observableOf } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -244,9 +241,9 @@ export class AuthService {
     }
 
     if (err) {
-      return Observable.throw(err);
+      return observableThrowError(err);
     } else {
-      return Observable.of(token);
+      return observableOf(token);
     }
   }
 

@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as observableOf } from 'rxjs';
 import * as searchActions from '../actions/search.actions';
 import * as scheduleActions from '../actions/schedule.actions';
 import { ScheduleService } from '../../core/services/schedule.service';
@@ -50,7 +50,7 @@ export class SearchEffects {
         this.scheduleService.loadSearchMonths(months, payload.type, payload.id)
           .pipe(
             map((loadedMonth: LoadedMonth) => new searchActions.LoadSearchMonthScheduleSuccessAction(loadedMonth)),
-            catchError(error => Observable.of(new searchActions.LoadSearchMonthScheduleFailAction(error))),
+            catchError(error => observableOf(new searchActions.LoadSearchMonthScheduleFailAction(error))),
             finalize(() => this.store.dispatch(new searchActions.LoadSearchMonthScheduleFinishedAction()))
           )
       )
@@ -84,7 +84,7 @@ export class SearchEffects {
         this.scheduleService.loadCallReference(new Date())
           .pipe(
             map((codes: string[]) => new searchActions.LoadCallReferenceSuccessAction(codes)),
-            catchError(error => Observable.of(new searchActions.LoadCallReferenceFailAction(error)))
+            catchError(error => observableOf(new searchActions.LoadCallReferenceFailAction(error)))
           )
       )
     );
@@ -97,7 +97,7 @@ export class SearchEffects {
         this.scheduleService.loadOrReference(new Date())
           .pipe(
             map((codes: string[]) => new searchActions.LoadOrReferenceSuccessAction(codes)),
-            catchError(error => Observable.of(new searchActions.LoadOrReferenceFailAction(error)))
+            catchError(error => observableOf(new searchActions.LoadOrReferenceFailAction(error)))
           )
       )
     );
@@ -109,12 +109,12 @@ export class SearchEffects {
       withLatestFrom(this.store.select(searchSelectors.getEmployeesInGroupList)),
       switchMap(([action, employeesFromStore]: [any, Employee[]]) => {
         if (employeesFromStore && employeesFromStore.length) {
-          return Observable.of(new searchActions.LoadEmployeesInGroupFailAction('loaded'));
+          return observableOf(new searchActions.LoadEmployeesInGroupFailAction('loaded'));
         } else {
           return this.scheduleService.loadEmployeesInMyGroup()
             .pipe(
               map((employees: Employee[]) => new searchActions.LoadEmployeesInGroupSuccessAction(employees)),
-              catchError(error => Observable.of(new searchActions.LoadEmployeesInGroupFailAction(error)))
+              catchError(error => observableOf(new searchActions.LoadEmployeesInGroupFailAction(error)))
             );
         }
       })

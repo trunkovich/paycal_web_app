@@ -8,8 +8,7 @@ import { AppState, createScheduleSelectors, referenceSelectors } from '../../../
 import * as createScheduleActions from '../../../STATE/actions/create-schedule.actions';
 import { UpdateSREmployeeNotesAction, UpdateSRUseCompTimeAction } from '../../../STATE/actions/create-schedule.actions';
 import { CreateScheduleDetailsModel } from '../../../STATE/models/create-schedule.model';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import {
   CallNights,
   CallUnavailabilityDays,
@@ -34,7 +33,6 @@ import { CallUnavailabilityType } from '../../../STATE/models/call-unavailabilit
 import { LoadCallUnavailabilityTypesAction, LoadHospitalsAction, LoadShiftTypesAction } from '../../../STATE/actions/references.actions';
 import { Hospital } from '../../../STATE/models/hospital.model';
 import { ShiftType } from '../../../STATE/models/shift-type.model';
-import { LocalStorageService } from 'ngx-localstorage';
 import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -65,8 +63,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
     private router: Router,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private actions$: Actions,
-    private localStorageService: LocalStorageService
+    private actions$: Actions
   ) {}
 
   ngOnInit() {
@@ -174,11 +171,14 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   manageIntroductionShown(scheduleRequestID: number) {
-    let introductionShownStr = this.localStorageService.get('pc_cs_introduction');
+    let introductionShownStr;
+    try {
+      introductionShownStr = localStorage.getItem('pc_cs_introduction');
+    } catch (e) {}
     if (!introductionShownStr) {
       let tempObj = {};
       tempObj[scheduleRequestID] = true;
-      this.localStorageService.set('pc_cs_introduction', JSON.stringify(tempObj));
+      localStorage.setItem('pc_cs_introduction', JSON.stringify(tempObj));
       this.introductionShown = false;
     } else {
       let introductionShownObj;
@@ -190,7 +190,7 @@ export class CreateScheduleComponent implements OnInit, OnDestroy, AfterViewInit
       }
       this.introductionShown = !!introductionShownObj[scheduleRequestID];
       introductionShownObj[scheduleRequestID] = true;
-      this.localStorageService.set('pc_cs_introduction', JSON.stringify(introductionShownObj));
+      localStorage.setItem('pc_cs_introduction', JSON.stringify(introductionShownObj));
     }
   }
 

@@ -4,7 +4,7 @@
 
 import { Injectable } from '@angular/core';
 import { Api } from './api.service';
-import { Observable } from 'rxjs';
+import { Observable, from as observableFrom, of as observableOf } from 'rxjs';
 import * as _ from 'lodash';
 
 import { EmployeeScheduleEntryListResponse } from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
@@ -53,7 +53,7 @@ export class ScheduleService {
   }
 
   loadMonths(months: AvailableMonthsStructure): Observable<LoadedMonth> {
-    return Observable.from(this.getUnloadedMonths(months))
+    return observableFrom(this.getUnloadedMonths(months))
       .pipe(
         mergeMap((unloadedMonth: LoadedMonth) => {
           let unloaded = _.cloneDeep(unloadedMonth);
@@ -66,7 +66,7 @@ export class ScheduleService {
               }),
               catchError((error) => {
                 console.error(error);
-                return Observable.of(unloaded);
+                return observableOf(unloaded);
               })
             );
         })
@@ -74,7 +74,7 @@ export class ScheduleService {
   }
 
   loadSearchMonths(months: AvailableMonthsStructure, type: string, id: string): Observable<LoadedMonth> {
-    return Observable.from(this.getUnloadedMonths(months))
+    return observableFrom(this.getUnloadedMonths(months))
       .pipe(
         mergeMap((unloadedMonth: LoadedMonth) => {
           let unloaded = _.cloneDeep(unloadedMonth);
@@ -93,7 +93,7 @@ export class ScheduleService {
               }),
               catchError((error) => {
                 console.error(error);
-                return Observable.of(unloaded);
+                return observableOf(unloaded);
               })
             );
         })

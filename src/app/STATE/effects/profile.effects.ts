@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as observableOf } from 'rxjs';
 import * as Raven from 'raven-js';
 
 import * as authActions from '../actions/auth.actions';
@@ -38,7 +38,7 @@ export class ProfileEffects {
         this.authService.getProfile()
           .pipe(
             map((profile: Employee) => new profileActions.GetUserProfileSuccessAction(profile)),
-            catchError(error => Observable.of(new profileActions.GetUserProfileFailAction(error)))
+            catchError(error => observableOf(new profileActions.GetUserProfileFailAction(error)))
           )
       )
     );
@@ -52,7 +52,7 @@ export class ProfileEffects {
         this.authService.updateProfile(data)
           .pipe(
             map(() => new profileActions.UpdateProfileSuccessAction(data)),
-            catchError(error => Observable.of(new profileActions.UpdateProfileFailAction(error.message)))
+            catchError(error => observableOf(new profileActions.UpdateProfileFailAction(error.message)))
           )
       )
     );
@@ -66,7 +66,7 @@ export class ProfileEffects {
         this.authService.uploadImage(image)
           .pipe(
             map((url: string) => new profileActions.UploadImageSuccessAction(url)),
-            catchError(error => Observable.of(new profileActions.UploadImageFailAction(error.message)))
+            catchError(error => observableOf(new profileActions.UploadImageFailAction(error.message)))
           )
       )
     );
@@ -80,7 +80,7 @@ export class ProfileEffects {
         this.authService.updateProfileImage(url)
           .pipe(
             map(() => new profileActions.SaveProfileImageSuccessAction()),
-            catchError(error => Observable.of(new profileActions.SaveProfileImageFailAction(error.message)))
+            catchError(error => observableOf(new profileActions.SaveProfileImageFailAction(error.message)))
           )
       )
     );

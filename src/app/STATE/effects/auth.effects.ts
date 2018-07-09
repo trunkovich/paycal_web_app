@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as observableOf } from 'rxjs';
 import * as Raven from 'raven-js';
 
 import * as authActions from '../actions/auth.actions';
@@ -29,7 +29,7 @@ export class AuthEffects {
         this.authService.signIn(credentials)
           .pipe(
             map((tokenObject: TokenObject) => new authActions.SignInSuccessAction(tokenObject)),
-            catchError(error => Observable.of(new authActions.SignInFailAction(error.message)))
+            catchError(error => observableOf(new authActions.SignInFailAction(error.message)))
           )
       )
     );
@@ -43,7 +43,7 @@ export class AuthEffects {
         this.authService.saveLead(data)
           .pipe(
             map(() => new authActions.SaveLeadSuccessAction()),
-            catchError(error => Observable.of(new authActions.SaveLeadFailAction(error.message)))
+            catchError(error => observableOf(new authActions.SaveLeadFailAction(error.message)))
           )
       )
     );
@@ -57,7 +57,7 @@ export class AuthEffects {
         this.authService.continueRegistration(completeRegistrationData)
           .pipe(
             map((tokenObject: TokenObject) => new authActions.CompleteRegistrationSuccessAction(tokenObject)),
-            catchError(error => Observable.of(new authActions.CompleteRegistrationFailAction(error.message)))
+            catchError(error => observableOf(new authActions.CompleteRegistrationFailAction(error.message)))
           )
       )
     );
@@ -106,7 +106,7 @@ export class AuthEffects {
         AuthService.readToken()
           .pipe(
             map((token) => new authActions.ReadTokenSuccessAction(token)),
-            catchError(error => Observable.of(new authActions.ReadTokenFailAction(error)))
+            catchError(error => observableOf(new authActions.ReadTokenFailAction(error)))
           )
       )
     );
@@ -120,7 +120,7 @@ export class AuthEffects {
         this.authService.requestPasswordRecovery(phone)
           .pipe(
             map(() => new authActions.RequestPasswordRecoverySuccessAction()),
-            catchError(error => Observable.of(new authActions.RequestPasswordRecoveryFailAction(error.message)))
+            catchError(error => observableOf(new authActions.RequestPasswordRecoveryFailAction(error.message)))
           )
       )
     );
@@ -148,7 +148,7 @@ export class AuthEffects {
         this.authService.resetPassword(resetPasswordData)
           .pipe(
             map(() => new authActions.ResetPasswordSuccessAction()),
-            catchError(error => Observable.of(new authActions.ResetPasswordFailAction(error.message)))
+            catchError(error => observableOf(new authActions.ResetPasswordFailAction(error.message)))
           )
       )
     );
@@ -162,7 +162,7 @@ export class AuthEffects {
         this.authService.changePassword(password)
           .pipe(
             map(() => new authActions.ChangePasswordSuccessAction()),
-            catchError(error => Observable.of(new authActions.ChangePasswordFailAction(error.message)))
+            catchError(error => observableOf(new authActions.ChangePasswordFailAction(error.message)))
           )
       )
     );

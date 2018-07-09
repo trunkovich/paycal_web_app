@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of as observableOf } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -106,7 +106,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           map((employee: Employee) => this.formattedTitle(employee))
         );
     } else {
-      this.title$ = Observable.of(id);
+      this.title$ = observableOf(id);
     }
   }
 

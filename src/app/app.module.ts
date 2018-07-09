@@ -5,17 +5,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as Raven from 'raven-js';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
-
-// Observable imports:
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/defer';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/observable/concat';
 
 import { AuthModule } from './features/auth/auth.module';
 import { PclCommonModule } from './common/pcl-common.module';
@@ -48,6 +37,7 @@ import { HomeEffects } from './STATE/effects/home.effects';
 import { SearchEffects } from './STATE/effects/search.effects';
 import { ContactUsBottomSheetComponent } from './features/internal/contact-us-bottom-sheet/contact-us-bottom-sheet.component';
 import { Angulartics2Module } from 'angulartics2';
+
 import { MixpanelEffects } from './STATE/effects/mixpanel.effects';
 import { ContactPersonBottomSheetComponent } from './features/internal/contact-person-bottom-sheet/contact-person-bottom-sheet.component';
 import { environment } from '../environments/environment';
@@ -57,10 +47,8 @@ import { CustomMaterialModule } from './custom-material.module';
 import { CreateScheduleService } from './core/services/create-schedule.service';
 import { CreateScheduleEffects } from './STATE/effects/create-schedule.effects';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
@@ -87,7 +75,6 @@ export function provideErrorHandler() {
   imports: [
     BrowserModule,
     HttpClientModule,
-    HttpModule,
     RouterModule.forRoot(AppRoutes),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
@@ -106,7 +93,6 @@ export function provideErrorHandler() {
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
     Angulartics2Module.forRoot([ Angulartics2Mixpanel ]),
     BrowserAnimationsModule,
-    NgxLocalStorageModule.forRoot(),
 
     CustomMaterialModule,
     AuthModule,

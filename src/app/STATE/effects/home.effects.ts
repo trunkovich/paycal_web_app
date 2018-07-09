@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as observableOf } from 'rxjs';
 import * as scheduleActions from '../actions/schedule.actions';
 import * as homeActions from '../actions/home.actions';
 import { ScheduleService } from '../../core/services/schedule.service';
@@ -78,7 +78,7 @@ export class HomeEffects {
         this.scheduleService.createCoverageRequest(request)
           .pipe(
             map(() => new homeActions.CreateCoverageRequestSuccessAction()),
-            catchError(error => Observable.of(new homeActions.CreateCoverageRequestFailAction(error)))
+            catchError(error => observableOf(new homeActions.CreateCoverageRequestFailAction(error)))
           )
       )
     );
@@ -122,7 +122,7 @@ export class HomeEffects {
               };
               return new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth);
             }),
-            catchError(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error))),
+            catchError(error => observableOf(new homeActions.LoadMyMonthScheduleFailAction(error))),
             finalize(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()))
           )
       )
@@ -137,7 +137,7 @@ export class HomeEffects {
         this.scheduleService.loadMonths(months)
           .pipe(
             map((loadedMonth: LoadedMonth) => new homeActions.LoadMyMonthScheduleSuccessAction(loadedMonth)),
-            catchError(error => Observable.of(new homeActions.LoadMyMonthScheduleFailAction(error))),
+            catchError(error => observableOf(new homeActions.LoadMyMonthScheduleFailAction(error))),
             finalize(() => this.store.dispatch(new homeActions.LoadMyMonthScheduleFinishedAction()))
           )
       )
@@ -157,7 +157,7 @@ export class HomeEffects {
               });
             }),
             map((qualifiedEmployees: QualifiedEmployee[]) => new homeActions.LoadShiftEmployeesSuccessAction(qualifiedEmployees)),
-            catchError(error => Observable.of(new homeActions.LoadShiftEmployeesFailAction(error)))
+            catchError(error => observableOf(new homeActions.LoadShiftEmployeesFailAction(error)))
           )
       )
     );

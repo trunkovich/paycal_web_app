@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as observableOf } from 'rxjs';
 
 import * as scheduleActions from '../actions/schedule.actions';
 import { ScheduleService } from '../../core/services/schedule.service';
@@ -41,7 +41,7 @@ export class ScheduleEffects {
         this.scheduleService.getGroupScheduleMonths()
           .pipe(
             map((months: GroupSchedule[]) => new scheduleActions.LoadGroupScheduleMonthsSuccessAction(months)),
-            catchError(error => Observable.of(new scheduleActions.LoadGroupScheduleMonthsFailAction(error)))
+            catchError(error => observableOf(new scheduleActions.LoadGroupScheduleMonthsFailAction(error)))
           )
       )
     );

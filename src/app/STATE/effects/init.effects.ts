@@ -6,7 +6,7 @@ import { Effect } from '@ngrx/effects';
 
 import * as authActions from '../actions/auth.actions';
 import * as referencesActions from '../actions/references.actions';
-import { Observable } from 'rxjs/Observable';
+import { Observable, defer as observableDefer, merge as observableMerge } from 'rxjs';
 import { Action } from '@ngrx/store';
 
 @Injectable()
@@ -14,8 +14,8 @@ export class InitEffects {
   constructor() { }
 
   @Effect()
-  init$: Observable<Action> = Observable.defer(() => {
-    return Observable.merge([
+  init$: Observable<Action> = observableDefer(() => {
+    return observableMerge([
       new authActions.ReadTokenAction(),
       new referencesActions.LoadStatesAction(),
       new referencesActions.LoadRegionsAction()

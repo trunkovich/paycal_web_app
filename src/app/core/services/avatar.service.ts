@@ -5,7 +5,7 @@ import {Injectable, NgZone} from '@angular/core';
 import * as _ from 'lodash';
 import {ImageDataModel} from '../../STATE/models/image-data.model';
 import {Observable, Subject} from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class AvatarService {
@@ -64,11 +64,13 @@ export class AvatarService {
 
   getDataFromFile(file: File): Observable<ImageDataModel> {
     return this.readFile(file)
-      .switchMap((dataUri) => {
-        return this.readImage(dataUri)
-          .pipe(
-            map(img => ({dataUri: dataUri, width: img.width, height: img.height}))
-          );
-      });
+      .pipe(
+        switchMap((dataUri) => {
+          return this.readImage(dataUri)
+            .pipe(
+              map(img => ({dataUri: dataUri, width: img.width, height: img.height}))
+            );
+        })
+      );
   }
 }

@@ -8,7 +8,7 @@ import { CompleteRegistrationModel } from '../../STATE/models/complete-registrat
 import { Lead } from '../../STATE/models/lead.model';
 import { ScheduleMonthRequest } from '../../STATE/models/requests/schedule-month.request.model';
 import { EmployeeScheduleEntryListResponse } from '../../STATE/models/responses/employee-schedule-entry-list-response.model';
-import { Observable } from 'rxjs';
+import { Observable ,  from as observableFromPromise } from 'rxjs';
 import { GroupScheduleListResponse } from '../../STATE/models/responses/group-schedule-list-response.model';
 import { EmployeeListResponse } from '../../STATE/models/responses/employee-list-response.model';
 import { CoverageRequest } from '../../STATE/models/requests/coverage-request.request.model';
@@ -40,7 +40,6 @@ import {
 } from '../../STATE/models/responses/create-schedule-response.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EmployeeSignInResponse } from '../../STATE/models/responses/employee-sign-in-response.model';
-import { fromPromise } from 'rxjs/observable/fromPromise';
 
 @Injectable()
 export class Api {
@@ -190,7 +189,7 @@ export class Api {
 
 
   uploadImage(image: File): Observable<CloudinaryResponse> {
-    return Observable.fromPromise(this.upload(APP_CONFIG.CLOUDINARY_URL, image));
+    return observableFromPromise(this.upload(APP_CONFIG.CLOUDINARY_URL, image));
   }
 
   private upload (url: string, file: File ): Promise<any> {

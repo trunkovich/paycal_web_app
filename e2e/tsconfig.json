@@ -1,5 +1,6 @@
 {
   "compileOnSave": false,
+  "preserveWhitespaces": "off",
   "compilerOptions": {
     "declaration": false,
     "emitDecoratorMetadata": true,

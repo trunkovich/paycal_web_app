@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of as observableOf, forkJoin as observableForkJoin, concat as observableСoncat } from 'rxjs';
 import * as _ from 'lodash';
 
 import * as createScheduleActions from '../actions/create-schedule.actions';
@@ -36,7 +36,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.getAllScheduleRequests()
           .pipe(
             map((requests: CreateScheduleModel[]) => new createScheduleActions.LoadAllScheduleRequestsSuccessAction(requests)),
-            catchError(error => Observable.of(new createScheduleActions.LoadAllScheduleRequestsFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.LoadAllScheduleRequestsFailAction(error)))
           )
       )
     );
@@ -50,7 +50,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
           .pipe(
             map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request)),
-            catchError(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.LoadScheduleRequestFailAction(error)))
           )
       )
     );
@@ -74,7 +74,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.getScheduleRequestDetails(scheduleRequestID)
           .pipe(
             map((request: CreateScheduleDetailsModel) => new createScheduleActions.LoadScheduleRequestSuccessAction(request)),
-            catchError(error => Observable.of(new createScheduleActions.LoadScheduleRequestFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.LoadScheduleRequestFailAction(error)))
           )
       )
     );
@@ -88,7 +88,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.deleteVacationWindows(scheduleRequestId)
           .pipe(
             switchMap(() =>
-              Observable.forkJoin(_.map(dates, (date) =>
+              observableForkJoin(_.map(dates, (date) =>
                 this.createScheduleService.createVacationWindow({
                   scheduleRequestId: scheduleRequestId,
                   vacationWindowTypeID: date.type,
@@ -98,7 +98,7 @@ export class CreateScheduleEffects {
               ))
             ),
             map(() => new createScheduleActions.SubmitVacationWindowSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.SubmitVacationWindowFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.SubmitVacationWindowFailAction(error)))
           )
       )
     );
@@ -112,7 +112,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.deleteCallUnavailabilityWindows(scheduleRequestId)
           .pipe(
             mergeMap(() =>
-              Observable.forkJoin(_.map(dates, (day) =>
+              observableForkJoin(_.map(dates, (day) =>
                 this.createScheduleService.createCallUnavailabilityWindow({
                   scheduleRequestId: scheduleRequestId,
                   callUnavailabilityTypeID: day.type,
@@ -121,7 +121,7 @@ export class CreateScheduleEffects {
               ))
             ),
             map(() => new createScheduleActions.SubmitCallUnavailabilityWindowSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.SubmitCallUnavailabilityWindowFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.SubmitCallUnavailabilityWindowFailAction(error)))
           )
       )
     );
@@ -135,7 +135,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.deleteEducationalLeaves(scheduleRequestId)
           .pipe(
             switchMap(() =>
-              Observable.forkJoin(_.map(dates, (day) =>
+              observableForkJoin(_.map(dates, (day) =>
                 this.createScheduleService.createEducationalLeave({
                   scheduleRequestId: scheduleRequestId,
                   date: day.date,
@@ -145,7 +145,7 @@ export class CreateScheduleEffects {
               ))
             ),
             map(() => new createScheduleActions.SubmitEducationLeavesSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.SubmitEducationLeavesFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.SubmitEducationLeavesFailAction(error)))
           )
       )
     );
@@ -166,10 +166,10 @@ export class CreateScheduleEffects {
                   callNightTypeID: +key
                 })
               );
-              return Observable.concat(...createCallNightRequests);
+              return observableСoncat(...createCallNightRequests);
             }),
             combineAll(),
-            catchError(error => Observable.of(new createScheduleActions.SubmitCallNightsFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.SubmitCallNightsFailAction(error)))
           )
       ),
       map(() => new createScheduleActions.SubmitCallNightsSuccessAction())
@@ -185,7 +185,7 @@ export class CreateScheduleEffects {
           .pipe(
             switchMap(() => this.createScheduleService.createPreferredOffWeekend(data)),
             map(() => new createScheduleActions.SubmitOffWeekendsSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.SubmitOffWeekendsFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.SubmitOffWeekendsFailAction(error)))
           )
       )
     );
@@ -199,7 +199,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.deleteHospitalRoundings(scheduleRequestId)
           .pipe(
             switchMap(() =>
-              Observable.forkJoin(_.map(dates, (data, index) => {
+              observableForkJoin(_.map(dates, (data, index) => {
                 if (data) {
                   return this.createScheduleService.createHospitalRounding({
                     scheduleRequestId: scheduleRequestId,
@@ -208,12 +208,12 @@ export class CreateScheduleEffects {
                     endDate: data.end
                   });
                 } else {
-                  return Observable.of(true);
+                  return observableOf(true);
                 }
               }))
             ),
             map(() => new createScheduleActions.SubmitHospitalistRoundingsSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.SubmitHospitalistRoundingsFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.SubmitHospitalistRoundingsFailAction(error)))
           )
       )
     );
@@ -230,11 +230,11 @@ export class CreateScheduleEffects {
               if (data.date) {
                 return this.createScheduleService.createVolunteerShift(data);
               } else {
-                return Observable.of(true);
+                return observableOf(true);
               }
             }),
             map(() => new createScheduleActions.SubmitVolunteerShiftSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.SubmitVolunteerShiftFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.SubmitVolunteerShiftFailAction(error)))
           )
       )
     );
@@ -248,7 +248,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.updateScheduleRequestUseCompTime(data)
           .pipe(
             map(() => new createScheduleActions.UpdateSRUseCompTimeSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.UpdateSRUseCompTimeFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.UpdateSRUseCompTimeFailAction(error)))
           )
       )
     );
@@ -262,7 +262,7 @@ export class CreateScheduleEffects {
         this.createScheduleService.updateScheduleRequestEmployeeNotes(data)
           .pipe(
             map(() => new createScheduleActions.UpdateSREmployeeNotesSuccessAction()),
-            catchError(error => Observable.of(new createScheduleActions.UpdateSREmployeeNotesFailAction(error)))
+            catchError(error => observableOf(new createScheduleActions.UpdateSREmployeeNotesFailAction(error)))
           )
       )
     );
