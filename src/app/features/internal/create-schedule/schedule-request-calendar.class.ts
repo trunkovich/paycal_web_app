@@ -3,6 +3,7 @@ import * as moment from 'moment';
 
 import * as requestModels from '../../../STATE/models/create-schedule.model';
 import { getOrdinal } from '../../../core/utils/utils';
+import { PreferredCallNightModel } from '../../../STATE/models/create-schedule.model';
 
 export interface DayEntry {
   date: moment.Moment | null;
@@ -280,7 +281,7 @@ export class RequestCalendar {
     return _.some(this.initialData.EducationalLeaveList, day => !day.EducationalLeaveID);
   }
   isEducationLeavesValid(): boolean {
-    return _.every(this.educationLeaves, day => {
+    return _.every<EducationLeave>(this.educationLeaves, day => {
       return !!day && day.date && day.date.isValid() && day.name && day.description;
     });
   }
@@ -345,7 +346,7 @@ export class RequestCalendar {
     return !!(
       this.initialData.PreferredCallNightList &&
       this.initialData.PreferredCallNightList.length &&
-      _.filter(this.initialData.PreferredCallNightList, (callNight) =>
+      _.filter<PreferredCallNightModel>(this.initialData.PreferredCallNightList, (callNight) =>
         callNight.CallNightTypeID > 0 && callNight.CallNightTypeID < 3 && callNight.PreferredCallNightID
       ).length === 2
     );
