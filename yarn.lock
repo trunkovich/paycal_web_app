@@ -9,7 +9,7 @@
     "@angular-devkit/core" "0.6.8"
     rxjs "^6.0.0"
 
-"@angular-devkit/build-angular@~0.6.8":
+"@angular-devkit/build-angular@^0.6.8":
   version "0.6.8"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-0.6.8.tgz#ea108509f970efc9cd9087a47894c0164dd2d0c0"
   dependencies:
@@ -97,9 +97,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/cdk@~6.0.0":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-6.0.2.tgz#65089561f91038ba6d744b9a251998bf99c75097"
+"@angular/cdk@~6.3.2":
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-6.3.2.tgz#d1a9599275fd08f5a996c668985a39e4ce1c514b"
   dependencies:
     tslib "^1.7.1"
 
@@ -159,11 +159,13 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/material@~6.0.0":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-6.0.2.tgz#bd4b84d764c3c488856243e9dc05ab14ce3310d7"
+"@angular/material@~6.3.2":
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-6.3.2.tgz#85430c7aefe8d04e770fd1e8cc20ead1726d2fcc"
   dependencies:
     tslib "^1.7.1"
+  optionalDependencies:
+    parse5 "^5.0.0"
 
 "@angular/platform-browser-dynamic@~6.0.0":
   version "6.0.7"
@@ -499,11 +501,11 @@ angular2-text-mask@2.1.0:
   dependencies:
     text-mask-core "^1.0.0"
 
-angulartics2@^5.0.1:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/angulartics2/-/angulartics2-5.4.0.tgz#f572afff3f8a6949a97c6ba8e22745b1116be80e"
+angulartics2@~6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/angulartics2/-/angulartics2-6.2.0.tgz#52eab311be74c9d055632e385988645c233a2c0f"
   dependencies:
-    tslib "^1.7.1"
+    tslib "^1.9.0"
 
 ansi-html@0.0.7:
   version "0.0.7"
@@ -4266,10 +4268,6 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngx-localstorage@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ngx-localstorage/-/ngx-localstorage-1.2.0.tgz#35f61a4c2e128f51b594956a997db9e82f261347"
-
 no-case@^2.2.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.1.tgz#7aeba1c73a52184265554b7dc03baf720df80081"
@@ -4736,6 +4734,10 @@ parse5@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-4.0.0.tgz#6d78656e3da8d78b4ec0b906f7c08ef1dfe3f608"
 
+parse5@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.0.0.tgz#4d02710d44f3c3846197a11e205d4ef17842b81a"
+
 parsejson@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/parsejson/-/parsejson-0.0.3.tgz#ab7e3759f209ece99437973f7d0f1f64ae0e64ab"
@@ -5024,9 +5026,9 @@ proxy-addr@~2.0.3:
     forwarded "~0.1.2"
     ipaddr.js "1.6.0"
 
-proxy-polyfill@0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/proxy-polyfill/-/proxy-polyfill-0.1.6.tgz#ef41ec6c66f534db15db36c54493a62d184b364e"
+proxy-polyfill@~0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/proxy-polyfill/-/proxy-polyfill-0.3.0.tgz#385c13d1402d4ae1357b6e44652d9b8d6289b0ef"
 
 prr@~0.0.0:
   version "0.0.0"
