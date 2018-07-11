@@ -49,6 +49,7 @@ import { CreateScheduleEffects } from './STATE/effects/create-schedule.effects';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
@@ -98,7 +99,8 @@ export function provideErrorHandler() {
     AuthModule,
     PclCommonModule,
     InternalModule,
-    SearchModule
+    SearchModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     { provide: ErrorHandler, useFactory: provideErrorHandler },

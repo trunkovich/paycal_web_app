@@ -12,7 +12,7 @@
     "prefixcss": "postcss -s postcss-scss -u autoprefixer --autoprefixer.browsers \"last 2 versions, iOS > 7, > 1% in US\" -r src/**/*.scss",
     "clone:index": "cp-cli dist/index.html dist/200.html",
     "surge": "surge -p dist -d trunkovich-paycal.surge.sh",
-    "build:prod": "ng build --prod --sourcemap",
+    "build:prod": "ng build --prod --source-map",
     "deploy": "npm run build:prod && npm run clone:index && npm run surge"
   },
   "private": true,
@@ -27,7 +27,9 @@
     "@angular/material": "~6.3.2",
     "@angular/platform-browser": "~6.0.0",
     "@angular/platform-browser-dynamic": "~6.0.0",
+    "@angular/pwa": "^0.6.8",
     "@angular/router": "~6.0.0",
+    "@angular/service-worker": "~6.0.0",
     "@ngrx/core": "^1.2.0",
     "@ngrx/effects": "~6.0.0",
     "@ngrx/store": "~6.0.0",
