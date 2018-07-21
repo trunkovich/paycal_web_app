@@ -1,10 +1,11 @@
 {
-  "name": "paycal-web-app",
-  "short_name": "paycal-web-app",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "PMT",
+  "short_name": "PMT",
+  "theme_color": "#27a5bc",
+  "background_color": "#ffffff",
   "display": "standalone",
-  "scope": "/",
+  "orientation": "portrait",
+  "Scope": "/",
   "start_url": "/",
   "icons": [
     {
