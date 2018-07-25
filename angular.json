@@ -17,6 +17,7 @@
             "tsConfig": "src/tsconfig.json",
             "assets": [
               "src/assets",
+              "src/images",
               "src/favicon.ico",
               "src/manifest.json"
             ],

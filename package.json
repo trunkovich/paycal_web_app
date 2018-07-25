@@ -5,13 +5,13 @@
   "angular-cli": {},
   "scripts": {
     "start": "ng serve --host 0.0.0.0",
-    "serve:prod": "ng serve --prod --sourcemap --host 0.0.0.0",
+    "serve:prod": "ng serve --prod --source-map --host 0.0.0.0",
     "lint": "ng lint",
     "test": "ng test",
     "e2e": "ng e2e",
     "prefixcss": "postcss -s postcss-scss -u autoprefixer --autoprefixer.browsers \"last 2 versions, iOS > 7, > 1% in US\" -r src/**/*.scss",
     "clone:index": "cp-cli dist/index.html dist/200.html",
-    "surge": "surge -p dist -d trunkovich-paycal8.surge.sh",
+    "surge": "surge -p dist -d trunkovich-paycal13.surge.sh",
     "build:prod": "ng build --prod --source-map",
     "deploy": "npm run build:prod && npm run clone:index && npm run surge"
   },
