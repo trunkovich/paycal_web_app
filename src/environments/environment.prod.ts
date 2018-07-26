@@ -30,7 +30,7 @@ export const APP_CONFIG = Object.freeze({
   // TEMPLATE FOR SUCH CALL WOULD BE: {APP_URL}{RESET_PASSWORD_URL}/{ResetPasswordCode} (not query params, but part of url)
   // example: app.paycal.com/password-reset/32fsdf9239f2-3fn2389f23-fj23848
   RESET_PASSWORD_URL: 'password-reset',
-  SCHEDULERS_EMAIL: 'KPOCOBGPHYSchange@domino.kp.org'
+  SCHEDULERS_EMAIL: 'kpocobgphyschange@kp.org'
 });
 
 
