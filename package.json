@@ -11,7 +11,7 @@
     "e2e": "ng e2e",
     "prefixcss": "postcss -s postcss-scss -u autoprefixer --autoprefixer.browsers \"last 2 versions, iOS > 7, > 1% in US\" -r src/**/*.scss",
     "clone:index": "cp-cli dist/index.html dist/200.html",
-    "surge": "surge -p dist -d trunkovich-paycal.surge.sh",
+    "surge": "surge -p dist -d trunkovich-paycal38.surge.sh",
     "build:prod": "ng build --prod --source-map",
     "deploy": "npm run build:prod && npm run clone:index && npm run surge"
   },
@@ -34,6 +34,7 @@
     "@ngrx/effects": "~6.0.0",
     "@ngrx/store": "~6.0.0",
     "@ngrx/store-devtools": "~6.0.0",
+    "@ngx-pwa/offline": "^6.0.0-rc.2",
     "angular2-moment": "~1.9.0",
     "angular2-text-mask": "~9.0.0",
     "angulartics2": "~6.2.0",

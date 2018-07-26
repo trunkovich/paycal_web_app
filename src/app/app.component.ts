@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { WindowWrapper } from './STATE/utils';
+import { Network } from '@ngx-pwa/offline';
 
 @Component({
   selector: 'pcl-root',
@@ -46,7 +47,14 @@ export class AppComponent {
     return animation['value'] || null;
   }
 
-  constructor(mdIconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private window: WindowWrapper) {
+  constructor(
+    mdIconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private window: WindowWrapper,
+    private network: Network
+  ) {
+    this.network.onlineChanges
+      .subscribe(console.log.bind(console));
     this.narrowDevice = window.innerWidth < 375;
     mdIconRegistry.addSvgIcon(
       'reload',

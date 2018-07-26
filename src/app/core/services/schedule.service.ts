@@ -19,7 +19,7 @@ import { LaborCodeListResponse } from '../../STATE/models/responses/labor-code-l
 import { MasterCalendarEntryListResponse } from '../../STATE/models/responses/master-calendar-entry-list-response.model';
 import { MasterCalendarEntry } from '../../STATE/models/master-calendar-entry.model';
 import { Router } from '@angular/router';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ScheduleService {
@@ -38,7 +38,8 @@ export class ScheduleService {
           } else {
             throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
           }
-        })
+        }),
+        // tap((schedule: EmployeeScheduleEntry[]) => data.month === 7 && data.year === 2018 && alert(schedule.length))
       );
   }
 

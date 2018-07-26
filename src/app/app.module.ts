@@ -50,6 +50,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { OnlyOnlineGuard } from './core/guards/only-online.guard';
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
@@ -116,7 +117,8 @@ export function provideErrorHandler() {
     OnlySignedInUsers,
     OnlyMobileDevices,
     OnlyDesktopDevices,
-    OnlyScheduledPersons
+    OnlyScheduledPersons,
+    OnlyOnlineGuard
   ],
   bootstrap: [AppComponent],
   entryComponents: [

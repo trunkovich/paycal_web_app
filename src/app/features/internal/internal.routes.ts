@@ -17,22 +17,23 @@ import { searchRoutes } from './search-module/search.routes';
 import { GoogleFormComponent } from './google-form/google-form.component';
 import { CreateScheduleComponent } from './create-schedule/create-schedule.component';
 import { SelectMonthForSchedulingComponent } from './select-month-for-scheduling/select-month-for-scheduling.component';
+import { OnlyOnlineGuard } from '../../core/guards/only-online.guard';
 
 export const internalRoutes: Routes = [
   { path: '', component: InternalComponent, canActivate: [OnlySignedInUsers, OnlyMobileDevices], children: [
     { path: '', pathMatch: 'full', redirectTo: '/home' },
     { path: 'home', component: HomeComponent, canActivate: [OnlyScheduledPersons] },
-    { path: 'qualified-physicians/:employeeScheduleEntryID', component: QualifiedPhysiciansComponent },
-    { path: 'message/:employeeScheduleEntryID', component: MessageComponent },
-    { path: 'message-success', component: MessageSuccessComponent },
-    { path: 'message-loading', component: MessageLoadingComponent },
-    { path: 'profile', component: ProfileComponent },
-    { path: 'edit-profile', component: EditProfileComponent },
-    { path: 'crop-avatar', component: CropAvatarComponent },
-    { path: 'crop-loading', component: CropLoadingComponent },
-    { path: 'select-schedule', component: SelectMonthForSchedulingComponent },
-    { path: 'create-schedule/:scheduleRequestID', component: CreateScheduleComponent },
-    { path: 'form', component: GoogleFormComponent },
-    { path: 'search', children: [...searchRoutes]}
+    { path: 'qualified-physicians/:employeeScheduleEntryID', component: QualifiedPhysiciansComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'message/:employeeScheduleEntryID', component: MessageComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'message-success', component: MessageSuccessComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'message-loading', component: MessageLoadingComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'profile', component: ProfileComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'edit-profile', component: EditProfileComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'crop-avatar', component: CropAvatarComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'crop-loading', component: CropLoadingComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'select-schedule', component: SelectMonthForSchedulingComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'create-schedule/:scheduleRequestID', component: CreateScheduleComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'form', component: GoogleFormComponent, canActivate: [OnlyOnlineGuard] },
+    { path: 'search', children: [...searchRoutes], canActivate: [OnlyOnlineGuard] }
   ] }
 ];

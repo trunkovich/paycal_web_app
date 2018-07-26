@@ -21,5 +21,67 @@
         "/images/**"
       ]
     }
-  }]
+  }],
+  "dataGroups": [
+    {
+      "name": "references",
+      "urls": [
+        "/GetGroupPositions",
+        "/GetGroupSpecializations",
+        "/GetStates",
+        "/GetTimeZones",
+        "/GetReferenceTypes",
+        "/GetEmployeeStatuses"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxAge": "1d",
+        "maxSize": 100
+      }
+    },
+    {
+      "name": "grouped-references",
+      "urls": [
+        "/GetCallUnavailabilityTypes",
+        "/GetCallNightTypes",
+        "/GetHospitalistRoundingTypes",
+        "/GetHospitals",
+        "/GetShiftTypes",
+        "/GetScheduleRequestStatusTypes",
+        "/GetVacationWindowTypes"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxAge": "1d",
+        "timeout": "5s",
+        "maxSize": 100
+      }
+    },
+    {
+      "name": "employee",
+      "urls": [
+        "/GetEmployee"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxAge": "1d",
+        "timeout": "5s",
+        "maxSize": 100
+      }
+    },
+    {
+      "name": "schedule",
+      "urls": [
+        "/GetLiveGroupScheduleMonths",
+        "/GetEmployeeMonthSchedule"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxAge": "5d",
+        "timeout": "5s",
+        "maxSize": 100
+      }
+    }
+  ]
 }
+
