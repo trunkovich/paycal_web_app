@@ -11,7 +11,7 @@
     "e2e": "ng e2e",
     "prefixcss": "postcss -s postcss-scss -u autoprefixer --autoprefixer.browsers \"last 2 versions, iOS > 7, > 1% in US\" -r src/**/*.scss",
     "clone:index": "cp-cli dist/index.html dist/200.html",
-    "surge": "surge -p dist -d trunkovich-paycal43.surge.sh",
+    "surge": "surge -p dist -d paycal-pwa.surge.sh",
     "build:prod": "ng build --prod --source-map",
     "deploy": "npm run build:prod && npm run clone:index && npm run surge"
   },
