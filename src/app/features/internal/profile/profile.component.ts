@@ -52,7 +52,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (!profile || !profile.PhotoUrl) {
       return '';
     } else {
-      return `url(${profile.PhotoUrl})`;
+      const url = profile.PhotoUrl.split('http').join('https');
+      return `url(${url})`;
     }
   }
 
