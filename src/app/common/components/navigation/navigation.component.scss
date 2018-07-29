@@ -54,6 +54,12 @@
           }
         }
       }
+
+      &.offline {
+        li {
+          @include size(50%, 100%);
+        }
+      }
     }
   }
 

@@ -1,5 +1,5 @@
 <nav>
-  <ul>
+  <ul [class.offline]="!online">
     <li *ngIf="isHomeDisabled$ | async">
       <mat-icon class="nav-home-icon disabled"
                svgIcon="nav-home"></mat-icon>
@@ -13,6 +13,7 @@
                svgIcon="nav-home"></mat-icon>
     </li>
     <li [routerLink]="['/', 'search']"
+        *ngIf="online"
         mat-ripple
         mdRippleCentered="true"
         routerLinkActive="active">
@@ -26,6 +27,7 @@
                svgIcon="nav-contact"></mat-icon>
     </li>
     <li [routerLink]="['/', 'profile']"
+        *ngIf="online"
         mat-ripple
         mdRippleCentered="true"
         routerLinkActive="active">

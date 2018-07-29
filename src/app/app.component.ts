@@ -54,7 +54,7 @@ export class AppComponent {
     private network: Network
   ) {
     this.network.onlineChanges
-      .subscribe(console.log.bind(console));
+      .subscribe();
     this.narrowDevice = window.innerWidth < 375;
     mdIconRegistry.addSvgIcon(
       'reload',

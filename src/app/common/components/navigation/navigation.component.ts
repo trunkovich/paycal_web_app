@@ -15,6 +15,7 @@ import { Employee } from '../../../STATE/models/employee.model';
 })
 export class NavigationComponent implements OnChanges {
   @Input() show: boolean;
+  @Input() online: boolean;
   isHomeDisabled$: Observable<boolean>;
   @HostBinding('class.show') someNav = false;
 

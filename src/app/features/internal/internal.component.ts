@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import * as _ from 'lodash';
+import { Network } from '@ngx-pwa/offline';
+import { filter, map, startWith, tap } from 'rxjs/operators';
+import { Event } from '@angular/router/src/events';
+import { Observable, of as observableOf } from 'rxjs';
 
 @Component({
   selector: 'pcl-internal',
   template: `
-    <pcl-navigation [show]="showNav"></pcl-navigation>
+    <pcl-navigation [show]="showNav$ | async" [online]="online$ | async"></pcl-navigation>
     <router-outlet></router-outlet>
   `
 })
-export class InternalComponent {
+export class InternalComponent implements OnInit {
   navLessRoutes = [
     'qualified-physicians',
     'message',
@@ -23,22 +27,27 @@ export class InternalComponent {
     'physicians',
     'create-schedule'
   ];
-  showNav: boolean = true;
+  showNav$: Observable<boolean>;
+  online$: Observable<boolean>;
 
-  constructor(private router: Router) {
-    router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd) {
-        if (
+  constructor(
+    private router: Router,
+    private network: Network
+  ) {}
+
+  ngOnInit(): void {
+    this.online$ = this.network.onlineChanges;
+
+    this.showNav$ = this.router.events
+      .pipe(
+        filter(val => val instanceof NavigationEnd),
+        filter((val: NavigationEnd) =>
           val.urlAfterRedirects &&
           val.urlAfterRedirects.split('/').length &&
-          val.urlAfterRedirects.split('/').length > 1 &&
-          _.some(val.urlAfterRedirects.split('/'), _.partial(_.includes, this.navLessRoutes))
-        ) {
-          this.showNav = false;
-        } else {
-          this.showNav = true;
-        }
-      }
-    });
+          val.urlAfterRedirects.split('/').length > 1
+        ),
+        map(val => !_.some(val.urlAfterRedirects.split('/'), _.partial(_.includes, this.navLessRoutes))),
+        startWith(true)
+      );
   }
 }
