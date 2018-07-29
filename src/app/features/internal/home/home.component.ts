@@ -15,6 +15,7 @@ import { SetHomeViewTypeAction, SetMySelectedDateAction } from '../../../STATE/a
 import { SetCurrentSectionAction } from '../../../STATE/actions/schedule.actions';
 import { TrackHomeViewOpenedAction } from '../../../STATE/actions/mixpanel.actions';
 import { first } from 'rxjs/operators';
+import { Network } from '@ngx-pwa/offline';
 
 @Component({
   selector: 'pcl-home',
@@ -34,8 +35,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   defaultEntries = [{LaborCode: 'OUT', ShiftCode: 'AM'}, {LaborCode: 'OUT', ShiftCode: 'AM'}];
   summaryEnabled = APP_CONFIG.SHOW_SUMMARY;
   subs: Subscription[] = [];
+  offline: boolean = false;
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private network: Network
+  ) {}
 
   ngOnDestroy() {
     _.each(this.subs, (sub: Subscription) => sub.unsubscribe());
@@ -56,7 +62,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.store.select(homeSelectors.getHomeSelectedDateScheduleGroupedByDay)
         .subscribe((groupedEntries) => {
           this.groupedEntries = groupedEntries;
-        })
+        }),
+      this.network.onlineChanges
+        .subscribe(online => this.offline = !online)
     ];
 
     this.store.dispatch(new SetCurrentSectionAction('home'));
