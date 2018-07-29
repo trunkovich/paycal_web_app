@@ -59,15 +59,15 @@ export class HomeEffects {
       delay(1)
     );
 
-  // @Effect()
-  // loadCurrentMonthScheduleAfterSignIn$: Observable<Action> = this.actions$
-  //   .ofType(
-  //     homeActions.ActionTypes.LOAD_MY_CURRENT_MONTH_SCHEDULE
-  //   )
-  //   .pipe(
-  //     map(() => new homeActions.LoadMyMonthScheduleAction(new Date())),
-  //     delay(1)
-  //   );
+  @Effect()
+  loadCurrentMonthScheduleAfterSignIn$: Observable<Action> = this.actions$
+    .ofType(
+      homeActions.ActionTypes.LOAD_MY_CURRENT_MONTH_SCHEDULE
+    )
+    .pipe(
+      map(() => new homeActions.LoadMyMonthScheduleAction(new Date())),
+      delay(1)
+    );
 
   @Effect()
   createCoverageRequest$: Observable<Action> = this.actions$

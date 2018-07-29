@@ -38,8 +38,7 @@ export class ScheduleService {
           } else {
             throw Error(`Get Employee Profile Error. Code: ${res.ErrorCode} Message: ${res.ErrorMessage}`);
           }
-        }),
-        // tap((schedule: EmployeeScheduleEntry[]) => data.month === 7 && data.year === 2018 && alert(schedule.length))
+        })
       );
   }
 

@@ -31,21 +31,14 @@ export class ProfileEffects {
     );
 
   @Effect()
-  getProfile$: Observable<Action> = this.actions$
+  getProfile$ = this.actions$
     .ofType(profileActions.ActionTypes.GET_USER_PROFILE)
     .pipe(
-      tap(() => alert('GET_USER_PROFILE')),
       switchMap(() =>
         this.authService.getProfile()
           .pipe(
-            tap((profile: Employee) => alert(profile.Email)),
             map((profile: Employee) => new profileActions.GetUserProfileSuccessAction(profile)),
-            catchError((error: Error) => {
-              alert('error');
-              alert(error.message);
-
-              return observableOf(new profileActions.GetUserProfileFailAction(error))
-            })
+            catchError(error => observableOf(new profileActions.GetUserProfileFailAction(error)))
           )
       )
     );
