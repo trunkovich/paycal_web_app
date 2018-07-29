@@ -1,4 +1,5 @@
-<nav>
+<div class="offline-block" [@offlineBlock]="offlineBlockStatus">{{online ? 'Connected' : 'No connection'}}</div>
+<nav [class.show]="showNav">
   <ul [class.offline]="!online">
     <li *ngIf="isHomeDisabled$ | async">
       <mat-icon class="nav-home-icon disabled"
