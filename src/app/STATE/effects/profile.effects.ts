@@ -12,10 +12,15 @@ import * as profileActions from '../actions/profile.actions';
 import { AuthService } from '../../core/services/auth.service';
 import { EditEmployeeRequestData, Employee } from '../models/employee.model';
 import { catchError, map, switchMap, tap, delay } from 'rxjs/operators';
+import { PwaControlService } from '../../core/services/pwa-control.service';
 
 @Injectable()
 export class ProfileEffects {
-  constructor(private actions$: Actions, private authService: AuthService) { }
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private pwa: PwaControlService
+  ) { }
 
   @Effect()
   getProfileAfterSignIn$: Observable<Action> = this.actions$
@@ -147,5 +152,18 @@ export class ProfileEffects {
           id: user.EmployeeID.toString()
         })),
       delay(1)
+    );
+
+  @Effect({dispatch: false})
+  showPwaDialog$ = this.actions$
+    .ofType(profileActions.ActionTypes.GET_USER_PROFILE_SUCCESS)
+    .pipe(
+      delay(5000),
+      switchMap(() => this.pwa.isPwa$),
+      tap((isPwa) => {
+        if (!isPwa) {
+          this.pwa.showPwaDialogIfNeeded();
+        }
+      })
     );
 }

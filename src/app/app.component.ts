@@ -5,6 +5,7 @@ import { MatIconRegistry } from '@angular/material';
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { WindowWrapper } from './STATE/utils';
 import { Network } from '@ngx-pwa/offline';
+import { PwaControlService } from './core/services/pwa-control.service';
 
 @Component({
   selector: 'pcl-root',
@@ -51,8 +52,10 @@ export class AppComponent {
     mdIconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private window: WindowWrapper,
-    private network: Network
+    private network: Network,
+    private pwaControl: PwaControlService
   ) {
+    this.pwaControl.init();
     this.network.onlineChanges
       .subscribe();
     this.narrowDevice = window.innerWidth < 375;

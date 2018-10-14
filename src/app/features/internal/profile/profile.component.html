@@ -46,6 +46,13 @@
 <div class="header-line">other settings</div>
 
 <button class="info-line"
+        (click)="onAddAppClick()"
+        *ngIf="showAddButton$ | async"
+        mat-ripple>
+  <span class="label">Add app to home screen</span>
+</button>
+
+<button class="info-line"
         (click)="onChangePasswordClick()"
         mat-ripple>
   <span class="label">Change Password</span>

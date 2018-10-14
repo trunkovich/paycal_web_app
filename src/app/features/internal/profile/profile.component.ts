@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
@@ -7,6 +7,7 @@ import { Employee } from '../../../STATE/models/employee.model';
 import { AppState, profileSelectors } from '../../../STATE/reducers/index';
 import { LogoutAction } from '../../../STATE/actions/auth.actions';
 import { APP_CONFIG } from '../../../../environments/environment';
+import { PwaControlService } from '../../../core/services/pwa-control.service';
 
 @Component({
   selector: 'pcl-profile',
@@ -17,14 +18,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profile: Employee;
   sub: Subscription;
   schedulersEmail = APP_CONFIG.SCHEDULERS_EMAIL;
+  showAddButton$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private pwa: PwaControlService
+  ) {}
 
   ngOnInit() {
     this.sub = this.store.select(profileSelectors.getMyProfile)
       .subscribe(employee => {
         this.profile = employee;
       });
+
+    this.showAddButton$ = this.pwa.showAddButton$.asObservable();
   }
 
   ngOnDestroy() {
@@ -63,5 +71,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     } else {
       return `${profile.FirstName || ''} ${profile.LastName || ''}`;
     }
+  }
+
+  onAddAppClick() {
+    this.pwa.showPrompt();
   }
 }

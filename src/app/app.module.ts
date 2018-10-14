@@ -51,6 +51,9 @@ import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { OnlyOnlineGuard } from './core/guards/only-online.guard';
+import { PwaControlService } from './core/services/pwa-control.service';
+import { DeviceDetectorModule } from 'ngx-device-detector';
+import { PwaAndroidDialogComponent } from './core/components/pwa-android-dialog/pwa-android-dialog.component';
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
@@ -58,21 +61,22 @@ export class RavenErrorHandler implements ErrorHandler {
 }
 
 export function provideErrorHandler() {
-  if (environment.production) {
-    Raven
-      .config('https://b37d34c761234570a1a223eacc7c0d88@sentry.io/189282')
-      .install();
-    return new RavenErrorHandler();
-  } else {
+  // if (environment.production) {
+  //   Raven
+  //     .config('https://b37d34c761234570a1a223eacc7c0d88@sentry.io/189282')
+  //     .install();
+  //   return new RavenErrorHandler();
+  // } else {
     return new ErrorHandler();
-  }
+  // }
 }
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    OnlyMobileComponent
+    OnlyMobileComponent,
+    PwaAndroidDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -95,13 +99,15 @@ export function provideErrorHandler() {
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
     Angulartics2Module.forRoot([ Angulartics2Mixpanel ]),
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    DeviceDetectorModule.forRoot(),
+
 
     CustomMaterialModule,
     AuthModule,
     PclCommonModule,
     InternalModule,
-    SearchModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    SearchModule
   ],
   providers: [
     { provide: ErrorHandler, useFactory: provideErrorHandler },
@@ -112,6 +118,7 @@ export function provideErrorHandler() {
     ScheduleService,
     AvatarService,
     CreateScheduleService,
+    PwaControlService,
 
     // GUARDS
     OnlySignedInUsers,
@@ -126,7 +133,8 @@ export function provideErrorHandler() {
     BottomSheetContainerComponent,
     ContactUsBottomSheetComponent,
     ContactPersonBottomSheetComponent,
-    LocalStorageAlertComponent
+    LocalStorageAlertComponent,
+    PwaAndroidDialogComponent
   ]
 })
 export class AppModule { }
