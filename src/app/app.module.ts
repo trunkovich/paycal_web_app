@@ -54,6 +54,7 @@ import { OnlyOnlineGuard } from './core/guards/only-online.guard';
 import { PwaControlService } from './core/services/pwa-control.service';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { PwaAndroidDialogComponent } from './core/components/pwa-android-dialog/pwa-android-dialog.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
@@ -101,6 +102,8 @@ export function provideErrorHandler() {
     BrowserAnimationsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     DeviceDetectorModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
 
 
     CustomMaterialModule,

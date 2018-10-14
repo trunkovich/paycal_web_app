@@ -2,9 +2,9 @@
 <div mat-dialog-content>
   <p>Hello! We are happy to announce that now our application could be installed on your device. After installing you will get new features</p>
   <p>We've added button to the profile page. You will be able to install it later.</p>
+  <mat-checkbox [formControl]="dontShowCtrl">Don't show again</mat-checkbox>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="'dont show again'">Don't show again</button>
-  <button mat-button [mat-dialog-close]="'no'">Not now</button>
+  <button mat-button (click)=close()>Not now</button>
   <button mat-button (click)="add()" cdkFocusInitial>Add to Home</button>
 </div>
