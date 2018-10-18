@@ -37,7 +37,6 @@ export class PwaControlService {
 
   init() {
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      alert('it\'s PWA!');
       this.isPwa$.next(true);
     } else {
       if (this.device.isMobile() && this.device.os === OS.ANDROID) {
@@ -56,9 +55,9 @@ export class PwaControlService {
     if (this.dontShowAgain || this.dialogShown || !location.protocol.startsWith('https')) {
       return;
     }
-    if (this.device.os === OS.ANDROID) {
+    if (this.device.os === OS.ANDROID && this.device.browser === BROWSERS.CHROME) {
       this.showAndroidDialog();
-    } else if (this.device.os === OS.IOS || this.device.os === OS.MAC) {
+    } else if ((this.device.os === OS.IOS || this.device.os === OS.MAC) && this.device.browser === BROWSERS.SAFARI) {
       let version;
       if (version && version !== 'unknown') {
         version = this.device.os_version
