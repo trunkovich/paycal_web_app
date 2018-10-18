@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import * as compareVersions from 'compare-versions';
 import { MatDialog } from '@angular/material';
 import { PwaAndroidDialogComponent } from '../components/pwa-android-dialog/pwa-android-dialog.component';
+import { parseIOSVersion } from '../utils/utils';
+import { Location } from '@angular/common';
 
 export interface BeforeInstallEvent extends Event {
   prompt: () => void;
@@ -20,6 +22,7 @@ export class PwaControlService {
   dialogShown = false;
   dontShowAgain: boolean;
   showLater: boolean;
+  showIosDialog$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private device: DeviceDetectorService,
@@ -34,6 +37,7 @@ export class PwaControlService {
 
   init() {
     if (window.matchMedia('(display-mode: standalone)').matches) {
+      alert('it\'s PWA!');
       this.isPwa$.next(true);
     } else {
       if (this.device.isMobile() && this.device.os === OS.ANDROID) {
@@ -49,13 +53,21 @@ export class PwaControlService {
   }
 
   showPwaDialogIfNeeded() {
-    if (this.dontShowAgain || this.dialogShown) {
+    if (this.dontShowAgain || this.dialogShown || !location.protocol.startsWith('https')) {
       return;
     }
     if (this.device.os === OS.ANDROID) {
       this.showAndroidDialog();
-    } else if (this.device.os === OS.IOS || this.device.os === OS.MAC && (compareVersions(this.device.os_version, '11.3') > -1)) {
-      this.showIosDialog();
+    } else if (this.device.os === OS.IOS || this.device.os === OS.MAC) {
+      let version;
+      if (version && version !== 'unknown') {
+        version = this.device.os_version
+      } else {
+        version = parseIOSVersion(this.device.ua);
+      }
+      if (compareVersions(version, '11.3') > -1) {
+        this.showIosDialog();
+      }
     }
   }
 
@@ -91,7 +103,14 @@ export class PwaControlService {
   }
 
   showIosDialog() {
+    this.showIosDialog$.next(true);
+    setTimeout(() => {
+      this.showIosDialog$.next(false);
+    }, 30000);
+  }
 
+  hideIosDialog() {
+    this.showIosDialog$.next(false);
   }
 
 }

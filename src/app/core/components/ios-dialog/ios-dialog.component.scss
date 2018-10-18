@@ -1,0 +1,77 @@
+@import '../../../../colors';
+@import '../../../../mixins';
+@import '../../../../helpers';
+
+:host {
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .ios-dialog-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(240, 240, 240, 0.6);
+    z-index: 100;
+
+    .ios-dialog-container {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 24px;
+      background-color: #fff;
+      height: 60px;
+      border-radius: 5px;
+      border: 1px solid #d4dfea;
+      padding: 5px;
+
+      display: flex;
+      align-items: center;
+
+      &:after, &:before {
+        top: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+      &:after {
+        border-color: rgba(255, 255, 255, 0);
+        border-top-color: #ffffff;
+        border-width: 20px;
+        margin-left: -20px;
+      }
+      &:before {
+        border-color: rgba(212, 223, 234, 0);
+        border-top-color: #d4dfea;
+        border-width: 21px;
+        margin-left: -21px;
+      }
+
+      .plus {
+        display: flex;
+        margin-right: 5px;
+        mat-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 40px;
+        }
+      }
+      .info {
+        line-height: 20px;
+        mat-icon {
+          color: #4495f1;
+          width: 20px;
+          height: 20px;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}

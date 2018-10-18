@@ -55,6 +55,7 @@ import { PwaControlService } from './core/services/pwa-control.service';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { PwaAndroidDialogComponent } from './core/components/pwa-android-dialog/pwa-android-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IosDialogComponent } from './core/components/ios-dialog/ios-dialog.component';
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
     Raven.captureException(err.originalError || err);
@@ -77,7 +78,8 @@ export function provideErrorHandler() {
   declarations: [
     AppComponent,
     OnlyMobileComponent,
-    PwaAndroidDialogComponent
+    PwaAndroidDialogComponent,
+    IosDialogComponent
   ],
   imports: [
     BrowserModule,

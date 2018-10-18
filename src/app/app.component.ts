@@ -13,6 +13,7 @@ import { PwaControlService } from './core/services/pwa-control.service';
     <div style="position: relative; height: 100%;" [@routerAnimations]="prepareRouteTransition(outlet)">
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
+    <pcl-ios-dialog></pcl-ios-dialog>
   `,
   styles: [],
   animations: [
@@ -150,6 +151,14 @@ export class AppComponent {
     mdIconRegistry.addSvgIcon(
       'check',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/check.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'export',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/export-variant.svg')
+    );
+    mdIconRegistry.addSvgIcon(
+      'plus',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/plus-box.svg')
     );
 
   }
